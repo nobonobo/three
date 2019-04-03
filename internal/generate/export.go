@@ -15,29 +15,6 @@ import (
 )
 
 var (
-	// CoreDependency ...
-	CoreDependency = map[string]int{
-		"math":               0,
-		"math/ColorKeywords": 1,
-		"core":               2,
-		"objects":            3,
-		"materials":          4,
-		"camears":            5,
-		"animation":          6,
-		"renderers":          7,
-		"renderers/webgl":    8,
-	}
-	// ConstantFiles definition files
-	ConstantFiles = map[string]struct{}{
-		"constants.d.ts":                        struct{}{},
-		"math/ColorKeywords/colorkeywords.d.ts": struct{}{},
-	}
-	// ExcludeFiles exclude files
-	ExcludeFiles = map[string]struct{}{
-		"extras/core/Curve.d.ts":     struct{}{}, // generics included
-		"extras/core/CurvePath.d.ts": struct{}{}, // generics included
-		"loaders/ObjectLoader.d.ts":  struct{}{}, // generics included
-	}
 	// Files ...
 	Files []*File
 	// Links ...
@@ -51,10 +28,12 @@ type DefineAndPos struct {
 	Parent    string
 	Name      string
 	Interface bool
+	EnumType  bool
 }
 
 // File ...
 type File struct {
+	SrcPath    string
 	Path       string
 	Module     bool
 	Imports    map[string]struct{} `json:",omitempty"`
@@ -95,6 +74,20 @@ func resolveUnion(t *Type) *Type {
 		}
 	*/
 	return res
+}
+
+var nameStack []string
+
+func nsPush(s string) {
+	nameStack = append(nameStack, s)
+}
+
+func nsPop() {
+	nameStack = nameStack[:len(nameStack)-1]
+}
+
+func nsPath() string {
+	return strings.Join(nameStack, ".")
 }
 
 func importAppendJS(file *File) {
@@ -172,9 +165,14 @@ func getType(file *File, t *Type) string {
 		switch t.Name {
 		default:
 			return t.Name
-		case "boolean":
+		case "boolean", "true", "false":
 			return "bool"
 		case "number":
+			ns := nsPath()
+			fmt.Fprintln(numlog, ns)
+			if FloatList[ns] {
+				return "float64"
+			}
 			return "int"
 		case "any":
 			importAppendJS(file)
@@ -183,19 +181,27 @@ func getType(file *File, t *Type) string {
 	case "array":
 		return getArrayType(file, t)
 	case "reference":
+		if _, ok := BlackList[t.Name]; ok {
+			importAppendJS(file)
+			return "js.Value"
+		}
 		switch t.Name {
 		case "Function":
 			importAppendJS(file)
 			return "js.Value"
 		}
+		importAppend(file, t)
 		if v, ok := Links[t.ID]; ok {
-			if v.Parent == "" {
+			dir := path.Dir(file.Path)
+			if dir == "." {
+				dir = ""
+			}
+			if v.Parent == "" && dir == "" {
 				return t.Name
 			}
-			if path.Dir(file.Path) == v.Pos {
+			if dir == v.Pos {
 				return t.Name
 			}
-			importAppend(file, t)
 			return fmt.Sprintf("%s.%s", v.Parent, t.Name)
 		}
 		return t.Name
@@ -215,11 +221,18 @@ func getType(file *File, t *Type) string {
 
 func isReference(t *Type) bool {
 	if v, ok := Links[t.ID]; ok {
-		return v.Interface
+		return v.Interface || v.EnumType
 	}
 	switch t.Type {
 	default:
 		return true
+	case "intrinsic":
+		return t.Name != "this"
+	case "union":
+		if _, ok := BlackList[resolveUnion(t).Name]; ok {
+			return true
+		}
+		return resolveUnion(t).Type != "reference"
 	case "reference":
 	}
 	return false
@@ -227,12 +240,28 @@ func isReference(t *Type) bool {
 
 func getParamType(file *File, t *Type) string {
 	tp := getType(file, t)
-	if tp == "void" {
+	switch tp {
+	case "void":
 		return ""
 	}
+	if _, ok := BlackListArrayType[tp]; ok {
+		importAppendJS(file)
+		return "js.Value"
+	}
 	switch t.Type {
+	case "union":
+		if tp == "js.Value" {
+			importAppendJS(file)
+			break
+		}
+		switch resolveUnion(t).Type {
+		case "stringLiteral", "intrinsic":
+			return tp
+		}
+		return "*" + tp
 	case "reference":
 		if tp == "js.Value" {
+			importAppendJS(file)
 			break
 		}
 		if isReference(t) {
@@ -240,7 +269,26 @@ func getParamType(file *File, t *Type) string {
 		}
 		return "*" + tp
 	case "reflection":
+		importAppendJS(file)
 		return "js.Value"
+	}
+	return tp
+}
+
+func getKlassType(file *File, klass *Klass, t *Type) string {
+	tp := getType(file, t)
+	switch tp {
+	case "this":
+		return klass.Name
+	}
+	return tp
+}
+
+func getKlassParamType(file *File, klass *Klass, t *Type) string {
+	tp := getParamType(file, t)
+	switch tp {
+	case "this":
+		return "*" + klass.Name
 	}
 	return tp
 }
@@ -257,45 +305,84 @@ func getName(name string) string {
 	return name
 }
 
+func getCName(name string) string {
+	cn := []rune{}
+	for _, r := range name {
+		if unicode.IsUpper(r) {
+			cn = append(cn, r)
+		}
+	}
+	if len(cn) == 1 {
+		cn = append(cn, cn[0])
+	}
+	return strings.ToLower(string(cn))
+}
+
 func scan(file *File) {
+	if len(file.Enums) > 0 {
+		importAppendJS(file)
+	}
 	for _, v := range file.Vars {
-		getType(file, v.Type)
+		if strings.HasPrefix(getParamType(file, v.Type), "js.") {
+			importAppendJS(file)
+		}
 	}
 	for _, sig := range file.Funcs {
-		getType(file, sig.Type)
+		if strings.HasPrefix(getParamType(file, sig.Type), "js.") {
+			importAppendJS(file)
+		}
 		for _, param := range sig.Params {
-			getType(file, param.Type)
+			if strings.HasPrefix(getParamType(file, param.Type), "js.") {
+				importAppendJS(file)
+			}
 		}
 	}
 	for _, intf := range file.Interfaces {
 		for _, v := range intf.Properties {
-			getType(file, v.Type)
+			if strings.HasPrefix(getParamType(file, v.Type), "js.") {
+				importAppendJS(file)
+			}
 		}
 		for _, sig := range intf.Methods {
-			getType(file, sig.Type)
+			if strings.HasPrefix(getParamType(file, sig.Type), "js.") {
+				importAppendJS(file)
+			}
 			for _, param := range sig.Params {
-				getType(file, param.Type)
+				if strings.HasPrefix(getParamType(file, param.Type), "js.") {
+					importAppendJS(file)
+				}
 			}
 		}
 	}
 	for _, klass := range file.Klasses {
+		importAppendJS(file)
 		for _, v := range klass.Properties {
-			getType(file, v.Type)
+			if strings.HasPrefix(getParamType(file, v.Type), "js.") {
+				importAppendJS(file)
+			}
 		}
 		for _, sig := range klass.Methods {
-			getType(file, sig.Type)
+			if strings.HasPrefix(getParamType(file, sig.Type), "js.") {
+				importAppendJS(file)
+			}
 			for _, param := range sig.Params {
-				getType(file, param.Type)
+				if strings.HasPrefix(getParamType(file, param.Type), "js.") {
+					importAppendJS(file)
+				}
 			}
 		}
 	}
 }
 
 func render(pkg string, file *File) ([]byte, error) {
+	fname := strings.TrimSuffix(file.Path, ".d.ts")
+	nsPush(fname)
+	defer nsPop()
 	buff := bytes.NewBuffer(nil)
 	var w io.Writer
 	//w = io.MultiWriter(os.Stdout, buff)
 	w = buff
+	fmt.Fprintf(w, "// Code generated from %q; DO NOT EDIT.\n\n", file.SrcPath)
 	fmt.Fprintf(w, "package %s\n\n", pkg)
 	if len(file.Imports) > 0 {
 		fmt.Fprintln(w, "import (")
@@ -305,21 +392,26 @@ func render(pkg string, file *File) ([]byte, error) {
 		fmt.Fprintln(w, ")")
 	}
 	for _, enum := range file.Enums {
+		nsPush(enum.Name)
 		fmt.Fprintf(w, "type %s js.Value\n", enum.Name)
 		if len(enum.Members) > 0 {
 			fmt.Fprintf(w, "var (\n")
 			for _, v := range enum.Members {
-				fmt.Fprintf(w, "%s %s = get(%q)\n", strings.Title(v), enum.Name, v)
+				fmt.Fprintf(w, "%s %s = %s(get(%q))\n",
+					strings.Title(v), enum.Name, enum.Name, v)
 			}
 			fmt.Fprintf(w, ")\n")
 		}
+		nsPop()
 	}
 	if len(file.Vars) > 0 {
-		if _, ok := ConstantFiles[file.Path]; ok {
+		if _, ok := ConstantFiles[file.SrcPath]; ok {
 			fmt.Fprintf(w, "var (\n")
 			for _, v := range file.Vars {
-				tp := getParamType(file, v.Type)
-				switch tp {
+				nsPush(strings.Title(v.Name))
+				primType := getType(file, v.Type)
+				paramType := getParamType(file, v.Type)
+				switch paramType {
 				case "bool":
 					fmt.Fprintf(w, "%s bool = get(%q).Bool()\n",
 						strings.Title(v.Name), v.Name,
@@ -343,18 +435,20 @@ func render(pkg string, file *File) ([]byte, error) {
 				default:
 					if isReference(v.Type) {
 						fmt.Fprintf(w, "%s %s = %s(get(%q))\n",
-							strings.Title(v.Name), tp, tp, v.Name,
+							strings.Title(v.Name), paramType, paramType, v.Name,
 						)
 					} else {
 						fmt.Fprintf(w, "%s = &%s{Value:get(%q)}\n",
-							strings.Title(v.Name), tp, v.Name,
+							strings.Title(v.Name), primType, v.Name,
 						)
 					}
 				}
+				nsPop()
 			}
 			fmt.Fprintf(w, ")\n")
 		} else {
 			for _, prop := range file.Vars {
+				nsPush(strings.Title(prop.Name))
 				primType := getType(file, prop.Type)
 				paramType := getParamType(file, prop.Type)
 				fmt.Fprintf(w, "func %s() %s {\n",
@@ -383,16 +477,20 @@ func render(pkg string, file *File) ([]byte, error) {
 					}
 				}
 				fmt.Fprintln(w, "}")
+				nsPop()
+				nsPush("Set" + strings.Title(prop.Name))
+				paramType = getParamType(file, prop.Type)
 				fmt.Fprintf(w, "func Set%s(v %s) {\n",
 					strings.Title(prop.Name), paramType,
 				)
 				fmt.Fprintf(w, "\tset(%q, v)\n", prop.Name)
 				fmt.Fprintln(w, "}")
+				nsPop()
 			}
-
 		}
 	}
 	for _, fn := range file.Funcs {
+		nsPush(strings.Title(fn.Name))
 		primType := getType(file, fn.Type)
 		paramType := getParamType(file, fn.Type)
 		if paramType == "" {
@@ -402,15 +500,18 @@ func render(pkg string, file *File) ([]byte, error) {
 			params := []string{""}
 			paramDefs := []string{}
 			for _, param := range fn.Params {
+				nsPush(param.Name)
 				paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
 					getName(param.Name), getParamType(file, param.Type),
 				))
 				params = append(params, getName(param.Name))
+				nsPop()
 			}
 			fmt.Fprint(w, strings.Join(paramDefs, ", "))
 			fmt.Fprintf(w, ") {\n")
 			fmt.Fprintf(w, "\t_Global.Call(%q%s)\n", fn.Name, strings.Join(params, ", "))
 			fmt.Fprintln(w, "}")
+			nsPop()
 			continue
 		}
 		fmt.Fprintf(w, "func %s(",
@@ -419,10 +520,12 @@ func render(pkg string, file *File) ([]byte, error) {
 		params := []string{""}
 		paramDefs := []string{}
 		for _, param := range fn.Params {
+			nsPush(param.Name)
 			paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
 				getName(param.Name), getParamType(file, param.Type),
 			))
 			params = append(params, getName(param.Name))
+			nsPop()
 		}
 		fmt.Fprint(w, strings.Join(paramDefs, ", "))
 		fmt.Fprintf(w, ") %s {\n", paramType)
@@ -442,7 +545,6 @@ func render(pkg string, file *File) ([]byte, error) {
 				fmt.Fprintf(w, "\treturn %s(_Global.Call(%q%s))\n",
 					primType, fn.Name, strings.Join(params, ", "),
 				)
-
 			} else {
 				fmt.Fprintf(w, "\treturn &%s{Value:_Global.Call(%q%s)}\n",
 					primType, fn.Name, strings.Join(params, ", "),
@@ -450,29 +552,37 @@ func render(pkg string, file *File) ([]byte, error) {
 			}
 		}
 		fmt.Fprintln(w, "}")
+		nsPop()
 	}
 	for _, intf := range file.Interfaces {
+		nsPush(intf.Name)
 		fmt.Fprintf(w, "type %s interface{\n", strings.Title(intf.Name))
 		for _, fn := range intf.Methods {
-			fmt.Fprintf(w, "%s(", strings.Title(fn.Name))
+			nsPush(strings.Title(fn.Name))
+			//primType := getKlassType(file, intf, fn.Type)
+			paramType := getKlassParamType(file, intf, fn.Type)
+			fmt.Fprintf(w, "\t%s(", strings.Title(fn.Name))
 			if len(fn.Params) > 0 {
 				params := []string{}
+				paramDefs := []string{}
 				for _, param := range fn.Params {
-					params = append(params,
-						fmt.Sprintf("%s %s", getName(param.Name), getParamType(file, param.Type)),
-					)
+					nsPush(param.Name)
+					paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
+						getName(param.Name), getKlassParamType(file, intf, param.Type),
+					))
+					params = append(params, getName(param.Name))
+					nsPop()
 				}
-				fmt.Fprint(w, strings.Join(params, ", "))
+				fmt.Fprint(w, strings.Join(paramDefs, ", "))
 			}
-			fmt.Fprint(w, ")")
-			if fn.Type.Name != "void" {
-				fmt.Fprintf(w, " %s", getParamType(file, fn.Type))
-			}
-			fmt.Fprintln(w)
+			fmt.Fprintf(w, ") %s\n", paramType)
+			nsPop()
 		}
 		fmt.Fprintln(w, "}")
+		nsPop()
 	}
 	for _, klass := range file.Klasses {
+		nsPush(strings.Title(klass.Name))
 		fmt.Fprintf(w, "type %s struct{\n", strings.Title(klass.Name))
 		fmt.Fprintln(w, "\t js.Value")
 		fmt.Fprintln(w, "}")
@@ -480,22 +590,24 @@ func render(pkg string, file *File) ([]byte, error) {
 		// for Constructor
 		multi := len(klass.Constructor) > 1
 		for i, fn := range klass.Constructor {
-			primType := getType(file, fn.Type)
-			paramType := getParamType(file, fn.Type)
 			suffix := ""
 			if multi && i > 0 {
 				suffix = fmt.Sprintf("%d", i+1)
 			}
-			fmt.Fprintf(w, "func %s(",
-				strings.Title(strings.ReplaceAll(fn.Name+suffix, " ", "")),
-			)
+			fname := strings.Title(strings.ReplaceAll(fn.Name+suffix, " ", ""))
+			nsPush(fname)
+			primType := getKlassType(file, klass, fn.Type)
+			paramType := getKlassParamType(file, klass, fn.Type)
+			fmt.Fprintf(w, "func %s(", fname)
 			params := []string{}
 			paramDefs := []string{}
 			for _, param := range fn.Params {
+				nsPush(param.Name)
 				paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
-					getName(param.Name), getParamType(file, param.Type),
+					getName(param.Name), getKlassParamType(file, klass, param.Type),
 				))
 				params = append(params, getName(param.Name))
+				nsPop()
 			}
 			fmt.Fprint(w, strings.Join(paramDefs, ", "))
 			fmt.Fprintf(w, ") %s {\n", paramType)
@@ -503,21 +615,30 @@ func render(pkg string, file *File) ([]byte, error) {
 				primType, klass.Name, strings.Join(params, ", "),
 			)
 			fmt.Fprintln(w, "}")
+			nsPop()
 		}
 
-		cn := []rune{}
-		for _, r := range klass.Name {
-			if unicode.IsUpper(r) {
-				cn = append(cn, r)
-			}
-		}
-		name := strings.ToLower(string(cn))
+		methods := map[string]int{"Value": 1, "SetValue": 1, "Get": 1, "Set": 1}
+		name := getCName(klass.Name)
 		for _, prop := range klass.Properties {
+			methods[strings.Title(prop.Name)]++
+			index := methods[strings.Title(prop.Name)]
+			getSuffix := ""
+			if index > 1 {
+				getSuffix = fmt.Sprintf("%d", index)
+			}
+			methods["Set"+strings.Title(prop.Name)]++
+			index = methods["Set"+strings.Title(prop.Name)]
+			setSuffix := ""
+			if index > 1 {
+				setSuffix = fmt.Sprintf("%d", index)
+			}
+			nsPush(strings.Title(prop.Name) + getSuffix)
 			primType := getType(file, prop.Type)
 			paramType := getParamType(file, prop.Type)
 			fmt.Fprintf(w, "func (%s *%s) %s() %s {\n",
 				name, strings.Title(klass.Name),
-				strings.Title(prop.Name), paramType,
+				strings.Title(prop.Name)+getSuffix, paramType,
 			)
 			switch paramType {
 			case "bool":
@@ -531,6 +652,9 @@ func render(pkg string, file *File) ([]byte, error) {
 			case "js.Value":
 				fmt.Fprintf(w, "\treturn %s.Get(%q)\n", name, prop.Name)
 			default:
+				if klass.Name == "LineBasicMaterial" && prop.Name == "blendSrc" {
+					log.Println("REF:", prop.Type.Name, primType, paramType, Links[prop.Type.ID], prop.Type.Type, isReference(prop.Type), getType(file, prop.Type))
+				}
 				if isReference(prop.Type) {
 					fmt.Fprintf(w, "\treturn %s(%s.Get(%q))\n",
 						primType, name, prop.Name,
@@ -542,23 +666,27 @@ func render(pkg string, file *File) ([]byte, error) {
 				}
 			}
 			fmt.Fprintln(w, "}")
+			nsPop()
+			nsPush("Set" + strings.Title(prop.Name))
+			paramType = getParamType(file, prop.Type)
 			fmt.Fprintf(w, "func (%s *%s) Set%s(v %s) {\n",
 				name, strings.Title(klass.Name),
-				strings.Title(prop.Name), paramType,
+				strings.Title(prop.Name)+setSuffix, paramType,
 			)
 			fmt.Fprintf(w, "\t%s.Set(%q, v)\n", name, prop.Name)
 			fmt.Fprintln(w, "}")
+			nsPop()
 		}
-		methods := map[string]int{}
 		for _, fn := range klass.Methods {
-			methods[fn.Name]++
-			index := methods[fn.Name]
+			methods[strings.Title(fn.Name)]++
+			index := methods[strings.Title(fn.Name)]
 			suffix := ""
 			if index > 1 {
 				suffix = fmt.Sprintf("%d", index)
 			}
-			primType := getType(file, fn.Type)
-			paramType := getParamType(file, fn.Type)
+			nsPush(strings.Title(fn.Name) + suffix)
+			primType := getKlassType(file, klass, fn.Type)
+			paramType := getKlassParamType(file, klass, fn.Type)
 			if paramType == "" {
 				fmt.Fprintf(w, "func (%s *%s) %s(",
 					name, strings.Title(klass.Name),
@@ -567,15 +695,18 @@ func render(pkg string, file *File) ([]byte, error) {
 				params := []string{""}
 				paramDefs := []string{}
 				for _, param := range fn.Params {
+					nsPush(param.Name)
 					paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
-						getName(param.Name), getParamType(file, param.Type),
+						getName(param.Name), getKlassParamType(file, klass, param.Type),
 					))
 					params = append(params, getName(param.Name))
+					nsPop()
 				}
 				fmt.Fprint(w, strings.Join(paramDefs, ", "))
 				fmt.Fprintf(w, ") {\n")
 				fmt.Fprintf(w, "\t%s.Call(%q%s)\n", name, fn.Name, strings.Join(params, ", "))
 				fmt.Fprintln(w, "}")
+				nsPop()
 				continue
 			}
 			fmt.Fprintf(w, "func (%s *%s) %s(",
@@ -585,10 +716,12 @@ func render(pkg string, file *File) ([]byte, error) {
 			params := []string{""}
 			paramDefs := []string{}
 			for _, param := range fn.Params {
+				nsPush(param.Name)
 				paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
-					getName(param.Name), getParamType(file, param.Type),
+					getName(param.Name), getKlassParamType(file, klass, param.Type),
 				))
 				params = append(params, getName(param.Name))
+				nsPop()
 			}
 			fmt.Fprint(w, strings.Join(paramDefs, ", "))
 			fmt.Fprintf(w, ") %s {\n", paramType)
@@ -616,7 +749,9 @@ func render(pkg string, file *File) ([]byte, error) {
 				}
 			}
 			fmt.Fprintln(w, "}")
+			nsPop()
 		}
+		nsPop()
 	}
 	return buff.Bytes(), nil
 }
@@ -637,7 +772,9 @@ func output(fpath string, content []byte) error {
 	return nil
 }
 
-const template = `package %s
+const template = `// Code generated from %q; DO NOT EDIT.
+
+package %s
 
 import "github.com/gopherjs/gopherwasm/js"
 
@@ -647,14 +784,16 @@ func get(key string) js.Value {
 	return _Global.Get(key)
 }
 
-func set(key string, v js.Value) {
-	return _Global.Set(key, v)
+func set(key string, v interface{}) {
+	_Global.Set(key, v)
 }
 `
 
-func writeHeader(pkg, path, fpath string) error {
+func writeHeader(pkg, root string, file *File) error {
+	dir := filepath.Dir(file.Path)
+	fpath := filepath.Join(root, dir, "doc.go")
 	sub := []string{}
-	for _, p := range strings.Split(path, string(filepath.Separator))[1:] {
+	for _, p := range strings.Split(dir, string(filepath.Separator)) {
 		sub = append(sub, fmt.Sprintf(".Get(%q)", p))
 	}
 	fp, err := os.Create(fpath)
@@ -662,13 +801,16 @@ func writeHeader(pkg, path, fpath string) error {
 		return err
 	}
 	defer fp.Close()
-	if _, err := fmt.Fprintf(fp, template, pkg, strings.Join(sub, "")); err != nil {
+	if _, err := fmt.Fprintf(fp, template,
+		file.SrcPath, pkg, strings.Join(sub, "")); err != nil {
 		return err
 	}
 	return nil
 }
 
-func writeTestFile(pkg, path, fpath string) error {
+func writeTestFile(pkg, root string, file *File) error {
+	dir := filepath.Dir(file.Path)
+	fpath := filepath.Join(root, dir, pkg+"_test.go")
 	if _, err := os.Stat(fpath); os.IsExist(err) {
 		return nil
 	}
@@ -683,42 +825,32 @@ func writeTestFile(pkg, path, fpath string) error {
 
 // Export ...
 func Export(root string) error {
-	/*
-		b, err := json.MarshalIndent(Files, "", "  ")
-		if err != nil {
-			log.Fatal(err)
-		}
-		os.Stdout.Write(b)
-		fmt.Println()
-	*/
 	for _, file := range Files {
-		if _, ok := ExcludeFiles[file.Path]; ok {
+		if _, ok := ExcludeFiles[file.SrcPath]; ok {
 			continue
 		}
 		if len(file.Enums) == 0 && len(file.Funcs) == 0 && len(file.Interfaces) == 0 &&
 			len(file.Klasses) == 0 && len(file.Vars) == 0 {
 			continue
 		}
-		packageName := strings.ToLower(filepath.Base(filepath.Dir(file.Path)))
-		fpath := filepath.Join(root, strings.TrimSuffix(file.Path, ".d.ts")+".go")
+		packageName := filepath.Base(filepath.Dir(file.Path))
+		fname := strings.TrimSuffix(file.Path, ".d.ts") + ".go"
+		fpath := filepath.Join(root, fname)
 		if file.Module {
-			log.Println("export module:", file.Path)
+			log.Println("export module:", fname, "from", file.SrcPath)
 		} else {
-			log.Println("export file:", file.Path)
+			log.Println("export file:", fname, "from", file.SrcPath)
 		}
 		if packageName == "." {
-			packageName = "three"
+			packageName = path.Base(outputPrefix)
 		}
 		if err := os.MkdirAll(filepath.Dir(fpath), 0755); err != nil {
 			return fmt.Errorf("export failed: %s", err)
 		}
-		dir := filepath.Dir(file.Path)
-		fullpath := filepath.Join(root, dir, "doc.go")
-		if err := writeHeader(packageName, filepath.Dir(file.Path), fullpath); err != nil {
+		if err := writeHeader(packageName, root, file); err != nil {
 			return fmt.Errorf("write header failed: %s", err)
 		}
-		fullpath = filepath.Join(root, dir, packageName+"_test.go")
-		if err := writeTestFile(packageName, filepath.Dir(file.Path), fullpath); err != nil {
+		if err := writeTestFile(packageName, root, file); err != nil {
 			return fmt.Errorf("write test file failed: %s", err)
 		}
 		scan(file)

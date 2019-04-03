@@ -2,23 +2,32 @@ package main
 
 import (
 	"encoding/json"
+	"io"
 	"log"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
-)
-
-var (
-	prefix       = os.Getenv("PWD") + "/three.js/src/"
-	outputPrefix = "github.com/nobonobo/three"
-	outputDir    = filepath.Clean(filepath.Join(os.Getenv("PWD"), "..", ".."))
+	"unicode"
+	"unicode/utf8"
 )
 
 var (
 	fileStack  []*File
 	klassStack []*Klass
 )
+
+func srcToDst(p string) string {
+	p = path.Clean(p)
+	res := []string{}
+	nodes := strings.Split(p, "/")
+	for i, node := range nodes {
+		if r, _ := utf8.DecodeRuneInString(node); i == len(nodes)-1 || unicode.IsUpper(r) {
+			res = append(res, node)
+		}
+	}
+	return strings.Join(res, "/")
+}
 
 func getDefineAndPos(file *File) *DefineAndPos {
 	dir, name := filepath.Split(file.Path)
@@ -28,6 +37,9 @@ func getDefineAndPos(file *File) *DefineAndPos {
 	}
 	name = strings.TrimSuffix(name, ".d.ts")
 	_, parent := filepath.Split(dir)
+	if parent == "" {
+		parent = "three"
+	}
 	return &DefineAndPos{
 		Pos:    dir,
 		Parent: parent,
@@ -45,7 +57,8 @@ func walk(tab int, node *Define) {
 		}
 		srcPath := node.OriginalName[len(prefix):]
 		file := &File{
-			Path:    srcPath,
+			Path:    srcToDst(srcPath),
+			SrcPath: srcPath,
 			Imports: map[string]struct{}{},
 		}
 		Files = append(Files, file)
@@ -56,8 +69,10 @@ func walk(tab int, node *Define) {
 	case Module:
 		file := fileStack[len(fileStack)-1]
 		dir, _ := path.Split(file.Path)
+		srcPath := path.Join(dir, node.Name, strings.ToLower(node.Name)+".d.ts")
 		file = &File{
-			Path:    path.Join(dir, node.Name, strings.ToLower(node.Name)+".d.ts"),
+			Path:    srcToDst(srcPath),
+			SrcPath: srcPath,
 			Imports: map[string]struct{}{},
 			Module:  true,
 		}
@@ -141,11 +156,20 @@ func walk(tab int, node *Define) {
 		file := fileStack[len(fileStack)-1]
 		defPos := getDefineAndPos(file)
 		defPos.Interface = node.Kind == Interface
+		defPos.EnumType = node.Kind == Enumeration
 		Links[node.ID] = defPos
 	}
 }
 
+var numlog io.Writer
+
 func main() {
+	l, err := os.Create("number.lst")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer l.Close()
+	numlog = l
 	var node *Define
 	fp, err := os.Open(os.Args[1])
 	if err != nil {
