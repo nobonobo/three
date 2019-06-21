@@ -2,6 +2,8 @@
 
 three.js wrapper for GopherJS or WASM
 
+This 'Go' code wrapper generated from Typedoc JSON.
+
 # USAGE
 
 |JavaScript|GopherJS|
