@@ -4,6 +4,14 @@ three.js wrapper for GopherJS or WASM
 
 This 'Go' code wrapper generated from Typedoc JSON.
 
+# Re Generate
+
+```shell
+cd internal/generate
+git -C three.js checkout r104
+make
+```
+
 # USAGE
 
 |JavaScript|GopherJS|
