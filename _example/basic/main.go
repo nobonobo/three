@@ -1,11 +1,12 @@
 package main
 
 import (
-	"github.com/nobonobo/three/core"
-	"github.com/nobonobo/three/materials"
+	"fmt"
+
+	"github.com/nobonobo/three"
 )
 
 func main() {
-	scene := core.NewScene()
-	materials.NewMeshBasicMaterial()
+	scene := three.NewScene()
+	fmt.Println(scene)
 }

@@ -14,9 +14,9 @@ make
 
 # USAGE
 
-|JavaScript|GopherJS|
-|--|--|
-|new THREE.Scene()|core.NewScene()|
+| JavaScript        | GopherJS         |
+| ----------------- | ---------------- |
+| new THREE.Scene() | three.NewScene() |
 
 # SAMPLE
 
@@ -24,11 +24,13 @@ make
 package main
 
 import (
-	"github.com/nobonobo/three/core"
+	"fmt"
+
+	"github.com/nobonobo/three"
 )
 
 func main() {
-	scene := core.NewScene()
+	scene := three.NewScene()
+	fmt.Println(scene)
 }
 ```
-
