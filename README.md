@@ -6,7 +6,7 @@ three.js wrapper for GopherJS or WASM
 
 |JavaScript|GopherJS|
 |--|--|
-|new THREE.Scene|core.NewScene()|
+|new THREE.Scene()|core.NewScene()|
 
 # SAMPLE
 
