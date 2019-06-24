@@ -1,9 +1,11 @@
 // Code generated from "extras/curves/ArcCurve.d.ts"; DO NOT EDIT.
 
+// +build go1.12 js
+
 package three
 
 import (
-	"github.com/gopherjs/gopherwasm/js"
+	"syscall/js"
 )
 
 type ArcCurve struct {

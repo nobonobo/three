@@ -1,18 +1,20 @@
 // Code generated from "BufferGeometryUtils/buffergeometryutils.d.ts"; DO NOT EDIT.
 
+// +build go1.12 js
+
 package BufferGeometryUtils
 
 import (
-	"github.com/gopherjs/gopherwasm/js"
 	"github.com/nobonobo/three"
+	"syscall/js"
 )
 
 func ComputeTangents(geometry *three.BufferGeometry) js.Value {
-	return _Global.Call("computeTangents", geometry)
+	return global().Call("computeTangents", geometry)
 }
 func MergeBufferAttributes(attributes []three.BufferAttribute) *three.BufferAttribute {
-	return &three.BufferAttribute{Value: _Global.Call("mergeBufferAttributes", attributes)}
+	return &three.BufferAttribute{Value: global().Call("mergeBufferAttributes", attributes)}
 }
 func MergeBufferGeometries(geometries []three.BufferGeometry) *three.BufferGeometry {
-	return &three.BufferGeometry{Value: _Global.Call("mergeBufferGeometries", geometries)}
+	return &three.BufferGeometry{Value: global().Call("mergeBufferGeometries", geometries)}
 }

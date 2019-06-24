@@ -1,9 +1,11 @@
 // Code generated from "textures/DataTexture2DArray.d.ts"; DO NOT EDIT.
 
+// +build go1.12 js
+
 package three
 
 import (
-	"github.com/gopherjs/gopherwasm/js"
+	"syscall/js"
 )
 
 type DataTexture2DArray struct {

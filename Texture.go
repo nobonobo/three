@@ -1,9 +1,11 @@
 // Code generated from "textures/Texture.d.ts"; DO NOT EDIT.
 
+// +build go1.12 js
+
 package three
 
 import (
-	"github.com/gopherjs/gopherwasm/js"
+	"syscall/js"
 )
 
 func TextureIdCount() int {

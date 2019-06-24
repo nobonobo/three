@@ -1,14 +1,16 @@
 // Code generated from "GeometryUtils/geometryutils.d.ts"; DO NOT EDIT.
 
+// +build go1.12 js
+
 package GeometryUtils
 
 import (
-	"github.com/gopherjs/gopherwasm/js"
+	"syscall/js"
 )
 
 func Center(geometry js.Value) js.Value {
-	return _Global.Call("center", geometry)
+	return global().Call("center", geometry)
 }
 func Merge(geometry1 js.Value, geometry2 js.Value, materialIndexOffset js.Value) js.Value {
-	return _Global.Call("merge", geometry1, geometry2, materialIndexOffset)
+	return global().Call("merge", geometry1, geometry2, materialIndexOffset)
 }

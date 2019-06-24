@@ -12,9 +12,7 @@ generate: api.json
 	go run . api.json
 
 install:
-	go install ../../...
+	gopherjs install ../../...
 
 clean:
-	-cd ../..; rm -rf SceneUtils ShapeUtils UniformUtils ImageUtils \
-	GeometryUtils CurveUtils ColorLeywords Cache BufferGeometryUtils \
-	AnimationUtils *.go
+	rm -f $(shell find ../.. -name "*.go" | grep -v _example | grep -v internal | grep -v static)

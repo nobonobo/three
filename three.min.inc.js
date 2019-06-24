@@ -1,0 +1,1 @@
+internal/generate/three.js/build/three.min.js

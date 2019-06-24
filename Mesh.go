@@ -1,9 +1,11 @@
 // Code generated from "objects/Mesh.d.ts"; DO NOT EDIT.
 
+// +build go1.12 js
+
 package three
 
 import (
-	"github.com/gopherjs/gopherwasm/js"
+	"syscall/js"
 )
 
 type Mesh struct {
@@ -11,7 +13,7 @@ type Mesh struct {
 }
 
 func NewMesh(geometry *Geometry, material *Material) *Mesh {
-	return &Mesh{Value: get("Mesh").New(geometry, material)}
+	return &Mesh{Value: get("Mesh").New(geometry.Value, material.Value)}
 }
 func (mm *Mesh) CastShadow() bool {
 	return mm.Get("castShadow").Bool()

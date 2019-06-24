@@ -1,5 +1,7 @@
 // Code generated from "ColorKeywords/colorkeywords.d.ts"; DO NOT EDIT.
 
+// +build go1.12 js
+
 package ColorKeywords
 
 func Aliceblue() int {

@@ -1,9 +1,11 @@
 // Code generated from "Cache/cache.d.ts"; DO NOT EDIT.
 
+// +build go1.12 js
+
 package Cache
 
 import (
-	"github.com/gopherjs/gopherwasm/js"
+	"syscall/js"
 )
 
 func Enabled() bool {
@@ -19,14 +21,14 @@ func SetFiles(v js.Value) {
 	set("files", v)
 }
 func Add(key string, file js.Value) {
-	_Global.Call("add", key, file)
+	global().Call("add", key, file)
 }
 func Clear() {
-	_Global.Call("clear")
+	global().Call("clear")
 }
 func Get(key string) js.Value {
-	return _Global.Call("get", key)
+	return global().Call("get", key)
 }
 func Remove(key string) {
-	_Global.Call("remove", key)
+	global().Call("remove", key)
 }

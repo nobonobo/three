@@ -1,9 +1,11 @@
 // Code generated from "renderers/WebGLRenderer.d.ts"; DO NOT EDIT.
 
+// +build go1.12 js
+
 package three
 
 import (
-	"github.com/gopherjs/gopherwasm/js"
+	"syscall/js"
 )
 
 type Renderer interface {
@@ -292,7 +294,7 @@ func (wglr *WebGLRenderer) ReadRenderTargetPixels(renderTarget js.Value, x float
 	wglr.Call("readRenderTargetPixels", renderTarget, x, y, width, height, buffer)
 }
 func (wglr *WebGLRenderer) Render(scene *Scene, camera *Camera) {
-	wglr.Call("render", scene, camera)
+	wglr.Call("render", scene.Value, camera.Value)
 }
 func (wglr *WebGLRenderer) RenderBufferDirect(camera *Camera, fog *Fog, material *Material, geometryGroup js.Value, object *Object3D) {
 	wglr.Call("renderBufferDirect", camera, fog, material, geometryGroup, object)

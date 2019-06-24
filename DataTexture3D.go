@@ -1,9 +1,11 @@
 // Code generated from "textures/DataTexture3D.d.ts"; DO NOT EDIT.
 
+// +build go1.12 js
+
 package three
 
 import (
-	"github.com/gopherjs/gopherwasm/js"
+	"syscall/js"
 )
 
 type DataTexture3D struct {

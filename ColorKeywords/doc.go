@@ -2,14 +2,18 @@
 
 package ColorKeywords
 
-import "github.com/gopherjs/gopherwasm/js"
+import (
+	"syscall/js"
+)
 
-var _Global = js.Global().Get("THREE").Get("ColorKeywords")
+func global() js.Value {
+	return js.Global().Get("THREE")
+}
 
 func get(key string) js.Value {
-	return _Global.Get(key)
+	return global().Get(key)
 }
 
 func set(key string, v interface{}) {
-	_Global.Set(key, v)
+	global().Set(key, v)
 }

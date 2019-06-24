@@ -1,17 +1,19 @@
 // Code generated from "polyfills.d.ts"; DO NOT EDIT.
 
+// +build go1.12 js
+
 package three
 
 import (
-	"github.com/gopherjs/gopherwasm/js"
+	"syscall/js"
 )
 
 func Error(message js.Value, optionalParams js.Value) {
-	_Global.Call("error", message, optionalParams)
+	global().Call("error", message, optionalParams)
 }
 func Log(message js.Value, optionalParams js.Value) {
-	_Global.Call("log", message, optionalParams)
+	global().Call("log", message, optionalParams)
 }
 func Warn(message js.Value, optionalParams js.Value) {
-	_Global.Call("warn", message, optionalParams)
+	global().Call("warn", message, optionalParams)
 }

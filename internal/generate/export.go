@@ -91,7 +91,7 @@ func nsPath() string {
 }
 
 func importAppendJS(file *File) {
-	file.Imports["github.com/gopherjs/gopherwasm/js"] = struct{}{}
+	file.Imports["syscall/js"] = struct{}{}
 }
 
 func importAppend(file *File, t *Type) {
@@ -383,6 +383,7 @@ func render(pkg string, file *File) ([]byte, error) {
 	//w = io.MultiWriter(os.Stdout, buff)
 	w = buff
 	fmt.Fprintf(w, "// Code generated from %q; DO NOT EDIT.\n\n", file.SrcPath)
+	fmt.Fprintln(w, "// +build go1.12 js\n")
 	fmt.Fprintf(w, "package %s\n\n", pkg)
 	if len(file.Imports) > 0 {
 		fmt.Fprintln(w, "import (")
@@ -509,7 +510,7 @@ func render(pkg string, file *File) ([]byte, error) {
 			}
 			fmt.Fprint(w, strings.Join(paramDefs, ", "))
 			fmt.Fprintf(w, ") {\n")
-			fmt.Fprintf(w, "\t_Global.Call(%q%s)\n", fn.Name, strings.Join(params, ", "))
+			fmt.Fprintf(w, "\tglobal().Call(%q%s)\n", fn.Name, strings.Join(params, ", "))
 			fmt.Fprintln(w, "}")
 			nsPop()
 			continue
@@ -531,22 +532,22 @@ func render(pkg string, file *File) ([]byte, error) {
 		fmt.Fprintf(w, ") %s {\n", paramType)
 		switch paramType {
 		case "bool":
-			fmt.Fprintf(w, "\treturn _Global.Call(%q%s).Bool()\n", fn.Name, strings.Join(params, ", "))
+			fmt.Fprintf(w, "\treturn global().Call(%q%s).Bool()\n", fn.Name, strings.Join(params, ", "))
 		case "int":
-			fmt.Fprintf(w, "\treturn _Global.Call(%q%s).Int()\n", fn.Name, strings.Join(params, ", "))
+			fmt.Fprintf(w, "\treturn global().Call(%q%s).Int()\n", fn.Name, strings.Join(params, ", "))
 		case "float64":
-			fmt.Fprintf(w, "\treturn _Global.Call(%q%s).Float()\n", fn.Name, strings.Join(params, ", "))
+			fmt.Fprintf(w, "\treturn global().Call(%q%s).Float()\n", fn.Name, strings.Join(params, ", "))
 		case "string":
-			fmt.Fprintf(w, "\treturn _Global.Call(%q%s).String()\n", fn.Name, strings.Join(params, ", "))
+			fmt.Fprintf(w, "\treturn global().Call(%q%s).String()\n", fn.Name, strings.Join(params, ", "))
 		case "js.Value":
-			fmt.Fprintf(w, "\treturn _Global.Call(%q%s)\n", fn.Name, strings.Join(params, ", "))
+			fmt.Fprintf(w, "\treturn global().Call(%q%s)\n", fn.Name, strings.Join(params, ", "))
 		default:
 			if isReference(fn.Type) {
-				fmt.Fprintf(w, "\treturn %s(_Global.Call(%q%s))\n",
+				fmt.Fprintf(w, "\treturn %s(global().Call(%q%s))\n",
 					primType, fn.Name, strings.Join(params, ", "),
 				)
 			} else {
-				fmt.Fprintf(w, "\treturn &%s{Value:_Global.Call(%q%s)}\n",
+				fmt.Fprintf(w, "\treturn &%s{Value:global().Call(%q%s)}\n",
 					primType, fn.Name, strings.Join(params, ", "),
 				)
 			}
@@ -776,16 +777,20 @@ const template = `// Code generated from %q; DO NOT EDIT.
 
 package %s
 
-import "github.com/gopherjs/gopherwasm/js"
+import (
+	"syscall/js"
+)
 
-var _Global = js.Global().Get("THREE")%s
+func global() js.Value {
+	return js.Global().Get("THREE")
+}
 
 func get(key string) js.Value {
-	return _Global.Get(key)
+	return global().Get(key)
 }
 
 func set(key string, v interface{}) {
-	_Global.Set(key, v)
+	global().Set(key, v)
 }
 `
 
@@ -794,6 +799,9 @@ func writeHeader(pkg, root string, file *File) error {
 	fpath := filepath.Join(root, dir, "doc.go")
 	sub := []string{}
 	for _, p := range strings.Split(dir, string(filepath.Separator)) {
+		if p == "." {
+			continue
+		}
 		sub = append(sub, fmt.Sprintf(".Get(%q)", p))
 	}
 	fp, err := os.Create(fpath)
@@ -802,7 +810,7 @@ func writeHeader(pkg, root string, file *File) error {
 	}
 	defer fp.Close()
 	if _, err := fmt.Fprintf(fp, template,
-		file.SrcPath, pkg, strings.Join(sub, "")); err != nil {
+		file.SrcPath, pkg); err != nil {
 		return err
 	}
 	return nil
