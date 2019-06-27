@@ -10,6 +10,8 @@ import (
 
 type SplineControlPoint interface {
 }
+
+// Triangle extend: []
 type Triangle struct {
 	js.Value
 }
@@ -17,23 +19,26 @@ type Triangle struct {
 func NewTriangle(a *Vector3, b *Vector3, c *Vector3) *Triangle {
 	return &Triangle{Value: get("Triangle").New(a, b, c)}
 }
+func (tt *Triangle) JSValue() js.Value {
+	return tt.Value
+}
 func (tt *Triangle) A() *Vector3 {
 	return &Vector3{Value: tt.Get("a")}
 }
 func (tt *Triangle) SetA(v *Vector3) {
-	tt.Set("a", v)
+	tt.Set("a", v.Value)
 }
 func (tt *Triangle) B() *Vector3 {
 	return &Vector3{Value: tt.Get("b")}
 }
 func (tt *Triangle) SetB(v *Vector3) {
-	tt.Set("b", v)
+	tt.Set("b", v.Value)
 }
 func (tt *Triangle) C() *Vector3 {
 	return &Vector3{Value: tt.Get("c")}
 }
 func (tt *Triangle) SetC(v *Vector3) {
-	tt.Set("c", v)
+	tt.Set("c", v.Value)
 }
 func (tt *Triangle) Clone() *Triangle {
 	return &Triangle{Value: tt.Call("clone")}

@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// CompressedTexture extend: [Texture]
 type CompressedTexture struct {
 	js.Value
 }
 
 func NewCompressedTexture(mipmaps js.Value, width float64, height float64, format PixelFormat, typ TextureDataType, mapping Mapping, wrapS Wrapping, wrapT Wrapping, magFilter TextureFilter, minFilter TextureFilter, anisotropy float64, encoding TextureEncoding) *CompressedTexture {
 	return &CompressedTexture{Value: get("CompressedTexture").New(mipmaps, width, height, format, typ, mapping, wrapS, wrapT, magFilter, minFilter, anisotropy, encoding)}
+}
+func (ct *CompressedTexture) JSValue() js.Value {
+	return ct.Value
 }
 func (ct *CompressedTexture) Anisotropy() float64 {
 	return ct.Get("anisotropy").Float()
@@ -25,7 +29,7 @@ func (ct *CompressedTexture) Center() *Vector2 {
 	return &Vector2{Value: ct.Get("center")}
 }
 func (ct *CompressedTexture) SetCenter(v *Vector2) {
-	ct.Set("center", v)
+	ct.Set("center", v.Value)
 }
 func (ct *CompressedTexture) Encoding() TextureEncoding {
 	return TextureEncoding(ct.Get("encoding"))
@@ -103,7 +107,7 @@ func (ct *CompressedTexture) Offset() *Vector2 {
 	return &Vector2{Value: ct.Get("offset")}
 }
 func (ct *CompressedTexture) SetOffset(v *Vector2) {
-	ct.Set("offset", v)
+	ct.Set("offset", v.Value)
 }
 func (ct *CompressedTexture) OnUpdate() js.Value {
 	return ct.Get("onUpdate")
@@ -121,7 +125,7 @@ func (ct *CompressedTexture) Repeat() *Vector2 {
 	return &Vector2{Value: ct.Get("repeat")}
 }
 func (ct *CompressedTexture) SetRepeat(v *Vector2) {
-	ct.Set("repeat", v)
+	ct.Set("repeat", v.Value)
 }
 func (ct *CompressedTexture) Rotation() float64 {
 	return ct.Get("rotation").Float()

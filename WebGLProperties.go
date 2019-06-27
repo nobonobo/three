@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// WebGLProperties extend: []
 type WebGLProperties struct {
 	js.Value
 }
 
 func NewWebGLProperties() *WebGLProperties {
 	return &WebGLProperties{Value: get("WebGLProperties").New()}
+}
+func (wglp *WebGLProperties) JSValue() js.Value {
+	return wglp.Value
 }
 func (wglp *WebGLProperties) Clear() {
 	wglp.Call("clear")

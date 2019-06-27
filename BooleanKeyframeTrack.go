@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// BooleanKeyframeTrack extend: [KeyframeTrack]
 type BooleanKeyframeTrack struct {
 	js.Value
 }
 
 func NewBooleanKeyframeTrack(name string, times js.Value, values js.Value) *BooleanKeyframeTrack {
 	return &BooleanKeyframeTrack{Value: get("BooleanKeyframeTrack").New(name, times, values)}
+}
+func (bkt *BooleanKeyframeTrack) JSValue() js.Value {
+	return bkt.Value
 }
 func (bkt *BooleanKeyframeTrack) DefaultInterpolation() InterpolationModes {
 	return InterpolationModes(bkt.Get("DefaultInterpolation"))

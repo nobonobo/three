@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// DataTexture3D extend: [Texture]
 type DataTexture3D struct {
 	js.Value
 }
 
 func NewDataTexture3D(data js.Value, width float64, height float64, depth float64) *DataTexture3D {
 	return &DataTexture3D{Value: get("DataTexture3D").New(data, width, height, depth)}
+}
+func (dtd *DataTexture3D) JSValue() js.Value {
+	return dtd.Value
 }
 func (dtd *DataTexture3D) Anisotropy() float64 {
 	return dtd.Get("anisotropy").Float()
@@ -25,7 +29,7 @@ func (dtd *DataTexture3D) Center() *Vector2 {
 	return &Vector2{Value: dtd.Get("center")}
 }
 func (dtd *DataTexture3D) SetCenter(v *Vector2) {
-	dtd.Set("center", v)
+	dtd.Set("center", v.Value)
 }
 func (dtd *DataTexture3D) Encoding() TextureEncoding {
 	return TextureEncoding(dtd.Get("encoding"))
@@ -103,7 +107,7 @@ func (dtd *DataTexture3D) Offset() *Vector2 {
 	return &Vector2{Value: dtd.Get("offset")}
 }
 func (dtd *DataTexture3D) SetOffset(v *Vector2) {
-	dtd.Set("offset", v)
+	dtd.Set("offset", v.Value)
 }
 func (dtd *DataTexture3D) OnUpdate() js.Value {
 	return dtd.Get("onUpdate")
@@ -121,7 +125,7 @@ func (dtd *DataTexture3D) Repeat() *Vector2 {
 	return &Vector2{Value: dtd.Get("repeat")}
 }
 func (dtd *DataTexture3D) SetRepeat(v *Vector2) {
-	dtd.Set("repeat", v)
+	dtd.Set("repeat", v.Value)
 }
 func (dtd *DataTexture3D) Rotation() float64 {
 	return dtd.Get("rotation").Float()

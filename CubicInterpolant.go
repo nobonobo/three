@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// CubicInterpolant extend: [Interpolant]
 type CubicInterpolant struct {
 	js.Value
 }
 
 func NewCubicInterpolant(parameterPositions js.Value, samplesValues js.Value, sampleSize float64, resultBuffer js.Value) *CubicInterpolant {
 	return &CubicInterpolant{Value: get("CubicInterpolant").New(parameterPositions, samplesValues, sampleSize, resultBuffer)}
+}
+func (ci *CubicInterpolant) JSValue() js.Value {
+	return ci.Value
 }
 func (ci *CubicInterpolant) ParameterPositions() js.Value {
 	return ci.Get("parameterPositions")

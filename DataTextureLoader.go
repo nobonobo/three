@@ -8,6 +8,7 @@ import (
 	"syscall/js"
 )
 
+// DataTextureLoader extend: []
 type DataTextureLoader struct {
 	js.Value
 }
@@ -15,11 +16,14 @@ type DataTextureLoader struct {
 func NewDataTextureLoader(manager *LoadingManager) *DataTextureLoader {
 	return &DataTextureLoader{Value: get("DataTextureLoader").New(manager)}
 }
+func (dtl *DataTextureLoader) JSValue() js.Value {
+	return dtl.Value
+}
 func (dtl *DataTextureLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: dtl.Get("manager")}
 }
 func (dtl *DataTextureLoader) SetManager(v *LoadingManager) {
-	dtl.Set("manager", v)
+	dtl.Set("manager", v.Value)
 }
 func (dtl *DataTextureLoader) Load(url string, onLoad js.Value, onProgress js.Value, onError js.Value) {
 	dtl.Call("load", url, onLoad, onProgress, onError)

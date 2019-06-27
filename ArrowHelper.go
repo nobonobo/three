@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// ArrowHelper extend: [Object3D]
 type ArrowHelper struct {
 	js.Value
 }
 
 func NewArrowHelper(dir *Vector3, origin *Vector3, length float64, hex int, headLength float64, headWidth float64) *ArrowHelper {
 	return &ArrowHelper{Value: get("ArrowHelper").New(dir, origin, length, hex, headLength, headWidth)}
+}
+func (ah *ArrowHelper) JSValue() js.Value {
+	return ah.Value
 }
 func (ah *ArrowHelper) CastShadow() bool {
 	return ah.Get("castShadow").Bool()
@@ -31,7 +35,7 @@ func (ah *ArrowHelper) Cone() *Mesh {
 	return &Mesh{Value: ah.Get("cone")}
 }
 func (ah *ArrowHelper) SetCone(v *Mesh) {
-	ah.Set("cone", v)
+	ah.Set("cone", v.Value)
 }
 func (ah *ArrowHelper) FrustumCulled() bool {
 	return ah.Get("frustumCulled").Bool()
@@ -55,19 +59,19 @@ func (ah *ArrowHelper) Layers() *Layers {
 	return &Layers{Value: ah.Get("layers")}
 }
 func (ah *ArrowHelper) SetLayers(v *Layers) {
-	ah.Set("layers", v)
+	ah.Set("layers", v.Value)
 }
 func (ah *ArrowHelper) Line() *Line {
 	return &Line{Value: ah.Get("line")}
 }
 func (ah *ArrowHelper) SetLine(v *Line) {
-	ah.Set("line", v)
+	ah.Set("line", v.Value)
 }
 func (ah *ArrowHelper) Matrix() *Matrix4 {
 	return &Matrix4{Value: ah.Get("matrix")}
 }
 func (ah *ArrowHelper) SetMatrix(v *Matrix4) {
-	ah.Set("matrix", v)
+	ah.Set("matrix", v.Value)
 }
 func (ah *ArrowHelper) MatrixAutoUpdate() bool {
 	return ah.Get("matrixAutoUpdate").Bool()
@@ -79,7 +83,7 @@ func (ah *ArrowHelper) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: ah.Get("matrixWorld")}
 }
 func (ah *ArrowHelper) SetMatrixWorld(v *Matrix4) {
-	ah.Set("matrixWorld", v)
+	ah.Set("matrixWorld", v.Value)
 }
 func (ah *ArrowHelper) MatrixWorldNeedsUpdate() bool {
 	return ah.Get("matrixWorldNeedsUpdate").Bool()
@@ -91,7 +95,7 @@ func (ah *ArrowHelper) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: ah.Get("modelViewMatrix")}
 }
 func (ah *ArrowHelper) SetModelViewMatrix(v *Matrix4) {
-	ah.Set("modelViewMatrix", v)
+	ah.Set("modelViewMatrix", v.Value)
 }
 func (ah *ArrowHelper) Name() string {
 	return ah.Get("name").String()
@@ -103,7 +107,7 @@ func (ah *ArrowHelper) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: ah.Get("normalMatrix")}
 }
 func (ah *ArrowHelper) SetNormalMatrix(v *Matrix3) {
-	ah.Set("normalMatrix", v)
+	ah.Set("normalMatrix", v.Value)
 }
 func (ah *ArrowHelper) OnAfterRender() js.Value {
 	return ah.Get("onAfterRender")
@@ -121,19 +125,19 @@ func (ah *ArrowHelper) Parent() *Object3D {
 	return &Object3D{Value: ah.Get("parent")}
 }
 func (ah *ArrowHelper) SetParent(v *Object3D) {
-	ah.Set("parent", v)
+	ah.Set("parent", v.Value)
 }
 func (ah *ArrowHelper) Position() *Vector3 {
 	return &Vector3{Value: ah.Get("position")}
 }
 func (ah *ArrowHelper) SetPosition(v *Vector3) {
-	ah.Set("position", v)
+	ah.Set("position", v.Value)
 }
 func (ah *ArrowHelper) Quaternion() *Quaternion {
 	return &Quaternion{Value: ah.Get("quaternion")}
 }
 func (ah *ArrowHelper) SetQuaternion(v *Quaternion) {
-	ah.Set("quaternion", v)
+	ah.Set("quaternion", v.Value)
 }
 func (ah *ArrowHelper) ReceiveShadow() bool {
 	return ah.Get("receiveShadow").Bool()
@@ -151,13 +155,13 @@ func (ah *ArrowHelper) Rotation() *Euler {
 	return &Euler{Value: ah.Get("rotation")}
 }
 func (ah *ArrowHelper) SetRotation(v *Euler) {
-	ah.Set("rotation", v)
+	ah.Set("rotation", v.Value)
 }
 func (ah *ArrowHelper) Scale() *Vector3 {
 	return &Vector3{Value: ah.Get("scale")}
 }
 func (ah *ArrowHelper) SetScale(v *Vector3) {
-	ah.Set("scale", v)
+	ah.Set("scale", v.Value)
 }
 func (ah *ArrowHelper) Type() string {
 	return ah.Get("type").String()
@@ -169,7 +173,7 @@ func (ah *ArrowHelper) Up() *Vector3 {
 	return &Vector3{Value: ah.Get("up")}
 }
 func (ah *ArrowHelper) SetUp(v *Vector3) {
-	ah.Set("up", v)
+	ah.Set("up", v.Value)
 }
 func (ah *ArrowHelper) UserData() js.Value {
 	return ah.Get("userData")
@@ -199,7 +203,7 @@ func (ah *ArrowHelper) DefaultUp() *Vector3 {
 	return &Vector3{Value: ah.Get("DefaultUp")}
 }
 func (ah *ArrowHelper) SetDefaultUp(v *Vector3) {
-	ah.Set("DefaultUp", v)
+	ah.Set("DefaultUp", v.Value)
 }
 func (ah *ArrowHelper) Add(object js.Value) *ArrowHelper {
 	return &ArrowHelper{Value: ah.Call("add", object)}

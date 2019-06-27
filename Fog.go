@@ -12,6 +12,8 @@ type IFog interface {
 	Clone() *IFog
 	ToJSON() js.Value
 }
+
+// Fog extend: []
 type Fog struct {
 	js.Value
 }
@@ -19,11 +21,14 @@ type Fog struct {
 func NewFog(hex int, near float64, far float64) *Fog {
 	return &Fog{Value: get("Fog").New(hex, near, far)}
 }
+func (ff *Fog) JSValue() js.Value {
+	return ff.Value
+}
 func (ff *Fog) Color() *Color {
 	return &Color{Value: ff.Get("color")}
 }
 func (ff *Fog) SetColor(v *Color) {
-	ff.Set("color", v)
+	ff.Set("color", v.Value)
 }
 func (ff *Fog) Far() float64 {
 	return ff.Get("far").Float()

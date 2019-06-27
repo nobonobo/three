@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Font extend: []
 type Font struct {
 	js.Value
 }
 
 func NewFont(jsondata js.Value) *Font {
 	return &Font{Value: get("Font").New(jsondata)}
+}
+func (ff *Font) JSValue() js.Value {
+	return ff.Value
 }
 func (ff *Font) Data() string {
 	return ff.Get("data").String()

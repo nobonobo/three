@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// RingBufferGeometry extend: [BufferGeometry]
 type RingBufferGeometry struct {
 	js.Value
 }
 
-func NewRingBufferGeometry(innerRadius float64, outerRadius float64, thetaSegments float64, phiSegments float64, thetaStart float64, thetaLength float64) *RingBufferGeometry {
+func NewRingBufferGeometry(innerRadius float64, outerRadius float64, thetaSegments int, phiSegments int, thetaStart float64, thetaLength float64) *RingBufferGeometry {
 	return &RingBufferGeometry{Value: get("RingBufferGeometry").New(innerRadius, outerRadius, thetaSegments, phiSegments, thetaStart, thetaLength)}
+}
+func (rbg *RingBufferGeometry) JSValue() js.Value {
+	return rbg.Value
 }
 func (rbg *RingBufferGeometry) Attributes() js.Value {
 	return rbg.Get("attributes")
@@ -25,13 +29,13 @@ func (rbg *RingBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: rbg.Get("boundingBox")}
 }
 func (rbg *RingBufferGeometry) SetBoundingBox(v *Box3) {
-	rbg.Set("boundingBox", v)
+	rbg.Set("boundingBox", v.Value)
 }
 func (rbg *RingBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: rbg.Get("boundingSphere")}
 }
 func (rbg *RingBufferGeometry) SetBoundingSphere(v *Sphere) {
-	rbg.Set("boundingSphere", v)
+	rbg.Set("boundingSphere", v.Value)
 }
 func (rbg *RingBufferGeometry) DrawRange() js.Value {
 	return rbg.Get("drawRange")
@@ -61,7 +65,7 @@ func (rbg *RingBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: rbg.Get("index")}
 }
 func (rbg *RingBufferGeometry) SetIndex(v *BufferAttribute) {
-	rbg.Set("index", v)
+	rbg.Set("index", v.Value)
 }
 func (rbg *RingBufferGeometry) MorphAttributes() js.Value {
 	return rbg.Get("morphAttributes")
@@ -165,8 +169,8 @@ func (rbg *RingBufferGeometry) Dispose() {
 func (rbg *RingBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: rbg.Call("fromDirectGeometry", geometry)}
 }
-func (rbg *RingBufferGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: rbg.Call("fromGeometry", geometry, settings)}
+func (rbg *RingBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: rbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (rbg *RingBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: rbg.Call("getAttribute", name)}
@@ -229,18 +233,22 @@ func (rbg *RingBufferGeometry) UpdateFromObject(object *Object3D) {
 	rbg.Call("updateFromObject", object)
 }
 
+// RingGeometry extend: [Geometry]
 type RingGeometry struct {
 	js.Value
 }
 
-func NewRingGeometry(innerRadius float64, outerRadius float64, thetaSegments float64, phiSegments float64, thetaStart float64, thetaLength float64) *RingGeometry {
+func NewRingGeometry(innerRadius float64, outerRadius float64, thetaSegments int, phiSegments int, thetaStart float64, thetaLength float64) *RingGeometry {
 	return &RingGeometry{Value: get("RingGeometry").New(innerRadius, outerRadius, thetaSegments, phiSegments, thetaStart, thetaLength)}
+}
+func (rg *RingGeometry) JSValue() js.Value {
+	return rg.Value
 }
 func (rg *RingGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: rg.Get("animation")}
 }
 func (rg *RingGeometry) SetAnimation(v *AnimationClip) {
-	rg.Set("animation", v)
+	rg.Set("animation", v.Value)
 }
 func (rg *RingGeometry) Animations() js.Value {
 	return rg.Get("animations")
@@ -258,13 +266,13 @@ func (rg *RingGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: rg.Get("boundingBox")}
 }
 func (rg *RingGeometry) SetBoundingBox(v *Box3) {
-	rg.Set("boundingBox", v)
+	rg.Set("boundingBox", v.Value)
 }
 func (rg *RingGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: rg.Get("boundingSphere")}
 }
 func (rg *RingGeometry) SetBoundingSphere(v *Sphere) {
-	rg.Set("boundingSphere", v)
+	rg.Set("boundingSphere", v.Value)
 }
 func (rg *RingGeometry) Colors() js.Value {
 	return rg.Get("colors")
@@ -395,13 +403,13 @@ func (rg *RingGeometry) SetVerticesNeedUpdate(v bool) {
 func (rg *RingGeometry) AddEventListener(typ string, listener js.Value) {
 	rg.Call("addEventListener", typ, listener)
 }
-func (rg *RingGeometry) ApplyMatrix(matrix *Matrix4) *Geometry {
-	return &Geometry{Value: rg.Call("applyMatrix", matrix)}
+func (rg *RingGeometry) ApplyMatrix(matrix *Matrix4) Geometry {
+	return &GeometryImpl{Value: rg.Call("applyMatrix", matrix)}
 }
-func (rg *RingGeometry) Center() *Geometry {
-	return &Geometry{Value: rg.Call("center")}
+func (rg *RingGeometry) Center() Geometry {
+	return &GeometryImpl{Value: rg.Call("center")}
 }
-func (rg *RingGeometry) Clone() *RingGeometry {
+func (rg *RingGeometry) Clone() Geometry {
 	return &RingGeometry{Value: rg.Call("clone")}
 }
 func (rg *RingGeometry) ComputeBoundingBox() {
@@ -422,8 +430,8 @@ func (rg *RingGeometry) ComputeMorphNormals() {
 func (rg *RingGeometry) ComputeVertexNormals(areaWeighted bool) {
 	rg.Call("computeVertexNormals", areaWeighted)
 }
-func (rg *RingGeometry) Copy(source *Geometry) *RingGeometry {
-	return &RingGeometry{Value: rg.Call("copy", source)}
+func (rg *RingGeometry) Copy(source Geometry) Geometry {
+	return &RingGeometry{Value: rg.Call("copy", source.JSValue())}
 }
 func (rg *RingGeometry) DispatchEvent(event js.Value) {
 	rg.Call("dispatchEvent", event)
@@ -431,8 +439,8 @@ func (rg *RingGeometry) DispatchEvent(event js.Value) {
 func (rg *RingGeometry) Dispose() {
 	rg.Call("dispose")
 }
-func (rg *RingGeometry) FromBufferGeometry(geometry *BufferGeometry) *Geometry {
-	return &Geometry{Value: rg.Call("fromBufferGeometry", geometry)}
+func (rg *RingGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
+	return &GeometryImpl{Value: rg.Call("fromBufferGeometry", geometry)}
 }
 func (rg *RingGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return rg.Call("hasEventListener", typ, listener).Bool()
@@ -440,8 +448,8 @@ func (rg *RingGeometry) HasEventListener(typ string, listener js.Value) bool {
 func (rg *RingGeometry) LookAt(vector *Vector3) {
 	rg.Call("lookAt", vector)
 }
-func (rg *RingGeometry) Merge(geometry *Geometry, matrix Matrix, materialIndexOffset int) {
-	rg.Call("merge", geometry, matrix, materialIndexOffset)
+func (rg *RingGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
+	rg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
 func (rg *RingGeometry) MergeMesh(mesh *Mesh) {
 	rg.Call("mergeMesh", mesh)
@@ -449,25 +457,25 @@ func (rg *RingGeometry) MergeMesh(mesh *Mesh) {
 func (rg *RingGeometry) MergeVertices() float64 {
 	return rg.Call("mergeVertices").Float()
 }
-func (rg *RingGeometry) Normalize() *Geometry {
-	return &Geometry{Value: rg.Call("normalize")}
+func (rg *RingGeometry) Normalize() Geometry {
+	return &GeometryImpl{Value: rg.Call("normalize")}
 }
 func (rg *RingGeometry) RemoveEventListener(typ string, listener js.Value) {
 	rg.Call("removeEventListener", typ, listener)
 }
-func (rg *RingGeometry) RotateX(angle float64) *Geometry {
-	return &Geometry{Value: rg.Call("rotateX", angle)}
+func (rg *RingGeometry) RotateX(angle float64) Geometry {
+	return &GeometryImpl{Value: rg.Call("rotateX", angle)}
 }
-func (rg *RingGeometry) RotateY(angle float64) *Geometry {
-	return &Geometry{Value: rg.Call("rotateY", angle)}
+func (rg *RingGeometry) RotateY(angle float64) Geometry {
+	return &GeometryImpl{Value: rg.Call("rotateY", angle)}
 }
-func (rg *RingGeometry) RotateZ(angle float64) *Geometry {
-	return &Geometry{Value: rg.Call("rotateZ", angle)}
+func (rg *RingGeometry) RotateZ(angle float64) Geometry {
+	return &GeometryImpl{Value: rg.Call("rotateZ", angle)}
 }
-func (rg *RingGeometry) Scale(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: rg.Call("scale", x, y, z)}
+func (rg *RingGeometry) Scale(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: rg.Call("scale", x, y, z)}
 }
-func (rg *RingGeometry) SetFromPoints(points js.Value) *RingGeometry {
+func (rg *RingGeometry) SetFromPoints(points js.Value) Geometry {
 	return &RingGeometry{Value: rg.Call("setFromPoints", points)}
 }
 func (rg *RingGeometry) SortFacesByMaterialIndex() {
@@ -476,6 +484,6 @@ func (rg *RingGeometry) SortFacesByMaterialIndex() {
 func (rg *RingGeometry) ToJSON() js.Value {
 	return rg.Call("toJSON")
 }
-func (rg *RingGeometry) Translate(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: rg.Call("translate", x, y, z)}
+func (rg *RingGeometry) Translate(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: rg.Call("translate", x, y, z)}
 }

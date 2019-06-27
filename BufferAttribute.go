@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// BufferAttribute extend: []
 type BufferAttribute struct {
 	js.Value
 }
 
 func NewBufferAttribute(array js.Value, itemSize int, normalized bool) *BufferAttribute {
 	return &BufferAttribute{Value: get("BufferAttribute").New(array, itemSize, normalized)}
+}
+func (ba *BufferAttribute) JSValue() js.Value {
+	return ba.Value
 }
 func (ba *BufferAttribute) Array() js.Value {
 	return ba.Get("array")
@@ -148,12 +152,16 @@ func (ba *BufferAttribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: ba.Call("setZ", index, z)}
 }
 
+// Float32Attribute extend: [BufferAttribute]
 type Float32Attribute struct {
 	js.Value
 }
 
 func NewFloat32Attribute(array js.Value, itemSize int) *Float32Attribute {
 	return &Float32Attribute{Value: get("Float32Attribute").New(array, itemSize)}
+}
+func (fa *Float32Attribute) JSValue() js.Value {
+	return fa.Value
 }
 func (fa *Float32Attribute) Array() js.Value {
 	return fa.Get("array")
@@ -288,12 +296,16 @@ func (fa *Float32Attribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: fa.Call("setZ", index, z)}
 }
 
+// Float32BufferAttribute extend: [BufferAttribute]
 type Float32BufferAttribute struct {
 	js.Value
 }
 
 func NewFloat32BufferAttribute(array js.Value, itemSize int, normalized bool) *Float32BufferAttribute {
 	return &Float32BufferAttribute{Value: get("Float32BufferAttribute").New(array, itemSize, normalized)}
+}
+func (fba *Float32BufferAttribute) JSValue() js.Value {
+	return fba.Value
 }
 func (fba *Float32BufferAttribute) Array() js.Value {
 	return fba.Get("array")
@@ -428,12 +440,16 @@ func (fba *Float32BufferAttribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: fba.Call("setZ", index, z)}
 }
 
+// Float64Attribute extend: [BufferAttribute]
 type Float64Attribute struct {
 	js.Value
 }
 
 func NewFloat64Attribute(array js.Value, itemSize int) *Float64Attribute {
 	return &Float64Attribute{Value: get("Float64Attribute").New(array, itemSize)}
+}
+func (fa *Float64Attribute) JSValue() js.Value {
+	return fa.Value
 }
 func (fa *Float64Attribute) Array() js.Value {
 	return fa.Get("array")
@@ -568,12 +584,16 @@ func (fa *Float64Attribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: fa.Call("setZ", index, z)}
 }
 
+// Float64BufferAttribute extend: [BufferAttribute]
 type Float64BufferAttribute struct {
 	js.Value
 }
 
 func NewFloat64BufferAttribute(array js.Value, itemSize int, normalized bool) *Float64BufferAttribute {
 	return &Float64BufferAttribute{Value: get("Float64BufferAttribute").New(array, itemSize, normalized)}
+}
+func (fba *Float64BufferAttribute) JSValue() js.Value {
+	return fba.Value
 }
 func (fba *Float64BufferAttribute) Array() js.Value {
 	return fba.Get("array")
@@ -708,12 +728,16 @@ func (fba *Float64BufferAttribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: fba.Call("setZ", index, z)}
 }
 
+// Int16Attribute extend: [BufferAttribute]
 type Int16Attribute struct {
 	js.Value
 }
 
 func NewInt16Attribute(array js.Value, itemSize int) *Int16Attribute {
 	return &Int16Attribute{Value: get("Int16Attribute").New(array, itemSize)}
+}
+func (ia *Int16Attribute) JSValue() js.Value {
+	return ia.Value
 }
 func (ia *Int16Attribute) Array() js.Value {
 	return ia.Get("array")
@@ -848,12 +872,16 @@ func (ia *Int16Attribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: ia.Call("setZ", index, z)}
 }
 
+// Int16BufferAttribute extend: [BufferAttribute]
 type Int16BufferAttribute struct {
 	js.Value
 }
 
 func NewInt16BufferAttribute(array js.Value, itemSize int, normalized bool) *Int16BufferAttribute {
 	return &Int16BufferAttribute{Value: get("Int16BufferAttribute").New(array, itemSize, normalized)}
+}
+func (iba *Int16BufferAttribute) JSValue() js.Value {
+	return iba.Value
 }
 func (iba *Int16BufferAttribute) Array() js.Value {
 	return iba.Get("array")
@@ -988,12 +1016,16 @@ func (iba *Int16BufferAttribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: iba.Call("setZ", index, z)}
 }
 
+// Int32Attribute extend: [BufferAttribute]
 type Int32Attribute struct {
 	js.Value
 }
 
 func NewInt32Attribute(array js.Value, itemSize int) *Int32Attribute {
 	return &Int32Attribute{Value: get("Int32Attribute").New(array, itemSize)}
+}
+func (ia *Int32Attribute) JSValue() js.Value {
+	return ia.Value
 }
 func (ia *Int32Attribute) Array() js.Value {
 	return ia.Get("array")
@@ -1128,12 +1160,16 @@ func (ia *Int32Attribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: ia.Call("setZ", index, z)}
 }
 
+// Int32BufferAttribute extend: [BufferAttribute]
 type Int32BufferAttribute struct {
 	js.Value
 }
 
 func NewInt32BufferAttribute(array js.Value, itemSize int, normalized bool) *Int32BufferAttribute {
 	return &Int32BufferAttribute{Value: get("Int32BufferAttribute").New(array, itemSize, normalized)}
+}
+func (iba *Int32BufferAttribute) JSValue() js.Value {
+	return iba.Value
 }
 func (iba *Int32BufferAttribute) Array() js.Value {
 	return iba.Get("array")
@@ -1268,12 +1304,16 @@ func (iba *Int32BufferAttribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: iba.Call("setZ", index, z)}
 }
 
+// Int8Attribute extend: [BufferAttribute]
 type Int8Attribute struct {
 	js.Value
 }
 
 func NewInt8Attribute(array js.Value, itemSize int) *Int8Attribute {
 	return &Int8Attribute{Value: get("Int8Attribute").New(array, itemSize)}
+}
+func (ia *Int8Attribute) JSValue() js.Value {
+	return ia.Value
 }
 func (ia *Int8Attribute) Array() js.Value {
 	return ia.Get("array")
@@ -1408,12 +1448,16 @@ func (ia *Int8Attribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: ia.Call("setZ", index, z)}
 }
 
+// Int8BufferAttribute extend: [BufferAttribute]
 type Int8BufferAttribute struct {
 	js.Value
 }
 
 func NewInt8BufferAttribute(array js.Value, itemSize int, normalized bool) *Int8BufferAttribute {
 	return &Int8BufferAttribute{Value: get("Int8BufferAttribute").New(array, itemSize, normalized)}
+}
+func (iba *Int8BufferAttribute) JSValue() js.Value {
+	return iba.Value
 }
 func (iba *Int8BufferAttribute) Array() js.Value {
 	return iba.Get("array")
@@ -1548,12 +1592,16 @@ func (iba *Int8BufferAttribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: iba.Call("setZ", index, z)}
 }
 
+// Uint16Attribute extend: [BufferAttribute]
 type Uint16Attribute struct {
 	js.Value
 }
 
 func NewUint16Attribute(array js.Value, itemSize int) *Uint16Attribute {
 	return &Uint16Attribute{Value: get("Uint16Attribute").New(array, itemSize)}
+}
+func (ua *Uint16Attribute) JSValue() js.Value {
+	return ua.Value
 }
 func (ua *Uint16Attribute) Array() js.Value {
 	return ua.Get("array")
@@ -1688,12 +1736,16 @@ func (ua *Uint16Attribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: ua.Call("setZ", index, z)}
 }
 
+// Uint16BufferAttribute extend: [BufferAttribute]
 type Uint16BufferAttribute struct {
 	js.Value
 }
 
 func NewUint16BufferAttribute(array js.Value, itemSize int, normalized bool) *Uint16BufferAttribute {
 	return &Uint16BufferAttribute{Value: get("Uint16BufferAttribute").New(array, itemSize, normalized)}
+}
+func (uba *Uint16BufferAttribute) JSValue() js.Value {
+	return uba.Value
 }
 func (uba *Uint16BufferAttribute) Array() js.Value {
 	return uba.Get("array")
@@ -1828,12 +1880,16 @@ func (uba *Uint16BufferAttribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: uba.Call("setZ", index, z)}
 }
 
+// Uint32Attribute extend: [BufferAttribute]
 type Uint32Attribute struct {
 	js.Value
 }
 
 func NewUint32Attribute(array js.Value, itemSize int) *Uint32Attribute {
 	return &Uint32Attribute{Value: get("Uint32Attribute").New(array, itemSize)}
+}
+func (ua *Uint32Attribute) JSValue() js.Value {
+	return ua.Value
 }
 func (ua *Uint32Attribute) Array() js.Value {
 	return ua.Get("array")
@@ -1968,12 +2024,16 @@ func (ua *Uint32Attribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: ua.Call("setZ", index, z)}
 }
 
+// Uint32BufferAttribute extend: [BufferAttribute]
 type Uint32BufferAttribute struct {
 	js.Value
 }
 
 func NewUint32BufferAttribute(array js.Value, itemSize int, normalized bool) *Uint32BufferAttribute {
 	return &Uint32BufferAttribute{Value: get("Uint32BufferAttribute").New(array, itemSize, normalized)}
+}
+func (uba *Uint32BufferAttribute) JSValue() js.Value {
+	return uba.Value
 }
 func (uba *Uint32BufferAttribute) Array() js.Value {
 	return uba.Get("array")
@@ -2108,12 +2168,16 @@ func (uba *Uint32BufferAttribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: uba.Call("setZ", index, z)}
 }
 
+// Uint8Attribute extend: [BufferAttribute]
 type Uint8Attribute struct {
 	js.Value
 }
 
 func NewUint8Attribute(array js.Value, itemSize int) *Uint8Attribute {
 	return &Uint8Attribute{Value: get("Uint8Attribute").New(array, itemSize)}
+}
+func (ua *Uint8Attribute) JSValue() js.Value {
+	return ua.Value
 }
 func (ua *Uint8Attribute) Array() js.Value {
 	return ua.Get("array")
@@ -2248,12 +2312,16 @@ func (ua *Uint8Attribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: ua.Call("setZ", index, z)}
 }
 
+// Uint8BufferAttribute extend: [BufferAttribute]
 type Uint8BufferAttribute struct {
 	js.Value
 }
 
 func NewUint8BufferAttribute(array js.Value, itemSize int, normalized bool) *Uint8BufferAttribute {
 	return &Uint8BufferAttribute{Value: get("Uint8BufferAttribute").New(array, itemSize, normalized)}
+}
+func (uba *Uint8BufferAttribute) JSValue() js.Value {
+	return uba.Value
 }
 func (uba *Uint8BufferAttribute) Array() js.Value {
 	return uba.Get("array")
@@ -2388,12 +2456,16 @@ func (uba *Uint8BufferAttribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: uba.Call("setZ", index, z)}
 }
 
+// Uint8ClampedAttribute extend: [BufferAttribute]
 type Uint8ClampedAttribute struct {
 	js.Value
 }
 
 func NewUint8ClampedAttribute(array js.Value, itemSize int) *Uint8ClampedAttribute {
 	return &Uint8ClampedAttribute{Value: get("Uint8ClampedAttribute").New(array, itemSize)}
+}
+func (uca *Uint8ClampedAttribute) JSValue() js.Value {
+	return uca.Value
 }
 func (uca *Uint8ClampedAttribute) Array() js.Value {
 	return uca.Get("array")
@@ -2528,12 +2600,16 @@ func (uca *Uint8ClampedAttribute) SetZ(index int, z float64) *BufferAttribute {
 	return &BufferAttribute{Value: uca.Call("setZ", index, z)}
 }
 
+// Uint8ClampedBufferAttribute extend: [BufferAttribute]
 type Uint8ClampedBufferAttribute struct {
 	js.Value
 }
 
 func NewUint8ClampedBufferAttribute(array js.Value, itemSize int, normalized bool) *Uint8ClampedBufferAttribute {
 	return &Uint8ClampedBufferAttribute{Value: get("Uint8ClampedBufferAttribute").New(array, itemSize, normalized)}
+}
+func (ucba *Uint8ClampedBufferAttribute) JSValue() js.Value {
+	return ucba.Value
 }
 func (ucba *Uint8ClampedBufferAttribute) Array() js.Value {
 	return ucba.Get("array")

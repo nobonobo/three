@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// InstancedBufferAttribute extend: [BufferAttribute]
 type InstancedBufferAttribute struct {
 	js.Value
 }
 
 func NewInstancedBufferAttribute(array js.Value, itemSize int, normalized bool, meshPerAttribute float64) *InstancedBufferAttribute {
 	return &InstancedBufferAttribute{Value: get("InstancedBufferAttribute").New(array, itemSize, normalized, meshPerAttribute)}
+}
+func (iba *InstancedBufferAttribute) JSValue() js.Value {
+	return iba.Value
 }
 func (iba *InstancedBufferAttribute) Array() js.Value {
 	return iba.Get("array")

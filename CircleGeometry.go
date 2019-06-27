@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// CircleBufferGeometry extend: [BufferGeometry]
 type CircleBufferGeometry struct {
 	js.Value
 }
 
-func NewCircleBufferGeometry(radius float64, segments float64, thetaStart float64, thetaLength float64) *CircleBufferGeometry {
+func NewCircleBufferGeometry(radius float64, segments int, thetaStart float64, thetaLength float64) *CircleBufferGeometry {
 	return &CircleBufferGeometry{Value: get("CircleBufferGeometry").New(radius, segments, thetaStart, thetaLength)}
+}
+func (cbg *CircleBufferGeometry) JSValue() js.Value {
+	return cbg.Value
 }
 func (cbg *CircleBufferGeometry) Attributes() js.Value {
 	return cbg.Get("attributes")
@@ -25,13 +29,13 @@ func (cbg *CircleBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: cbg.Get("boundingBox")}
 }
 func (cbg *CircleBufferGeometry) SetBoundingBox(v *Box3) {
-	cbg.Set("boundingBox", v)
+	cbg.Set("boundingBox", v.Value)
 }
 func (cbg *CircleBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: cbg.Get("boundingSphere")}
 }
 func (cbg *CircleBufferGeometry) SetBoundingSphere(v *Sphere) {
-	cbg.Set("boundingSphere", v)
+	cbg.Set("boundingSphere", v.Value)
 }
 func (cbg *CircleBufferGeometry) DrawRange() js.Value {
 	return cbg.Get("drawRange")
@@ -61,7 +65,7 @@ func (cbg *CircleBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: cbg.Get("index")}
 }
 func (cbg *CircleBufferGeometry) SetIndex(v *BufferAttribute) {
-	cbg.Set("index", v)
+	cbg.Set("index", v.Value)
 }
 func (cbg *CircleBufferGeometry) MorphAttributes() js.Value {
 	return cbg.Get("morphAttributes")
@@ -165,8 +169,8 @@ func (cbg *CircleBufferGeometry) Dispose() {
 func (cbg *CircleBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: cbg.Call("fromDirectGeometry", geometry)}
 }
-func (cbg *CircleBufferGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("fromGeometry", geometry, settings)}
+func (cbg *CircleBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: cbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (cbg *CircleBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: cbg.Call("getAttribute", name)}
@@ -229,18 +233,22 @@ func (cbg *CircleBufferGeometry) UpdateFromObject(object *Object3D) {
 	cbg.Call("updateFromObject", object)
 }
 
+// CircleGeometry extend: [Geometry]
 type CircleGeometry struct {
 	js.Value
 }
 
-func NewCircleGeometry(radius float64, segments float64, thetaStart float64, thetaLength float64) *CircleGeometry {
+func NewCircleGeometry(radius float64, segments int, thetaStart float64, thetaLength float64) *CircleGeometry {
 	return &CircleGeometry{Value: get("CircleGeometry").New(radius, segments, thetaStart, thetaLength)}
+}
+func (cg *CircleGeometry) JSValue() js.Value {
+	return cg.Value
 }
 func (cg *CircleGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: cg.Get("animation")}
 }
 func (cg *CircleGeometry) SetAnimation(v *AnimationClip) {
-	cg.Set("animation", v)
+	cg.Set("animation", v.Value)
 }
 func (cg *CircleGeometry) Animations() js.Value {
 	return cg.Get("animations")
@@ -258,13 +266,13 @@ func (cg *CircleGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: cg.Get("boundingBox")}
 }
 func (cg *CircleGeometry) SetBoundingBox(v *Box3) {
-	cg.Set("boundingBox", v)
+	cg.Set("boundingBox", v.Value)
 }
 func (cg *CircleGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: cg.Get("boundingSphere")}
 }
 func (cg *CircleGeometry) SetBoundingSphere(v *Sphere) {
-	cg.Set("boundingSphere", v)
+	cg.Set("boundingSphere", v.Value)
 }
 func (cg *CircleGeometry) Colors() js.Value {
 	return cg.Get("colors")
@@ -395,13 +403,13 @@ func (cg *CircleGeometry) SetVerticesNeedUpdate(v bool) {
 func (cg *CircleGeometry) AddEventListener(typ string, listener js.Value) {
 	cg.Call("addEventListener", typ, listener)
 }
-func (cg *CircleGeometry) ApplyMatrix(matrix *Matrix4) *Geometry {
-	return &Geometry{Value: cg.Call("applyMatrix", matrix)}
+func (cg *CircleGeometry) ApplyMatrix(matrix *Matrix4) Geometry {
+	return &GeometryImpl{Value: cg.Call("applyMatrix", matrix)}
 }
-func (cg *CircleGeometry) Center() *Geometry {
-	return &Geometry{Value: cg.Call("center")}
+func (cg *CircleGeometry) Center() Geometry {
+	return &GeometryImpl{Value: cg.Call("center")}
 }
-func (cg *CircleGeometry) Clone() *CircleGeometry {
+func (cg *CircleGeometry) Clone() Geometry {
 	return &CircleGeometry{Value: cg.Call("clone")}
 }
 func (cg *CircleGeometry) ComputeBoundingBox() {
@@ -422,8 +430,8 @@ func (cg *CircleGeometry) ComputeMorphNormals() {
 func (cg *CircleGeometry) ComputeVertexNormals(areaWeighted bool) {
 	cg.Call("computeVertexNormals", areaWeighted)
 }
-func (cg *CircleGeometry) Copy(source *Geometry) *CircleGeometry {
-	return &CircleGeometry{Value: cg.Call("copy", source)}
+func (cg *CircleGeometry) Copy(source Geometry) Geometry {
+	return &CircleGeometry{Value: cg.Call("copy", source.JSValue())}
 }
 func (cg *CircleGeometry) DispatchEvent(event js.Value) {
 	cg.Call("dispatchEvent", event)
@@ -431,8 +439,8 @@ func (cg *CircleGeometry) DispatchEvent(event js.Value) {
 func (cg *CircleGeometry) Dispose() {
 	cg.Call("dispose")
 }
-func (cg *CircleGeometry) FromBufferGeometry(geometry *BufferGeometry) *Geometry {
-	return &Geometry{Value: cg.Call("fromBufferGeometry", geometry)}
+func (cg *CircleGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
+	return &GeometryImpl{Value: cg.Call("fromBufferGeometry", geometry)}
 }
 func (cg *CircleGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return cg.Call("hasEventListener", typ, listener).Bool()
@@ -440,8 +448,8 @@ func (cg *CircleGeometry) HasEventListener(typ string, listener js.Value) bool {
 func (cg *CircleGeometry) LookAt(vector *Vector3) {
 	cg.Call("lookAt", vector)
 }
-func (cg *CircleGeometry) Merge(geometry *Geometry, matrix Matrix, materialIndexOffset int) {
-	cg.Call("merge", geometry, matrix, materialIndexOffset)
+func (cg *CircleGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
+	cg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
 func (cg *CircleGeometry) MergeMesh(mesh *Mesh) {
 	cg.Call("mergeMesh", mesh)
@@ -449,25 +457,25 @@ func (cg *CircleGeometry) MergeMesh(mesh *Mesh) {
 func (cg *CircleGeometry) MergeVertices() float64 {
 	return cg.Call("mergeVertices").Float()
 }
-func (cg *CircleGeometry) Normalize() *Geometry {
-	return &Geometry{Value: cg.Call("normalize")}
+func (cg *CircleGeometry) Normalize() Geometry {
+	return &GeometryImpl{Value: cg.Call("normalize")}
 }
 func (cg *CircleGeometry) RemoveEventListener(typ string, listener js.Value) {
 	cg.Call("removeEventListener", typ, listener)
 }
-func (cg *CircleGeometry) RotateX(angle float64) *Geometry {
-	return &Geometry{Value: cg.Call("rotateX", angle)}
+func (cg *CircleGeometry) RotateX(angle float64) Geometry {
+	return &GeometryImpl{Value: cg.Call("rotateX", angle)}
 }
-func (cg *CircleGeometry) RotateY(angle float64) *Geometry {
-	return &Geometry{Value: cg.Call("rotateY", angle)}
+func (cg *CircleGeometry) RotateY(angle float64) Geometry {
+	return &GeometryImpl{Value: cg.Call("rotateY", angle)}
 }
-func (cg *CircleGeometry) RotateZ(angle float64) *Geometry {
-	return &Geometry{Value: cg.Call("rotateZ", angle)}
+func (cg *CircleGeometry) RotateZ(angle float64) Geometry {
+	return &GeometryImpl{Value: cg.Call("rotateZ", angle)}
 }
-func (cg *CircleGeometry) Scale(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: cg.Call("scale", x, y, z)}
+func (cg *CircleGeometry) Scale(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: cg.Call("scale", x, y, z)}
 }
-func (cg *CircleGeometry) SetFromPoints(points js.Value) *CircleGeometry {
+func (cg *CircleGeometry) SetFromPoints(points js.Value) Geometry {
 	return &CircleGeometry{Value: cg.Call("setFromPoints", points)}
 }
 func (cg *CircleGeometry) SortFacesByMaterialIndex() {
@@ -476,6 +484,6 @@ func (cg *CircleGeometry) SortFacesByMaterialIndex() {
 func (cg *CircleGeometry) ToJSON() js.Value {
 	return cg.Call("toJSON")
 }
-func (cg *CircleGeometry) Translate(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: cg.Call("translate", x, y, z)}
+func (cg *CircleGeometry) Translate(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: cg.Call("translate", x, y, z)}
 }

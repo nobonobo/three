@@ -8,6 +8,7 @@ import (
 	"syscall/js"
 )
 
+// Box3 extend: []
 type Box3 struct {
 	js.Value
 }
@@ -15,17 +16,20 @@ type Box3 struct {
 func NewBox3(min *Vector3, max *Vector3) *Box3 {
 	return &Box3{Value: get("Box3").New(min, max)}
 }
+func (bb *Box3) JSValue() js.Value {
+	return bb.Value
+}
 func (bb *Box3) Max() *Vector3 {
 	return &Vector3{Value: bb.Get("max")}
 }
 func (bb *Box3) SetMax(v *Vector3) {
-	bb.Set("max", v)
+	bb.Set("max", v.Value)
 }
 func (bb *Box3) Min() *Vector3 {
 	return &Vector3{Value: bb.Get("min")}
 }
 func (bb *Box3) SetMin(v *Vector3) {
-	bb.Set("min", v)
+	bb.Set("min", v.Value)
 }
 func (bb *Box3) ApplyMatrix4(matrix *Matrix4) *Box3 {
 	return &Box3{Value: bb.Call("applyMatrix4", matrix)}

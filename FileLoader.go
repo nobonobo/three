@@ -15,6 +15,8 @@ type LoaderHandler interface {
 	Add(regex js.Value, loader AnyLoader)
 	Get(file string) *AnyLoader
 }
+
+// FileLoader extend: []
 type FileLoader struct {
 	js.Value
 }
@@ -22,11 +24,14 @@ type FileLoader struct {
 func NewFileLoader(manager *LoadingManager) *FileLoader {
 	return &FileLoader{Value: get("FileLoader").New(manager)}
 }
+func (fl *FileLoader) JSValue() js.Value {
+	return fl.Value
+}
 func (fl *FileLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: fl.Get("manager")}
 }
 func (fl *FileLoader) SetManager(v *LoadingManager) {
-	fl.Set("manager", v)
+	fl.Set("manager", v.Value)
 }
 func (fl *FileLoader) MimeType() js.Value {
 	return fl.Get("mimeType")

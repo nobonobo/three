@@ -8,6 +8,7 @@ import (
 	"syscall/js"
 )
 
+// FogExp2 extend: []
 type FogExp2 struct {
 	js.Value
 }
@@ -15,11 +16,14 @@ type FogExp2 struct {
 func NewFogExp2(hex int, density float64) *FogExp2 {
 	return &FogExp2{Value: get("FogExp2").New(hex, density)}
 }
+func (fe *FogExp2) JSValue() js.Value {
+	return fe.Value
+}
 func (fe *FogExp2) Color() *Color {
 	return &Color{Value: fe.Get("color")}
 }
 func (fe *FogExp2) SetColor(v *Color) {
-	fe.Set("color", v)
+	fe.Set("color", v.Value)
 }
 func (fe *FogExp2) Density() float64 {
 	return fe.Get("density").Float()

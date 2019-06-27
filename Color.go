@@ -10,6 +10,8 @@ import (
 
 type HSL interface {
 }
+
+// Color extend: []
 type Color struct {
 	js.Value
 }
@@ -19,6 +21,9 @@ func NewColor(color *Color) *Color {
 }
 func NewColor2(r float64, g float64, b float64) *Color {
 	return &Color{Value: get("Color").New(r, g, b)}
+}
+func (cc *Color) JSValue() js.Value {
+	return cc.Value
 }
 func (cc *Color) B() float64 {
 	return cc.Get("b").Float()

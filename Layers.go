@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Layers extend: []
 type Layers struct {
 	js.Value
 }
 
 func NewLayers() *Layers {
 	return &Layers{Value: get("Layers").New()}
+}
+func (ll *Layers) JSValue() js.Value {
+	return ll.Value
 }
 func (ll *Layers) Mask() float64 {
 	return ll.Get("mask").Float()

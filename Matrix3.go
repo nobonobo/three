@@ -17,12 +17,17 @@ type Matrix interface {
 	MultiplyScalar(s float64) Matrix
 	Transpose() Matrix
 }
+
+// Matrix3 extend: []
 type Matrix3 struct {
 	js.Value
 }
 
 func NewMatrix3() *Matrix3 {
 	return &Matrix3{Value: get("Matrix3").New()}
+}
+func (mm *Matrix3) JSValue() js.Value {
+	return mm.Value
 }
 func (mm *Matrix3) Elements() js.Value {
 	return mm.Get("elements")

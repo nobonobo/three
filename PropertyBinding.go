@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// PropertyBinding extend: []
 type PropertyBinding struct {
 	js.Value
 }
 
 func NewPropertyBinding(rootNode js.Value, path string, parsedPath js.Value) *PropertyBinding {
 	return &PropertyBinding{Value: get("PropertyBinding").New(rootNode, path, parsedPath)}
+}
+func (pb *PropertyBinding) JSValue() js.Value {
+	return pb.Value
 }
 func (pb *PropertyBinding) BindingType() js.Value {
 	return pb.Get("BindingType")
@@ -85,12 +89,16 @@ func (pb *PropertyBinding) ParseTrackName(trackName string) js.Value {
 	return pb.Call("parseTrackName", trackName)
 }
 
+// Composite extend: []
 type Composite struct {
 	js.Value
 }
 
 func NewComposite(targetGroup js.Value, path js.Value, parsedPath js.Value) *Composite {
 	return &Composite{Value: get("Composite").New(targetGroup, path, parsedPath)}
+}
+func (cc *Composite) JSValue() js.Value {
+	return cc.Value
 }
 func (cc *Composite) Bind() {
 	cc.Call("bind")

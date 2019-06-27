@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// TorusBufferGeometry extend: [BufferGeometry]
 type TorusBufferGeometry struct {
 	js.Value
 }
 
-func NewTorusBufferGeometry(radius float64, tube float64, radialSegments float64, tubularSegments float64, arc float64) *TorusBufferGeometry {
+func NewTorusBufferGeometry(radius float64, tube float64, radialSegments int, tubularSegments int, arc float64) *TorusBufferGeometry {
 	return &TorusBufferGeometry{Value: get("TorusBufferGeometry").New(radius, tube, radialSegments, tubularSegments, arc)}
+}
+func (tbg *TorusBufferGeometry) JSValue() js.Value {
+	return tbg.Value
 }
 func (tbg *TorusBufferGeometry) Attributes() js.Value {
 	return tbg.Get("attributes")
@@ -25,13 +29,13 @@ func (tbg *TorusBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: tbg.Get("boundingBox")}
 }
 func (tbg *TorusBufferGeometry) SetBoundingBox(v *Box3) {
-	tbg.Set("boundingBox", v)
+	tbg.Set("boundingBox", v.Value)
 }
 func (tbg *TorusBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: tbg.Get("boundingSphere")}
 }
 func (tbg *TorusBufferGeometry) SetBoundingSphere(v *Sphere) {
-	tbg.Set("boundingSphere", v)
+	tbg.Set("boundingSphere", v.Value)
 }
 func (tbg *TorusBufferGeometry) DrawRange() js.Value {
 	return tbg.Get("drawRange")
@@ -61,7 +65,7 @@ func (tbg *TorusBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: tbg.Get("index")}
 }
 func (tbg *TorusBufferGeometry) SetIndex(v *BufferAttribute) {
-	tbg.Set("index", v)
+	tbg.Set("index", v.Value)
 }
 func (tbg *TorusBufferGeometry) MorphAttributes() js.Value {
 	return tbg.Get("morphAttributes")
@@ -165,8 +169,8 @@ func (tbg *TorusBufferGeometry) Dispose() {
 func (tbg *TorusBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: tbg.Call("fromDirectGeometry", geometry)}
 }
-func (tbg *TorusBufferGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("fromGeometry", geometry, settings)}
+func (tbg *TorusBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: tbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (tbg *TorusBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: tbg.Call("getAttribute", name)}
@@ -229,18 +233,22 @@ func (tbg *TorusBufferGeometry) UpdateFromObject(object *Object3D) {
 	tbg.Call("updateFromObject", object)
 }
 
+// TorusGeometry extend: [Geometry]
 type TorusGeometry struct {
 	js.Value
 }
 
-func NewTorusGeometry(radius float64, tube float64, radialSegments float64, tubularSegments float64, arc float64) *TorusGeometry {
+func NewTorusGeometry(radius float64, tube float64, radialSegments int, tubularSegments int, arc float64) *TorusGeometry {
 	return &TorusGeometry{Value: get("TorusGeometry").New(radius, tube, radialSegments, tubularSegments, arc)}
+}
+func (tg *TorusGeometry) JSValue() js.Value {
+	return tg.Value
 }
 func (tg *TorusGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: tg.Get("animation")}
 }
 func (tg *TorusGeometry) SetAnimation(v *AnimationClip) {
-	tg.Set("animation", v)
+	tg.Set("animation", v.Value)
 }
 func (tg *TorusGeometry) Animations() js.Value {
 	return tg.Get("animations")
@@ -258,13 +266,13 @@ func (tg *TorusGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: tg.Get("boundingBox")}
 }
 func (tg *TorusGeometry) SetBoundingBox(v *Box3) {
-	tg.Set("boundingBox", v)
+	tg.Set("boundingBox", v.Value)
 }
 func (tg *TorusGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: tg.Get("boundingSphere")}
 }
 func (tg *TorusGeometry) SetBoundingSphere(v *Sphere) {
-	tg.Set("boundingSphere", v)
+	tg.Set("boundingSphere", v.Value)
 }
 func (tg *TorusGeometry) Colors() js.Value {
 	return tg.Get("colors")
@@ -395,13 +403,13 @@ func (tg *TorusGeometry) SetVerticesNeedUpdate(v bool) {
 func (tg *TorusGeometry) AddEventListener(typ string, listener js.Value) {
 	tg.Call("addEventListener", typ, listener)
 }
-func (tg *TorusGeometry) ApplyMatrix(matrix *Matrix4) *Geometry {
-	return &Geometry{Value: tg.Call("applyMatrix", matrix)}
+func (tg *TorusGeometry) ApplyMatrix(matrix *Matrix4) Geometry {
+	return &GeometryImpl{Value: tg.Call("applyMatrix", matrix)}
 }
-func (tg *TorusGeometry) Center() *Geometry {
-	return &Geometry{Value: tg.Call("center")}
+func (tg *TorusGeometry) Center() Geometry {
+	return &GeometryImpl{Value: tg.Call("center")}
 }
-func (tg *TorusGeometry) Clone() *TorusGeometry {
+func (tg *TorusGeometry) Clone() Geometry {
 	return &TorusGeometry{Value: tg.Call("clone")}
 }
 func (tg *TorusGeometry) ComputeBoundingBox() {
@@ -422,8 +430,8 @@ func (tg *TorusGeometry) ComputeMorphNormals() {
 func (tg *TorusGeometry) ComputeVertexNormals(areaWeighted bool) {
 	tg.Call("computeVertexNormals", areaWeighted)
 }
-func (tg *TorusGeometry) Copy(source *Geometry) *TorusGeometry {
-	return &TorusGeometry{Value: tg.Call("copy", source)}
+func (tg *TorusGeometry) Copy(source Geometry) Geometry {
+	return &TorusGeometry{Value: tg.Call("copy", source.JSValue())}
 }
 func (tg *TorusGeometry) DispatchEvent(event js.Value) {
 	tg.Call("dispatchEvent", event)
@@ -431,8 +439,8 @@ func (tg *TorusGeometry) DispatchEvent(event js.Value) {
 func (tg *TorusGeometry) Dispose() {
 	tg.Call("dispose")
 }
-func (tg *TorusGeometry) FromBufferGeometry(geometry *BufferGeometry) *Geometry {
-	return &Geometry{Value: tg.Call("fromBufferGeometry", geometry)}
+func (tg *TorusGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
+	return &GeometryImpl{Value: tg.Call("fromBufferGeometry", geometry)}
 }
 func (tg *TorusGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return tg.Call("hasEventListener", typ, listener).Bool()
@@ -440,8 +448,8 @@ func (tg *TorusGeometry) HasEventListener(typ string, listener js.Value) bool {
 func (tg *TorusGeometry) LookAt(vector *Vector3) {
 	tg.Call("lookAt", vector)
 }
-func (tg *TorusGeometry) Merge(geometry *Geometry, matrix Matrix, materialIndexOffset int) {
-	tg.Call("merge", geometry, matrix, materialIndexOffset)
+func (tg *TorusGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
+	tg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
 func (tg *TorusGeometry) MergeMesh(mesh *Mesh) {
 	tg.Call("mergeMesh", mesh)
@@ -449,25 +457,25 @@ func (tg *TorusGeometry) MergeMesh(mesh *Mesh) {
 func (tg *TorusGeometry) MergeVertices() float64 {
 	return tg.Call("mergeVertices").Float()
 }
-func (tg *TorusGeometry) Normalize() *Geometry {
-	return &Geometry{Value: tg.Call("normalize")}
+func (tg *TorusGeometry) Normalize() Geometry {
+	return &GeometryImpl{Value: tg.Call("normalize")}
 }
 func (tg *TorusGeometry) RemoveEventListener(typ string, listener js.Value) {
 	tg.Call("removeEventListener", typ, listener)
 }
-func (tg *TorusGeometry) RotateX(angle float64) *Geometry {
-	return &Geometry{Value: tg.Call("rotateX", angle)}
+func (tg *TorusGeometry) RotateX(angle float64) Geometry {
+	return &GeometryImpl{Value: tg.Call("rotateX", angle)}
 }
-func (tg *TorusGeometry) RotateY(angle float64) *Geometry {
-	return &Geometry{Value: tg.Call("rotateY", angle)}
+func (tg *TorusGeometry) RotateY(angle float64) Geometry {
+	return &GeometryImpl{Value: tg.Call("rotateY", angle)}
 }
-func (tg *TorusGeometry) RotateZ(angle float64) *Geometry {
-	return &Geometry{Value: tg.Call("rotateZ", angle)}
+func (tg *TorusGeometry) RotateZ(angle float64) Geometry {
+	return &GeometryImpl{Value: tg.Call("rotateZ", angle)}
 }
-func (tg *TorusGeometry) Scale(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: tg.Call("scale", x, y, z)}
+func (tg *TorusGeometry) Scale(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: tg.Call("scale", x, y, z)}
 }
-func (tg *TorusGeometry) SetFromPoints(points js.Value) *TorusGeometry {
+func (tg *TorusGeometry) SetFromPoints(points js.Value) Geometry {
 	return &TorusGeometry{Value: tg.Call("setFromPoints", points)}
 }
 func (tg *TorusGeometry) SortFacesByMaterialIndex() {
@@ -476,6 +484,6 @@ func (tg *TorusGeometry) SortFacesByMaterialIndex() {
 func (tg *TorusGeometry) ToJSON() js.Value {
 	return tg.Call("toJSON")
 }
-func (tg *TorusGeometry) Translate(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: tg.Call("translate", x, y, z)}
+func (tg *TorusGeometry) Translate(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: tg.Call("translate", x, y, z)}
 }

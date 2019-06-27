@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Light extend: [Object3D]
 type Light struct {
 	js.Value
 }
 
 func NewLight(hex int, intensity float64) *Light {
 	return &Light{Value: get("Light").New(hex, intensity)}
+}
+func (ll *Light) JSValue() js.Value {
+	return ll.Value
 }
 func (ll *Light) CastShadow() bool {
 	return ll.Get("castShadow").Bool()
@@ -31,7 +35,7 @@ func (ll *Light) Color() *Color {
 	return &Color{Value: ll.Get("color")}
 }
 func (ll *Light) SetColor(v *Color) {
-	ll.Set("color", v)
+	ll.Set("color", v.Value)
 }
 func (ll *Light) FrustumCulled() bool {
 	return ll.Get("frustumCulled").Bool()
@@ -67,13 +71,13 @@ func (ll *Light) Layers() *Layers {
 	return &Layers{Value: ll.Get("layers")}
 }
 func (ll *Light) SetLayers(v *Layers) {
-	ll.Set("layers", v)
+	ll.Set("layers", v.Value)
 }
 func (ll *Light) Matrix() *Matrix4 {
 	return &Matrix4{Value: ll.Get("matrix")}
 }
 func (ll *Light) SetMatrix(v *Matrix4) {
-	ll.Set("matrix", v)
+	ll.Set("matrix", v.Value)
 }
 func (ll *Light) MatrixAutoUpdate() bool {
 	return ll.Get("matrixAutoUpdate").Bool()
@@ -85,7 +89,7 @@ func (ll *Light) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: ll.Get("matrixWorld")}
 }
 func (ll *Light) SetMatrixWorld(v *Matrix4) {
-	ll.Set("matrixWorld", v)
+	ll.Set("matrixWorld", v.Value)
 }
 func (ll *Light) MatrixWorldNeedsUpdate() bool {
 	return ll.Get("matrixWorldNeedsUpdate").Bool()
@@ -97,7 +101,7 @@ func (ll *Light) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: ll.Get("modelViewMatrix")}
 }
 func (ll *Light) SetModelViewMatrix(v *Matrix4) {
-	ll.Set("modelViewMatrix", v)
+	ll.Set("modelViewMatrix", v.Value)
 }
 func (ll *Light) Name() string {
 	return ll.Get("name").String()
@@ -109,7 +113,7 @@ func (ll *Light) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: ll.Get("normalMatrix")}
 }
 func (ll *Light) SetNormalMatrix(v *Matrix3) {
-	ll.Set("normalMatrix", v)
+	ll.Set("normalMatrix", v.Value)
 }
 func (ll *Light) OnAfterRender() js.Value {
 	return ll.Get("onAfterRender")
@@ -127,19 +131,19 @@ func (ll *Light) Parent() *Object3D {
 	return &Object3D{Value: ll.Get("parent")}
 }
 func (ll *Light) SetParent(v *Object3D) {
-	ll.Set("parent", v)
+	ll.Set("parent", v.Value)
 }
 func (ll *Light) Position() *Vector3 {
 	return &Vector3{Value: ll.Get("position")}
 }
 func (ll *Light) SetPosition(v *Vector3) {
-	ll.Set("position", v)
+	ll.Set("position", v.Value)
 }
 func (ll *Light) Quaternion() *Quaternion {
 	return &Quaternion{Value: ll.Get("quaternion")}
 }
 func (ll *Light) SetQuaternion(v *Quaternion) {
-	ll.Set("quaternion", v)
+	ll.Set("quaternion", v.Value)
 }
 func (ll *Light) ReceiveShadow() bool {
 	return ll.Get("receiveShadow").Bool()
@@ -157,19 +161,19 @@ func (ll *Light) Rotation() *Euler {
 	return &Euler{Value: ll.Get("rotation")}
 }
 func (ll *Light) SetRotation(v *Euler) {
-	ll.Set("rotation", v)
+	ll.Set("rotation", v.Value)
 }
 func (ll *Light) Scale() *Vector3 {
 	return &Vector3{Value: ll.Get("scale")}
 }
 func (ll *Light) SetScale(v *Vector3) {
-	ll.Set("scale", v)
+	ll.Set("scale", v.Value)
 }
 func (ll *Light) Shadow() *LightShadow {
 	return &LightShadow{Value: ll.Get("shadow")}
 }
 func (ll *Light) SetShadow(v *LightShadow) {
-	ll.Set("shadow", v)
+	ll.Set("shadow", v.Value)
 }
 func (ll *Light) ShadowBias() js.Value {
 	return ll.Get("shadowBias")
@@ -241,7 +245,7 @@ func (ll *Light) Up() *Vector3 {
 	return &Vector3{Value: ll.Get("up")}
 }
 func (ll *Light) SetUp(v *Vector3) {
-	ll.Set("up", v)
+	ll.Set("up", v.Value)
 }
 func (ll *Light) UserData() js.Value {
 	return ll.Get("userData")
@@ -271,7 +275,7 @@ func (ll *Light) DefaultUp() *Vector3 {
 	return &Vector3{Value: ll.Get("DefaultUp")}
 }
 func (ll *Light) SetDefaultUp(v *Vector3) {
-	ll.Set("DefaultUp", v)
+	ll.Set("DefaultUp", v.Value)
 }
 func (ll *Light) Add(object js.Value) *Light {
 	return &Light{Value: ll.Call("add", object)}

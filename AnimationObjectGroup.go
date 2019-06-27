@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// AnimationObjectGroup extend: []
 type AnimationObjectGroup struct {
 	js.Value
 }
 
 func NewAnimationObjectGroup(args js.Value) *AnimationObjectGroup {
 	return &AnimationObjectGroup{Value: get("AnimationObjectGroup").New(args)}
+}
+func (aog *AnimationObjectGroup) JSValue() js.Value {
+	return aog.Value
 }
 func (aog *AnimationObjectGroup) Stats() js.Value {
 	return aog.Get("stats")

@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Line extend: [Object3D]
 type Line struct {
 	js.Value
 }
 
-func NewLine(geometry *Geometry, material *Material, mode float64) *Line {
-	return &Line{Value: get("Line").New(geometry, material, mode)}
+func NewLine(geometry Geometry, material Material, mode float64) *Line {
+	return &Line{Value: get("Line").New(geometry.JSValue(), material.JSValue(), mode)}
+}
+func (ll *Line) JSValue() js.Value {
+	return ll.Value
 }
 func (ll *Line) CastShadow() bool {
 	return ll.Get("castShadow").Bool()
@@ -33,11 +37,11 @@ func (ll *Line) FrustumCulled() bool {
 func (ll *Line) SetFrustumCulled(v bool) {
 	ll.Set("frustumCulled", v)
 }
-func (ll *Line) Geometry() *Geometry {
-	return &Geometry{Value: ll.Get("geometry")}
+func (ll *Line) Geometry() Geometry {
+	return &GeometryImpl{Value: ll.Get("geometry")}
 }
-func (ll *Line) SetGeometry(v *Geometry) {
-	ll.Set("geometry", v)
+func (ll *Line) SetGeometry(v Geometry) {
+	ll.Set("geometry", v.JSValue())
 }
 func (ll *Line) Id() int {
 	return ll.Get("id").Int()
@@ -61,19 +65,19 @@ func (ll *Line) Layers() *Layers {
 	return &Layers{Value: ll.Get("layers")}
 }
 func (ll *Line) SetLayers(v *Layers) {
-	ll.Set("layers", v)
+	ll.Set("layers", v.Value)
 }
-func (ll *Line) Material() *Material {
-	return &Material{Value: ll.Get("material")}
+func (ll *Line) Material() Material {
+	return &MaterialImpl{Value: ll.Get("material")}
 }
-func (ll *Line) SetMaterial(v *Material) {
-	ll.Set("material", v)
+func (ll *Line) SetMaterial(v Material) {
+	ll.Set("material", v.JSValue())
 }
 func (ll *Line) Matrix() *Matrix4 {
 	return &Matrix4{Value: ll.Get("matrix")}
 }
 func (ll *Line) SetMatrix(v *Matrix4) {
-	ll.Set("matrix", v)
+	ll.Set("matrix", v.Value)
 }
 func (ll *Line) MatrixAutoUpdate() bool {
 	return ll.Get("matrixAutoUpdate").Bool()
@@ -85,7 +89,7 @@ func (ll *Line) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: ll.Get("matrixWorld")}
 }
 func (ll *Line) SetMatrixWorld(v *Matrix4) {
-	ll.Set("matrixWorld", v)
+	ll.Set("matrixWorld", v.Value)
 }
 func (ll *Line) MatrixWorldNeedsUpdate() bool {
 	return ll.Get("matrixWorldNeedsUpdate").Bool()
@@ -97,7 +101,7 @@ func (ll *Line) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: ll.Get("modelViewMatrix")}
 }
 func (ll *Line) SetModelViewMatrix(v *Matrix4) {
-	ll.Set("modelViewMatrix", v)
+	ll.Set("modelViewMatrix", v.Value)
 }
 func (ll *Line) Name() string {
 	return ll.Get("name").String()
@@ -109,7 +113,7 @@ func (ll *Line) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: ll.Get("normalMatrix")}
 }
 func (ll *Line) SetNormalMatrix(v *Matrix3) {
-	ll.Set("normalMatrix", v)
+	ll.Set("normalMatrix", v.Value)
 }
 func (ll *Line) OnAfterRender() js.Value {
 	return ll.Get("onAfterRender")
@@ -127,19 +131,19 @@ func (ll *Line) Parent() *Object3D {
 	return &Object3D{Value: ll.Get("parent")}
 }
 func (ll *Line) SetParent(v *Object3D) {
-	ll.Set("parent", v)
+	ll.Set("parent", v.Value)
 }
 func (ll *Line) Position() *Vector3 {
 	return &Vector3{Value: ll.Get("position")}
 }
 func (ll *Line) SetPosition(v *Vector3) {
-	ll.Set("position", v)
+	ll.Set("position", v.Value)
 }
 func (ll *Line) Quaternion() *Quaternion {
 	return &Quaternion{Value: ll.Get("quaternion")}
 }
 func (ll *Line) SetQuaternion(v *Quaternion) {
-	ll.Set("quaternion", v)
+	ll.Set("quaternion", v.Value)
 }
 func (ll *Line) ReceiveShadow() bool {
 	return ll.Get("receiveShadow").Bool()
@@ -157,13 +161,13 @@ func (ll *Line) Rotation() *Euler {
 	return &Euler{Value: ll.Get("rotation")}
 }
 func (ll *Line) SetRotation(v *Euler) {
-	ll.Set("rotation", v)
+	ll.Set("rotation", v.Value)
 }
 func (ll *Line) Scale() *Vector3 {
 	return &Vector3{Value: ll.Get("scale")}
 }
 func (ll *Line) SetScale(v *Vector3) {
-	ll.Set("scale", v)
+	ll.Set("scale", v.Value)
 }
 func (ll *Line) Type() string {
 	return ll.Get("type").String()
@@ -175,7 +179,7 @@ func (ll *Line) Up() *Vector3 {
 	return &Vector3{Value: ll.Get("up")}
 }
 func (ll *Line) SetUp(v *Vector3) {
-	ll.Set("up", v)
+	ll.Set("up", v.Value)
 }
 func (ll *Line) UserData() js.Value {
 	return ll.Get("userData")
@@ -205,7 +209,7 @@ func (ll *Line) DefaultUp() *Vector3 {
 	return &Vector3{Value: ll.Get("DefaultUp")}
 }
 func (ll *Line) SetDefaultUp(v *Vector3) {
-	ll.Set("DefaultUp", v)
+	ll.Set("DefaultUp", v.Value)
 }
 func (ll *Line) Add(object js.Value) *Line {
 	return &Line{Value: ll.Call("add", object)}

@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// LightShadow extend: []
 type LightShadow struct {
 	js.Value
 }
 
-func NewLightShadow(camera *Camera) *LightShadow {
-	return &LightShadow{Value: get("LightShadow").New(camera)}
+func NewLightShadow(camera Camera) *LightShadow {
+	return &LightShadow{Value: get("LightShadow").New(camera.JSValue())}
+}
+func (ls *LightShadow) JSValue() js.Value {
+	return ls.Value
 }
 func (ls *LightShadow) Bias() float64 {
 	return ls.Get("bias").Float()
@@ -21,11 +25,11 @@ func (ls *LightShadow) Bias() float64 {
 func (ls *LightShadow) SetBias(v float64) {
 	ls.Set("bias", v)
 }
-func (ls *LightShadow) Camera() *Camera {
-	return &Camera{Value: ls.Get("camera")}
+func (ls *LightShadow) Camera() Camera {
+	return &CameraImpl{Value: ls.Get("camera")}
 }
-func (ls *LightShadow) SetCamera(v *Camera) {
-	ls.Set("camera", v)
+func (ls *LightShadow) SetCamera(v Camera) {
+	ls.Set("camera", v.JSValue())
 }
 func (ls *LightShadow) Map() js.Value {
 	return ls.Get("map")
@@ -37,13 +41,13 @@ func (ls *LightShadow) MapSize() *Vector2 {
 	return &Vector2{Value: ls.Get("mapSize")}
 }
 func (ls *LightShadow) SetMapSize(v *Vector2) {
-	ls.Set("mapSize", v)
+	ls.Set("mapSize", v.Value)
 }
 func (ls *LightShadow) Matrix() *Matrix4 {
 	return &Matrix4{Value: ls.Get("matrix")}
 }
 func (ls *LightShadow) SetMatrix(v *Matrix4) {
-	ls.Set("matrix", v)
+	ls.Set("matrix", v.Value)
 }
 func (ls *LightShadow) Radius() float64 {
 	return ls.Get("radius").Float()

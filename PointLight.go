@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// PointLight extend: [Light]
 type PointLight struct {
 	js.Value
 }
 
 func NewPointLight(color *Color, intensity float64, distance float64, decay float64) *PointLight {
 	return &PointLight{Value: get("PointLight").New(color, intensity, distance, decay)}
+}
+func (pl *PointLight) JSValue() js.Value {
+	return pl.Value
 }
 func (pl *PointLight) CastShadow() bool {
 	return pl.Get("castShadow").Bool()
@@ -31,7 +35,7 @@ func (pl *PointLight) Color() *Color {
 	return &Color{Value: pl.Get("color")}
 }
 func (pl *PointLight) SetColor(v *Color) {
-	pl.Set("color", v)
+	pl.Set("color", v.Value)
 }
 func (pl *PointLight) Decay() float64 {
 	return pl.Get("decay").Float()
@@ -79,13 +83,13 @@ func (pl *PointLight) Layers() *Layers {
 	return &Layers{Value: pl.Get("layers")}
 }
 func (pl *PointLight) SetLayers(v *Layers) {
-	pl.Set("layers", v)
+	pl.Set("layers", v.Value)
 }
 func (pl *PointLight) Matrix() *Matrix4 {
 	return &Matrix4{Value: pl.Get("matrix")}
 }
 func (pl *PointLight) SetMatrix(v *Matrix4) {
-	pl.Set("matrix", v)
+	pl.Set("matrix", v.Value)
 }
 func (pl *PointLight) MatrixAutoUpdate() bool {
 	return pl.Get("matrixAutoUpdate").Bool()
@@ -97,7 +101,7 @@ func (pl *PointLight) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: pl.Get("matrixWorld")}
 }
 func (pl *PointLight) SetMatrixWorld(v *Matrix4) {
-	pl.Set("matrixWorld", v)
+	pl.Set("matrixWorld", v.Value)
 }
 func (pl *PointLight) MatrixWorldNeedsUpdate() bool {
 	return pl.Get("matrixWorldNeedsUpdate").Bool()
@@ -109,7 +113,7 @@ func (pl *PointLight) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: pl.Get("modelViewMatrix")}
 }
 func (pl *PointLight) SetModelViewMatrix(v *Matrix4) {
-	pl.Set("modelViewMatrix", v)
+	pl.Set("modelViewMatrix", v.Value)
 }
 func (pl *PointLight) Name() string {
 	return pl.Get("name").String()
@@ -121,7 +125,7 @@ func (pl *PointLight) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: pl.Get("normalMatrix")}
 }
 func (pl *PointLight) SetNormalMatrix(v *Matrix3) {
-	pl.Set("normalMatrix", v)
+	pl.Set("normalMatrix", v.Value)
 }
 func (pl *PointLight) OnAfterRender() js.Value {
 	return pl.Get("onAfterRender")
@@ -139,13 +143,13 @@ func (pl *PointLight) Parent() *Object3D {
 	return &Object3D{Value: pl.Get("parent")}
 }
 func (pl *PointLight) SetParent(v *Object3D) {
-	pl.Set("parent", v)
+	pl.Set("parent", v.Value)
 }
 func (pl *PointLight) Position() *Vector3 {
 	return &Vector3{Value: pl.Get("position")}
 }
 func (pl *PointLight) SetPosition(v *Vector3) {
-	pl.Set("position", v)
+	pl.Set("position", v.Value)
 }
 func (pl *PointLight) Power() float64 {
 	return pl.Get("power").Float()
@@ -157,7 +161,7 @@ func (pl *PointLight) Quaternion() *Quaternion {
 	return &Quaternion{Value: pl.Get("quaternion")}
 }
 func (pl *PointLight) SetQuaternion(v *Quaternion) {
-	pl.Set("quaternion", v)
+	pl.Set("quaternion", v.Value)
 }
 func (pl *PointLight) ReceiveShadow() bool {
 	return pl.Get("receiveShadow").Bool()
@@ -175,19 +179,19 @@ func (pl *PointLight) Rotation() *Euler {
 	return &Euler{Value: pl.Get("rotation")}
 }
 func (pl *PointLight) SetRotation(v *Euler) {
-	pl.Set("rotation", v)
+	pl.Set("rotation", v.Value)
 }
 func (pl *PointLight) Scale() *Vector3 {
 	return &Vector3{Value: pl.Get("scale")}
 }
 func (pl *PointLight) SetScale(v *Vector3) {
-	pl.Set("scale", v)
+	pl.Set("scale", v.Value)
 }
 func (pl *PointLight) Shadow() *PointLightShadow {
 	return &PointLightShadow{Value: pl.Get("shadow")}
 }
 func (pl *PointLight) SetShadow(v *PointLightShadow) {
-	pl.Set("shadow", v)
+	pl.Set("shadow", v.Value)
 }
 func (pl *PointLight) ShadowBias() js.Value {
 	return pl.Get("shadowBias")
@@ -259,7 +263,7 @@ func (pl *PointLight) Up() *Vector3 {
 	return &Vector3{Value: pl.Get("up")}
 }
 func (pl *PointLight) SetUp(v *Vector3) {
-	pl.Set("up", v)
+	pl.Set("up", v.Value)
 }
 func (pl *PointLight) UserData() js.Value {
 	return pl.Get("userData")
@@ -289,7 +293,7 @@ func (pl *PointLight) DefaultUp() *Vector3 {
 	return &Vector3{Value: pl.Get("DefaultUp")}
 }
 func (pl *PointLight) SetDefaultUp(v *Vector3) {
-	pl.Set("DefaultUp", v)
+	pl.Set("DefaultUp", v.Value)
 }
 func (pl *PointLight) Add(object js.Value) *PointLight {
 	return &PointLight{Value: pl.Call("add", object)}
@@ -415,12 +419,16 @@ func (pl *PointLight) WorldToLocal(vector *Vector3) *Vector3 {
 	return &Vector3{Value: pl.Call("worldToLocal", vector)}
 }
 
+// PointLightShadow extend: [LightShadow]
 type PointLightShadow struct {
 	js.Value
 }
 
-func NewPointLightShadow(camera *Camera) *PointLightShadow {
-	return &PointLightShadow{Value: get("PointLightShadow").New(camera)}
+func NewPointLightShadow(camera Camera) *PointLightShadow {
+	return &PointLightShadow{Value: get("PointLightShadow").New(camera.JSValue())}
+}
+func (pls *PointLightShadow) JSValue() js.Value {
+	return pls.Value
 }
 func (pls *PointLightShadow) Bias() float64 {
 	return pls.Get("bias").Float()
@@ -432,7 +440,7 @@ func (pls *PointLightShadow) Camera() *PerspectiveCamera {
 	return &PerspectiveCamera{Value: pls.Get("camera")}
 }
 func (pls *PointLightShadow) SetCamera(v *PerspectiveCamera) {
-	pls.Set("camera", v)
+	pls.Set("camera", v.Value)
 }
 func (pls *PointLightShadow) Map() js.Value {
 	return pls.Get("map")
@@ -444,13 +452,13 @@ func (pls *PointLightShadow) MapSize() *Vector2 {
 	return &Vector2{Value: pls.Get("mapSize")}
 }
 func (pls *PointLightShadow) SetMapSize(v *Vector2) {
-	pls.Set("mapSize", v)
+	pls.Set("mapSize", v.Value)
 }
 func (pls *PointLightShadow) Matrix() *Matrix4 {
 	return &Matrix4{Value: pls.Get("matrix")}
 }
 func (pls *PointLightShadow) SetMatrix(v *Matrix4) {
-	pls.Set("matrix", v)
+	pls.Set("matrix", v.Value)
 }
 func (pls *PointLightShadow) Radius() float64 {
 	return pls.Get("radius").Float()

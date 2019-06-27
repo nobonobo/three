@@ -8,6 +8,7 @@ import (
 	"syscall/js"
 )
 
+// CompressedTextureLoader extend: []
 type CompressedTextureLoader struct {
 	js.Value
 }
@@ -15,11 +16,14 @@ type CompressedTextureLoader struct {
 func NewCompressedTextureLoader(manager *LoadingManager) *CompressedTextureLoader {
 	return &CompressedTextureLoader{Value: get("CompressedTextureLoader").New(manager)}
 }
+func (ctl *CompressedTextureLoader) JSValue() js.Value {
+	return ctl.Value
+}
 func (ctl *CompressedTextureLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: ctl.Get("manager")}
 }
 func (ctl *CompressedTextureLoader) SetManager(v *LoadingManager) {
-	ctl.Set("manager", v)
+	ctl.Set("manager", v.Value)
 }
 func (ctl *CompressedTextureLoader) Path() string {
 	return ctl.Get("path").String()

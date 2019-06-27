@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// AudioListener extend: [Object3D]
 type AudioListener struct {
 	js.Value
 }
 
 func NewAudioListener() *AudioListener {
 	return &AudioListener{Value: get("AudioListener").New()}
+}
+func (al *AudioListener) JSValue() js.Value {
+	return al.Value
 }
 func (al *AudioListener) CastShadow() bool {
 	return al.Get("castShadow").Bool()
@@ -67,13 +71,13 @@ func (al *AudioListener) Layers() *Layers {
 	return &Layers{Value: al.Get("layers")}
 }
 func (al *AudioListener) SetLayers(v *Layers) {
-	al.Set("layers", v)
+	al.Set("layers", v.Value)
 }
 func (al *AudioListener) Matrix() *Matrix4 {
 	return &Matrix4{Value: al.Get("matrix")}
 }
 func (al *AudioListener) SetMatrix(v *Matrix4) {
-	al.Set("matrix", v)
+	al.Set("matrix", v.Value)
 }
 func (al *AudioListener) MatrixAutoUpdate() bool {
 	return al.Get("matrixAutoUpdate").Bool()
@@ -85,7 +89,7 @@ func (al *AudioListener) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: al.Get("matrixWorld")}
 }
 func (al *AudioListener) SetMatrixWorld(v *Matrix4) {
-	al.Set("matrixWorld", v)
+	al.Set("matrixWorld", v.Value)
 }
 func (al *AudioListener) MatrixWorldNeedsUpdate() bool {
 	return al.Get("matrixWorldNeedsUpdate").Bool()
@@ -97,7 +101,7 @@ func (al *AudioListener) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: al.Get("modelViewMatrix")}
 }
 func (al *AudioListener) SetModelViewMatrix(v *Matrix4) {
-	al.Set("modelViewMatrix", v)
+	al.Set("modelViewMatrix", v.Value)
 }
 func (al *AudioListener) Name() string {
 	return al.Get("name").String()
@@ -109,7 +113,7 @@ func (al *AudioListener) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: al.Get("normalMatrix")}
 }
 func (al *AudioListener) SetNormalMatrix(v *Matrix3) {
-	al.Set("normalMatrix", v)
+	al.Set("normalMatrix", v.Value)
 }
 func (al *AudioListener) OnAfterRender() js.Value {
 	return al.Get("onAfterRender")
@@ -127,19 +131,19 @@ func (al *AudioListener) Parent() *Object3D {
 	return &Object3D{Value: al.Get("parent")}
 }
 func (al *AudioListener) SetParent(v *Object3D) {
-	al.Set("parent", v)
+	al.Set("parent", v.Value)
 }
 func (al *AudioListener) Position() *Vector3 {
 	return &Vector3{Value: al.Get("position")}
 }
 func (al *AudioListener) SetPosition(v *Vector3) {
-	al.Set("position", v)
+	al.Set("position", v.Value)
 }
 func (al *AudioListener) Quaternion() *Quaternion {
 	return &Quaternion{Value: al.Get("quaternion")}
 }
 func (al *AudioListener) SetQuaternion(v *Quaternion) {
-	al.Set("quaternion", v)
+	al.Set("quaternion", v.Value)
 }
 func (al *AudioListener) ReceiveShadow() bool {
 	return al.Get("receiveShadow").Bool()
@@ -157,13 +161,13 @@ func (al *AudioListener) Rotation() *Euler {
 	return &Euler{Value: al.Get("rotation")}
 }
 func (al *AudioListener) SetRotation(v *Euler) {
-	al.Set("rotation", v)
+	al.Set("rotation", v.Value)
 }
 func (al *AudioListener) Scale() *Vector3 {
 	return &Vector3{Value: al.Get("scale")}
 }
 func (al *AudioListener) SetScale(v *Vector3) {
-	al.Set("scale", v)
+	al.Set("scale", v.Value)
 }
 func (al *AudioListener) Type() string {
 	return al.Get("type").String()
@@ -175,7 +179,7 @@ func (al *AudioListener) Up() *Vector3 {
 	return &Vector3{Value: al.Get("up")}
 }
 func (al *AudioListener) SetUp(v *Vector3) {
-	al.Set("up", v)
+	al.Set("up", v.Value)
 }
 func (al *AudioListener) UserData() js.Value {
 	return al.Get("userData")
@@ -205,7 +209,7 @@ func (al *AudioListener) DefaultUp() *Vector3 {
 	return &Vector3{Value: al.Get("DefaultUp")}
 }
 func (al *AudioListener) SetDefaultUp(v *Vector3) {
-	al.Set("DefaultUp", v)
+	al.Set("DefaultUp", v.Value)
 }
 func (al *AudioListener) Add(object js.Value) *AudioListener {
 	return &AudioListener{Value: al.Call("add", object)}

@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// PerspectiveCamera extend: [Camera]
 type PerspectiveCamera struct {
 	js.Value
 }
 
 func NewPerspectiveCamera(fov float64, aspect float64, near float64, far float64) *PerspectiveCamera {
 	return &PerspectiveCamera{Value: get("PerspectiveCamera").New(fov, aspect, near, far)}
+}
+func (pc *PerspectiveCamera) JSValue() js.Value {
+	return pc.Value
 }
 func (pc *PerspectiveCamera) Aspect() float64 {
 	return pc.Get("aspect").Float()
@@ -97,13 +101,13 @@ func (pc *PerspectiveCamera) Layers() *Layers {
 	return &Layers{Value: pc.Get("layers")}
 }
 func (pc *PerspectiveCamera) SetLayers(v *Layers) {
-	pc.Set("layers", v)
+	pc.Set("layers", v.Value)
 }
 func (pc *PerspectiveCamera) Matrix() *Matrix4 {
 	return &Matrix4{Value: pc.Get("matrix")}
 }
 func (pc *PerspectiveCamera) SetMatrix(v *Matrix4) {
-	pc.Set("matrix", v)
+	pc.Set("matrix", v.Value)
 }
 func (pc *PerspectiveCamera) MatrixAutoUpdate() bool {
 	return pc.Get("matrixAutoUpdate").Bool()
@@ -115,13 +119,13 @@ func (pc *PerspectiveCamera) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: pc.Get("matrixWorld")}
 }
 func (pc *PerspectiveCamera) SetMatrixWorld(v *Matrix4) {
-	pc.Set("matrixWorld", v)
+	pc.Set("matrixWorld", v.Value)
 }
 func (pc *PerspectiveCamera) MatrixWorldInverse() *Matrix4 {
 	return &Matrix4{Value: pc.Get("matrixWorldInverse")}
 }
 func (pc *PerspectiveCamera) SetMatrixWorldInverse(v *Matrix4) {
-	pc.Set("matrixWorldInverse", v)
+	pc.Set("matrixWorldInverse", v.Value)
 }
 func (pc *PerspectiveCamera) MatrixWorldNeedsUpdate() bool {
 	return pc.Get("matrixWorldNeedsUpdate").Bool()
@@ -133,7 +137,7 @@ func (pc *PerspectiveCamera) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: pc.Get("modelViewMatrix")}
 }
 func (pc *PerspectiveCamera) SetModelViewMatrix(v *Matrix4) {
-	pc.Set("modelViewMatrix", v)
+	pc.Set("modelViewMatrix", v.Value)
 }
 func (pc *PerspectiveCamera) Name() string {
 	return pc.Get("name").String()
@@ -151,7 +155,7 @@ func (pc *PerspectiveCamera) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: pc.Get("normalMatrix")}
 }
 func (pc *PerspectiveCamera) SetNormalMatrix(v *Matrix3) {
-	pc.Set("normalMatrix", v)
+	pc.Set("normalMatrix", v.Value)
 }
 func (pc *PerspectiveCamera) OnAfterRender() js.Value {
 	return pc.Get("onAfterRender")
@@ -169,25 +173,25 @@ func (pc *PerspectiveCamera) Parent() *Object3D {
 	return &Object3D{Value: pc.Get("parent")}
 }
 func (pc *PerspectiveCamera) SetParent(v *Object3D) {
-	pc.Set("parent", v)
+	pc.Set("parent", v.Value)
 }
 func (pc *PerspectiveCamera) Position() *Vector3 {
 	return &Vector3{Value: pc.Get("position")}
 }
 func (pc *PerspectiveCamera) SetPosition(v *Vector3) {
-	pc.Set("position", v)
+	pc.Set("position", v.Value)
 }
 func (pc *PerspectiveCamera) ProjectionMatrix() *Matrix4 {
 	return &Matrix4{Value: pc.Get("projectionMatrix")}
 }
 func (pc *PerspectiveCamera) SetProjectionMatrix(v *Matrix4) {
-	pc.Set("projectionMatrix", v)
+	pc.Set("projectionMatrix", v.Value)
 }
 func (pc *PerspectiveCamera) Quaternion() *Quaternion {
 	return &Quaternion{Value: pc.Get("quaternion")}
 }
 func (pc *PerspectiveCamera) SetQuaternion(v *Quaternion) {
-	pc.Set("quaternion", v)
+	pc.Set("quaternion", v.Value)
 }
 func (pc *PerspectiveCamera) ReceiveShadow() bool {
 	return pc.Get("receiveShadow").Bool()
@@ -205,13 +209,13 @@ func (pc *PerspectiveCamera) Rotation() *Euler {
 	return &Euler{Value: pc.Get("rotation")}
 }
 func (pc *PerspectiveCamera) SetRotation(v *Euler) {
-	pc.Set("rotation", v)
+	pc.Set("rotation", v.Value)
 }
 func (pc *PerspectiveCamera) Scale() *Vector3 {
 	return &Vector3{Value: pc.Get("scale")}
 }
 func (pc *PerspectiveCamera) SetScale(v *Vector3) {
-	pc.Set("scale", v)
+	pc.Set("scale", v.Value)
 }
 func (pc *PerspectiveCamera) Type() string {
 	return pc.Get("type").String()
@@ -223,7 +227,7 @@ func (pc *PerspectiveCamera) Up() *Vector3 {
 	return &Vector3{Value: pc.Get("up")}
 }
 func (pc *PerspectiveCamera) SetUp(v *Vector3) {
-	pc.Set("up", v)
+	pc.Set("up", v.Value)
 }
 func (pc *PerspectiveCamera) UserData() js.Value {
 	return pc.Get("userData")
@@ -265,9 +269,9 @@ func (pc *PerspectiveCamera) DefaultUp() *Vector3 {
 	return &Vector3{Value: pc.Get("DefaultUp")}
 }
 func (pc *PerspectiveCamera) SetDefaultUp(v *Vector3) {
-	pc.Set("DefaultUp", v)
+	pc.Set("DefaultUp", v.Value)
 }
-func (pc *PerspectiveCamera) Add(object js.Value) *PerspectiveCamera {
+func (pc *PerspectiveCamera) Add(object js.Value) Camera {
 	return &PerspectiveCamera{Value: pc.Call("add", object)}
 }
 func (pc *PerspectiveCamera) AddEventListener(typ string, listener js.Value) {
@@ -276,17 +280,17 @@ func (pc *PerspectiveCamera) AddEventListener(typ string, listener js.Value) {
 func (pc *PerspectiveCamera) ApplyMatrix(matrix *Matrix4) {
 	pc.Call("applyMatrix", matrix)
 }
-func (pc *PerspectiveCamera) ApplyQuaternion(quaternion *Quaternion) *PerspectiveCamera {
+func (pc *PerspectiveCamera) ApplyQuaternion(quaternion *Quaternion) Camera {
 	return &PerspectiveCamera{Value: pc.Call("applyQuaternion", quaternion)}
 }
 func (pc *PerspectiveCamera) ClearViewOffset() {
 	pc.Call("clearViewOffset")
 }
-func (pc *PerspectiveCamera) Clone(recursive bool) *PerspectiveCamera {
+func (pc *PerspectiveCamera) Clone(recursive bool) Camera {
 	return &PerspectiveCamera{Value: pc.Call("clone", recursive)}
 }
-func (pc *PerspectiveCamera) Copy(source *Camera, recursive bool) *PerspectiveCamera {
-	return &PerspectiveCamera{Value: pc.Call("copy", source, recursive)}
+func (pc *PerspectiveCamera) Copy(source Camera, recursive bool) Camera {
+	return &PerspectiveCamera{Value: pc.Call("copy", source.JSValue(), recursive)}
 }
 func (pc *PerspectiveCamera) DispatchEvent(event js.Value) {
 	pc.Call("dispatchEvent", event)
@@ -336,25 +340,25 @@ func (pc *PerspectiveCamera) LookAt(vector *Vector3, y float64, z float64) {
 func (pc *PerspectiveCamera) Raycast(raycaster *Raycaster, intersects js.Value) {
 	pc.Call("raycast", raycaster, intersects)
 }
-func (pc *PerspectiveCamera) Remove(object js.Value) *PerspectiveCamera {
+func (pc *PerspectiveCamera) Remove(object js.Value) Camera {
 	return &PerspectiveCamera{Value: pc.Call("remove", object)}
 }
 func (pc *PerspectiveCamera) RemoveEventListener(typ string, listener js.Value) {
 	pc.Call("removeEventListener", typ, listener)
 }
-func (pc *PerspectiveCamera) RotateOnAxis(axis *Vector3, angle float64) *PerspectiveCamera {
+func (pc *PerspectiveCamera) RotateOnAxis(axis *Vector3, angle float64) Camera {
 	return &PerspectiveCamera{Value: pc.Call("rotateOnAxis", axis, angle)}
 }
-func (pc *PerspectiveCamera) RotateOnWorldAxis(axis *Vector3, angle float64) *PerspectiveCamera {
+func (pc *PerspectiveCamera) RotateOnWorldAxis(axis *Vector3, angle float64) Camera {
 	return &PerspectiveCamera{Value: pc.Call("rotateOnWorldAxis", axis, angle)}
 }
-func (pc *PerspectiveCamera) RotateX(angle float64) *PerspectiveCamera {
+func (pc *PerspectiveCamera) RotateX(angle float64) Camera {
 	return &PerspectiveCamera{Value: pc.Call("rotateX", angle)}
 }
-func (pc *PerspectiveCamera) RotateY(angle float64) *PerspectiveCamera {
+func (pc *PerspectiveCamera) RotateY(angle float64) Camera {
 	return &PerspectiveCamera{Value: pc.Call("rotateY", angle)}
 }
-func (pc *PerspectiveCamera) RotateZ(angle float64) *PerspectiveCamera {
+func (pc *PerspectiveCamera) RotateZ(angle float64) Camera {
 	return &PerspectiveCamera{Value: pc.Call("rotateZ", angle)}
 }
 func (pc *PerspectiveCamera) SetFocalLength(focalLength float64) {
@@ -381,16 +385,16 @@ func (pc *PerspectiveCamera) SetViewOffset(fullWidth float64, fullHeight float64
 func (pc *PerspectiveCamera) ToJSON(meta js.Value) js.Value {
 	return pc.Call("toJSON", meta)
 }
-func (pc *PerspectiveCamera) TranslateOnAxis(axis *Vector3, distance float64) *PerspectiveCamera {
+func (pc *PerspectiveCamera) TranslateOnAxis(axis *Vector3, distance float64) Camera {
 	return &PerspectiveCamera{Value: pc.Call("translateOnAxis", axis, distance)}
 }
-func (pc *PerspectiveCamera) TranslateX(distance float64) *PerspectiveCamera {
+func (pc *PerspectiveCamera) TranslateX(distance float64) Camera {
 	return &PerspectiveCamera{Value: pc.Call("translateX", distance)}
 }
-func (pc *PerspectiveCamera) TranslateY(distance float64) *PerspectiveCamera {
+func (pc *PerspectiveCamera) TranslateY(distance float64) Camera {
 	return &PerspectiveCamera{Value: pc.Call("translateY", distance)}
 }
-func (pc *PerspectiveCamera) TranslateZ(distance float64) *PerspectiveCamera {
+func (pc *PerspectiveCamera) TranslateZ(distance float64) Camera {
 	return &PerspectiveCamera{Value: pc.Call("translateZ", distance)}
 }
 func (pc *PerspectiveCamera) Traverse(callback js.Value) {

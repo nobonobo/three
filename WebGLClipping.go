@@ -8,10 +8,14 @@ import (
 	"syscall/js"
 )
 
+// WebGLClipping extend: []
 type WebGLClipping struct {
 	js.Value
 }
 
+func (wglc *WebGLClipping) JSValue() js.Value {
+	return wglc.Value
+}
 func (wglc *WebGLClipping) NumPlanes() float64 {
 	return wglc.Get("numPlanes").Float()
 }
@@ -30,9 +34,9 @@ func (wglc *WebGLClipping) BeginShadows() {
 func (wglc *WebGLClipping) EndShadows() {
 	wglc.Call("endShadows")
 }
-func (wglc *WebGLClipping) Init(planes js.Value, enableLocalClipping bool, camera *Camera) bool {
-	return wglc.Call("init", planes, enableLocalClipping, camera).Bool()
+func (wglc *WebGLClipping) Init(planes js.Value, enableLocalClipping bool, camera Camera) bool {
+	return wglc.Call("init", planes, enableLocalClipping, camera.JSValue()).Bool()
 }
-func (wglc *WebGLClipping) SetState(planes js.Value, clipShadows bool, camera *Camera, cache bool, fromCache bool) {
-	wglc.Call("setState", planes, clipShadows, camera, cache, fromCache)
+func (wglc *WebGLClipping) SetState(planes js.Value, clipShadows bool, camera Camera, cache bool, fromCache bool) {
+	wglc.Call("setState", planes, clipShadows, camera.JSValue(), cache, fromCache)
 }

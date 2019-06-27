@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// PolyhedronBufferGeometry extend: [BufferGeometry]
 type PolyhedronBufferGeometry struct {
 	js.Value
 }
 
 func NewPolyhedronBufferGeometry(vertices js.Value, indices js.Value, radius float64, detail float64) *PolyhedronBufferGeometry {
 	return &PolyhedronBufferGeometry{Value: get("PolyhedronBufferGeometry").New(vertices, indices, radius, detail)}
+}
+func (pbg *PolyhedronBufferGeometry) JSValue() js.Value {
+	return pbg.Value
 }
 func (pbg *PolyhedronBufferGeometry) Attributes() js.Value {
 	return pbg.Get("attributes")
@@ -25,13 +29,13 @@ func (pbg *PolyhedronBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: pbg.Get("boundingBox")}
 }
 func (pbg *PolyhedronBufferGeometry) SetBoundingBox(v *Box3) {
-	pbg.Set("boundingBox", v)
+	pbg.Set("boundingBox", v.Value)
 }
 func (pbg *PolyhedronBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: pbg.Get("boundingSphere")}
 }
 func (pbg *PolyhedronBufferGeometry) SetBoundingSphere(v *Sphere) {
-	pbg.Set("boundingSphere", v)
+	pbg.Set("boundingSphere", v.Value)
 }
 func (pbg *PolyhedronBufferGeometry) DrawRange() js.Value {
 	return pbg.Get("drawRange")
@@ -61,7 +65,7 @@ func (pbg *PolyhedronBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: pbg.Get("index")}
 }
 func (pbg *PolyhedronBufferGeometry) SetIndex(v *BufferAttribute) {
-	pbg.Set("index", v)
+	pbg.Set("index", v.Value)
 }
 func (pbg *PolyhedronBufferGeometry) MorphAttributes() js.Value {
 	return pbg.Get("morphAttributes")
@@ -165,8 +169,8 @@ func (pbg *PolyhedronBufferGeometry) Dispose() {
 func (pbg *PolyhedronBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: pbg.Call("fromDirectGeometry", geometry)}
 }
-func (pbg *PolyhedronBufferGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("fromGeometry", geometry, settings)}
+func (pbg *PolyhedronBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: pbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (pbg *PolyhedronBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: pbg.Call("getAttribute", name)}
@@ -229,6 +233,7 @@ func (pbg *PolyhedronBufferGeometry) UpdateFromObject(object *Object3D) {
 	pbg.Call("updateFromObject", object)
 }
 
+// PolyhedronGeometry extend: [Geometry]
 type PolyhedronGeometry struct {
 	js.Value
 }
@@ -236,11 +241,14 @@ type PolyhedronGeometry struct {
 func NewPolyhedronGeometry(vertices js.Value, indices js.Value, radius float64, detail float64) *PolyhedronGeometry {
 	return &PolyhedronGeometry{Value: get("PolyhedronGeometry").New(vertices, indices, radius, detail)}
 }
+func (pg *PolyhedronGeometry) JSValue() js.Value {
+	return pg.Value
+}
 func (pg *PolyhedronGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: pg.Get("animation")}
 }
 func (pg *PolyhedronGeometry) SetAnimation(v *AnimationClip) {
-	pg.Set("animation", v)
+	pg.Set("animation", v.Value)
 }
 func (pg *PolyhedronGeometry) Animations() js.Value {
 	return pg.Get("animations")
@@ -258,13 +266,13 @@ func (pg *PolyhedronGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: pg.Get("boundingBox")}
 }
 func (pg *PolyhedronGeometry) SetBoundingBox(v *Box3) {
-	pg.Set("boundingBox", v)
+	pg.Set("boundingBox", v.Value)
 }
 func (pg *PolyhedronGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: pg.Get("boundingSphere")}
 }
 func (pg *PolyhedronGeometry) SetBoundingSphere(v *Sphere) {
-	pg.Set("boundingSphere", v)
+	pg.Set("boundingSphere", v.Value)
 }
 func (pg *PolyhedronGeometry) Colors() js.Value {
 	return pg.Get("colors")
@@ -395,13 +403,13 @@ func (pg *PolyhedronGeometry) SetVerticesNeedUpdate(v bool) {
 func (pg *PolyhedronGeometry) AddEventListener(typ string, listener js.Value) {
 	pg.Call("addEventListener", typ, listener)
 }
-func (pg *PolyhedronGeometry) ApplyMatrix(matrix *Matrix4) *Geometry {
-	return &Geometry{Value: pg.Call("applyMatrix", matrix)}
+func (pg *PolyhedronGeometry) ApplyMatrix(matrix *Matrix4) Geometry {
+	return &GeometryImpl{Value: pg.Call("applyMatrix", matrix)}
 }
-func (pg *PolyhedronGeometry) Center() *Geometry {
-	return &Geometry{Value: pg.Call("center")}
+func (pg *PolyhedronGeometry) Center() Geometry {
+	return &GeometryImpl{Value: pg.Call("center")}
 }
-func (pg *PolyhedronGeometry) Clone() *PolyhedronGeometry {
+func (pg *PolyhedronGeometry) Clone() Geometry {
 	return &PolyhedronGeometry{Value: pg.Call("clone")}
 }
 func (pg *PolyhedronGeometry) ComputeBoundingBox() {
@@ -422,8 +430,8 @@ func (pg *PolyhedronGeometry) ComputeMorphNormals() {
 func (pg *PolyhedronGeometry) ComputeVertexNormals(areaWeighted bool) {
 	pg.Call("computeVertexNormals", areaWeighted)
 }
-func (pg *PolyhedronGeometry) Copy(source *Geometry) *PolyhedronGeometry {
-	return &PolyhedronGeometry{Value: pg.Call("copy", source)}
+func (pg *PolyhedronGeometry) Copy(source Geometry) Geometry {
+	return &PolyhedronGeometry{Value: pg.Call("copy", source.JSValue())}
 }
 func (pg *PolyhedronGeometry) DispatchEvent(event js.Value) {
 	pg.Call("dispatchEvent", event)
@@ -431,8 +439,8 @@ func (pg *PolyhedronGeometry) DispatchEvent(event js.Value) {
 func (pg *PolyhedronGeometry) Dispose() {
 	pg.Call("dispose")
 }
-func (pg *PolyhedronGeometry) FromBufferGeometry(geometry *BufferGeometry) *Geometry {
-	return &Geometry{Value: pg.Call("fromBufferGeometry", geometry)}
+func (pg *PolyhedronGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
+	return &GeometryImpl{Value: pg.Call("fromBufferGeometry", geometry)}
 }
 func (pg *PolyhedronGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return pg.Call("hasEventListener", typ, listener).Bool()
@@ -440,8 +448,8 @@ func (pg *PolyhedronGeometry) HasEventListener(typ string, listener js.Value) bo
 func (pg *PolyhedronGeometry) LookAt(vector *Vector3) {
 	pg.Call("lookAt", vector)
 }
-func (pg *PolyhedronGeometry) Merge(geometry *Geometry, matrix Matrix, materialIndexOffset int) {
-	pg.Call("merge", geometry, matrix, materialIndexOffset)
+func (pg *PolyhedronGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
+	pg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
 func (pg *PolyhedronGeometry) MergeMesh(mesh *Mesh) {
 	pg.Call("mergeMesh", mesh)
@@ -449,25 +457,25 @@ func (pg *PolyhedronGeometry) MergeMesh(mesh *Mesh) {
 func (pg *PolyhedronGeometry) MergeVertices() float64 {
 	return pg.Call("mergeVertices").Float()
 }
-func (pg *PolyhedronGeometry) Normalize() *Geometry {
-	return &Geometry{Value: pg.Call("normalize")}
+func (pg *PolyhedronGeometry) Normalize() Geometry {
+	return &GeometryImpl{Value: pg.Call("normalize")}
 }
 func (pg *PolyhedronGeometry) RemoveEventListener(typ string, listener js.Value) {
 	pg.Call("removeEventListener", typ, listener)
 }
-func (pg *PolyhedronGeometry) RotateX(angle float64) *Geometry {
-	return &Geometry{Value: pg.Call("rotateX", angle)}
+func (pg *PolyhedronGeometry) RotateX(angle float64) Geometry {
+	return &GeometryImpl{Value: pg.Call("rotateX", angle)}
 }
-func (pg *PolyhedronGeometry) RotateY(angle float64) *Geometry {
-	return &Geometry{Value: pg.Call("rotateY", angle)}
+func (pg *PolyhedronGeometry) RotateY(angle float64) Geometry {
+	return &GeometryImpl{Value: pg.Call("rotateY", angle)}
 }
-func (pg *PolyhedronGeometry) RotateZ(angle float64) *Geometry {
-	return &Geometry{Value: pg.Call("rotateZ", angle)}
+func (pg *PolyhedronGeometry) RotateZ(angle float64) Geometry {
+	return &GeometryImpl{Value: pg.Call("rotateZ", angle)}
 }
-func (pg *PolyhedronGeometry) Scale(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: pg.Call("scale", x, y, z)}
+func (pg *PolyhedronGeometry) Scale(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: pg.Call("scale", x, y, z)}
 }
-func (pg *PolyhedronGeometry) SetFromPoints(points js.Value) *PolyhedronGeometry {
+func (pg *PolyhedronGeometry) SetFromPoints(points js.Value) Geometry {
 	return &PolyhedronGeometry{Value: pg.Call("setFromPoints", points)}
 }
 func (pg *PolyhedronGeometry) SortFacesByMaterialIndex() {
@@ -476,6 +484,6 @@ func (pg *PolyhedronGeometry) SortFacesByMaterialIndex() {
 func (pg *PolyhedronGeometry) ToJSON() js.Value {
 	return pg.Call("toJSON")
 }
-func (pg *PolyhedronGeometry) Translate(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: pg.Call("translate", x, y, z)}
+func (pg *PolyhedronGeometry) Translate(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: pg.Call("translate", x, y, z)}
 }

@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// PropertyMixer extend: []
 type PropertyMixer struct {
 	js.Value
 }
 
 func NewPropertyMixer(binding js.Value, typeName string, valueSize float64) *PropertyMixer {
 	return &PropertyMixer{Value: get("PropertyMixer").New(binding, typeName, valueSize)}
+}
+func (pm *PropertyMixer) JSValue() js.Value {
+	return pm.Value
 }
 func (pm *PropertyMixer) Binding() js.Value {
 	return pm.Get("binding")

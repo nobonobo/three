@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// TorusKnotBufferGeometry extend: [BufferGeometry]
 type TorusKnotBufferGeometry struct {
 	js.Value
 }
 
-func NewTorusKnotBufferGeometry(radius float64, tube float64, tubularSegments float64, radialSegments float64, p float64, q float64) *TorusKnotBufferGeometry {
+func NewTorusKnotBufferGeometry(radius float64, tube float64, tubularSegments int, radialSegments int, p float64, q float64) *TorusKnotBufferGeometry {
 	return &TorusKnotBufferGeometry{Value: get("TorusKnotBufferGeometry").New(radius, tube, tubularSegments, radialSegments, p, q)}
+}
+func (tkbg *TorusKnotBufferGeometry) JSValue() js.Value {
+	return tkbg.Value
 }
 func (tkbg *TorusKnotBufferGeometry) Attributes() js.Value {
 	return tkbg.Get("attributes")
@@ -25,13 +29,13 @@ func (tkbg *TorusKnotBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: tkbg.Get("boundingBox")}
 }
 func (tkbg *TorusKnotBufferGeometry) SetBoundingBox(v *Box3) {
-	tkbg.Set("boundingBox", v)
+	tkbg.Set("boundingBox", v.Value)
 }
 func (tkbg *TorusKnotBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: tkbg.Get("boundingSphere")}
 }
 func (tkbg *TorusKnotBufferGeometry) SetBoundingSphere(v *Sphere) {
-	tkbg.Set("boundingSphere", v)
+	tkbg.Set("boundingSphere", v.Value)
 }
 func (tkbg *TorusKnotBufferGeometry) DrawRange() js.Value {
 	return tkbg.Get("drawRange")
@@ -61,7 +65,7 @@ func (tkbg *TorusKnotBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: tkbg.Get("index")}
 }
 func (tkbg *TorusKnotBufferGeometry) SetIndex(v *BufferAttribute) {
-	tkbg.Set("index", v)
+	tkbg.Set("index", v.Value)
 }
 func (tkbg *TorusKnotBufferGeometry) MorphAttributes() js.Value {
 	return tkbg.Get("morphAttributes")
@@ -165,8 +169,8 @@ func (tkbg *TorusKnotBufferGeometry) Dispose() {
 func (tkbg *TorusKnotBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: tkbg.Call("fromDirectGeometry", geometry)}
 }
-func (tkbg *TorusKnotBufferGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: tkbg.Call("fromGeometry", geometry, settings)}
+func (tkbg *TorusKnotBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: tkbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (tkbg *TorusKnotBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: tkbg.Call("getAttribute", name)}
@@ -229,18 +233,22 @@ func (tkbg *TorusKnotBufferGeometry) UpdateFromObject(object *Object3D) {
 	tkbg.Call("updateFromObject", object)
 }
 
+// TorusKnotGeometry extend: [Geometry]
 type TorusKnotGeometry struct {
 	js.Value
 }
 
-func NewTorusKnotGeometry(radius float64, tube float64, tubularSegments float64, radialSegments float64, p float64, q float64) *TorusKnotGeometry {
+func NewTorusKnotGeometry(radius float64, tube float64, tubularSegments int, radialSegments int, p float64, q float64) *TorusKnotGeometry {
 	return &TorusKnotGeometry{Value: get("TorusKnotGeometry").New(radius, tube, tubularSegments, radialSegments, p, q)}
+}
+func (tkg *TorusKnotGeometry) JSValue() js.Value {
+	return tkg.Value
 }
 func (tkg *TorusKnotGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: tkg.Get("animation")}
 }
 func (tkg *TorusKnotGeometry) SetAnimation(v *AnimationClip) {
-	tkg.Set("animation", v)
+	tkg.Set("animation", v.Value)
 }
 func (tkg *TorusKnotGeometry) Animations() js.Value {
 	return tkg.Get("animations")
@@ -258,13 +266,13 @@ func (tkg *TorusKnotGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: tkg.Get("boundingBox")}
 }
 func (tkg *TorusKnotGeometry) SetBoundingBox(v *Box3) {
-	tkg.Set("boundingBox", v)
+	tkg.Set("boundingBox", v.Value)
 }
 func (tkg *TorusKnotGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: tkg.Get("boundingSphere")}
 }
 func (tkg *TorusKnotGeometry) SetBoundingSphere(v *Sphere) {
-	tkg.Set("boundingSphere", v)
+	tkg.Set("boundingSphere", v.Value)
 }
 func (tkg *TorusKnotGeometry) Colors() js.Value {
 	return tkg.Get("colors")
@@ -395,13 +403,13 @@ func (tkg *TorusKnotGeometry) SetVerticesNeedUpdate(v bool) {
 func (tkg *TorusKnotGeometry) AddEventListener(typ string, listener js.Value) {
 	tkg.Call("addEventListener", typ, listener)
 }
-func (tkg *TorusKnotGeometry) ApplyMatrix(matrix *Matrix4) *Geometry {
-	return &Geometry{Value: tkg.Call("applyMatrix", matrix)}
+func (tkg *TorusKnotGeometry) ApplyMatrix(matrix *Matrix4) Geometry {
+	return &GeometryImpl{Value: tkg.Call("applyMatrix", matrix)}
 }
-func (tkg *TorusKnotGeometry) Center() *Geometry {
-	return &Geometry{Value: tkg.Call("center")}
+func (tkg *TorusKnotGeometry) Center() Geometry {
+	return &GeometryImpl{Value: tkg.Call("center")}
 }
-func (tkg *TorusKnotGeometry) Clone() *TorusKnotGeometry {
+func (tkg *TorusKnotGeometry) Clone() Geometry {
 	return &TorusKnotGeometry{Value: tkg.Call("clone")}
 }
 func (tkg *TorusKnotGeometry) ComputeBoundingBox() {
@@ -422,8 +430,8 @@ func (tkg *TorusKnotGeometry) ComputeMorphNormals() {
 func (tkg *TorusKnotGeometry) ComputeVertexNormals(areaWeighted bool) {
 	tkg.Call("computeVertexNormals", areaWeighted)
 }
-func (tkg *TorusKnotGeometry) Copy(source *Geometry) *TorusKnotGeometry {
-	return &TorusKnotGeometry{Value: tkg.Call("copy", source)}
+func (tkg *TorusKnotGeometry) Copy(source Geometry) Geometry {
+	return &TorusKnotGeometry{Value: tkg.Call("copy", source.JSValue())}
 }
 func (tkg *TorusKnotGeometry) DispatchEvent(event js.Value) {
 	tkg.Call("dispatchEvent", event)
@@ -431,8 +439,8 @@ func (tkg *TorusKnotGeometry) DispatchEvent(event js.Value) {
 func (tkg *TorusKnotGeometry) Dispose() {
 	tkg.Call("dispose")
 }
-func (tkg *TorusKnotGeometry) FromBufferGeometry(geometry *BufferGeometry) *Geometry {
-	return &Geometry{Value: tkg.Call("fromBufferGeometry", geometry)}
+func (tkg *TorusKnotGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
+	return &GeometryImpl{Value: tkg.Call("fromBufferGeometry", geometry)}
 }
 func (tkg *TorusKnotGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return tkg.Call("hasEventListener", typ, listener).Bool()
@@ -440,8 +448,8 @@ func (tkg *TorusKnotGeometry) HasEventListener(typ string, listener js.Value) bo
 func (tkg *TorusKnotGeometry) LookAt(vector *Vector3) {
 	tkg.Call("lookAt", vector)
 }
-func (tkg *TorusKnotGeometry) Merge(geometry *Geometry, matrix Matrix, materialIndexOffset int) {
-	tkg.Call("merge", geometry, matrix, materialIndexOffset)
+func (tkg *TorusKnotGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
+	tkg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
 func (tkg *TorusKnotGeometry) MergeMesh(mesh *Mesh) {
 	tkg.Call("mergeMesh", mesh)
@@ -449,25 +457,25 @@ func (tkg *TorusKnotGeometry) MergeMesh(mesh *Mesh) {
 func (tkg *TorusKnotGeometry) MergeVertices() float64 {
 	return tkg.Call("mergeVertices").Float()
 }
-func (tkg *TorusKnotGeometry) Normalize() *Geometry {
-	return &Geometry{Value: tkg.Call("normalize")}
+func (tkg *TorusKnotGeometry) Normalize() Geometry {
+	return &GeometryImpl{Value: tkg.Call("normalize")}
 }
 func (tkg *TorusKnotGeometry) RemoveEventListener(typ string, listener js.Value) {
 	tkg.Call("removeEventListener", typ, listener)
 }
-func (tkg *TorusKnotGeometry) RotateX(angle float64) *Geometry {
-	return &Geometry{Value: tkg.Call("rotateX", angle)}
+func (tkg *TorusKnotGeometry) RotateX(angle float64) Geometry {
+	return &GeometryImpl{Value: tkg.Call("rotateX", angle)}
 }
-func (tkg *TorusKnotGeometry) RotateY(angle float64) *Geometry {
-	return &Geometry{Value: tkg.Call("rotateY", angle)}
+func (tkg *TorusKnotGeometry) RotateY(angle float64) Geometry {
+	return &GeometryImpl{Value: tkg.Call("rotateY", angle)}
 }
-func (tkg *TorusKnotGeometry) RotateZ(angle float64) *Geometry {
-	return &Geometry{Value: tkg.Call("rotateZ", angle)}
+func (tkg *TorusKnotGeometry) RotateZ(angle float64) Geometry {
+	return &GeometryImpl{Value: tkg.Call("rotateZ", angle)}
 }
-func (tkg *TorusKnotGeometry) Scale(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: tkg.Call("scale", x, y, z)}
+func (tkg *TorusKnotGeometry) Scale(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: tkg.Call("scale", x, y, z)}
 }
-func (tkg *TorusKnotGeometry) SetFromPoints(points js.Value) *TorusKnotGeometry {
+func (tkg *TorusKnotGeometry) SetFromPoints(points js.Value) Geometry {
 	return &TorusKnotGeometry{Value: tkg.Call("setFromPoints", points)}
 }
 func (tkg *TorusKnotGeometry) SortFacesByMaterialIndex() {
@@ -476,6 +484,6 @@ func (tkg *TorusKnotGeometry) SortFacesByMaterialIndex() {
 func (tkg *TorusKnotGeometry) ToJSON() js.Value {
 	return tkg.Call("toJSON")
 }
-func (tkg *TorusKnotGeometry) Translate(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: tkg.Call("translate", x, y, z)}
+func (tkg *TorusKnotGeometry) Translate(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: tkg.Call("translate", x, y, z)}
 }

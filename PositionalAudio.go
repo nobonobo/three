@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// PositionalAudio extend: [Audio]
 type PositionalAudio struct {
 	js.Value
 }
 
 func NewPositionalAudio(listener *AudioListener) *PositionalAudio {
 	return &PositionalAudio{Value: get("PositionalAudio").New(listener)}
+}
+func (pa *PositionalAudio) JSValue() js.Value {
+	return pa.Value
 }
 func (pa *PositionalAudio) Autoplay() bool {
 	return pa.Get("autoplay").Bool()
@@ -97,7 +101,7 @@ func (pa *PositionalAudio) Layers() *Layers {
 	return &Layers{Value: pa.Get("layers")}
 }
 func (pa *PositionalAudio) SetLayers(v *Layers) {
-	pa.Set("layers", v)
+	pa.Set("layers", v.Value)
 }
 func (pa *PositionalAudio) Loop() bool {
 	return pa.Get("loop").Bool()
@@ -109,7 +113,7 @@ func (pa *PositionalAudio) Matrix() *Matrix4 {
 	return &Matrix4{Value: pa.Get("matrix")}
 }
 func (pa *PositionalAudio) SetMatrix(v *Matrix4) {
-	pa.Set("matrix", v)
+	pa.Set("matrix", v.Value)
 }
 func (pa *PositionalAudio) MatrixAutoUpdate() bool {
 	return pa.Get("matrixAutoUpdate").Bool()
@@ -121,7 +125,7 @@ func (pa *PositionalAudio) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: pa.Get("matrixWorld")}
 }
 func (pa *PositionalAudio) SetMatrixWorld(v *Matrix4) {
-	pa.Set("matrixWorld", v)
+	pa.Set("matrixWorld", v.Value)
 }
 func (pa *PositionalAudio) MatrixWorldNeedsUpdate() bool {
 	return pa.Get("matrixWorldNeedsUpdate").Bool()
@@ -133,7 +137,7 @@ func (pa *PositionalAudio) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: pa.Get("modelViewMatrix")}
 }
 func (pa *PositionalAudio) SetModelViewMatrix(v *Matrix4) {
-	pa.Set("modelViewMatrix", v)
+	pa.Set("modelViewMatrix", v.Value)
 }
 func (pa *PositionalAudio) Name() string {
 	return pa.Get("name").String()
@@ -145,7 +149,7 @@ func (pa *PositionalAudio) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: pa.Get("normalMatrix")}
 }
 func (pa *PositionalAudio) SetNormalMatrix(v *Matrix3) {
-	pa.Set("normalMatrix", v)
+	pa.Set("normalMatrix", v.Value)
 }
 func (pa *PositionalAudio) Offset() float64 {
 	return pa.Get("offset").Float()
@@ -175,7 +179,7 @@ func (pa *PositionalAudio) Parent() *Object3D {
 	return &Object3D{Value: pa.Get("parent")}
 }
 func (pa *PositionalAudio) SetParent(v *Object3D) {
-	pa.Set("parent", v)
+	pa.Set("parent", v.Value)
 }
 func (pa *PositionalAudio) PlaybackRate() float64 {
 	return pa.Get("playbackRate").Float()
@@ -187,13 +191,13 @@ func (pa *PositionalAudio) Position() *Vector3 {
 	return &Vector3{Value: pa.Get("position")}
 }
 func (pa *PositionalAudio) SetPosition(v *Vector3) {
-	pa.Set("position", v)
+	pa.Set("position", v.Value)
 }
 func (pa *PositionalAudio) Quaternion() *Quaternion {
 	return &Quaternion{Value: pa.Get("quaternion")}
 }
 func (pa *PositionalAudio) SetQuaternion(v *Quaternion) {
-	pa.Set("quaternion", v)
+	pa.Set("quaternion", v.Value)
 }
 func (pa *PositionalAudio) ReceiveShadow() bool {
 	return pa.Get("receiveShadow").Bool()
@@ -211,13 +215,13 @@ func (pa *PositionalAudio) Rotation() *Euler {
 	return &Euler{Value: pa.Get("rotation")}
 }
 func (pa *PositionalAudio) SetRotation(v *Euler) {
-	pa.Set("rotation", v)
+	pa.Set("rotation", v.Value)
 }
 func (pa *PositionalAudio) Scale() *Vector3 {
 	return &Vector3{Value: pa.Get("scale")}
 }
 func (pa *PositionalAudio) SetScale(v *Vector3) {
-	pa.Set("scale", v)
+	pa.Set("scale", v.Value)
 }
 func (pa *PositionalAudio) Source() js.Value {
 	return pa.Get("source")
@@ -247,7 +251,7 @@ func (pa *PositionalAudio) Up() *Vector3 {
 	return &Vector3{Value: pa.Get("up")}
 }
 func (pa *PositionalAudio) SetUp(v *Vector3) {
-	pa.Set("up", v)
+	pa.Set("up", v.Value)
 }
 func (pa *PositionalAudio) UserData() js.Value {
 	return pa.Get("userData")
@@ -277,7 +281,7 @@ func (pa *PositionalAudio) DefaultUp() *Vector3 {
 	return &Vector3{Value: pa.Get("DefaultUp")}
 }
 func (pa *PositionalAudio) SetDefaultUp(v *Vector3) {
-	pa.Set("DefaultUp", v)
+	pa.Set("DefaultUp", v.Value)
 }
 func (pa *PositionalAudio) Add(object js.Value) *PositionalAudio {
 	return &PositionalAudio{Value: pa.Call("add", object)}

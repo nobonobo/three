@@ -8,18 +8,22 @@ import (
 	"syscall/js"
 )
 
+// CameraHelper extend: [LineSegments]
 type CameraHelper struct {
 	js.Value
 }
 
-func NewCameraHelper(camera *Camera) *CameraHelper {
-	return &CameraHelper{Value: get("CameraHelper").New(camera)}
+func NewCameraHelper(camera Camera) *CameraHelper {
+	return &CameraHelper{Value: get("CameraHelper").New(camera.JSValue())}
 }
-func (ch *CameraHelper) Camera() *Camera {
-	return &Camera{Value: ch.Get("camera")}
+func (ch *CameraHelper) JSValue() js.Value {
+	return ch.Value
 }
-func (ch *CameraHelper) SetCamera(v *Camera) {
-	ch.Set("camera", v)
+func (ch *CameraHelper) Camera() Camera {
+	return &CameraImpl{Value: ch.Get("camera")}
+}
+func (ch *CameraHelper) SetCamera(v Camera) {
+	ch.Set("camera", v.JSValue())
 }
 func (ch *CameraHelper) CastShadow() bool {
 	return ch.Get("castShadow").Bool()
@@ -39,11 +43,11 @@ func (ch *CameraHelper) FrustumCulled() bool {
 func (ch *CameraHelper) SetFrustumCulled(v bool) {
 	ch.Set("frustumCulled", v)
 }
-func (ch *CameraHelper) Geometry() *Geometry {
-	return &Geometry{Value: ch.Get("geometry")}
+func (ch *CameraHelper) Geometry() Geometry {
+	return &GeometryImpl{Value: ch.Get("geometry")}
 }
-func (ch *CameraHelper) SetGeometry(v *Geometry) {
-	ch.Set("geometry", v)
+func (ch *CameraHelper) SetGeometry(v Geometry) {
+	ch.Set("geometry", v.JSValue())
 }
 func (ch *CameraHelper) Id() int {
 	return ch.Get("id").Int()
@@ -73,19 +77,19 @@ func (ch *CameraHelper) Layers() *Layers {
 	return &Layers{Value: ch.Get("layers")}
 }
 func (ch *CameraHelper) SetLayers(v *Layers) {
-	ch.Set("layers", v)
+	ch.Set("layers", v.Value)
 }
-func (ch *CameraHelper) Material() *Material {
-	return &Material{Value: ch.Get("material")}
+func (ch *CameraHelper) Material() Material {
+	return &MaterialImpl{Value: ch.Get("material")}
 }
-func (ch *CameraHelper) SetMaterial(v *Material) {
-	ch.Set("material", v)
+func (ch *CameraHelper) SetMaterial(v Material) {
+	ch.Set("material", v.JSValue())
 }
 func (ch *CameraHelper) Matrix() *Matrix4 {
 	return &Matrix4{Value: ch.Get("matrix")}
 }
 func (ch *CameraHelper) SetMatrix(v *Matrix4) {
-	ch.Set("matrix", v)
+	ch.Set("matrix", v.Value)
 }
 func (ch *CameraHelper) MatrixAutoUpdate() bool {
 	return ch.Get("matrixAutoUpdate").Bool()
@@ -97,7 +101,7 @@ func (ch *CameraHelper) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: ch.Get("matrixWorld")}
 }
 func (ch *CameraHelper) SetMatrixWorld(v *Matrix4) {
-	ch.Set("matrixWorld", v)
+	ch.Set("matrixWorld", v.Value)
 }
 func (ch *CameraHelper) MatrixWorldNeedsUpdate() bool {
 	return ch.Get("matrixWorldNeedsUpdate").Bool()
@@ -109,7 +113,7 @@ func (ch *CameraHelper) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: ch.Get("modelViewMatrix")}
 }
 func (ch *CameraHelper) SetModelViewMatrix(v *Matrix4) {
-	ch.Set("modelViewMatrix", v)
+	ch.Set("modelViewMatrix", v.Value)
 }
 func (ch *CameraHelper) Name() string {
 	return ch.Get("name").String()
@@ -121,7 +125,7 @@ func (ch *CameraHelper) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: ch.Get("normalMatrix")}
 }
 func (ch *CameraHelper) SetNormalMatrix(v *Matrix3) {
-	ch.Set("normalMatrix", v)
+	ch.Set("normalMatrix", v.Value)
 }
 func (ch *CameraHelper) OnAfterRender() js.Value {
 	return ch.Get("onAfterRender")
@@ -139,7 +143,7 @@ func (ch *CameraHelper) Parent() *Object3D {
 	return &Object3D{Value: ch.Get("parent")}
 }
 func (ch *CameraHelper) SetParent(v *Object3D) {
-	ch.Set("parent", v)
+	ch.Set("parent", v.Value)
 }
 func (ch *CameraHelper) PointMap() js.Value {
 	return ch.Get("pointMap")
@@ -151,13 +155,13 @@ func (ch *CameraHelper) Position() *Vector3 {
 	return &Vector3{Value: ch.Get("position")}
 }
 func (ch *CameraHelper) SetPosition(v *Vector3) {
-	ch.Set("position", v)
+	ch.Set("position", v.Value)
 }
 func (ch *CameraHelper) Quaternion() *Quaternion {
 	return &Quaternion{Value: ch.Get("quaternion")}
 }
 func (ch *CameraHelper) SetQuaternion(v *Quaternion) {
-	ch.Set("quaternion", v)
+	ch.Set("quaternion", v.Value)
 }
 func (ch *CameraHelper) ReceiveShadow() bool {
 	return ch.Get("receiveShadow").Bool()
@@ -175,13 +179,13 @@ func (ch *CameraHelper) Rotation() *Euler {
 	return &Euler{Value: ch.Get("rotation")}
 }
 func (ch *CameraHelper) SetRotation(v *Euler) {
-	ch.Set("rotation", v)
+	ch.Set("rotation", v.Value)
 }
 func (ch *CameraHelper) Scale() *Vector3 {
 	return &Vector3{Value: ch.Get("scale")}
 }
 func (ch *CameraHelper) SetScale(v *Vector3) {
-	ch.Set("scale", v)
+	ch.Set("scale", v.Value)
 }
 func (ch *CameraHelper) Type() string {
 	return ch.Get("type").String()
@@ -193,7 +197,7 @@ func (ch *CameraHelper) Up() *Vector3 {
 	return &Vector3{Value: ch.Get("up")}
 }
 func (ch *CameraHelper) SetUp(v *Vector3) {
-	ch.Set("up", v)
+	ch.Set("up", v.Value)
 }
 func (ch *CameraHelper) UserData() js.Value {
 	return ch.Get("userData")
@@ -223,7 +227,7 @@ func (ch *CameraHelper) DefaultUp() *Vector3 {
 	return &Vector3{Value: ch.Get("DefaultUp")}
 }
 func (ch *CameraHelper) SetDefaultUp(v *Vector3) {
-	ch.Set("DefaultUp", v)
+	ch.Set("DefaultUp", v.Value)
 }
 func (ch *CameraHelper) Add(object js.Value) *CameraHelper {
 	return &CameraHelper{Value: ch.Call("add", object)}

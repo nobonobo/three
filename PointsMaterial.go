@@ -10,12 +10,17 @@ import (
 
 type PointsMaterialParameters interface {
 }
+
+// MultiMaterial extend: [Material]
 type MultiMaterial struct {
 	js.Value
 }
 
 func NewMultiMaterial(materials js.Value) *MultiMaterial {
 	return &MultiMaterial{Value: get("MultiMaterial").New(materials)}
+}
+func (mm *MultiMaterial) JSValue() js.Value {
+	return mm.Value
 }
 func (mm *MultiMaterial) AlphaTest() float64 {
 	return mm.Get("alphaTest").Float()
@@ -263,8 +268,8 @@ func (mm *MultiMaterial) AddEventListener(typ string, listener js.Value) {
 func (mm *MultiMaterial) Clone() *MultiMaterial {
 	return &MultiMaterial{Value: mm.Call("clone")}
 }
-func (mm *MultiMaterial) Copy(material *Material) *MultiMaterial {
-	return &MultiMaterial{Value: mm.Call("copy", material)}
+func (mm *MultiMaterial) Copy(material Material) *MultiMaterial {
+	return &MultiMaterial{Value: mm.Call("copy", material.JSValue())}
 }
 func (mm *MultiMaterial) DispatchEvent(event js.Value) {
 	mm.Call("dispatchEvent", event)
@@ -281,7 +286,7 @@ func (mm *MultiMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRendere
 func (mm *MultiMaterial) RemoveEventListener(typ string, listener js.Value) {
 	mm.Call("removeEventListener", typ, listener)
 }
-func (mm *MultiMaterial) SetValues(values MaterialParameters) {
+func (mm *MultiMaterial) SetValues(values js.Value) {
 	mm.Call("setValues", values)
 }
 func (mm *MultiMaterial) ToJSON(meta js.Value) js.Value {
@@ -291,12 +296,16 @@ func (mm *MultiMaterial) Update() {
 	mm.Call("update")
 }
 
+// PointsMaterial extend: [Material]
 type PointsMaterial struct {
 	js.Value
 }
 
 func NewPointsMaterial(parameters PointsMaterialParameters) *PointsMaterial {
 	return &PointsMaterial{Value: get("PointsMaterial").New(parameters)}
+}
+func (pm *PointsMaterial) JSValue() js.Value {
+	return pm.Value
 }
 func (pm *PointsMaterial) AlphaTest() float64 {
 	return pm.Get("alphaTest").Float()
@@ -368,7 +377,7 @@ func (pm *PointsMaterial) Color() *Color {
 	return &Color{Value: pm.Get("color")}
 }
 func (pm *PointsMaterial) SetColor(v *Color) {
-	pm.Set("color", v)
+	pm.Set("color", v.Value)
 }
 func (pm *PointsMaterial) ColorWrite() bool {
 	return pm.Get("colorWrite").Bool()
@@ -434,7 +443,7 @@ func (pm *PointsMaterial) Map() *Texture {
 	return &Texture{Value: pm.Get("map")}
 }
 func (pm *PointsMaterial) SetMap(v *Texture) {
-	pm.Set("map", v)
+	pm.Set("map", v.Value)
 }
 func (pm *PointsMaterial) Name() string {
 	return pm.Get("name").String()
@@ -556,8 +565,8 @@ func (pm *PointsMaterial) AddEventListener(typ string, listener js.Value) {
 func (pm *PointsMaterial) Clone() *PointsMaterial {
 	return &PointsMaterial{Value: pm.Call("clone")}
 }
-func (pm *PointsMaterial) Copy(material *Material) *PointsMaterial {
-	return &PointsMaterial{Value: pm.Call("copy", material)}
+func (pm *PointsMaterial) Copy(material Material) *PointsMaterial {
+	return &PointsMaterial{Value: pm.Call("copy", material.JSValue())}
 }
 func (pm *PointsMaterial) DispatchEvent(event js.Value) {
 	pm.Call("dispatchEvent", event)

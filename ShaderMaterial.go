@@ -10,12 +10,17 @@ import (
 
 type ShaderMaterialParameters interface {
 }
+
+// ShaderMaterial extend: [Material]
 type ShaderMaterial struct {
 	js.Value
 }
 
 func NewShaderMaterial(parameters ShaderMaterialParameters) *ShaderMaterial {
 	return &ShaderMaterial{Value: get("ShaderMaterial").New(parameters)}
+}
+func (sm *ShaderMaterial) JSValue() js.Value {
+	return sm.Value
 }
 func (sm *ShaderMaterial) AlphaTest() float64 {
 	return sm.Get("alphaTest").Float()
@@ -341,8 +346,8 @@ func (sm *ShaderMaterial) AddEventListener(typ string, listener js.Value) {
 func (sm *ShaderMaterial) Clone() *ShaderMaterial {
 	return &ShaderMaterial{Value: sm.Call("clone")}
 }
-func (sm *ShaderMaterial) Copy(material *Material) *ShaderMaterial {
-	return &ShaderMaterial{Value: sm.Call("copy", material)}
+func (sm *ShaderMaterial) Copy(material Material) *ShaderMaterial {
+	return &ShaderMaterial{Value: sm.Call("copy", material.JSValue())}
 }
 func (sm *ShaderMaterial) DispatchEvent(event js.Value) {
 	sm.Call("dispatchEvent", event)

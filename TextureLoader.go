@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// TextureLoader extend: []
 type TextureLoader struct {
 	js.Value
 }
 
 func NewTextureLoader(manager *LoadingManager) *TextureLoader {
 	return &TextureLoader{Value: get("TextureLoader").New(manager)}
+}
+func (tl *TextureLoader) JSValue() js.Value {
+	return tl.Value
 }
 func (tl *TextureLoader) CrossOrigin() string {
 	return tl.Get("crossOrigin").String()
@@ -25,7 +29,7 @@ func (tl *TextureLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: tl.Get("manager")}
 }
 func (tl *TextureLoader) SetManager(v *LoadingManager) {
-	tl.Set("manager", v)
+	tl.Set("manager", v.Value)
 }
 func (tl *TextureLoader) Path() string {
 	return tl.Get("path").String()

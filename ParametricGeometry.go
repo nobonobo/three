@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// ParametricBufferGeometry extend: [BufferGeometry]
 type ParametricBufferGeometry struct {
 	js.Value
 }
 
 func NewParametricBufferGeometry(fn js.Value, slices float64, stacks float64) *ParametricBufferGeometry {
 	return &ParametricBufferGeometry{Value: get("ParametricBufferGeometry").New(fn, slices, stacks)}
+}
+func (pbg *ParametricBufferGeometry) JSValue() js.Value {
+	return pbg.Value
 }
 func (pbg *ParametricBufferGeometry) Attributes() js.Value {
 	return pbg.Get("attributes")
@@ -25,13 +29,13 @@ func (pbg *ParametricBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: pbg.Get("boundingBox")}
 }
 func (pbg *ParametricBufferGeometry) SetBoundingBox(v *Box3) {
-	pbg.Set("boundingBox", v)
+	pbg.Set("boundingBox", v.Value)
 }
 func (pbg *ParametricBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: pbg.Get("boundingSphere")}
 }
 func (pbg *ParametricBufferGeometry) SetBoundingSphere(v *Sphere) {
-	pbg.Set("boundingSphere", v)
+	pbg.Set("boundingSphere", v.Value)
 }
 func (pbg *ParametricBufferGeometry) DrawRange() js.Value {
 	return pbg.Get("drawRange")
@@ -61,7 +65,7 @@ func (pbg *ParametricBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: pbg.Get("index")}
 }
 func (pbg *ParametricBufferGeometry) SetIndex(v *BufferAttribute) {
-	pbg.Set("index", v)
+	pbg.Set("index", v.Value)
 }
 func (pbg *ParametricBufferGeometry) MorphAttributes() js.Value {
 	return pbg.Get("morphAttributes")
@@ -165,8 +169,8 @@ func (pbg *ParametricBufferGeometry) Dispose() {
 func (pbg *ParametricBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: pbg.Call("fromDirectGeometry", geometry)}
 }
-func (pbg *ParametricBufferGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("fromGeometry", geometry, settings)}
+func (pbg *ParametricBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: pbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (pbg *ParametricBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: pbg.Call("getAttribute", name)}
@@ -229,6 +233,7 @@ func (pbg *ParametricBufferGeometry) UpdateFromObject(object *Object3D) {
 	pbg.Call("updateFromObject", object)
 }
 
+// ParametricGeometry extend: [Geometry]
 type ParametricGeometry struct {
 	js.Value
 }
@@ -236,11 +241,14 @@ type ParametricGeometry struct {
 func NewParametricGeometry(fn js.Value, slices float64, stacks float64) *ParametricGeometry {
 	return &ParametricGeometry{Value: get("ParametricGeometry").New(fn, slices, stacks)}
 }
+func (pg *ParametricGeometry) JSValue() js.Value {
+	return pg.Value
+}
 func (pg *ParametricGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: pg.Get("animation")}
 }
 func (pg *ParametricGeometry) SetAnimation(v *AnimationClip) {
-	pg.Set("animation", v)
+	pg.Set("animation", v.Value)
 }
 func (pg *ParametricGeometry) Animations() js.Value {
 	return pg.Get("animations")
@@ -258,13 +266,13 @@ func (pg *ParametricGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: pg.Get("boundingBox")}
 }
 func (pg *ParametricGeometry) SetBoundingBox(v *Box3) {
-	pg.Set("boundingBox", v)
+	pg.Set("boundingBox", v.Value)
 }
 func (pg *ParametricGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: pg.Get("boundingSphere")}
 }
 func (pg *ParametricGeometry) SetBoundingSphere(v *Sphere) {
-	pg.Set("boundingSphere", v)
+	pg.Set("boundingSphere", v.Value)
 }
 func (pg *ParametricGeometry) Colors() js.Value {
 	return pg.Get("colors")
@@ -395,13 +403,13 @@ func (pg *ParametricGeometry) SetVerticesNeedUpdate(v bool) {
 func (pg *ParametricGeometry) AddEventListener(typ string, listener js.Value) {
 	pg.Call("addEventListener", typ, listener)
 }
-func (pg *ParametricGeometry) ApplyMatrix(matrix *Matrix4) *Geometry {
-	return &Geometry{Value: pg.Call("applyMatrix", matrix)}
+func (pg *ParametricGeometry) ApplyMatrix(matrix *Matrix4) Geometry {
+	return &GeometryImpl{Value: pg.Call("applyMatrix", matrix)}
 }
-func (pg *ParametricGeometry) Center() *Geometry {
-	return &Geometry{Value: pg.Call("center")}
+func (pg *ParametricGeometry) Center() Geometry {
+	return &GeometryImpl{Value: pg.Call("center")}
 }
-func (pg *ParametricGeometry) Clone() *ParametricGeometry {
+func (pg *ParametricGeometry) Clone() Geometry {
 	return &ParametricGeometry{Value: pg.Call("clone")}
 }
 func (pg *ParametricGeometry) ComputeBoundingBox() {
@@ -422,8 +430,8 @@ func (pg *ParametricGeometry) ComputeMorphNormals() {
 func (pg *ParametricGeometry) ComputeVertexNormals(areaWeighted bool) {
 	pg.Call("computeVertexNormals", areaWeighted)
 }
-func (pg *ParametricGeometry) Copy(source *Geometry) *ParametricGeometry {
-	return &ParametricGeometry{Value: pg.Call("copy", source)}
+func (pg *ParametricGeometry) Copy(source Geometry) Geometry {
+	return &ParametricGeometry{Value: pg.Call("copy", source.JSValue())}
 }
 func (pg *ParametricGeometry) DispatchEvent(event js.Value) {
 	pg.Call("dispatchEvent", event)
@@ -431,8 +439,8 @@ func (pg *ParametricGeometry) DispatchEvent(event js.Value) {
 func (pg *ParametricGeometry) Dispose() {
 	pg.Call("dispose")
 }
-func (pg *ParametricGeometry) FromBufferGeometry(geometry *BufferGeometry) *Geometry {
-	return &Geometry{Value: pg.Call("fromBufferGeometry", geometry)}
+func (pg *ParametricGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
+	return &GeometryImpl{Value: pg.Call("fromBufferGeometry", geometry)}
 }
 func (pg *ParametricGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return pg.Call("hasEventListener", typ, listener).Bool()
@@ -440,8 +448,8 @@ func (pg *ParametricGeometry) HasEventListener(typ string, listener js.Value) bo
 func (pg *ParametricGeometry) LookAt(vector *Vector3) {
 	pg.Call("lookAt", vector)
 }
-func (pg *ParametricGeometry) Merge(geometry *Geometry, matrix Matrix, materialIndexOffset int) {
-	pg.Call("merge", geometry, matrix, materialIndexOffset)
+func (pg *ParametricGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
+	pg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
 func (pg *ParametricGeometry) MergeMesh(mesh *Mesh) {
 	pg.Call("mergeMesh", mesh)
@@ -449,25 +457,25 @@ func (pg *ParametricGeometry) MergeMesh(mesh *Mesh) {
 func (pg *ParametricGeometry) MergeVertices() float64 {
 	return pg.Call("mergeVertices").Float()
 }
-func (pg *ParametricGeometry) Normalize() *Geometry {
-	return &Geometry{Value: pg.Call("normalize")}
+func (pg *ParametricGeometry) Normalize() Geometry {
+	return &GeometryImpl{Value: pg.Call("normalize")}
 }
 func (pg *ParametricGeometry) RemoveEventListener(typ string, listener js.Value) {
 	pg.Call("removeEventListener", typ, listener)
 }
-func (pg *ParametricGeometry) RotateX(angle float64) *Geometry {
-	return &Geometry{Value: pg.Call("rotateX", angle)}
+func (pg *ParametricGeometry) RotateX(angle float64) Geometry {
+	return &GeometryImpl{Value: pg.Call("rotateX", angle)}
 }
-func (pg *ParametricGeometry) RotateY(angle float64) *Geometry {
-	return &Geometry{Value: pg.Call("rotateY", angle)}
+func (pg *ParametricGeometry) RotateY(angle float64) Geometry {
+	return &GeometryImpl{Value: pg.Call("rotateY", angle)}
 }
-func (pg *ParametricGeometry) RotateZ(angle float64) *Geometry {
-	return &Geometry{Value: pg.Call("rotateZ", angle)}
+func (pg *ParametricGeometry) RotateZ(angle float64) Geometry {
+	return &GeometryImpl{Value: pg.Call("rotateZ", angle)}
 }
-func (pg *ParametricGeometry) Scale(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: pg.Call("scale", x, y, z)}
+func (pg *ParametricGeometry) Scale(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: pg.Call("scale", x, y, z)}
 }
-func (pg *ParametricGeometry) SetFromPoints(points js.Value) *ParametricGeometry {
+func (pg *ParametricGeometry) SetFromPoints(points js.Value) Geometry {
 	return &ParametricGeometry{Value: pg.Call("setFromPoints", points)}
 }
 func (pg *ParametricGeometry) SortFacesByMaterialIndex() {
@@ -476,6 +484,6 @@ func (pg *ParametricGeometry) SortFacesByMaterialIndex() {
 func (pg *ParametricGeometry) ToJSON() js.Value {
 	return pg.Call("toJSON")
 }
-func (pg *ParametricGeometry) Translate(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: pg.Call("translate", x, y, z)}
+func (pg *ParametricGeometry) Translate(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: pg.Call("translate", x, y, z)}
 }

@@ -8,6 +8,7 @@ import (
 	"syscall/js"
 )
 
+// RectAreaLightHelper extend: []
 type RectAreaLightHelper struct {
 	js.Value
 }
@@ -15,15 +16,18 @@ type RectAreaLightHelper struct {
 func NewRectAreaLightHelper(light *RectAreaLight, color *Color) *RectAreaLightHelper {
 	return &RectAreaLightHelper{Value: get("RectAreaLightHelper").New(light, color)}
 }
+func (ralh *RectAreaLightHelper) JSValue() js.Value {
+	return ralh.Value
+}
 func (ralh *RectAreaLightHelper) Color() *Color {
 	return &Color{Value: ralh.Get("color")}
 }
 func (ralh *RectAreaLightHelper) SetColor(v *Color) {
-	ralh.Set("color", v)
+	ralh.Set("color", v.Value)
 }
 func (ralh *RectAreaLightHelper) Light() *RectAreaLight {
 	return &RectAreaLight{Value: ralh.Get("light")}
 }
 func (ralh *RectAreaLightHelper) SetLight(v *RectAreaLight) {
-	ralh.Set("light", v)
+	ralh.Set("light", v.Value)
 }

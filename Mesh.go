@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Mesh extend: [Object3D]
 type Mesh struct {
 	js.Value
 }
 
-func NewMesh(geometry *Geometry, material *Material) *Mesh {
-	return &Mesh{Value: get("Mesh").New(geometry.Value, material.Value)}
+func NewMesh(geometry Geometry, material Material) *Mesh {
+	return &Mesh{Value: get("Mesh").New(geometry.JSValue(), material.JSValue())}
+}
+func (mm *Mesh) JSValue() js.Value {
+	return mm.Value
 }
 func (mm *Mesh) CastShadow() bool {
 	return mm.Get("castShadow").Bool()
@@ -39,11 +43,11 @@ func (mm *Mesh) FrustumCulled() bool {
 func (mm *Mesh) SetFrustumCulled(v bool) {
 	mm.Set("frustumCulled", v)
 }
-func (mm *Mesh) Geometry() *Geometry {
-	return &Geometry{Value: mm.Get("geometry")}
+func (mm *Mesh) Geometry() Geometry {
+	return &GeometryImpl{Value: mm.Get("geometry")}
 }
-func (mm *Mesh) SetGeometry(v *Geometry) {
-	mm.Set("geometry", v)
+func (mm *Mesh) SetGeometry(v Geometry) {
+	mm.Set("geometry", v.JSValue())
 }
 func (mm *Mesh) Id() int {
 	return mm.Get("id").Int()
@@ -67,19 +71,19 @@ func (mm *Mesh) Layers() *Layers {
 	return &Layers{Value: mm.Get("layers")}
 }
 func (mm *Mesh) SetLayers(v *Layers) {
-	mm.Set("layers", v)
+	mm.Set("layers", v.Value)
 }
-func (mm *Mesh) Material() *Material {
-	return &Material{Value: mm.Get("material")}
+func (mm *Mesh) Material() Material {
+	return &MaterialImpl{Value: mm.Get("material")}
 }
-func (mm *Mesh) SetMaterial(v *Material) {
-	mm.Set("material", v)
+func (mm *Mesh) SetMaterial(v Material) {
+	mm.Set("material", v.JSValue())
 }
 func (mm *Mesh) Matrix() *Matrix4 {
 	return &Matrix4{Value: mm.Get("matrix")}
 }
 func (mm *Mesh) SetMatrix(v *Matrix4) {
-	mm.Set("matrix", v)
+	mm.Set("matrix", v.Value)
 }
 func (mm *Mesh) MatrixAutoUpdate() bool {
 	return mm.Get("matrixAutoUpdate").Bool()
@@ -91,7 +95,7 @@ func (mm *Mesh) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: mm.Get("matrixWorld")}
 }
 func (mm *Mesh) SetMatrixWorld(v *Matrix4) {
-	mm.Set("matrixWorld", v)
+	mm.Set("matrixWorld", v.Value)
 }
 func (mm *Mesh) MatrixWorldNeedsUpdate() bool {
 	return mm.Get("matrixWorldNeedsUpdate").Bool()
@@ -103,7 +107,7 @@ func (mm *Mesh) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: mm.Get("modelViewMatrix")}
 }
 func (mm *Mesh) SetModelViewMatrix(v *Matrix4) {
-	mm.Set("modelViewMatrix", v)
+	mm.Set("modelViewMatrix", v.Value)
 }
 func (mm *Mesh) MorphTargetDictionary() js.Value {
 	return mm.Get("morphTargetDictionary")
@@ -127,7 +131,7 @@ func (mm *Mesh) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: mm.Get("normalMatrix")}
 }
 func (mm *Mesh) SetNormalMatrix(v *Matrix3) {
-	mm.Set("normalMatrix", v)
+	mm.Set("normalMatrix", v.Value)
 }
 func (mm *Mesh) OnAfterRender() js.Value {
 	return mm.Get("onAfterRender")
@@ -145,19 +149,19 @@ func (mm *Mesh) Parent() *Object3D {
 	return &Object3D{Value: mm.Get("parent")}
 }
 func (mm *Mesh) SetParent(v *Object3D) {
-	mm.Set("parent", v)
+	mm.Set("parent", v.Value)
 }
 func (mm *Mesh) Position() *Vector3 {
 	return &Vector3{Value: mm.Get("position")}
 }
 func (mm *Mesh) SetPosition(v *Vector3) {
-	mm.Set("position", v)
+	mm.Set("position", v.Value)
 }
 func (mm *Mesh) Quaternion() *Quaternion {
 	return &Quaternion{Value: mm.Get("quaternion")}
 }
 func (mm *Mesh) SetQuaternion(v *Quaternion) {
-	mm.Set("quaternion", v)
+	mm.Set("quaternion", v.Value)
 }
 func (mm *Mesh) ReceiveShadow() bool {
 	return mm.Get("receiveShadow").Bool()
@@ -175,13 +179,13 @@ func (mm *Mesh) Rotation() *Euler {
 	return &Euler{Value: mm.Get("rotation")}
 }
 func (mm *Mesh) SetRotation(v *Euler) {
-	mm.Set("rotation", v)
+	mm.Set("rotation", v.Value)
 }
 func (mm *Mesh) Scale() *Vector3 {
 	return &Vector3{Value: mm.Get("scale")}
 }
 func (mm *Mesh) SetScale(v *Vector3) {
-	mm.Set("scale", v)
+	mm.Set("scale", v.Value)
 }
 func (mm *Mesh) Type() string {
 	return mm.Get("type").String()
@@ -193,7 +197,7 @@ func (mm *Mesh) Up() *Vector3 {
 	return &Vector3{Value: mm.Get("up")}
 }
 func (mm *Mesh) SetUp(v *Vector3) {
-	mm.Set("up", v)
+	mm.Set("up", v.Value)
 }
 func (mm *Mesh) UserData() js.Value {
 	return mm.Get("userData")
@@ -223,7 +227,7 @@ func (mm *Mesh) DefaultUp() *Vector3 {
 	return &Vector3{Value: mm.Get("DefaultUp")}
 }
 func (mm *Mesh) SetDefaultUp(v *Vector3) {
-	mm.Set("DefaultUp", v)
+	mm.Set("DefaultUp", v.Value)
 }
 func (mm *Mesh) Add(object js.Value) *Mesh {
 	return &Mesh{Value: mm.Call("add", object)}

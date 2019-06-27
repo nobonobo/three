@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// WebGLBufferRenderer extend: []
 type WebGLBufferRenderer struct {
 	js.Value
 }
 
 func NewWebGLBufferRenderer(_gl js.Value, extensions js.Value, _infoRender js.Value) *WebGLBufferRenderer {
 	return &WebGLBufferRenderer{Value: get("WebGLBufferRenderer").New(_gl, extensions, _infoRender)}
+}
+func (wglbr *WebGLBufferRenderer) JSValue() js.Value {
+	return wglbr.Value
 }
 func (wglbr *WebGLBufferRenderer) Render(start js.Value, count int) {
 	wglbr.Call("render", start, count)

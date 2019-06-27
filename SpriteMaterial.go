@@ -10,12 +10,17 @@ import (
 
 type SpriteMaterialParameters interface {
 }
+
+// SpriteMaterial extend: [Material]
 type SpriteMaterial struct {
 	js.Value
 }
 
 func NewSpriteMaterial(parameters SpriteMaterialParameters) *SpriteMaterial {
 	return &SpriteMaterial{Value: get("SpriteMaterial").New(parameters)}
+}
+func (sm *SpriteMaterial) JSValue() js.Value {
+	return sm.Value
 }
 func (sm *SpriteMaterial) AlphaTest() float64 {
 	return sm.Get("alphaTest").Float()
@@ -87,7 +92,7 @@ func (sm *SpriteMaterial) Color() *Color {
 	return &Color{Value: sm.Get("color")}
 }
 func (sm *SpriteMaterial) SetColor(v *Color) {
-	sm.Set("color", v)
+	sm.Set("color", v.Value)
 }
 func (sm *SpriteMaterial) ColorWrite() bool {
 	return sm.Get("colorWrite").Bool()
@@ -159,7 +164,7 @@ func (sm *SpriteMaterial) Map() *Texture {
 	return &Texture{Value: sm.Get("map")}
 }
 func (sm *SpriteMaterial) SetMap(v *Texture) {
-	sm.Set("map", v)
+	sm.Set("map", v.Value)
 }
 func (sm *SpriteMaterial) Name() string {
 	return sm.Get("name").String()

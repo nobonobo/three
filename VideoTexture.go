@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// VideoTexture extend: [Texture]
 type VideoTexture struct {
 	js.Value
 }
 
 func NewVideoTexture(video js.Value, mapping Mapping, wrapS Wrapping, wrapT Wrapping, magFilter TextureFilter, minFilter TextureFilter, format PixelFormat, typ TextureDataType, anisotropy float64) *VideoTexture {
 	return &VideoTexture{Value: get("VideoTexture").New(video, mapping, wrapS, wrapT, magFilter, minFilter, format, typ, anisotropy)}
+}
+func (vt *VideoTexture) JSValue() js.Value {
+	return vt.Value
 }
 func (vt *VideoTexture) Anisotropy() float64 {
 	return vt.Get("anisotropy").Float()
@@ -25,7 +29,7 @@ func (vt *VideoTexture) Center() *Vector2 {
 	return &Vector2{Value: vt.Get("center")}
 }
 func (vt *VideoTexture) SetCenter(v *Vector2) {
-	vt.Set("center", v)
+	vt.Set("center", v.Value)
 }
 func (vt *VideoTexture) Encoding() TextureEncoding {
 	return TextureEncoding(vt.Get("encoding"))
@@ -103,7 +107,7 @@ func (vt *VideoTexture) Offset() *Vector2 {
 	return &Vector2{Value: vt.Get("offset")}
 }
 func (vt *VideoTexture) SetOffset(v *Vector2) {
-	vt.Set("offset", v)
+	vt.Set("offset", v.Value)
 }
 func (vt *VideoTexture) OnUpdate() js.Value {
 	return vt.Get("onUpdate")
@@ -121,7 +125,7 @@ func (vt *VideoTexture) Repeat() *Vector2 {
 	return &Vector2{Value: vt.Get("repeat")}
 }
 func (vt *VideoTexture) SetRepeat(v *Vector2) {
-	vt.Set("repeat", v)
+	vt.Set("repeat", v.Value)
 }
 func (vt *VideoTexture) Rotation() float64 {
 	return vt.Get("rotation").Float()

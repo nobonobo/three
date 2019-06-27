@@ -8,24 +8,28 @@ import (
 	"syscall/js"
 )
 
+// SkinnedMesh extend: [Mesh]
 type SkinnedMesh struct {
 	js.Value
 }
 
-func NewSkinnedMesh(geometry *Geometry, material *Material, useVertexTexture bool) *SkinnedMesh {
-	return &SkinnedMesh{Value: get("SkinnedMesh").New(geometry, material, useVertexTexture)}
+func NewSkinnedMesh(geometry Geometry, material Material, useVertexTexture bool) *SkinnedMesh {
+	return &SkinnedMesh{Value: get("SkinnedMesh").New(geometry.JSValue(), material.JSValue(), useVertexTexture)}
+}
+func (sm *SkinnedMesh) JSValue() js.Value {
+	return sm.Value
 }
 func (sm *SkinnedMesh) BindMatrix() *Matrix4 {
 	return &Matrix4{Value: sm.Get("bindMatrix")}
 }
 func (sm *SkinnedMesh) SetBindMatrix(v *Matrix4) {
-	sm.Set("bindMatrix", v)
+	sm.Set("bindMatrix", v.Value)
 }
 func (sm *SkinnedMesh) BindMatrixInverse() *Matrix4 {
 	return &Matrix4{Value: sm.Get("bindMatrixInverse")}
 }
 func (sm *SkinnedMesh) SetBindMatrixInverse(v *Matrix4) {
-	sm.Set("bindMatrixInverse", v)
+	sm.Set("bindMatrixInverse", v.Value)
 }
 func (sm *SkinnedMesh) BindMode() string {
 	return sm.Get("bindMode").String()
@@ -57,11 +61,11 @@ func (sm *SkinnedMesh) FrustumCulled() bool {
 func (sm *SkinnedMesh) SetFrustumCulled(v bool) {
 	sm.Set("frustumCulled", v)
 }
-func (sm *SkinnedMesh) Geometry() *Geometry {
-	return &Geometry{Value: sm.Get("geometry")}
+func (sm *SkinnedMesh) Geometry() Geometry {
+	return &GeometryImpl{Value: sm.Get("geometry")}
 }
-func (sm *SkinnedMesh) SetGeometry(v *Geometry) {
-	sm.Set("geometry", v)
+func (sm *SkinnedMesh) SetGeometry(v Geometry) {
+	sm.Set("geometry", v.JSValue())
 }
 func (sm *SkinnedMesh) Id() int {
 	return sm.Get("id").Int()
@@ -85,19 +89,19 @@ func (sm *SkinnedMesh) Layers() *Layers {
 	return &Layers{Value: sm.Get("layers")}
 }
 func (sm *SkinnedMesh) SetLayers(v *Layers) {
-	sm.Set("layers", v)
+	sm.Set("layers", v.Value)
 }
-func (sm *SkinnedMesh) Material() *Material {
-	return &Material{Value: sm.Get("material")}
+func (sm *SkinnedMesh) Material() Material {
+	return &MaterialImpl{Value: sm.Get("material")}
 }
-func (sm *SkinnedMesh) SetMaterial(v *Material) {
-	sm.Set("material", v)
+func (sm *SkinnedMesh) SetMaterial(v Material) {
+	sm.Set("material", v.JSValue())
 }
 func (sm *SkinnedMesh) Matrix() *Matrix4 {
 	return &Matrix4{Value: sm.Get("matrix")}
 }
 func (sm *SkinnedMesh) SetMatrix(v *Matrix4) {
-	sm.Set("matrix", v)
+	sm.Set("matrix", v.Value)
 }
 func (sm *SkinnedMesh) MatrixAutoUpdate() bool {
 	return sm.Get("matrixAutoUpdate").Bool()
@@ -109,7 +113,7 @@ func (sm *SkinnedMesh) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: sm.Get("matrixWorld")}
 }
 func (sm *SkinnedMesh) SetMatrixWorld(v *Matrix4) {
-	sm.Set("matrixWorld", v)
+	sm.Set("matrixWorld", v.Value)
 }
 func (sm *SkinnedMesh) MatrixWorldNeedsUpdate() bool {
 	return sm.Get("matrixWorldNeedsUpdate").Bool()
@@ -121,7 +125,7 @@ func (sm *SkinnedMesh) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: sm.Get("modelViewMatrix")}
 }
 func (sm *SkinnedMesh) SetModelViewMatrix(v *Matrix4) {
-	sm.Set("modelViewMatrix", v)
+	sm.Set("modelViewMatrix", v.Value)
 }
 func (sm *SkinnedMesh) MorphTargetDictionary() js.Value {
 	return sm.Get("morphTargetDictionary")
@@ -145,7 +149,7 @@ func (sm *SkinnedMesh) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: sm.Get("normalMatrix")}
 }
 func (sm *SkinnedMesh) SetNormalMatrix(v *Matrix3) {
-	sm.Set("normalMatrix", v)
+	sm.Set("normalMatrix", v.Value)
 }
 func (sm *SkinnedMesh) OnAfterRender() js.Value {
 	return sm.Get("onAfterRender")
@@ -163,19 +167,19 @@ func (sm *SkinnedMesh) Parent() *Object3D {
 	return &Object3D{Value: sm.Get("parent")}
 }
 func (sm *SkinnedMesh) SetParent(v *Object3D) {
-	sm.Set("parent", v)
+	sm.Set("parent", v.Value)
 }
 func (sm *SkinnedMesh) Position() *Vector3 {
 	return &Vector3{Value: sm.Get("position")}
 }
 func (sm *SkinnedMesh) SetPosition(v *Vector3) {
-	sm.Set("position", v)
+	sm.Set("position", v.Value)
 }
 func (sm *SkinnedMesh) Quaternion() *Quaternion {
 	return &Quaternion{Value: sm.Get("quaternion")}
 }
 func (sm *SkinnedMesh) SetQuaternion(v *Quaternion) {
-	sm.Set("quaternion", v)
+	sm.Set("quaternion", v.Value)
 }
 func (sm *SkinnedMesh) ReceiveShadow() bool {
 	return sm.Get("receiveShadow").Bool()
@@ -193,19 +197,19 @@ func (sm *SkinnedMesh) Rotation() *Euler {
 	return &Euler{Value: sm.Get("rotation")}
 }
 func (sm *SkinnedMesh) SetRotation(v *Euler) {
-	sm.Set("rotation", v)
+	sm.Set("rotation", v.Value)
 }
 func (sm *SkinnedMesh) Scale() *Vector3 {
 	return &Vector3{Value: sm.Get("scale")}
 }
 func (sm *SkinnedMesh) SetScale(v *Vector3) {
-	sm.Set("scale", v)
+	sm.Set("scale", v.Value)
 }
 func (sm *SkinnedMesh) Skeleton() *Skeleton {
 	return &Skeleton{Value: sm.Get("skeleton")}
 }
 func (sm *SkinnedMesh) SetSkeleton(v *Skeleton) {
-	sm.Set("skeleton", v)
+	sm.Set("skeleton", v.Value)
 }
 func (sm *SkinnedMesh) Type() string {
 	return sm.Get("type").String()
@@ -217,7 +221,7 @@ func (sm *SkinnedMesh) Up() *Vector3 {
 	return &Vector3{Value: sm.Get("up")}
 }
 func (sm *SkinnedMesh) SetUp(v *Vector3) {
-	sm.Set("up", v)
+	sm.Set("up", v.Value)
 }
 func (sm *SkinnedMesh) UserData() js.Value {
 	return sm.Get("userData")
@@ -247,7 +251,7 @@ func (sm *SkinnedMesh) DefaultUp() *Vector3 {
 	return &Vector3{Value: sm.Get("DefaultUp")}
 }
 func (sm *SkinnedMesh) SetDefaultUp(v *Vector3) {
-	sm.Set("DefaultUp", v)
+	sm.Set("DefaultUp", v.Value)
 }
 func (sm *SkinnedMesh) Add(object js.Value) *SkinnedMesh {
 	return &SkinnedMesh{Value: sm.Call("add", object)}

@@ -15,12 +15,16 @@ func SetDefaultLoadingManager(v *LoadingManager) {
 	set("DefaultLoadingManager", v)
 }
 
+// JSONLoader extend: [Loader]
 type JSONLoader struct {
 	js.Value
 }
 
 func NewJSONLoader(manager *LoadingManager) *JSONLoader {
 	return &JSONLoader{Value: get("JSONLoader").New(manager)}
+}
+func (jsonl *JSONLoader) JSValue() js.Value {
+	return jsonl.Value
 }
 func (jsonl *JSONLoader) CrossOrigin() string {
 	return jsonl.Get("crossOrigin").String()
@@ -32,7 +36,7 @@ func (jsonl *JSONLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: jsonl.Get("manager")}
 }
 func (jsonl *JSONLoader) SetManager(v *LoadingManager) {
-	jsonl.Set("manager", v)
+	jsonl.Set("manager", v.Value)
 }
 func (jsonl *JSONLoader) OnLoadComplete() js.Value {
 	return jsonl.Get("onLoadComplete")
@@ -64,8 +68,8 @@ func (jsonl *JSONLoader) Handlers() js.Value {
 func (jsonl *JSONLoader) SetHandlers(v js.Value) {
 	jsonl.Set("Handlers", v)
 }
-func (jsonl *JSONLoader) CreateMaterial(m *Material, texturePath string, crossOrigin string) bool {
-	return jsonl.Call("createMaterial", m, texturePath, crossOrigin).Bool()
+func (jsonl *JSONLoader) CreateMaterial(m Material, texturePath string, crossOrigin string) bool {
+	return jsonl.Call("createMaterial", m.JSValue(), texturePath, crossOrigin).Bool()
 }
 func (jsonl *JSONLoader) ExtractUrlBase(url string) string {
 	return jsonl.Call("extractUrlBase", url).String()
@@ -83,12 +87,16 @@ func (jsonl *JSONLoader) SetTexturePath(value string) {
 	jsonl.Call("setTexturePath", value)
 }
 
+// LoadingManager extend: []
 type LoadingManager struct {
 	js.Value
 }
 
 func NewLoadingManager(onLoad js.Value, onProgress js.Value, onError js.Value) *LoadingManager {
 	return &LoadingManager{Value: get("LoadingManager").New(onLoad, onProgress, onError)}
+}
+func (lm *LoadingManager) JSValue() js.Value {
+	return lm.Value
 }
 func (lm *LoadingManager) OnError() js.Value {
 	return lm.Get("onError")

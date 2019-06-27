@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// WebGLProgram extend: []
 type WebGLProgram struct {
 	js.Value
 }
 
 func NewWebGLProgram(renderer *WebGLRenderer, extensions *WebGLExtensions, code string, material *ShaderMaterial, shader *WebGLShader, parameters WebGLRendererParameters, capabilities *WebGLCapabilities, textures *WebGLTextures) *WebGLProgram {
 	return &WebGLProgram{Value: get("WebGLProgram").New(renderer, extensions, code, material, shader, parameters, capabilities, textures)}
+}
+func (wglp *WebGLProgram) JSValue() js.Value {
+	return wglp.Value
 }
 func (wglp *WebGLProgram) Attributes() js.Value {
 	return wglp.Get("attributes")
@@ -31,7 +35,7 @@ func (wglp *WebGLProgram) FragmentShader() *WebGLShader {
 	return &WebGLShader{Value: wglp.Get("fragmentShader")}
 }
 func (wglp *WebGLProgram) SetFragmentShader(v *WebGLShader) {
-	wglp.Set("fragmentShader", v)
+	wglp.Set("fragmentShader", v.Value)
 }
 func (wglp *WebGLProgram) Id() int {
 	return wglp.Get("id").Int()
@@ -61,7 +65,7 @@ func (wglp *WebGLProgram) VertexShader() *WebGLShader {
 	return &WebGLShader{Value: wglp.Get("vertexShader")}
 }
 func (wglp *WebGLProgram) SetVertexShader(v *WebGLShader) {
-	wglp.Set("vertexShader", v)
+	wglp.Set("vertexShader", v.Value)
 }
 func (wglp *WebGLProgram) Destroy() {
 	wglp.Call("destroy")

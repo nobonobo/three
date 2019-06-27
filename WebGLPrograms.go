@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// WebGLPrograms extend: []
 type WebGLPrograms struct {
 	js.Value
 }
 
 func NewWebGLPrograms(renderer *WebGLRenderer, extensions *WebGLExtensions, capabilities *WebGLCapabilities, textures *WebGLTextures) *WebGLPrograms {
 	return &WebGLPrograms{Value: get("WebGLPrograms").New(renderer, extensions, capabilities, textures)}
+}
+func (wglp *WebGLPrograms) JSValue() js.Value {
+	return wglp.Value
 }
 func (wglp *WebGLPrograms) Programs() js.Value {
 	return wglp.Get("programs")

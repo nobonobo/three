@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// CubeCamera extend: [Object3D]
 type CubeCamera struct {
 	js.Value
 }
 
 func NewCubeCamera(near float64, far float64, cubeResolution float64) *CubeCamera {
 	return &CubeCamera{Value: get("CubeCamera").New(near, far, cubeResolution)}
+}
+func (cc *CubeCamera) JSValue() js.Value {
+	return cc.Value
 }
 func (cc *CubeCamera) CastShadow() bool {
 	return cc.Get("castShadow").Bool()
@@ -49,13 +53,13 @@ func (cc *CubeCamera) Layers() *Layers {
 	return &Layers{Value: cc.Get("layers")}
 }
 func (cc *CubeCamera) SetLayers(v *Layers) {
-	cc.Set("layers", v)
+	cc.Set("layers", v.Value)
 }
 func (cc *CubeCamera) Matrix() *Matrix4 {
 	return &Matrix4{Value: cc.Get("matrix")}
 }
 func (cc *CubeCamera) SetMatrix(v *Matrix4) {
-	cc.Set("matrix", v)
+	cc.Set("matrix", v.Value)
 }
 func (cc *CubeCamera) MatrixAutoUpdate() bool {
 	return cc.Get("matrixAutoUpdate").Bool()
@@ -67,7 +71,7 @@ func (cc *CubeCamera) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: cc.Get("matrixWorld")}
 }
 func (cc *CubeCamera) SetMatrixWorld(v *Matrix4) {
-	cc.Set("matrixWorld", v)
+	cc.Set("matrixWorld", v.Value)
 }
 func (cc *CubeCamera) MatrixWorldNeedsUpdate() bool {
 	return cc.Get("matrixWorldNeedsUpdate").Bool()
@@ -79,7 +83,7 @@ func (cc *CubeCamera) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: cc.Get("modelViewMatrix")}
 }
 func (cc *CubeCamera) SetModelViewMatrix(v *Matrix4) {
-	cc.Set("modelViewMatrix", v)
+	cc.Set("modelViewMatrix", v.Value)
 }
 func (cc *CubeCamera) Name() string {
 	return cc.Get("name").String()
@@ -91,7 +95,7 @@ func (cc *CubeCamera) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: cc.Get("normalMatrix")}
 }
 func (cc *CubeCamera) SetNormalMatrix(v *Matrix3) {
-	cc.Set("normalMatrix", v)
+	cc.Set("normalMatrix", v.Value)
 }
 func (cc *CubeCamera) OnAfterRender() js.Value {
 	return cc.Get("onAfterRender")
@@ -109,19 +113,19 @@ func (cc *CubeCamera) Parent() *Object3D {
 	return &Object3D{Value: cc.Get("parent")}
 }
 func (cc *CubeCamera) SetParent(v *Object3D) {
-	cc.Set("parent", v)
+	cc.Set("parent", v.Value)
 }
 func (cc *CubeCamera) Position() *Vector3 {
 	return &Vector3{Value: cc.Get("position")}
 }
 func (cc *CubeCamera) SetPosition(v *Vector3) {
-	cc.Set("position", v)
+	cc.Set("position", v.Value)
 }
 func (cc *CubeCamera) Quaternion() *Quaternion {
 	return &Quaternion{Value: cc.Get("quaternion")}
 }
 func (cc *CubeCamera) SetQuaternion(v *Quaternion) {
-	cc.Set("quaternion", v)
+	cc.Set("quaternion", v.Value)
 }
 func (cc *CubeCamera) ReceiveShadow() bool {
 	return cc.Get("receiveShadow").Bool()
@@ -139,19 +143,19 @@ func (cc *CubeCamera) RenderTarget() *WebGLRenderTargetCube {
 	return &WebGLRenderTargetCube{Value: cc.Get("renderTarget")}
 }
 func (cc *CubeCamera) SetRenderTarget(v *WebGLRenderTargetCube) {
-	cc.Set("renderTarget", v)
+	cc.Set("renderTarget", v.Value)
 }
 func (cc *CubeCamera) Rotation() *Euler {
 	return &Euler{Value: cc.Get("rotation")}
 }
 func (cc *CubeCamera) SetRotation(v *Euler) {
-	cc.Set("rotation", v)
+	cc.Set("rotation", v.Value)
 }
 func (cc *CubeCamera) Scale() *Vector3 {
 	return &Vector3{Value: cc.Get("scale")}
 }
 func (cc *CubeCamera) SetScale(v *Vector3) {
-	cc.Set("scale", v)
+	cc.Set("scale", v.Value)
 }
 func (cc *CubeCamera) Type() string {
 	return cc.Get("type").String()
@@ -163,7 +167,7 @@ func (cc *CubeCamera) Up() *Vector3 {
 	return &Vector3{Value: cc.Get("up")}
 }
 func (cc *CubeCamera) SetUp(v *Vector3) {
-	cc.Set("up", v)
+	cc.Set("up", v.Value)
 }
 func (cc *CubeCamera) UserData() js.Value {
 	return cc.Get("userData")
@@ -193,7 +197,7 @@ func (cc *CubeCamera) DefaultUp() *Vector3 {
 	return &Vector3{Value: cc.Get("DefaultUp")}
 }
 func (cc *CubeCamera) SetDefaultUp(v *Vector3) {
-	cc.Set("DefaultUp", v)
+	cc.Set("DefaultUp", v.Value)
 }
 func (cc *CubeCamera) Add(object js.Value) *CubeCamera {
 	return &CubeCamera{Value: cc.Call("add", object)}
@@ -306,8 +310,8 @@ func (cc *CubeCamera) TraverseAncestors(callback js.Value) {
 func (cc *CubeCamera) TraverseVisible(callback js.Value) {
 	cc.Call("traverseVisible", callback)
 }
-func (cc *CubeCamera) Update(renderer *WebGLRenderer, scene *Scene) {
-	cc.Call("update", renderer, scene)
+func (cc *CubeCamera) Update(renderer *WebGLRenderer, scene Scene) {
+	cc.Call("update", renderer, scene.JSValue())
 }
 func (cc *CubeCamera) UpdateMatrix() {
 	cc.Call("updateMatrix")

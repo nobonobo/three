@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// AnimationMixer extend: [EventDispatcher]
 type AnimationMixer struct {
 	js.Value
 }
 
 func NewAnimationMixer(root js.Value) *AnimationMixer {
 	return &AnimationMixer{Value: get("AnimationMixer").New(root)}
+}
+func (am *AnimationMixer) JSValue() js.Value {
+	return am.Value
 }
 func (am *AnimationMixer) Time() float64 {
 	return am.Get("time").Float()

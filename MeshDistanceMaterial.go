@@ -10,12 +10,17 @@ import (
 
 type MeshDistanceMaterialParameters interface {
 }
+
+// MeshDistanceMaterial extend: [Material]
 type MeshDistanceMaterial struct {
 	js.Value
 }
 
 func NewMeshDistanceMaterial(parameters MeshDistanceMaterialParameters) *MeshDistanceMaterial {
 	return &MeshDistanceMaterial{Value: get("MeshDistanceMaterial").New(parameters)}
+}
+func (mdm *MeshDistanceMaterial) JSValue() js.Value {
+	return mdm.Value
 }
 func (mdm *MeshDistanceMaterial) AlphaTest() int {
 	return mdm.Get("alphaTest").Int()
@@ -117,7 +122,7 @@ func (mdm *MeshDistanceMaterial) DisplacementMap() *Texture {
 	return &Texture{Value: mdm.Get("displacementMap")}
 }
 func (mdm *MeshDistanceMaterial) SetDisplacementMap(v *Texture) {
-	mdm.Set("displacementMap", v)
+	mdm.Set("displacementMap", v.Value)
 }
 func (mdm *MeshDistanceMaterial) DisplacementScale() int {
 	return mdm.Get("displacementScale").Int()
@@ -231,7 +236,7 @@ func (mdm *MeshDistanceMaterial) ReferencePosition() *Vector3 {
 	return &Vector3{Value: mdm.Get("referencePosition")}
 }
 func (mdm *MeshDistanceMaterial) SetReferencePosition(v *Vector3) {
-	mdm.Set("referencePosition", v)
+	mdm.Set("referencePosition", v.Value)
 }
 func (mdm *MeshDistanceMaterial) Side() Side {
 	return Side(mdm.Get("side"))
@@ -287,8 +292,8 @@ func (mdm *MeshDistanceMaterial) AddEventListener(typ string, listener js.Value)
 func (mdm *MeshDistanceMaterial) Clone() *MeshDistanceMaterial {
 	return &MeshDistanceMaterial{Value: mdm.Call("clone")}
 }
-func (mdm *MeshDistanceMaterial) Copy(material *Material) *MeshDistanceMaterial {
-	return &MeshDistanceMaterial{Value: mdm.Call("copy", material)}
+func (mdm *MeshDistanceMaterial) Copy(material Material) *MeshDistanceMaterial {
+	return &MeshDistanceMaterial{Value: mdm.Call("copy", material.JSValue())}
 }
 func (mdm *MeshDistanceMaterial) DispatchEvent(event js.Value) {
 	mdm.Call("dispatchEvent", event)

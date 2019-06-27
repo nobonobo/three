@@ -58,12 +58,13 @@ type Prop struct {
 
 // Klass ...
 type Klass struct {
-	Name        string
-	Constructor []*Signature `json:",omitempty"`
-	Enums       []*Enum      `json:",omitempty"`
-	Properties  []*Prop      `json:",omitempty"`
-	Klasses     []*Klass     `json:",omitempty"`
-	Methods     []*Signature `json:",omitempty"`
+	Name          string
+	Constructor   []*Signature
+	Enums         []*Enum
+	Properties    []*Prop
+	Klasses       []*Klass
+	Methods       []*Signature
+	ExtendedTypes []*Type
 }
 
 func resolveUnion(t *Type) *Type {
@@ -74,20 +75,6 @@ func resolveUnion(t *Type) *Type {
 		}
 	*/
 	return res
-}
-
-var nameStack []string
-
-func nsPush(s string) {
-	nameStack = append(nameStack, s)
-}
-
-func nsPop() {
-	nameStack = nameStack[:len(nameStack)-1]
-}
-
-func nsPath() string {
-	return strings.Join(nameStack, ".")
 }
 
 func importAppendJS(file *File) {
@@ -169,7 +156,9 @@ func getType(file *File, t *Type) string {
 			return "bool"
 		case "number":
 			ns := nsPath()
-			fmt.Fprintln(numlog, ns)
+			if len(ns) > 0 {
+				fmt.Fprintln(numlog, ns)
+			}
 			if FloatList[ns] {
 				return "float64"
 			}
@@ -219,6 +208,14 @@ func getType(file *File, t *Type) string {
 	return ""
 }
 
+func getNewType(file *File, t *Type) string {
+	res := getType(file, t)
+	if change, ok := InterfaceTypes[t.Name]; ok && change == t.Name {
+		return res + "Impl"
+	}
+	return res
+}
+
 func isReference(t *Type) bool {
 	if v, ok := Links[t.ID]; ok {
 		return v.Interface || v.EnumType
@@ -258,8 +255,14 @@ func getParamType(file *File, t *Type) string {
 		case "stringLiteral", "intrinsic":
 			return tp
 		}
+		if _, ok := InterfaceTypes[tp]; ok {
+			return tp
+		}
 		return "*" + tp
 	case "reference":
+		if v, ok := InterfaceTypes[tp]; ok && v == tp {
+			return tp
+		}
 		if tp == "js.Value" {
 			importAppendJS(file)
 			break
@@ -279,7 +282,27 @@ func getKlassType(file *File, klass *Klass, t *Type) string {
 	tp := getType(file, t)
 	switch tp {
 	case "this":
+		if change, ok := InterfaceTypes[klass.Name]; ok && change == klass.Name {
+			return klass.Name + "Impl"
+		}
 		return klass.Name
+	}
+	if change, ok := InterfaceTypes[klass.Name]; ok && change == klass.Name {
+		return tp + "Impl"
+	}
+	return tp
+}
+
+func getKlassNewType(file *File, klass *Klass, t *Type) string {
+	tp := getType(file, t)
+	if tp == "this" {
+		tp = klass.Name
+	}
+	if v, ok := InterfaceTypes[tp]; ok {
+		if v == tp {
+			return tp + "Impl"
+		}
+		return tp
 	}
 	return tp
 }
@@ -288,7 +311,13 @@ func getKlassParamType(file *File, klass *Klass, t *Type) string {
 	tp := getParamType(file, t)
 	switch tp {
 	case "this":
+		if change, ok := InterfaceTypes[klass.Name]; ok {
+			return change
+		}
 		return "*" + klass.Name
+	}
+	if change, ok := InterfaceTypes[tp]; ok {
+		return change
 	}
 	return tp
 }
@@ -305,7 +334,7 @@ func getName(name string) string {
 	return name
 }
 
-func getCName(name string) string {
+func getReceiverName(name string) string {
 	cn := []rune{}
 	for _, r := range name {
 		if unicode.IsUpper(r) {
@@ -583,135 +612,61 @@ func render(pkg string, file *File) ([]byte, error) {
 		nsPop()
 	}
 	for _, klass := range file.Klasses {
-		nsPush(strings.Title(klass.Name))
-		fmt.Fprintf(w, "type %s struct{\n", strings.Title(klass.Name))
-		fmt.Fprintln(w, "\t js.Value")
-		fmt.Fprintln(w, "}")
-
-		// for Constructor
-		multi := len(klass.Constructor) > 1
-		for i, fn := range klass.Constructor {
-			suffix := ""
-			if multi && i > 0 {
-				suffix = fmt.Sprintf("%d", i+1)
-			}
-			fname := strings.Title(strings.ReplaceAll(fn.Name+suffix, " ", ""))
-			nsPush(fname)
-			primType := getKlassType(file, klass, fn.Type)
-			paramType := getKlassParamType(file, klass, fn.Type)
-			fmt.Fprintf(w, "func %s(", fname)
-			params := []string{}
-			paramDefs := []string{}
-			for _, param := range fn.Params {
-				nsPush(param.Name)
-				paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
-					getName(param.Name), getKlassParamType(file, klass, param.Type),
-				))
-				params = append(params, getName(param.Name))
-				nsPop()
-			}
-			fmt.Fprint(w, strings.Join(paramDefs, ", "))
-			fmt.Fprintf(w, ") %s {\n", paramType)
-			fmt.Fprintf(w, "\treturn &%s{Value:get(%q).New(%s)}\n",
-				primType, klass.Name, strings.Join(params, ", "),
-			)
-			fmt.Fprintln(w, "}")
-			nsPop()
+		name := strings.Title(klass.Name)
+		if change, ok := InterfaceTypes[name]; ok && change == name {
+			renderInterface(w, file, name, klass)
+			renderKlass(w, file, name+"Impl", klass)
+			continue
 		}
+		renderKlass(w, file, name, klass)
+	}
+	return buff.Bytes(), nil
+}
 
-		methods := map[string]int{"Value": 1, "SetValue": 1, "Get": 1, "Set": 1}
-		name := getCName(klass.Name)
-		for _, prop := range klass.Properties {
-			methods[strings.Title(prop.Name)]++
-			index := methods[strings.Title(prop.Name)]
-			getSuffix := ""
-			if index > 1 {
-				getSuffix = fmt.Sprintf("%d", index)
-			}
-			methods["Set"+strings.Title(prop.Name)]++
-			index = methods["Set"+strings.Title(prop.Name)]
-			setSuffix := ""
-			if index > 1 {
-				setSuffix = fmt.Sprintf("%d", index)
-			}
-			nsPush(strings.Title(prop.Name) + getSuffix)
-			primType := getType(file, prop.Type)
-			paramType := getParamType(file, prop.Type)
-			fmt.Fprintf(w, "func (%s *%s) %s() %s {\n",
-				name, strings.Title(klass.Name),
-				strings.Title(prop.Name)+getSuffix, paramType,
-			)
-			switch paramType {
-			case "bool":
-				fmt.Fprintf(w, "\treturn %s.Get(%q).Bool()\n", name, prop.Name)
-			case "int":
-				fmt.Fprintf(w, "\treturn %s.Get(%q).Int()\n", name, prop.Name)
-			case "float64":
-				fmt.Fprintf(w, "\treturn %s.Get(%q).Float()\n", name, prop.Name)
-			case "string":
-				fmt.Fprintf(w, "\treturn %s.Get(%q).String()\n", name, prop.Name)
-			case "js.Value":
-				fmt.Fprintf(w, "\treturn %s.Get(%q)\n", name, prop.Name)
-			default:
-				if klass.Name == "LineBasicMaterial" && prop.Name == "blendSrc" {
-					log.Println("REF:", prop.Type.Name, primType, paramType, Links[prop.Type.ID], prop.Type.Type, isReference(prop.Type), getType(file, prop.Type))
-				}
-				if isReference(prop.Type) {
-					fmt.Fprintf(w, "\treturn %s(%s.Get(%q))\n",
-						primType, name, prop.Name,
-					)
-				} else {
-					fmt.Fprintf(w, "\treturn &%s{Value:%s.Get(%q)}\n",
-						primType, name, prop.Name,
-					)
-				}
-			}
-			fmt.Fprintln(w, "}")
-			nsPop()
-			nsPush("Set" + strings.Title(prop.Name))
-			paramType = getParamType(file, prop.Type)
-			fmt.Fprintf(w, "func (%s *%s) Set%s(v %s) {\n",
-				name, strings.Title(klass.Name),
-				strings.Title(prop.Name)+setSuffix, paramType,
-			)
-			fmt.Fprintf(w, "\t%s.Set(%q, v)\n", name, prop.Name)
-			fmt.Fprintln(w, "}")
-			nsPop()
+func renderInterface(w io.Writer, file *File, name string, klass *Klass) {
+	nsPush(name)
+	fmt.Fprintf(w, "type %s interface{\n", name)
+
+	fmt.Fprintf(w, "JSValue() js.Value\n")
+
+	methods := map[string]int{"Value": 1, "SetValue": 1, "Get": 1, "Set": 1}
+	for _, prop := range klass.Properties {
+		methods[strings.Title(prop.Name)]++
+		index := methods[strings.Title(prop.Name)]
+		getSuffix := ""
+		if index > 1 {
+			getSuffix = fmt.Sprintf("%d", index)
 		}
-		for _, fn := range klass.Methods {
-			methods[strings.Title(fn.Name)]++
-			index := methods[strings.Title(fn.Name)]
-			suffix := ""
-			if index > 1 {
-				suffix = fmt.Sprintf("%d", index)
-			}
-			nsPush(strings.Title(fn.Name) + suffix)
-			primType := getKlassType(file, klass, fn.Type)
-			paramType := getKlassParamType(file, klass, fn.Type)
-			if paramType == "" {
-				fmt.Fprintf(w, "func (%s *%s) %s(",
-					name, strings.Title(klass.Name),
-					strings.Title(fn.Name)+suffix,
-				)
-				params := []string{""}
-				paramDefs := []string{}
-				for _, param := range fn.Params {
-					nsPush(param.Name)
-					paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
-						getName(param.Name), getKlassParamType(file, klass, param.Type),
-					))
-					params = append(params, getName(param.Name))
-					nsPop()
-				}
-				fmt.Fprint(w, strings.Join(paramDefs, ", "))
-				fmt.Fprintf(w, ") {\n")
-				fmt.Fprintf(w, "\t%s.Call(%q%s)\n", name, fn.Name, strings.Join(params, ", "))
-				fmt.Fprintln(w, "}")
-				nsPop()
-				continue
-			}
-			fmt.Fprintf(w, "func (%s *%s) %s(",
-				name, strings.Title(klass.Name),
+		methods["Set"+strings.Title(prop.Name)]++
+		index = methods["Set"+strings.Title(prop.Name)]
+		setSuffix := ""
+		if index > 1 {
+			setSuffix = fmt.Sprintf("%d", index)
+		}
+		nsPush(strings.Title(prop.Name) + getSuffix)
+		paramType := getParamType(file, prop.Type)
+		fmt.Fprintf(w, "%s() %s\n",
+			strings.Title(prop.Name)+getSuffix, paramType,
+		)
+		nsPop()
+		nsPush("Set" + strings.Title(prop.Name))
+		paramType = getParamType(file, prop.Type)
+		fmt.Fprintf(w, "Set%s(v %s)\n",
+			strings.Title(prop.Name)+setSuffix, paramType,
+		)
+		nsPop()
+	}
+	for _, fn := range klass.Methods {
+		methods[strings.Title(fn.Name)]++
+		index := methods[strings.Title(fn.Name)]
+		suffix := ""
+		if index > 1 {
+			suffix = fmt.Sprintf("%d", index)
+		}
+		nsPush(strings.Title(fn.Name) + suffix)
+		paramType := getKlassParamType(file, klass, fn.Type)
+		if paramType == "" {
+			fmt.Fprintf(w, "%s(",
 				strings.Title(fn.Name)+suffix,
 			)
 			params := []string{""}
@@ -725,36 +680,244 @@ func render(pkg string, file *File) ([]byte, error) {
 				nsPop()
 			}
 			fmt.Fprint(w, strings.Join(paramDefs, ", "))
-			fmt.Fprintf(w, ") %s {\n", paramType)
-			switch paramType {
-			case "bool":
-				fmt.Fprintf(w, "\treturn %s.Call(%q%s).Bool()\n", name, fn.Name, strings.Join(params, ", "))
-			case "int":
-				fmt.Fprintf(w, "\treturn %s.Call(%q%s).Int()\n", name, fn.Name, strings.Join(params, ", "))
-			case "float64":
-				fmt.Fprintf(w, "\treturn %s.Call(%q%s).Float()\n", name, fn.Name, strings.Join(params, ", "))
-			case "string":
-				fmt.Fprintf(w, "\treturn %s.Call(%q%s).String()\n", name, fn.Name, strings.Join(params, ", "))
-			case "js.Value":
-				fmt.Fprintf(w, "\treturn %s.Call(%q%s)\n", name, fn.Name, strings.Join(params, ", "))
-			default:
-				if isReference(fn.Type) {
-					fmt.Fprintf(w, "\treturn %s(%s.Call(%q%s))\n",
-						primType, name, fn.Name, strings.Join(params, ", "),
-					)
+			fmt.Fprintf(w, ")\n")
+			nsPop()
+			continue
+		}
+		fmt.Fprintf(w, "%s(",
+			strings.Title(fn.Name)+suffix,
+		)
+		params := []string{""}
+		paramDefs := []string{}
+		for _, param := range fn.Params {
+			nsPush(param.Name)
+			paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
+				getName(param.Name), getKlassParamType(file, klass, param.Type),
+			))
+			params = append(params, getName(param.Name))
+			nsPop()
+		}
+		fmt.Fprint(w, strings.Join(paramDefs, ", "))
+		fmt.Fprintf(w, ") %s\n", paramType)
+		nsPop()
+	}
 
+	fmt.Fprintln(w, "}")
+	nsPop()
+}
+
+func renderKlass(w io.Writer, file *File, name string, klass *Klass) {
+	nsPush(strings.Title(klass.Name))
+	extend := []string{}
+	for _, v := range klass.ExtendedTypes {
+		extend = append(extend, fmt.Sprint(v.Name))
+	}
+	fmt.Fprintf(w, "// %s extend: [%s]\n", name, strings.Join(extend, " "))
+	fmt.Fprintf(w, "type %s struct{\n", name)
+	fmt.Fprintln(w, "\t js.Value")
+	fmt.Fprintln(w, "}")
+
+	// for Constructor
+	multi := len(klass.Constructor) > 1
+	for i, fn := range klass.Constructor {
+		suffix := ""
+		if multi && i > 0 {
+			suffix = fmt.Sprintf("%d", i+1)
+		}
+		fname := strings.Title(strings.ReplaceAll(fn.Name+suffix, " ", ""))
+		nsPush(fname)
+		primType := getKlassType(file, klass, fn.Type)
+		//paramType := getKlassParamType(file, klass, fn.Type)
+		fmt.Fprintf(w, "func %s(", fname)
+		params := []string{}
+		paramDefs := []string{}
+		for _, param := range fn.Params {
+			nsPush(param.Name)
+			paramType := getKlassParamType(file, klass, param.Type)
+			paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
+				getName(param.Name), paramType,
+			))
+			if v, ok := InterfaceTypes[paramType]; ok && v == paramType {
+				params = append(params, getName(param.Name)+".JSValue()")
+			} else {
+				params = append(params, getName(param.Name))
+			}
+			nsPop()
+		}
+		fmt.Fprint(w, strings.Join(paramDefs, ", "))
+		fmt.Fprintf(w, ") %s {\n", "*"+name)
+		fmt.Fprintf(w, "\treturn &%s{Value:get(%q).New(%s)}\n",
+			primType, klass.Name, strings.Join(params, ", "),
+		)
+		fmt.Fprintln(w, "}")
+		nsPop()
+	}
+
+	methods := map[string]int{"Value": 1, "SetValue": 1, "Get": 1, "Set": 1}
+	receiverName := getReceiverName(klass.Name)
+
+	fmt.Fprintf(w, "func (%s *%s) JSValue() js.Value {\n\treturn %s.Value\n}\n",
+		receiverName, name, receiverName,
+	)
+
+	for _, prop := range klass.Properties {
+		methods[strings.Title(prop.Name)]++
+		index := methods[strings.Title(prop.Name)]
+		getSuffix := ""
+		if index > 1 {
+			getSuffix = fmt.Sprintf("%d", index)
+		}
+		methods["Set"+strings.Title(prop.Name)]++
+		index = methods["Set"+strings.Title(prop.Name)]
+		setSuffix := ""
+		if index > 1 {
+			setSuffix = fmt.Sprintf("%d", index)
+		}
+		nsPush(strings.Title(prop.Name) + getSuffix)
+		tp := prop.Type
+		if prop.Type.Type == "union" {
+			tp = resolveUnion(tp)
+		}
+		primType := getType(file, tp)
+		paramType := getParamType(file, tp)
+		fmt.Fprintf(w, "func (%s *%s) %s() %s {\n",
+			receiverName, name,
+			strings.Title(prop.Name)+getSuffix, paramType,
+		)
+		switch paramType {
+		case "bool":
+			fmt.Fprintf(w, "\treturn %s.Get(%q).Bool()\n", receiverName, prop.Name)
+		case "int":
+			fmt.Fprintf(w, "\treturn %s.Get(%q).Int()\n", receiverName, prop.Name)
+		case "float64":
+			fmt.Fprintf(w, "\treturn %s.Get(%q).Float()\n", receiverName, prop.Name)
+		case "string":
+			fmt.Fprintf(w, "\treturn %s.Get(%q).String()\n", receiverName, prop.Name)
+		case "js.Value":
+			fmt.Fprintf(w, "\treturn %s.Get(%q)\n", receiverName, prop.Name)
+		default:
+			if isReference(tp) {
+				fmt.Fprintf(w, "\treturn %s(%s.Get(%q))\n",
+					primType, receiverName, prop.Name,
+				)
+			} else {
+				fmt.Fprintf(w, "\treturn &%s{Value:%s.Get(%q)}\n",
+					getNewType(file, tp), receiverName, prop.Name,
+				)
+			}
+		}
+		fmt.Fprintln(w, "}")
+		nsPop()
+		nsPush("Set" + strings.Title(prop.Name))
+		paramType = getParamType(file, tp)
+		fmt.Fprintf(w, "func (%s *%s) Set%s(v %s) {\n",
+			receiverName, name,
+			strings.Title(prop.Name)+setSuffix, paramType,
+		)
+		def, ok := Links[tp.ID]
+		if paramType != "js.Value" && tp.Type == "reference" && (!ok || !def.EnumType) {
+			if _, ok := InterfaceTypes[paramType]; ok {
+				fmt.Fprintf(w, "\t%s.Set(%q, v.JSValue())\n", receiverName, prop.Name)
+			} else {
+				fmt.Fprintf(w, "\t%s.Set(%q, v.Value)\n", receiverName, prop.Name)
+			}
+		} else {
+			fmt.Fprintf(w, "\t%s.Set(%q, v)\n", receiverName, prop.Name)
+		}
+		fmt.Fprintln(w, "}")
+		nsPop()
+	}
+	for _, fn := range klass.Methods {
+		methods[strings.Title(fn.Name)]++
+		index := methods[strings.Title(fn.Name)]
+		suffix := ""
+		if index > 1 {
+			suffix = fmt.Sprintf("%d", index)
+		}
+		nsPush(strings.Title(fn.Name) + suffix)
+		primType := getKlassType(file, klass, fn.Type)
+		paramType := getKlassParamType(file, klass, fn.Type)
+		if paramType == "" {
+			fmt.Fprintf(w, "func (%s *%s) %s(",
+				receiverName, name,
+				strings.Title(fn.Name)+suffix,
+			)
+			params := []string{""}
+			paramDefs := []string{}
+			for _, param := range fn.Params {
+				nsPush(param.Name)
+				paramType := getKlassParamType(file, klass, param.Type)
+				paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
+					getName(param.Name), getKlassParamType(file, klass, param.Type),
+				))
+				if v, ok := InterfaceTypes[paramType]; ok && v == paramType {
+					params = append(params, getName(param.Name)+".JSValue()")
+				} else {
+					params = append(params, getName(param.Name))
+				}
+				nsPop()
+			}
+			fmt.Fprint(w, strings.Join(paramDefs, ", "))
+			fmt.Fprintf(w, ") {\n")
+			fmt.Fprintf(w, "\t%s.Call(%q%s)\n", receiverName, fn.Name, strings.Join(params, ", "))
+			fmt.Fprintln(w, "}")
+			nsPop()
+			continue
+		}
+		fmt.Fprintf(w, "func (%s *%s) %s(",
+			receiverName, name,
+			strings.Title(fn.Name)+suffix,
+		)
+		params := []string{""}
+		paramDefs := []string{}
+		for _, param := range fn.Params {
+			nsPush(param.Name)
+			paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
+				getName(param.Name), getKlassParamType(file, klass, param.Type),
+			))
+			if v, ok := InterfaceTypes[param.Type.Name]; ok && v == param.Type.Name {
+				params = append(params, getName(param.Name)+".JSValue()")
+			} else {
+				params = append(params, getName(param.Name))
+			}
+			nsPop()
+		}
+		fmt.Fprint(w, strings.Join(paramDefs, ", "))
+		fmt.Fprintf(w, ") %s {\n", paramType)
+		switch paramType {
+		case "bool":
+			fmt.Fprintf(w, "\treturn %s.Call(%q%s).Bool()\n", receiverName, fn.Name, strings.Join(params, ", "))
+		case "int":
+			fmt.Fprintf(w, "\treturn %s.Call(%q%s).Int()\n", receiverName, fn.Name, strings.Join(params, ", "))
+		case "float64":
+			fmt.Fprintf(w, "\treturn %s.Call(%q%s).Float()\n", receiverName, fn.Name, strings.Join(params, ", "))
+		case "string":
+			fmt.Fprintf(w, "\treturn %s.Call(%q%s).String()\n", receiverName, fn.Name, strings.Join(params, ", "))
+		case "js.Value":
+			fmt.Fprintf(w, "\treturn %s.Call(%q%s)\n", receiverName, fn.Name, strings.Join(params, ", "))
+		default:
+			newName := getKlassNewType(file, klass, fn.Type)
+			if isReference(fn.Type) {
+				fmt.Fprintf(w, "\treturn %s(%s.Call(%q%s))\n",
+					primType, receiverName, fn.Name, strings.Join(params, ", "),
+				)
+
+			} else {
+				if fn.Type.Name == "this" {
+					fmt.Fprintf(w, "\treturn &%s{Value:%s.Call(%q%s)}\n",
+						name, receiverName, fn.Name, strings.Join(params, ", "),
+					)
 				} else {
 					fmt.Fprintf(w, "\treturn &%s{Value:%s.Call(%q%s)}\n",
-						primType, name, fn.Name, strings.Join(params, ", "),
+						newName, receiverName, fn.Name, strings.Join(params, ", "),
 					)
 				}
 			}
-			fmt.Fprintln(w, "}")
-			nsPop()
 		}
+		fmt.Fprintln(w, "}")
 		nsPop()
 	}
-	return buff.Bytes(), nil
+	nsPop()
 }
 
 func output(fpath string, content []byte) error {
@@ -867,6 +1030,8 @@ func Export(root string) error {
 			return fmt.Errorf("render failed: %s", err)
 		}
 		if err := output(fpath, b); err != nil {
+			f, _ := os.Create("error.go.bak")
+			f.Write(b)
 			return fmt.Errorf("output failed: %s", err)
 		}
 	}

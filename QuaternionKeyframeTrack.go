@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// QuaternionKeyframeTrack extend: [KeyframeTrack]
 type QuaternionKeyframeTrack struct {
 	js.Value
 }
 
 func NewQuaternionKeyframeTrack(name string, times js.Value, values js.Value, interpolation InterpolationModes) *QuaternionKeyframeTrack {
 	return &QuaternionKeyframeTrack{Value: get("QuaternionKeyframeTrack").New(name, times, values, interpolation)}
+}
+func (qkt *QuaternionKeyframeTrack) JSValue() js.Value {
+	return qkt.Value
 }
 func (qkt *QuaternionKeyframeTrack) DefaultInterpolation() InterpolationModes {
 	return InterpolationModes(qkt.Get("DefaultInterpolation"))

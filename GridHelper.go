@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// GridHelper extend: [LineSegments]
 type GridHelper struct {
 	js.Value
 }
 
 func NewGridHelper(size float64, divisions float64, color1 *Color, color2 *Color) *GridHelper {
 	return &GridHelper{Value: get("GridHelper").New(size, divisions, color1, color2)}
+}
+func (gh *GridHelper) JSValue() js.Value {
+	return gh.Value
 }
 func (gh *GridHelper) CastShadow() bool {
 	return gh.Get("castShadow").Bool()
@@ -33,11 +37,11 @@ func (gh *GridHelper) FrustumCulled() bool {
 func (gh *GridHelper) SetFrustumCulled(v bool) {
 	gh.Set("frustumCulled", v)
 }
-func (gh *GridHelper) Geometry() *Geometry {
-	return &Geometry{Value: gh.Get("geometry")}
+func (gh *GridHelper) Geometry() Geometry {
+	return &GeometryImpl{Value: gh.Get("geometry")}
 }
-func (gh *GridHelper) SetGeometry(v *Geometry) {
-	gh.Set("geometry", v)
+func (gh *GridHelper) SetGeometry(v Geometry) {
+	gh.Set("geometry", v.JSValue())
 }
 func (gh *GridHelper) Id() int {
 	return gh.Get("id").Int()
@@ -67,19 +71,19 @@ func (gh *GridHelper) Layers() *Layers {
 	return &Layers{Value: gh.Get("layers")}
 }
 func (gh *GridHelper) SetLayers(v *Layers) {
-	gh.Set("layers", v)
+	gh.Set("layers", v.Value)
 }
-func (gh *GridHelper) Material() *Material {
-	return &Material{Value: gh.Get("material")}
+func (gh *GridHelper) Material() Material {
+	return &MaterialImpl{Value: gh.Get("material")}
 }
-func (gh *GridHelper) SetMaterial(v *Material) {
-	gh.Set("material", v)
+func (gh *GridHelper) SetMaterial(v Material) {
+	gh.Set("material", v.JSValue())
 }
 func (gh *GridHelper) Matrix() *Matrix4 {
 	return &Matrix4{Value: gh.Get("matrix")}
 }
 func (gh *GridHelper) SetMatrix(v *Matrix4) {
-	gh.Set("matrix", v)
+	gh.Set("matrix", v.Value)
 }
 func (gh *GridHelper) MatrixAutoUpdate() bool {
 	return gh.Get("matrixAutoUpdate").Bool()
@@ -91,7 +95,7 @@ func (gh *GridHelper) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: gh.Get("matrixWorld")}
 }
 func (gh *GridHelper) SetMatrixWorld(v *Matrix4) {
-	gh.Set("matrixWorld", v)
+	gh.Set("matrixWorld", v.Value)
 }
 func (gh *GridHelper) MatrixWorldNeedsUpdate() bool {
 	return gh.Get("matrixWorldNeedsUpdate").Bool()
@@ -103,7 +107,7 @@ func (gh *GridHelper) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: gh.Get("modelViewMatrix")}
 }
 func (gh *GridHelper) SetModelViewMatrix(v *Matrix4) {
-	gh.Set("modelViewMatrix", v)
+	gh.Set("modelViewMatrix", v.Value)
 }
 func (gh *GridHelper) Name() string {
 	return gh.Get("name").String()
@@ -115,7 +119,7 @@ func (gh *GridHelper) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: gh.Get("normalMatrix")}
 }
 func (gh *GridHelper) SetNormalMatrix(v *Matrix3) {
-	gh.Set("normalMatrix", v)
+	gh.Set("normalMatrix", v.Value)
 }
 func (gh *GridHelper) OnAfterRender() js.Value {
 	return gh.Get("onAfterRender")
@@ -133,19 +137,19 @@ func (gh *GridHelper) Parent() *Object3D {
 	return &Object3D{Value: gh.Get("parent")}
 }
 func (gh *GridHelper) SetParent(v *Object3D) {
-	gh.Set("parent", v)
+	gh.Set("parent", v.Value)
 }
 func (gh *GridHelper) Position() *Vector3 {
 	return &Vector3{Value: gh.Get("position")}
 }
 func (gh *GridHelper) SetPosition(v *Vector3) {
-	gh.Set("position", v)
+	gh.Set("position", v.Value)
 }
 func (gh *GridHelper) Quaternion() *Quaternion {
 	return &Quaternion{Value: gh.Get("quaternion")}
 }
 func (gh *GridHelper) SetQuaternion(v *Quaternion) {
-	gh.Set("quaternion", v)
+	gh.Set("quaternion", v.Value)
 }
 func (gh *GridHelper) ReceiveShadow() bool {
 	return gh.Get("receiveShadow").Bool()
@@ -163,13 +167,13 @@ func (gh *GridHelper) Rotation() *Euler {
 	return &Euler{Value: gh.Get("rotation")}
 }
 func (gh *GridHelper) SetRotation(v *Euler) {
-	gh.Set("rotation", v)
+	gh.Set("rotation", v.Value)
 }
 func (gh *GridHelper) Scale() *Vector3 {
 	return &Vector3{Value: gh.Get("scale")}
 }
 func (gh *GridHelper) SetScale(v *Vector3) {
-	gh.Set("scale", v)
+	gh.Set("scale", v.Value)
 }
 func (gh *GridHelper) Type() string {
 	return gh.Get("type").String()
@@ -181,7 +185,7 @@ func (gh *GridHelper) Up() *Vector3 {
 	return &Vector3{Value: gh.Get("up")}
 }
 func (gh *GridHelper) SetUp(v *Vector3) {
-	gh.Set("up", v)
+	gh.Set("up", v.Value)
 }
 func (gh *GridHelper) UserData() js.Value {
 	return gh.Get("userData")
@@ -211,7 +215,7 @@ func (gh *GridHelper) DefaultUp() *Vector3 {
 	return &Vector3{Value: gh.Get("DefaultUp")}
 }
 func (gh *GridHelper) SetDefaultUp(v *Vector3) {
-	gh.Set("DefaultUp", v)
+	gh.Set("DefaultUp", v.Value)
 }
 func (gh *GridHelper) Add(object js.Value) *GridHelper {
 	return &GridHelper{Value: gh.Call("add", object)}

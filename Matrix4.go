@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Matrix4 extend: []
 type Matrix4 struct {
 	js.Value
 }
 
 func NewMatrix4() *Matrix4 {
 	return &Matrix4{Value: get("Matrix4").New()}
+}
+func (mm *Matrix4) JSValue() js.Value {
+	return mm.Value
 }
 func (mm *Matrix4) Elements() js.Value {
 	return mm.Get("elements")

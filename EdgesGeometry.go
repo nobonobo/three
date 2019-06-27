@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// EdgesGeometry extend: [BufferGeometry]
 type EdgesGeometry struct {
 	js.Value
 }
 
 func NewEdgesGeometry(geometry *BufferGeometry, thresholdAngle float64) *EdgesGeometry {
 	return &EdgesGeometry{Value: get("EdgesGeometry").New(geometry, thresholdAngle)}
+}
+func (eg *EdgesGeometry) JSValue() js.Value {
+	return eg.Value
 }
 func (eg *EdgesGeometry) Attributes() js.Value {
 	return eg.Get("attributes")
@@ -25,13 +29,13 @@ func (eg *EdgesGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: eg.Get("boundingBox")}
 }
 func (eg *EdgesGeometry) SetBoundingBox(v *Box3) {
-	eg.Set("boundingBox", v)
+	eg.Set("boundingBox", v.Value)
 }
 func (eg *EdgesGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: eg.Get("boundingSphere")}
 }
 func (eg *EdgesGeometry) SetBoundingSphere(v *Sphere) {
-	eg.Set("boundingSphere", v)
+	eg.Set("boundingSphere", v.Value)
 }
 func (eg *EdgesGeometry) DrawRange() js.Value {
 	return eg.Get("drawRange")
@@ -61,7 +65,7 @@ func (eg *EdgesGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: eg.Get("index")}
 }
 func (eg *EdgesGeometry) SetIndex(v *BufferAttribute) {
-	eg.Set("index", v)
+	eg.Set("index", v.Value)
 }
 func (eg *EdgesGeometry) MorphAttributes() js.Value {
 	return eg.Get("morphAttributes")
@@ -159,8 +163,8 @@ func (eg *EdgesGeometry) Dispose() {
 func (eg *EdgesGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: eg.Call("fromDirectGeometry", geometry)}
 }
-func (eg *EdgesGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("fromGeometry", geometry, settings)}
+func (eg *EdgesGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: eg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (eg *EdgesGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: eg.Call("getAttribute", name)}

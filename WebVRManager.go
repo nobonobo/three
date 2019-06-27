@@ -10,7 +10,7 @@ import (
 
 type WebVRManager interface {
 	Dispose()
-	GetCamera(camera *PerspectiveCamera) *PerspectiveCamera
+	GetCamera(camera *PerspectiveCamera) Camera
 	GetDevice() js.Value
 	SetDevice(device js.Value)
 	SetPoseTarget(object *Object3D)

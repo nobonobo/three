@@ -8,10 +8,14 @@ import (
 	"syscall/js"
 )
 
+// LoaderUtils extend: []
 type LoaderUtils struct {
 	js.Value
 }
 
+func (lu *LoaderUtils) JSValue() js.Value {
+	return lu.Value
+}
 func (lu *LoaderUtils) DecodeText(array js.Value) string {
 	return lu.Call("decodeText", array).String()
 }

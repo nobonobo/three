@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// IcosahedronBufferGeometry extend: [PolyhedronBufferGeometry]
 type IcosahedronBufferGeometry struct {
 	js.Value
 }
 
 func NewIcosahedronBufferGeometry(radius float64, detail float64) *IcosahedronBufferGeometry {
 	return &IcosahedronBufferGeometry{Value: get("IcosahedronBufferGeometry").New(radius, detail)}
+}
+func (ibg *IcosahedronBufferGeometry) JSValue() js.Value {
+	return ibg.Value
 }
 func (ibg *IcosahedronBufferGeometry) Attributes() js.Value {
 	return ibg.Get("attributes")
@@ -25,13 +29,13 @@ func (ibg *IcosahedronBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: ibg.Get("boundingBox")}
 }
 func (ibg *IcosahedronBufferGeometry) SetBoundingBox(v *Box3) {
-	ibg.Set("boundingBox", v)
+	ibg.Set("boundingBox", v.Value)
 }
 func (ibg *IcosahedronBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: ibg.Get("boundingSphere")}
 }
 func (ibg *IcosahedronBufferGeometry) SetBoundingSphere(v *Sphere) {
-	ibg.Set("boundingSphere", v)
+	ibg.Set("boundingSphere", v.Value)
 }
 func (ibg *IcosahedronBufferGeometry) DrawRange() js.Value {
 	return ibg.Get("drawRange")
@@ -61,7 +65,7 @@ func (ibg *IcosahedronBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: ibg.Get("index")}
 }
 func (ibg *IcosahedronBufferGeometry) SetIndex(v *BufferAttribute) {
-	ibg.Set("index", v)
+	ibg.Set("index", v.Value)
 }
 func (ibg *IcosahedronBufferGeometry) MorphAttributes() js.Value {
 	return ibg.Get("morphAttributes")
@@ -165,8 +169,8 @@ func (ibg *IcosahedronBufferGeometry) Dispose() {
 func (ibg *IcosahedronBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: ibg.Call("fromDirectGeometry", geometry)}
 }
-func (ibg *IcosahedronBufferGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("fromGeometry", geometry, settings)}
+func (ibg *IcosahedronBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: ibg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (ibg *IcosahedronBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: ibg.Call("getAttribute", name)}
@@ -229,6 +233,7 @@ func (ibg *IcosahedronBufferGeometry) UpdateFromObject(object *Object3D) {
 	ibg.Call("updateFromObject", object)
 }
 
+// IcosahedronGeometry extend: [PolyhedronGeometry]
 type IcosahedronGeometry struct {
 	js.Value
 }
@@ -236,11 +241,14 @@ type IcosahedronGeometry struct {
 func NewIcosahedronGeometry(radius float64, detail float64) *IcosahedronGeometry {
 	return &IcosahedronGeometry{Value: get("IcosahedronGeometry").New(radius, detail)}
 }
+func (ig *IcosahedronGeometry) JSValue() js.Value {
+	return ig.Value
+}
 func (ig *IcosahedronGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: ig.Get("animation")}
 }
 func (ig *IcosahedronGeometry) SetAnimation(v *AnimationClip) {
-	ig.Set("animation", v)
+	ig.Set("animation", v.Value)
 }
 func (ig *IcosahedronGeometry) Animations() js.Value {
 	return ig.Get("animations")
@@ -258,13 +266,13 @@ func (ig *IcosahedronGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: ig.Get("boundingBox")}
 }
 func (ig *IcosahedronGeometry) SetBoundingBox(v *Box3) {
-	ig.Set("boundingBox", v)
+	ig.Set("boundingBox", v.Value)
 }
 func (ig *IcosahedronGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: ig.Get("boundingSphere")}
 }
 func (ig *IcosahedronGeometry) SetBoundingSphere(v *Sphere) {
-	ig.Set("boundingSphere", v)
+	ig.Set("boundingSphere", v.Value)
 }
 func (ig *IcosahedronGeometry) Colors() js.Value {
 	return ig.Get("colors")
@@ -395,13 +403,13 @@ func (ig *IcosahedronGeometry) SetVerticesNeedUpdate(v bool) {
 func (ig *IcosahedronGeometry) AddEventListener(typ string, listener js.Value) {
 	ig.Call("addEventListener", typ, listener)
 }
-func (ig *IcosahedronGeometry) ApplyMatrix(matrix *Matrix4) *Geometry {
-	return &Geometry{Value: ig.Call("applyMatrix", matrix)}
+func (ig *IcosahedronGeometry) ApplyMatrix(matrix *Matrix4) Geometry {
+	return &GeometryImpl{Value: ig.Call("applyMatrix", matrix)}
 }
-func (ig *IcosahedronGeometry) Center() *Geometry {
-	return &Geometry{Value: ig.Call("center")}
+func (ig *IcosahedronGeometry) Center() Geometry {
+	return &GeometryImpl{Value: ig.Call("center")}
 }
-func (ig *IcosahedronGeometry) Clone() *IcosahedronGeometry {
+func (ig *IcosahedronGeometry) Clone() Geometry {
 	return &IcosahedronGeometry{Value: ig.Call("clone")}
 }
 func (ig *IcosahedronGeometry) ComputeBoundingBox() {
@@ -422,8 +430,8 @@ func (ig *IcosahedronGeometry) ComputeMorphNormals() {
 func (ig *IcosahedronGeometry) ComputeVertexNormals(areaWeighted bool) {
 	ig.Call("computeVertexNormals", areaWeighted)
 }
-func (ig *IcosahedronGeometry) Copy(source *Geometry) *IcosahedronGeometry {
-	return &IcosahedronGeometry{Value: ig.Call("copy", source)}
+func (ig *IcosahedronGeometry) Copy(source Geometry) Geometry {
+	return &IcosahedronGeometry{Value: ig.Call("copy", source.JSValue())}
 }
 func (ig *IcosahedronGeometry) DispatchEvent(event js.Value) {
 	ig.Call("dispatchEvent", event)
@@ -431,8 +439,8 @@ func (ig *IcosahedronGeometry) DispatchEvent(event js.Value) {
 func (ig *IcosahedronGeometry) Dispose() {
 	ig.Call("dispose")
 }
-func (ig *IcosahedronGeometry) FromBufferGeometry(geometry *BufferGeometry) *Geometry {
-	return &Geometry{Value: ig.Call("fromBufferGeometry", geometry)}
+func (ig *IcosahedronGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
+	return &GeometryImpl{Value: ig.Call("fromBufferGeometry", geometry)}
 }
 func (ig *IcosahedronGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return ig.Call("hasEventListener", typ, listener).Bool()
@@ -440,8 +448,8 @@ func (ig *IcosahedronGeometry) HasEventListener(typ string, listener js.Value) b
 func (ig *IcosahedronGeometry) LookAt(vector *Vector3) {
 	ig.Call("lookAt", vector)
 }
-func (ig *IcosahedronGeometry) Merge(geometry *Geometry, matrix Matrix, materialIndexOffset int) {
-	ig.Call("merge", geometry, matrix, materialIndexOffset)
+func (ig *IcosahedronGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
+	ig.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
 func (ig *IcosahedronGeometry) MergeMesh(mesh *Mesh) {
 	ig.Call("mergeMesh", mesh)
@@ -449,25 +457,25 @@ func (ig *IcosahedronGeometry) MergeMesh(mesh *Mesh) {
 func (ig *IcosahedronGeometry) MergeVertices() float64 {
 	return ig.Call("mergeVertices").Float()
 }
-func (ig *IcosahedronGeometry) Normalize() *Geometry {
-	return &Geometry{Value: ig.Call("normalize")}
+func (ig *IcosahedronGeometry) Normalize() Geometry {
+	return &GeometryImpl{Value: ig.Call("normalize")}
 }
 func (ig *IcosahedronGeometry) RemoveEventListener(typ string, listener js.Value) {
 	ig.Call("removeEventListener", typ, listener)
 }
-func (ig *IcosahedronGeometry) RotateX(angle float64) *Geometry {
-	return &Geometry{Value: ig.Call("rotateX", angle)}
+func (ig *IcosahedronGeometry) RotateX(angle float64) Geometry {
+	return &GeometryImpl{Value: ig.Call("rotateX", angle)}
 }
-func (ig *IcosahedronGeometry) RotateY(angle float64) *Geometry {
-	return &Geometry{Value: ig.Call("rotateY", angle)}
+func (ig *IcosahedronGeometry) RotateY(angle float64) Geometry {
+	return &GeometryImpl{Value: ig.Call("rotateY", angle)}
 }
-func (ig *IcosahedronGeometry) RotateZ(angle float64) *Geometry {
-	return &Geometry{Value: ig.Call("rotateZ", angle)}
+func (ig *IcosahedronGeometry) RotateZ(angle float64) Geometry {
+	return &GeometryImpl{Value: ig.Call("rotateZ", angle)}
 }
-func (ig *IcosahedronGeometry) Scale(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: ig.Call("scale", x, y, z)}
+func (ig *IcosahedronGeometry) Scale(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: ig.Call("scale", x, y, z)}
 }
-func (ig *IcosahedronGeometry) SetFromPoints(points js.Value) *IcosahedronGeometry {
+func (ig *IcosahedronGeometry) SetFromPoints(points js.Value) Geometry {
 	return &IcosahedronGeometry{Value: ig.Call("setFromPoints", points)}
 }
 func (ig *IcosahedronGeometry) SortFacesByMaterialIndex() {
@@ -476,6 +484,6 @@ func (ig *IcosahedronGeometry) SortFacesByMaterialIndex() {
 func (ig *IcosahedronGeometry) ToJSON() js.Value {
 	return ig.Call("toJSON")
 }
-func (ig *IcosahedronGeometry) Translate(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: ig.Call("translate", x, y, z)}
+func (ig *IcosahedronGeometry) Translate(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: ig.Call("translate", x, y, z)}
 }

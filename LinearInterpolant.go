@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// LinearInterpolant extend: [Interpolant]
 type LinearInterpolant struct {
 	js.Value
 }
 
 func NewLinearInterpolant(parameterPositions js.Value, samplesValues js.Value, sampleSize float64, resultBuffer js.Value) *LinearInterpolant {
 	return &LinearInterpolant{Value: get("LinearInterpolant").New(parameterPositions, samplesValues, sampleSize, resultBuffer)}
+}
+func (li *LinearInterpolant) JSValue() js.Value {
+	return li.Value
 }
 func (li *LinearInterpolant) ParameterPositions() js.Value {
 	return li.Get("parameterPositions")

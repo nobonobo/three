@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// PointLightHelper extend: [Object3D]
 type PointLightHelper struct {
 	js.Value
 }
 
 func NewPointLightHelper(light *PointLight, sphereSize float64, color *Color) *PointLightHelper {
 	return &PointLightHelper{Value: get("PointLightHelper").New(light, sphereSize, color)}
+}
+func (plh *PointLightHelper) JSValue() js.Value {
+	return plh.Value
 }
 func (plh *PointLightHelper) CastShadow() bool {
 	return plh.Get("castShadow").Bool()
@@ -31,7 +35,7 @@ func (plh *PointLightHelper) Color() *Color {
 	return &Color{Value: plh.Get("color")}
 }
 func (plh *PointLightHelper) SetColor(v *Color) {
-	plh.Set("color", v)
+	plh.Set("color", v.Value)
 }
 func (plh *PointLightHelper) FrustumCulled() bool {
 	return plh.Get("frustumCulled").Bool()
@@ -55,19 +59,19 @@ func (plh *PointLightHelper) Layers() *Layers {
 	return &Layers{Value: plh.Get("layers")}
 }
 func (plh *PointLightHelper) SetLayers(v *Layers) {
-	plh.Set("layers", v)
+	plh.Set("layers", v.Value)
 }
 func (plh *PointLightHelper) Light() *PointLight {
 	return &PointLight{Value: plh.Get("light")}
 }
 func (plh *PointLightHelper) SetLight(v *PointLight) {
-	plh.Set("light", v)
+	plh.Set("light", v.Value)
 }
 func (plh *PointLightHelper) Matrix() *Matrix4 {
 	return &Matrix4{Value: plh.Get("matrix")}
 }
 func (plh *PointLightHelper) SetMatrix(v *Matrix4) {
-	plh.Set("matrix", v)
+	plh.Set("matrix", v.Value)
 }
 func (plh *PointLightHelper) MatrixAutoUpdate() bool {
 	return plh.Get("matrixAutoUpdate").Bool()
@@ -79,7 +83,7 @@ func (plh *PointLightHelper) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: plh.Get("matrixWorld")}
 }
 func (plh *PointLightHelper) SetMatrixWorld(v *Matrix4) {
-	plh.Set("matrixWorld", v)
+	plh.Set("matrixWorld", v.Value)
 }
 func (plh *PointLightHelper) MatrixWorldNeedsUpdate() bool {
 	return plh.Get("matrixWorldNeedsUpdate").Bool()
@@ -91,7 +95,7 @@ func (plh *PointLightHelper) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: plh.Get("modelViewMatrix")}
 }
 func (plh *PointLightHelper) SetModelViewMatrix(v *Matrix4) {
-	plh.Set("modelViewMatrix", v)
+	plh.Set("modelViewMatrix", v.Value)
 }
 func (plh *PointLightHelper) Name() string {
 	return plh.Get("name").String()
@@ -103,7 +107,7 @@ func (plh *PointLightHelper) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: plh.Get("normalMatrix")}
 }
 func (plh *PointLightHelper) SetNormalMatrix(v *Matrix3) {
-	plh.Set("normalMatrix", v)
+	plh.Set("normalMatrix", v.Value)
 }
 func (plh *PointLightHelper) OnAfterRender() js.Value {
 	return plh.Get("onAfterRender")
@@ -121,19 +125,19 @@ func (plh *PointLightHelper) Parent() *Object3D {
 	return &Object3D{Value: plh.Get("parent")}
 }
 func (plh *PointLightHelper) SetParent(v *Object3D) {
-	plh.Set("parent", v)
+	plh.Set("parent", v.Value)
 }
 func (plh *PointLightHelper) Position() *Vector3 {
 	return &Vector3{Value: plh.Get("position")}
 }
 func (plh *PointLightHelper) SetPosition(v *Vector3) {
-	plh.Set("position", v)
+	plh.Set("position", v.Value)
 }
 func (plh *PointLightHelper) Quaternion() *Quaternion {
 	return &Quaternion{Value: plh.Get("quaternion")}
 }
 func (plh *PointLightHelper) SetQuaternion(v *Quaternion) {
-	plh.Set("quaternion", v)
+	plh.Set("quaternion", v.Value)
 }
 func (plh *PointLightHelper) ReceiveShadow() bool {
 	return plh.Get("receiveShadow").Bool()
@@ -151,13 +155,13 @@ func (plh *PointLightHelper) Rotation() *Euler {
 	return &Euler{Value: plh.Get("rotation")}
 }
 func (plh *PointLightHelper) SetRotation(v *Euler) {
-	plh.Set("rotation", v)
+	plh.Set("rotation", v.Value)
 }
 func (plh *PointLightHelper) Scale() *Vector3 {
 	return &Vector3{Value: plh.Get("scale")}
 }
 func (plh *PointLightHelper) SetScale(v *Vector3) {
-	plh.Set("scale", v)
+	plh.Set("scale", v.Value)
 }
 func (plh *PointLightHelper) Type() string {
 	return plh.Get("type").String()
@@ -169,7 +173,7 @@ func (plh *PointLightHelper) Up() *Vector3 {
 	return &Vector3{Value: plh.Get("up")}
 }
 func (plh *PointLightHelper) SetUp(v *Vector3) {
-	plh.Set("up", v)
+	plh.Set("up", v.Value)
 }
 func (plh *PointLightHelper) UserData() js.Value {
 	return plh.Get("userData")
@@ -199,7 +203,7 @@ func (plh *PointLightHelper) DefaultUp() *Vector3 {
 	return &Vector3{Value: plh.Get("DefaultUp")}
 }
 func (plh *PointLightHelper) SetDefaultUp(v *Vector3) {
-	plh.Set("DefaultUp", v)
+	plh.Set("DefaultUp", v.Value)
 }
 func (plh *PointLightHelper) Add(object js.Value) *PointLightHelper {
 	return &PointLightHelper{Value: plh.Call("add", object)}

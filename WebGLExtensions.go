@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// WebGLExtensions extend: []
 type WebGLExtensions struct {
 	js.Value
 }
 
 func NewWebGLExtensions(gl js.Value) *WebGLExtensions {
 	return &WebGLExtensions{Value: get("WebGLExtensions").New(gl)}
+}
+func (wgle *WebGLExtensions) JSValue() js.Value {
+	return wgle.Value
 }
 func (wgle *WebGLExtensions) Get2(name string) js.Value {
 	return wgle.Call("get", name)

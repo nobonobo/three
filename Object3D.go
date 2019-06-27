@@ -15,12 +15,16 @@ func SetObject3DIdCount(v int) {
 	set("Object3DIdCount", v)
 }
 
+// Object3D extend: [EventDispatcher]
 type Object3D struct {
 	js.Value
 }
 
 func NewObject3D() *Object3D {
 	return &Object3D{Value: get("Object3D").New()}
+}
+func (od *Object3D) JSValue() js.Value {
+	return od.Value
 }
 func (od *Object3D) CastShadow() bool {
 	return od.Get("castShadow").Bool()
@@ -56,13 +60,13 @@ func (od *Object3D) Layers() *Layers {
 	return &Layers{Value: od.Get("layers")}
 }
 func (od *Object3D) SetLayers(v *Layers) {
-	od.Set("layers", v)
+	od.Set("layers", v.Value)
 }
 func (od *Object3D) Matrix() *Matrix4 {
 	return &Matrix4{Value: od.Get("matrix")}
 }
 func (od *Object3D) SetMatrix(v *Matrix4) {
-	od.Set("matrix", v)
+	od.Set("matrix", v.Value)
 }
 func (od *Object3D) MatrixAutoUpdate() bool {
 	return od.Get("matrixAutoUpdate").Bool()
@@ -74,7 +78,7 @@ func (od *Object3D) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: od.Get("matrixWorld")}
 }
 func (od *Object3D) SetMatrixWorld(v *Matrix4) {
-	od.Set("matrixWorld", v)
+	od.Set("matrixWorld", v.Value)
 }
 func (od *Object3D) MatrixWorldNeedsUpdate() bool {
 	return od.Get("matrixWorldNeedsUpdate").Bool()
@@ -86,7 +90,7 @@ func (od *Object3D) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: od.Get("modelViewMatrix")}
 }
 func (od *Object3D) SetModelViewMatrix(v *Matrix4) {
-	od.Set("modelViewMatrix", v)
+	od.Set("modelViewMatrix", v.Value)
 }
 func (od *Object3D) Name() string {
 	return od.Get("name").String()
@@ -98,7 +102,7 @@ func (od *Object3D) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: od.Get("normalMatrix")}
 }
 func (od *Object3D) SetNormalMatrix(v *Matrix3) {
-	od.Set("normalMatrix", v)
+	od.Set("normalMatrix", v.Value)
 }
 func (od *Object3D) OnAfterRender() js.Value {
 	return od.Get("onAfterRender")
@@ -116,19 +120,19 @@ func (od *Object3D) Parent() *Object3D {
 	return &Object3D{Value: od.Get("parent")}
 }
 func (od *Object3D) SetParent(v *Object3D) {
-	od.Set("parent", v)
+	od.Set("parent", v.Value)
 }
 func (od *Object3D) Position() *Vector3 {
 	return &Vector3{Value: od.Get("position")}
 }
 func (od *Object3D) SetPosition(v *Vector3) {
-	od.Set("position", v)
+	od.Set("position", v.Value)
 }
 func (od *Object3D) Quaternion() *Quaternion {
 	return &Quaternion{Value: od.Get("quaternion")}
 }
 func (od *Object3D) SetQuaternion(v *Quaternion) {
-	od.Set("quaternion", v)
+	od.Set("quaternion", v.Value)
 }
 func (od *Object3D) ReceiveShadow() bool {
 	return od.Get("receiveShadow").Bool()
@@ -146,13 +150,13 @@ func (od *Object3D) Rotation() *Euler {
 	return &Euler{Value: od.Get("rotation")}
 }
 func (od *Object3D) SetRotation(v *Euler) {
-	od.Set("rotation", v)
+	od.Set("rotation", v.Value)
 }
 func (od *Object3D) Scale() *Vector3 {
 	return &Vector3{Value: od.Get("scale")}
 }
 func (od *Object3D) SetScale(v *Vector3) {
-	od.Set("scale", v)
+	od.Set("scale", v.Value)
 }
 func (od *Object3D) Type() string {
 	return od.Get("type").String()
@@ -164,7 +168,7 @@ func (od *Object3D) Up() *Vector3 {
 	return &Vector3{Value: od.Get("up")}
 }
 func (od *Object3D) SetUp(v *Vector3) {
-	od.Set("up", v)
+	od.Set("up", v.Value)
 }
 func (od *Object3D) UserData() js.Value {
 	return od.Get("userData")
@@ -194,7 +198,7 @@ func (od *Object3D) DefaultUp() *Vector3 {
 	return &Vector3{Value: od.Get("DefaultUp")}
 }
 func (od *Object3D) SetDefaultUp(v *Vector3) {
-	od.Set("DefaultUp", v)
+	od.Set("DefaultUp", v.Value)
 }
 func (od *Object3D) Add(object js.Value) *Object3D {
 	return &Object3D{Value: od.Call("add", object)}

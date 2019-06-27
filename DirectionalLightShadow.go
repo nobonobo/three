@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// DirectionalLightShadow extend: [LightShadow]
 type DirectionalLightShadow struct {
 	js.Value
 }
 
-func NewDirectionalLightShadow(camera *Camera) *DirectionalLightShadow {
-	return &DirectionalLightShadow{Value: get("DirectionalLightShadow").New(camera)}
+func NewDirectionalLightShadow(camera Camera) *DirectionalLightShadow {
+	return &DirectionalLightShadow{Value: get("DirectionalLightShadow").New(camera.JSValue())}
+}
+func (dls *DirectionalLightShadow) JSValue() js.Value {
+	return dls.Value
 }
 func (dls *DirectionalLightShadow) Bias() float64 {
 	return dls.Get("bias").Float()
@@ -25,7 +29,7 @@ func (dls *DirectionalLightShadow) Camera() *OrthographicCamera {
 	return &OrthographicCamera{Value: dls.Get("camera")}
 }
 func (dls *DirectionalLightShadow) SetCamera(v *OrthographicCamera) {
-	dls.Set("camera", v)
+	dls.Set("camera", v.Value)
 }
 func (dls *DirectionalLightShadow) Map() js.Value {
 	return dls.Get("map")
@@ -37,13 +41,13 @@ func (dls *DirectionalLightShadow) MapSize() *Vector2 {
 	return &Vector2{Value: dls.Get("mapSize")}
 }
 func (dls *DirectionalLightShadow) SetMapSize(v *Vector2) {
-	dls.Set("mapSize", v)
+	dls.Set("mapSize", v.Value)
 }
 func (dls *DirectionalLightShadow) Matrix() *Matrix4 {
 	return &Matrix4{Value: dls.Get("matrix")}
 }
 func (dls *DirectionalLightShadow) SetMatrix(v *Matrix4) {
-	dls.Set("matrix", v)
+	dls.Set("matrix", v.Value)
 }
 func (dls *DirectionalLightShadow) Radius() float64 {
 	return dls.Get("radius").Float()

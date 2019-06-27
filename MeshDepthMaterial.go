@@ -10,12 +10,17 @@ import (
 
 type MeshDepthMaterialParameters interface {
 }
+
+// MeshDepthMaterial extend: [Material]
 type MeshDepthMaterial struct {
 	js.Value
 }
 
 func NewMeshDepthMaterial(parameters MeshDepthMaterialParameters) *MeshDepthMaterial {
 	return &MeshDepthMaterial{Value: get("MeshDepthMaterial").New(parameters)}
+}
+func (mdm *MeshDepthMaterial) JSValue() js.Value {
+	return mdm.Value
 }
 func (mdm *MeshDepthMaterial) AlphaTest() float64 {
 	return mdm.Get("alphaTest").Float()
@@ -123,7 +128,7 @@ func (mdm *MeshDepthMaterial) DisplacementMap() *Texture {
 	return &Texture{Value: mdm.Get("displacementMap")}
 }
 func (mdm *MeshDepthMaterial) SetDisplacementMap(v *Texture) {
-	mdm.Set("displacementMap", v)
+	mdm.Set("displacementMap", v.Value)
 }
 func (mdm *MeshDepthMaterial) DisplacementScale() int {
 	return mdm.Get("displacementScale").Int()
@@ -287,8 +292,8 @@ func (mdm *MeshDepthMaterial) AddEventListener(typ string, listener js.Value) {
 func (mdm *MeshDepthMaterial) Clone() *MeshDepthMaterial {
 	return &MeshDepthMaterial{Value: mdm.Call("clone")}
 }
-func (mdm *MeshDepthMaterial) Copy(material *Material) *MeshDepthMaterial {
-	return &MeshDepthMaterial{Value: mdm.Call("copy", material)}
+func (mdm *MeshDepthMaterial) Copy(material Material) *MeshDepthMaterial {
+	return &MeshDepthMaterial{Value: mdm.Call("copy", material.JSValue())}
 }
 func (mdm *MeshDepthMaterial) DispatchEvent(event js.Value) {
 	mdm.Call("dispatchEvent", event)

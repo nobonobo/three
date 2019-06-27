@@ -8,6 +8,7 @@ import (
 	"syscall/js"
 )
 
+// AnimationLoader extend: []
 type AnimationLoader struct {
 	js.Value
 }
@@ -15,11 +16,14 @@ type AnimationLoader struct {
 func NewAnimationLoader(manager *LoadingManager) *AnimationLoader {
 	return &AnimationLoader{Value: get("AnimationLoader").New(manager)}
 }
+func (al *AnimationLoader) JSValue() js.Value {
+	return al.Value
+}
 func (al *AnimationLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: al.Get("manager")}
 }
 func (al *AnimationLoader) SetManager(v *LoadingManager) {
-	al.Set("manager", v)
+	al.Set("manager", v.Value)
 }
 func (al *AnimationLoader) Load(url string, onLoad js.Value, onProgress js.Value, onError js.Value) js.Value {
 	return al.Call("load", url, onLoad, onProgress, onError)

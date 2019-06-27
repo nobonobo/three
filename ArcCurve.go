@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// ArcCurve extend: [EllipseCurve]
 type ArcCurve struct {
 	js.Value
 }
 
 func NewArcCurve(aX float64, aY float64, aRadius float64, aStartAngle float64, aEndAngle float64, aClockwise bool) *ArcCurve {
 	return &ArcCurve{Value: get("ArcCurve").New(aX, aY, aRadius, aStartAngle, aEndAngle, aClockwise)}
+}
+func (ac *ArcCurve) JSValue() js.Value {
+	return ac.Value
 }
 func (ac *ArcCurve) AClockwise() bool {
 	return ac.Get("aClockwise").Bool()

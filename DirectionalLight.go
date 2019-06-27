@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// DirectionalLight extend: [Light]
 type DirectionalLight struct {
 	js.Value
 }
 
 func NewDirectionalLight(color *Color, intensity float64) *DirectionalLight {
 	return &DirectionalLight{Value: get("DirectionalLight").New(color, intensity)}
+}
+func (dl *DirectionalLight) JSValue() js.Value {
+	return dl.Value
 }
 func (dl *DirectionalLight) CastShadow() bool {
 	return dl.Get("castShadow").Bool()
@@ -31,7 +35,7 @@ func (dl *DirectionalLight) Color() *Color {
 	return &Color{Value: dl.Get("color")}
 }
 func (dl *DirectionalLight) SetColor(v *Color) {
-	dl.Set("color", v)
+	dl.Set("color", v.Value)
 }
 func (dl *DirectionalLight) FrustumCulled() bool {
 	return dl.Get("frustumCulled").Bool()
@@ -67,13 +71,13 @@ func (dl *DirectionalLight) Layers() *Layers {
 	return &Layers{Value: dl.Get("layers")}
 }
 func (dl *DirectionalLight) SetLayers(v *Layers) {
-	dl.Set("layers", v)
+	dl.Set("layers", v.Value)
 }
 func (dl *DirectionalLight) Matrix() *Matrix4 {
 	return &Matrix4{Value: dl.Get("matrix")}
 }
 func (dl *DirectionalLight) SetMatrix(v *Matrix4) {
-	dl.Set("matrix", v)
+	dl.Set("matrix", v.Value)
 }
 func (dl *DirectionalLight) MatrixAutoUpdate() bool {
 	return dl.Get("matrixAutoUpdate").Bool()
@@ -85,7 +89,7 @@ func (dl *DirectionalLight) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: dl.Get("matrixWorld")}
 }
 func (dl *DirectionalLight) SetMatrixWorld(v *Matrix4) {
-	dl.Set("matrixWorld", v)
+	dl.Set("matrixWorld", v.Value)
 }
 func (dl *DirectionalLight) MatrixWorldNeedsUpdate() bool {
 	return dl.Get("matrixWorldNeedsUpdate").Bool()
@@ -97,7 +101,7 @@ func (dl *DirectionalLight) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: dl.Get("modelViewMatrix")}
 }
 func (dl *DirectionalLight) SetModelViewMatrix(v *Matrix4) {
-	dl.Set("modelViewMatrix", v)
+	dl.Set("modelViewMatrix", v.Value)
 }
 func (dl *DirectionalLight) Name() string {
 	return dl.Get("name").String()
@@ -109,7 +113,7 @@ func (dl *DirectionalLight) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: dl.Get("normalMatrix")}
 }
 func (dl *DirectionalLight) SetNormalMatrix(v *Matrix3) {
-	dl.Set("normalMatrix", v)
+	dl.Set("normalMatrix", v.Value)
 }
 func (dl *DirectionalLight) OnAfterRender() js.Value {
 	return dl.Get("onAfterRender")
@@ -127,19 +131,19 @@ func (dl *DirectionalLight) Parent() *Object3D {
 	return &Object3D{Value: dl.Get("parent")}
 }
 func (dl *DirectionalLight) SetParent(v *Object3D) {
-	dl.Set("parent", v)
+	dl.Set("parent", v.Value)
 }
 func (dl *DirectionalLight) Position() *Vector3 {
 	return &Vector3{Value: dl.Get("position")}
 }
 func (dl *DirectionalLight) SetPosition(v *Vector3) {
-	dl.Set("position", v)
+	dl.Set("position", v.Value)
 }
 func (dl *DirectionalLight) Quaternion() *Quaternion {
 	return &Quaternion{Value: dl.Get("quaternion")}
 }
 func (dl *DirectionalLight) SetQuaternion(v *Quaternion) {
-	dl.Set("quaternion", v)
+	dl.Set("quaternion", v.Value)
 }
 func (dl *DirectionalLight) ReceiveShadow() bool {
 	return dl.Get("receiveShadow").Bool()
@@ -157,19 +161,19 @@ func (dl *DirectionalLight) Rotation() *Euler {
 	return &Euler{Value: dl.Get("rotation")}
 }
 func (dl *DirectionalLight) SetRotation(v *Euler) {
-	dl.Set("rotation", v)
+	dl.Set("rotation", v.Value)
 }
 func (dl *DirectionalLight) Scale() *Vector3 {
 	return &Vector3{Value: dl.Get("scale")}
 }
 func (dl *DirectionalLight) SetScale(v *Vector3) {
-	dl.Set("scale", v)
+	dl.Set("scale", v.Value)
 }
 func (dl *DirectionalLight) Shadow() *DirectionalLightShadow {
 	return &DirectionalLightShadow{Value: dl.Get("shadow")}
 }
 func (dl *DirectionalLight) SetShadow(v *DirectionalLightShadow) {
-	dl.Set("shadow", v)
+	dl.Set("shadow", v.Value)
 }
 func (dl *DirectionalLight) ShadowBias() js.Value {
 	return dl.Get("shadowBias")
@@ -235,7 +239,7 @@ func (dl *DirectionalLight) Target() *Object3D {
 	return &Object3D{Value: dl.Get("target")}
 }
 func (dl *DirectionalLight) SetTarget(v *Object3D) {
-	dl.Set("target", v)
+	dl.Set("target", v.Value)
 }
 func (dl *DirectionalLight) Type() string {
 	return dl.Get("type").String()
@@ -247,7 +251,7 @@ func (dl *DirectionalLight) Up() *Vector3 {
 	return &Vector3{Value: dl.Get("up")}
 }
 func (dl *DirectionalLight) SetUp(v *Vector3) {
-	dl.Set("up", v)
+	dl.Set("up", v.Value)
 }
 func (dl *DirectionalLight) UserData() js.Value {
 	return dl.Get("userData")
@@ -277,7 +281,7 @@ func (dl *DirectionalLight) DefaultUp() *Vector3 {
 	return &Vector3{Value: dl.Get("DefaultUp")}
 }
 func (dl *DirectionalLight) SetDefaultUp(v *Vector3) {
-	dl.Set("DefaultUp", v)
+	dl.Set("DefaultUp", v.Value)
 }
 func (dl *DirectionalLight) Add(object js.Value) *DirectionalLight {
 	return &DirectionalLight{Value: dl.Call("add", object)}

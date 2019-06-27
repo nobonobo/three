@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// CubeTexture extend: [Texture]
 type CubeTexture struct {
 	js.Value
 }
 
 func NewCubeTexture(images js.Value, mapping Mapping, wrapS Wrapping, wrapT Wrapping, magFilter TextureFilter, minFilter TextureFilter, format PixelFormat, typ TextureDataType, anisotropy float64, encoding TextureEncoding) *CubeTexture {
 	return &CubeTexture{Value: get("CubeTexture").New(images, mapping, wrapS, wrapT, magFilter, minFilter, format, typ, anisotropy, encoding)}
+}
+func (ct *CubeTexture) JSValue() js.Value {
+	return ct.Value
 }
 func (ct *CubeTexture) Anisotropy() float64 {
 	return ct.Get("anisotropy").Float()
@@ -25,7 +29,7 @@ func (ct *CubeTexture) Center() *Vector2 {
 	return &Vector2{Value: ct.Get("center")}
 }
 func (ct *CubeTexture) SetCenter(v *Vector2) {
-	ct.Set("center", v)
+	ct.Set("center", v.Value)
 }
 func (ct *CubeTexture) Encoding() TextureEncoding {
 	return TextureEncoding(ct.Get("encoding"))
@@ -109,7 +113,7 @@ func (ct *CubeTexture) Offset() *Vector2 {
 	return &Vector2{Value: ct.Get("offset")}
 }
 func (ct *CubeTexture) SetOffset(v *Vector2) {
-	ct.Set("offset", v)
+	ct.Set("offset", v.Value)
 }
 func (ct *CubeTexture) OnUpdate() js.Value {
 	return ct.Get("onUpdate")
@@ -127,7 +131,7 @@ func (ct *CubeTexture) Repeat() *Vector2 {
 	return &Vector2{Value: ct.Get("repeat")}
 }
 func (ct *CubeTexture) SetRepeat(v *Vector2) {
-	ct.Set("repeat", v)
+	ct.Set("repeat", v.Value)
 }
 func (ct *CubeTexture) Rotation() float64 {
 	return ct.Get("rotation").Float()

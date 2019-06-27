@@ -8,6 +8,7 @@ import (
 	"syscall/js"
 )
 
+// Sphere extend: []
 type Sphere struct {
 	js.Value
 }
@@ -15,11 +16,14 @@ type Sphere struct {
 func NewSphere(center *Vector3, radius float64) *Sphere {
 	return &Sphere{Value: get("Sphere").New(center, radius)}
 }
+func (ss *Sphere) JSValue() js.Value {
+	return ss.Value
+}
 func (ss *Sphere) Center() *Vector3 {
 	return &Vector3{Value: ss.Get("center")}
 }
 func (ss *Sphere) SetCenter(v *Vector3) {
-	ss.Set("center", v)
+	ss.Set("center", v.Value)
 }
 func (ss *Sphere) Radius() float64 {
 	return ss.Get("radius").Float()

@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// CanvasTexture extend: [Texture]
 type CanvasTexture struct {
 	js.Value
 }
 
 func NewCanvasTexture(canvas js.Value, mapping Mapping, wrapS Wrapping, wrapT Wrapping, magFilter TextureFilter, minFilter TextureFilter, format PixelFormat, typ TextureDataType, anisotropy float64) *CanvasTexture {
 	return &CanvasTexture{Value: get("CanvasTexture").New(canvas, mapping, wrapS, wrapT, magFilter, minFilter, format, typ, anisotropy)}
+}
+func (ct *CanvasTexture) JSValue() js.Value {
+	return ct.Value
 }
 func (ct *CanvasTexture) Anisotropy() float64 {
 	return ct.Get("anisotropy").Float()
@@ -25,7 +29,7 @@ func (ct *CanvasTexture) Center() *Vector2 {
 	return &Vector2{Value: ct.Get("center")}
 }
 func (ct *CanvasTexture) SetCenter(v *Vector2) {
-	ct.Set("center", v)
+	ct.Set("center", v.Value)
 }
 func (ct *CanvasTexture) Encoding() TextureEncoding {
 	return TextureEncoding(ct.Get("encoding"))
@@ -103,7 +107,7 @@ func (ct *CanvasTexture) Offset() *Vector2 {
 	return &Vector2{Value: ct.Get("offset")}
 }
 func (ct *CanvasTexture) SetOffset(v *Vector2) {
-	ct.Set("offset", v)
+	ct.Set("offset", v.Value)
 }
 func (ct *CanvasTexture) OnUpdate() js.Value {
 	return ct.Get("onUpdate")
@@ -121,7 +125,7 @@ func (ct *CanvasTexture) Repeat() *Vector2 {
 	return &Vector2{Value: ct.Get("repeat")}
 }
 func (ct *CanvasTexture) SetRepeat(v *Vector2) {
-	ct.Set("repeat", v)
+	ct.Set("repeat", v.Value)
 }
 func (ct *CanvasTexture) Rotation() float64 {
 	return ct.Get("rotation").Float()

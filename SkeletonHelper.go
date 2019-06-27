@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// SkeletonHelper extend: [LineSegments]
 type SkeletonHelper struct {
 	js.Value
 }
 
 func NewSkeletonHelper(bone *Object3D) *SkeletonHelper {
 	return &SkeletonHelper{Value: get("SkeletonHelper").New(bone)}
+}
+func (sh *SkeletonHelper) JSValue() js.Value {
+	return sh.Value
 }
 func (sh *SkeletonHelper) Bones() js.Value {
 	return sh.Get("bones")
@@ -39,11 +43,11 @@ func (sh *SkeletonHelper) FrustumCulled() bool {
 func (sh *SkeletonHelper) SetFrustumCulled(v bool) {
 	sh.Set("frustumCulled", v)
 }
-func (sh *SkeletonHelper) Geometry() *Geometry {
-	return &Geometry{Value: sh.Get("geometry")}
+func (sh *SkeletonHelper) Geometry() Geometry {
+	return &GeometryImpl{Value: sh.Get("geometry")}
 }
-func (sh *SkeletonHelper) SetGeometry(v *Geometry) {
-	sh.Set("geometry", v)
+func (sh *SkeletonHelper) SetGeometry(v Geometry) {
+	sh.Set("geometry", v.JSValue())
 }
 func (sh *SkeletonHelper) Id() int {
 	return sh.Get("id").Int()
@@ -73,19 +77,19 @@ func (sh *SkeletonHelper) Layers() *Layers {
 	return &Layers{Value: sh.Get("layers")}
 }
 func (sh *SkeletonHelper) SetLayers(v *Layers) {
-	sh.Set("layers", v)
+	sh.Set("layers", v.Value)
 }
-func (sh *SkeletonHelper) Material() *Material {
-	return &Material{Value: sh.Get("material")}
+func (sh *SkeletonHelper) Material() Material {
+	return &MaterialImpl{Value: sh.Get("material")}
 }
-func (sh *SkeletonHelper) SetMaterial(v *Material) {
-	sh.Set("material", v)
+func (sh *SkeletonHelper) SetMaterial(v Material) {
+	sh.Set("material", v.JSValue())
 }
 func (sh *SkeletonHelper) Matrix() *Matrix4 {
 	return &Matrix4{Value: sh.Get("matrix")}
 }
 func (sh *SkeletonHelper) SetMatrix(v *Matrix4) {
-	sh.Set("matrix", v)
+	sh.Set("matrix", v.Value)
 }
 func (sh *SkeletonHelper) MatrixAutoUpdate() bool {
 	return sh.Get("matrixAutoUpdate").Bool()
@@ -97,7 +101,7 @@ func (sh *SkeletonHelper) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: sh.Get("matrixWorld")}
 }
 func (sh *SkeletonHelper) SetMatrixWorld(v *Matrix4) {
-	sh.Set("matrixWorld", v)
+	sh.Set("matrixWorld", v.Value)
 }
 func (sh *SkeletonHelper) MatrixWorldNeedsUpdate() bool {
 	return sh.Get("matrixWorldNeedsUpdate").Bool()
@@ -109,7 +113,7 @@ func (sh *SkeletonHelper) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: sh.Get("modelViewMatrix")}
 }
 func (sh *SkeletonHelper) SetModelViewMatrix(v *Matrix4) {
-	sh.Set("modelViewMatrix", v)
+	sh.Set("modelViewMatrix", v.Value)
 }
 func (sh *SkeletonHelper) Name() string {
 	return sh.Get("name").String()
@@ -121,7 +125,7 @@ func (sh *SkeletonHelper) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: sh.Get("normalMatrix")}
 }
 func (sh *SkeletonHelper) SetNormalMatrix(v *Matrix3) {
-	sh.Set("normalMatrix", v)
+	sh.Set("normalMatrix", v.Value)
 }
 func (sh *SkeletonHelper) OnAfterRender() js.Value {
 	return sh.Get("onAfterRender")
@@ -139,19 +143,19 @@ func (sh *SkeletonHelper) Parent() *Object3D {
 	return &Object3D{Value: sh.Get("parent")}
 }
 func (sh *SkeletonHelper) SetParent(v *Object3D) {
-	sh.Set("parent", v)
+	sh.Set("parent", v.Value)
 }
 func (sh *SkeletonHelper) Position() *Vector3 {
 	return &Vector3{Value: sh.Get("position")}
 }
 func (sh *SkeletonHelper) SetPosition(v *Vector3) {
-	sh.Set("position", v)
+	sh.Set("position", v.Value)
 }
 func (sh *SkeletonHelper) Quaternion() *Quaternion {
 	return &Quaternion{Value: sh.Get("quaternion")}
 }
 func (sh *SkeletonHelper) SetQuaternion(v *Quaternion) {
-	sh.Set("quaternion", v)
+	sh.Set("quaternion", v.Value)
 }
 func (sh *SkeletonHelper) ReceiveShadow() bool {
 	return sh.Get("receiveShadow").Bool()
@@ -169,19 +173,19 @@ func (sh *SkeletonHelper) Root() *Object3D {
 	return &Object3D{Value: sh.Get("root")}
 }
 func (sh *SkeletonHelper) SetRoot(v *Object3D) {
-	sh.Set("root", v)
+	sh.Set("root", v.Value)
 }
 func (sh *SkeletonHelper) Rotation() *Euler {
 	return &Euler{Value: sh.Get("rotation")}
 }
 func (sh *SkeletonHelper) SetRotation(v *Euler) {
-	sh.Set("rotation", v)
+	sh.Set("rotation", v.Value)
 }
 func (sh *SkeletonHelper) Scale() *Vector3 {
 	return &Vector3{Value: sh.Get("scale")}
 }
 func (sh *SkeletonHelper) SetScale(v *Vector3) {
-	sh.Set("scale", v)
+	sh.Set("scale", v.Value)
 }
 func (sh *SkeletonHelper) Type() string {
 	return sh.Get("type").String()
@@ -193,7 +197,7 @@ func (sh *SkeletonHelper) Up() *Vector3 {
 	return &Vector3{Value: sh.Get("up")}
 }
 func (sh *SkeletonHelper) SetUp(v *Vector3) {
-	sh.Set("up", v)
+	sh.Set("up", v.Value)
 }
 func (sh *SkeletonHelper) UserData() js.Value {
 	return sh.Get("userData")
@@ -223,7 +227,7 @@ func (sh *SkeletonHelper) DefaultUp() *Vector3 {
 	return &Vector3{Value: sh.Get("DefaultUp")}
 }
 func (sh *SkeletonHelper) SetDefaultUp(v *Vector3) {
-	sh.Set("DefaultUp", v)
+	sh.Set("DefaultUp", v.Value)
 }
 func (sh *SkeletonHelper) Add(object js.Value) *SkeletonHelper {
 	return &SkeletonHelper{Value: sh.Call("add", object)}

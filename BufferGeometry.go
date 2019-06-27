@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// BufferGeometry extend: [EventDispatcher]
 type BufferGeometry struct {
 	js.Value
 }
 
 func NewBufferGeometry() *BufferGeometry {
 	return &BufferGeometry{Value: get("BufferGeometry").New()}
+}
+func (bg *BufferGeometry) JSValue() js.Value {
+	return bg.Value
 }
 func (bg *BufferGeometry) Attributes() js.Value {
 	return bg.Get("attributes")
@@ -25,13 +29,13 @@ func (bg *BufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: bg.Get("boundingBox")}
 }
 func (bg *BufferGeometry) SetBoundingBox(v *Box3) {
-	bg.Set("boundingBox", v)
+	bg.Set("boundingBox", v.Value)
 }
 func (bg *BufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: bg.Get("boundingSphere")}
 }
 func (bg *BufferGeometry) SetBoundingSphere(v *Sphere) {
-	bg.Set("boundingSphere", v)
+	bg.Set("boundingSphere", v.Value)
 }
 func (bg *BufferGeometry) DrawRange() js.Value {
 	return bg.Get("drawRange")
@@ -61,7 +65,7 @@ func (bg *BufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: bg.Get("index")}
 }
 func (bg *BufferGeometry) SetIndex(v *BufferAttribute) {
-	bg.Set("index", v)
+	bg.Set("index", v.Value)
 }
 func (bg *BufferGeometry) MorphAttributes() js.Value {
 	return bg.Get("morphAttributes")
@@ -159,8 +163,8 @@ func (bg *BufferGeometry) Dispose() {
 func (bg *BufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: bg.Call("fromDirectGeometry", geometry)}
 }
-func (bg *BufferGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: bg.Call("fromGeometry", geometry, settings)}
+func (bg *BufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: bg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (bg *BufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: bg.Call("getAttribute", name)}

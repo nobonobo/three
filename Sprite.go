@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Sprite extend: [Object3D]
 type Sprite struct {
 	js.Value
 }
 
 func NewSprite(material *SpriteMaterial) *Sprite {
 	return &Sprite{Value: get("Sprite").New(material)}
+}
+func (ss *Sprite) JSValue() js.Value {
+	return ss.Value
 }
 func (ss *Sprite) CastShadow() bool {
 	return ss.Get("castShadow").Bool()
@@ -25,7 +29,7 @@ func (ss *Sprite) Center() *Vector2 {
 	return &Vector2{Value: ss.Get("center")}
 }
 func (ss *Sprite) SetCenter(v *Vector2) {
-	ss.Set("center", v)
+	ss.Set("center", v.Value)
 }
 func (ss *Sprite) Children() js.Value {
 	return ss.Get("children")
@@ -43,7 +47,7 @@ func (ss *Sprite) Geometry() *BufferGeometry {
 	return &BufferGeometry{Value: ss.Get("geometry")}
 }
 func (ss *Sprite) SetGeometry(v *BufferGeometry) {
-	ss.Set("geometry", v)
+	ss.Set("geometry", v.Value)
 }
 func (ss *Sprite) Id() int {
 	return ss.Get("id").Int()
@@ -67,19 +71,19 @@ func (ss *Sprite) Layers() *Layers {
 	return &Layers{Value: ss.Get("layers")}
 }
 func (ss *Sprite) SetLayers(v *Layers) {
-	ss.Set("layers", v)
+	ss.Set("layers", v.Value)
 }
 func (ss *Sprite) Material() *SpriteMaterial {
 	return &SpriteMaterial{Value: ss.Get("material")}
 }
 func (ss *Sprite) SetMaterial(v *SpriteMaterial) {
-	ss.Set("material", v)
+	ss.Set("material", v.Value)
 }
 func (ss *Sprite) Matrix() *Matrix4 {
 	return &Matrix4{Value: ss.Get("matrix")}
 }
 func (ss *Sprite) SetMatrix(v *Matrix4) {
-	ss.Set("matrix", v)
+	ss.Set("matrix", v.Value)
 }
 func (ss *Sprite) MatrixAutoUpdate() bool {
 	return ss.Get("matrixAutoUpdate").Bool()
@@ -91,7 +95,7 @@ func (ss *Sprite) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: ss.Get("matrixWorld")}
 }
 func (ss *Sprite) SetMatrixWorld(v *Matrix4) {
-	ss.Set("matrixWorld", v)
+	ss.Set("matrixWorld", v.Value)
 }
 func (ss *Sprite) MatrixWorldNeedsUpdate() bool {
 	return ss.Get("matrixWorldNeedsUpdate").Bool()
@@ -103,7 +107,7 @@ func (ss *Sprite) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: ss.Get("modelViewMatrix")}
 }
 func (ss *Sprite) SetModelViewMatrix(v *Matrix4) {
-	ss.Set("modelViewMatrix", v)
+	ss.Set("modelViewMatrix", v.Value)
 }
 func (ss *Sprite) Name() string {
 	return ss.Get("name").String()
@@ -115,7 +119,7 @@ func (ss *Sprite) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: ss.Get("normalMatrix")}
 }
 func (ss *Sprite) SetNormalMatrix(v *Matrix3) {
-	ss.Set("normalMatrix", v)
+	ss.Set("normalMatrix", v.Value)
 }
 func (ss *Sprite) OnAfterRender() js.Value {
 	return ss.Get("onAfterRender")
@@ -133,19 +137,19 @@ func (ss *Sprite) Parent() *Object3D {
 	return &Object3D{Value: ss.Get("parent")}
 }
 func (ss *Sprite) SetParent(v *Object3D) {
-	ss.Set("parent", v)
+	ss.Set("parent", v.Value)
 }
 func (ss *Sprite) Position() *Vector3 {
 	return &Vector3{Value: ss.Get("position")}
 }
 func (ss *Sprite) SetPosition(v *Vector3) {
-	ss.Set("position", v)
+	ss.Set("position", v.Value)
 }
 func (ss *Sprite) Quaternion() *Quaternion {
 	return &Quaternion{Value: ss.Get("quaternion")}
 }
 func (ss *Sprite) SetQuaternion(v *Quaternion) {
-	ss.Set("quaternion", v)
+	ss.Set("quaternion", v.Value)
 }
 func (ss *Sprite) ReceiveShadow() bool {
 	return ss.Get("receiveShadow").Bool()
@@ -163,13 +167,13 @@ func (ss *Sprite) Rotation() *Euler {
 	return &Euler{Value: ss.Get("rotation")}
 }
 func (ss *Sprite) SetRotation(v *Euler) {
-	ss.Set("rotation", v)
+	ss.Set("rotation", v.Value)
 }
 func (ss *Sprite) Scale() *Vector3 {
 	return &Vector3{Value: ss.Get("scale")}
 }
 func (ss *Sprite) SetScale(v *Vector3) {
-	ss.Set("scale", v)
+	ss.Set("scale", v.Value)
 }
 func (ss *Sprite) Type() string {
 	return ss.Get("type").String()
@@ -181,7 +185,7 @@ func (ss *Sprite) Up() *Vector3 {
 	return &Vector3{Value: ss.Get("up")}
 }
 func (ss *Sprite) SetUp(v *Vector3) {
-	ss.Set("up", v)
+	ss.Set("up", v.Value)
 }
 func (ss *Sprite) UserData() js.Value {
 	return ss.Get("userData")
@@ -211,7 +215,7 @@ func (ss *Sprite) DefaultUp() *Vector3 {
 	return &Vector3{Value: ss.Get("DefaultUp")}
 }
 func (ss *Sprite) SetDefaultUp(v *Vector3) {
-	ss.Set("DefaultUp", v)
+	ss.Set("DefaultUp", v.Value)
 }
 func (ss *Sprite) Add(object js.Value) *Sprite {
 	return &Sprite{Value: ss.Call("add", object)}

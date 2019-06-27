@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// InstancedBufferGeometry extend: [BufferGeometry]
 type InstancedBufferGeometry struct {
 	js.Value
 }
 
 func NewInstancedBufferGeometry() *InstancedBufferGeometry {
 	return &InstancedBufferGeometry{Value: get("InstancedBufferGeometry").New()}
+}
+func (ibg *InstancedBufferGeometry) JSValue() js.Value {
+	return ibg.Value
 }
 func (ibg *InstancedBufferGeometry) Attributes() js.Value {
 	return ibg.Get("attributes")
@@ -25,13 +29,13 @@ func (ibg *InstancedBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: ibg.Get("boundingBox")}
 }
 func (ibg *InstancedBufferGeometry) SetBoundingBox(v *Box3) {
-	ibg.Set("boundingBox", v)
+	ibg.Set("boundingBox", v.Value)
 }
 func (ibg *InstancedBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: ibg.Get("boundingSphere")}
 }
 func (ibg *InstancedBufferGeometry) SetBoundingSphere(v *Sphere) {
-	ibg.Set("boundingSphere", v)
+	ibg.Set("boundingSphere", v.Value)
 }
 func (ibg *InstancedBufferGeometry) DrawRange() js.Value {
 	return ibg.Get("drawRange")
@@ -61,7 +65,7 @@ func (ibg *InstancedBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: ibg.Get("index")}
 }
 func (ibg *InstancedBufferGeometry) SetIndex(v *BufferAttribute) {
-	ibg.Set("index", v)
+	ibg.Set("index", v.Value)
 }
 func (ibg *InstancedBufferGeometry) MaxInstancedCount() int {
 	return ibg.Get("maxInstancedCount").Int()
@@ -165,8 +169,8 @@ func (ibg *InstancedBufferGeometry) Dispose() {
 func (ibg *InstancedBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: ibg.Call("fromDirectGeometry", geometry)}
 }
-func (ibg *InstancedBufferGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("fromGeometry", geometry, settings)}
+func (ibg *InstancedBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: ibg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (ibg *InstancedBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: ibg.Call("getAttribute", name)}

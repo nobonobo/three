@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// ShadowMaterial extend: [ShaderMaterial]
 type ShadowMaterial struct {
 	js.Value
 }
 
 func NewShadowMaterial(parameters ShaderMaterialParameters) *ShadowMaterial {
 	return &ShadowMaterial{Value: get("ShadowMaterial").New(parameters)}
+}
+func (sm *ShadowMaterial) JSValue() js.Value {
+	return sm.Value
 }
 func (sm *ShadowMaterial) AlphaTest() float64 {
 	return sm.Get("alphaTest").Float()
@@ -339,8 +343,8 @@ func (sm *ShadowMaterial) AddEventListener(typ string, listener js.Value) {
 func (sm *ShadowMaterial) Clone() *ShadowMaterial {
 	return &ShadowMaterial{Value: sm.Call("clone")}
 }
-func (sm *ShadowMaterial) Copy(material *Material) *ShadowMaterial {
-	return &ShadowMaterial{Value: sm.Call("copy", material)}
+func (sm *ShadowMaterial) Copy(material Material) *ShadowMaterial {
+	return &ShadowMaterial{Value: sm.Call("copy", material.JSValue())}
 }
 func (sm *ShadowMaterial) DispatchEvent(event js.Value) {
 	sm.Call("dispatchEvent", event)

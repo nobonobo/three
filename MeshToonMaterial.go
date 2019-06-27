@@ -10,6 +10,8 @@ import (
 
 type MeshToonMaterialParameters interface {
 }
+
+// MeshToonMaterial extend: [MeshPhongMaterial]
 type MeshToonMaterial struct {
 	js.Value
 }
@@ -17,11 +19,14 @@ type MeshToonMaterial struct {
 func NewMeshToonMaterial(parameters MeshToonMaterialParameters) *MeshToonMaterial {
 	return &MeshToonMaterial{Value: get("MeshToonMaterial").New(parameters)}
 }
+func (mtm *MeshToonMaterial) JSValue() js.Value {
+	return mtm.Value
+}
 func (mtm *MeshToonMaterial) AlphaMap() *Texture {
 	return &Texture{Value: mtm.Get("alphaMap")}
 }
 func (mtm *MeshToonMaterial) SetAlphaMap(v *Texture) {
-	mtm.Set("alphaMap", v)
+	mtm.Set("alphaMap", v.Value)
 }
 func (mtm *MeshToonMaterial) AlphaTest() int {
 	return mtm.Get("alphaTest").Int()
@@ -33,7 +38,7 @@ func (mtm *MeshToonMaterial) AoMap() *Texture {
 	return &Texture{Value: mtm.Get("aoMap")}
 }
 func (mtm *MeshToonMaterial) SetAoMap(v *Texture) {
-	mtm.Set("aoMap", v)
+	mtm.Set("aoMap", v.Value)
 }
 func (mtm *MeshToonMaterial) AoMapIntensity() int {
 	return mtm.Get("aoMapIntensity").Int()
@@ -87,7 +92,7 @@ func (mtm *MeshToonMaterial) BumpMap() *Texture {
 	return &Texture{Value: mtm.Get("bumpMap")}
 }
 func (mtm *MeshToonMaterial) SetBumpMap(v *Texture) {
-	mtm.Set("bumpMap", v)
+	mtm.Set("bumpMap", v.Value)
 }
 func (mtm *MeshToonMaterial) BumpScale() int {
 	return mtm.Get("bumpScale").Int()
@@ -117,7 +122,7 @@ func (mtm *MeshToonMaterial) Color() *Color {
 	return &Color{Value: mtm.Get("color")}
 }
 func (mtm *MeshToonMaterial) SetColor(v *Color) {
-	mtm.Set("color", v)
+	mtm.Set("color", v.Value)
 }
 func (mtm *MeshToonMaterial) ColorWrite() bool {
 	return mtm.Get("colorWrite").Bool()
@@ -159,7 +164,7 @@ func (mtm *MeshToonMaterial) DisplacementMap() *Texture {
 	return &Texture{Value: mtm.Get("displacementMap")}
 }
 func (mtm *MeshToonMaterial) SetDisplacementMap(v *Texture) {
-	mtm.Set("displacementMap", v)
+	mtm.Set("displacementMap", v.Value)
 }
 func (mtm *MeshToonMaterial) DisplacementScale() int {
 	return mtm.Get("displacementScale").Int()
@@ -177,7 +182,7 @@ func (mtm *MeshToonMaterial) Emissive() *Color {
 	return &Color{Value: mtm.Get("emissive")}
 }
 func (mtm *MeshToonMaterial) SetEmissive(v *Color) {
-	mtm.Set("emissive", v)
+	mtm.Set("emissive", v.Value)
 }
 func (mtm *MeshToonMaterial) EmissiveIntensity() int {
 	return mtm.Get("emissiveIntensity").Int()
@@ -189,13 +194,13 @@ func (mtm *MeshToonMaterial) EmissiveMap() *Texture {
 	return &Texture{Value: mtm.Get("emissiveMap")}
 }
 func (mtm *MeshToonMaterial) SetEmissiveMap(v *Texture) {
-	mtm.Set("emissiveMap", v)
+	mtm.Set("emissiveMap", v.Value)
 }
 func (mtm *MeshToonMaterial) EnvMap() *Texture {
 	return &Texture{Value: mtm.Get("envMap")}
 }
 func (mtm *MeshToonMaterial) SetEnvMap(v *Texture) {
-	mtm.Set("envMap", v)
+	mtm.Set("envMap", v.Value)
 }
 func (mtm *MeshToonMaterial) FlatShading() bool {
 	return mtm.Get("flatShading").Bool()
@@ -213,7 +218,7 @@ func (mtm *MeshToonMaterial) GradientMap() *Texture {
 	return &Texture{Value: mtm.Get("gradientMap")}
 }
 func (mtm *MeshToonMaterial) SetGradientMap(v *Texture) {
-	mtm.Set("gradientMap", v)
+	mtm.Set("gradientMap", v.Value)
 }
 func (mtm *MeshToonMaterial) Id() int {
 	return mtm.Get("id").Int()
@@ -231,7 +236,7 @@ func (mtm *MeshToonMaterial) LightMap() *Texture {
 	return &Texture{Value: mtm.Get("lightMap")}
 }
 func (mtm *MeshToonMaterial) SetLightMap(v *Texture) {
-	mtm.Set("lightMap", v)
+	mtm.Set("lightMap", v.Value)
 }
 func (mtm *MeshToonMaterial) LightMapIntensity() int {
 	return mtm.Get("lightMapIntensity").Int()
@@ -249,7 +254,7 @@ func (mtm *MeshToonMaterial) Map() *Texture {
 	return &Texture{Value: mtm.Get("map")}
 }
 func (mtm *MeshToonMaterial) SetMap(v *Texture) {
-	mtm.Set("map", v)
+	mtm.Set("map", v.Value)
 }
 func (mtm *MeshToonMaterial) Metal() bool {
 	return mtm.Get("metal").Bool()
@@ -285,7 +290,7 @@ func (mtm *MeshToonMaterial) NormalMap() *Texture {
 	return &Texture{Value: mtm.Get("normalMap")}
 }
 func (mtm *MeshToonMaterial) SetNormalMap(v *Texture) {
-	mtm.Set("normalMap", v)
+	mtm.Set("normalMap", v.Value)
 }
 func (mtm *MeshToonMaterial) NormalMapType() NormalMapTypes {
 	return NormalMapTypes(mtm.Get("normalMapType"))
@@ -297,7 +302,7 @@ func (mtm *MeshToonMaterial) NormalScale() *Vector2 {
 	return &Vector2{Value: mtm.Get("normalScale")}
 }
 func (mtm *MeshToonMaterial) SetNormalScale(v *Vector2) {
-	mtm.Set("normalScale", v)
+	mtm.Set("normalScale", v.Value)
 }
 func (mtm *MeshToonMaterial) Opacity() int {
 	return mtm.Get("opacity").Int()
@@ -375,13 +380,13 @@ func (mtm *MeshToonMaterial) Specular() *Color {
 	return &Color{Value: mtm.Get("specular")}
 }
 func (mtm *MeshToonMaterial) SetSpecular(v *Color) {
-	mtm.Set("specular", v)
+	mtm.Set("specular", v.Value)
 }
 func (mtm *MeshToonMaterial) SpecularMap() *Texture {
 	return &Texture{Value: mtm.Get("specularMap")}
 }
 func (mtm *MeshToonMaterial) SetSpecularMap(v *Texture) {
-	mtm.Set("specularMap", v)
+	mtm.Set("specularMap", v.Value)
 }
 func (mtm *MeshToonMaterial) Transparent() bool {
 	return mtm.Get("transparent").Bool()
@@ -455,8 +460,8 @@ func (mtm *MeshToonMaterial) AddEventListener(typ string, listener js.Value) {
 func (mtm *MeshToonMaterial) Clone() *MeshToonMaterial {
 	return &MeshToonMaterial{Value: mtm.Call("clone")}
 }
-func (mtm *MeshToonMaterial) Copy(material *Material) *MeshToonMaterial {
-	return &MeshToonMaterial{Value: mtm.Call("copy", material)}
+func (mtm *MeshToonMaterial) Copy(material Material) *MeshToonMaterial {
+	return &MeshToonMaterial{Value: mtm.Call("copy", material.JSValue())}
 }
 func (mtm *MeshToonMaterial) DispatchEvent(event js.Value) {
 	mtm.Call("dispatchEvent", event)

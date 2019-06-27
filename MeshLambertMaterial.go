@@ -10,6 +10,8 @@ import (
 
 type MeshLambertMaterialParameters interface {
 }
+
+// MeshLambertMaterial extend: [Material]
 type MeshLambertMaterial struct {
 	js.Value
 }
@@ -17,11 +19,14 @@ type MeshLambertMaterial struct {
 func NewMeshLambertMaterial(parameters MeshLambertMaterialParameters) *MeshLambertMaterial {
 	return &MeshLambertMaterial{Value: get("MeshLambertMaterial").New(parameters)}
 }
+func (mlm *MeshLambertMaterial) JSValue() js.Value {
+	return mlm.Value
+}
 func (mlm *MeshLambertMaterial) AlphaMap() *Texture {
 	return &Texture{Value: mlm.Get("alphaMap")}
 }
 func (mlm *MeshLambertMaterial) SetAlphaMap(v *Texture) {
-	mlm.Set("alphaMap", v)
+	mlm.Set("alphaMap", v.Value)
 }
 func (mlm *MeshLambertMaterial) AlphaTest() float64 {
 	return mlm.Get("alphaTest").Float()
@@ -33,7 +38,7 @@ func (mlm *MeshLambertMaterial) AoMap() *Texture {
 	return &Texture{Value: mlm.Get("aoMap")}
 }
 func (mlm *MeshLambertMaterial) SetAoMap(v *Texture) {
-	mlm.Set("aoMap", v)
+	mlm.Set("aoMap", v.Value)
 }
 func (mlm *MeshLambertMaterial) AoMapIntensity() float64 {
 	return mlm.Get("aoMapIntensity").Float()
@@ -105,7 +110,7 @@ func (mlm *MeshLambertMaterial) Color() *Color {
 	return &Color{Value: mlm.Get("color")}
 }
 func (mlm *MeshLambertMaterial) SetColor(v *Color) {
-	mlm.Set("color", v)
+	mlm.Set("color", v.Value)
 }
 func (mlm *MeshLambertMaterial) ColorWrite() bool {
 	return mlm.Get("colorWrite").Bool()
@@ -147,7 +152,7 @@ func (mlm *MeshLambertMaterial) Emissive() *Color {
 	return &Color{Value: mlm.Get("emissive")}
 }
 func (mlm *MeshLambertMaterial) SetEmissive(v *Color) {
-	mlm.Set("emissive", v)
+	mlm.Set("emissive", v.Value)
 }
 func (mlm *MeshLambertMaterial) EmissiveIntensity() float64 {
 	return mlm.Get("emissiveIntensity").Float()
@@ -159,13 +164,13 @@ func (mlm *MeshLambertMaterial) EmissiveMap() *Texture {
 	return &Texture{Value: mlm.Get("emissiveMap")}
 }
 func (mlm *MeshLambertMaterial) SetEmissiveMap(v *Texture) {
-	mlm.Set("emissiveMap", v)
+	mlm.Set("emissiveMap", v.Value)
 }
 func (mlm *MeshLambertMaterial) EnvMap() *Texture {
 	return &Texture{Value: mlm.Get("envMap")}
 }
 func (mlm *MeshLambertMaterial) SetEnvMap(v *Texture) {
-	mlm.Set("envMap", v)
+	mlm.Set("envMap", v.Value)
 }
 func (mlm *MeshLambertMaterial) FlatShading() bool {
 	return mlm.Get("flatShading").Bool()
@@ -195,7 +200,7 @@ func (mlm *MeshLambertMaterial) LightMap() *Texture {
 	return &Texture{Value: mlm.Get("lightMap")}
 }
 func (mlm *MeshLambertMaterial) SetLightMap(v *Texture) {
-	mlm.Set("lightMap", v)
+	mlm.Set("lightMap", v.Value)
 }
 func (mlm *MeshLambertMaterial) LightMapIntensity() float64 {
 	return mlm.Get("lightMapIntensity").Float()
@@ -213,7 +218,7 @@ func (mlm *MeshLambertMaterial) Map() *Texture {
 	return &Texture{Value: mlm.Get("map")}
 }
 func (mlm *MeshLambertMaterial) SetMap(v *Texture) {
-	mlm.Set("map", v)
+	mlm.Set("map", v.Value)
 }
 func (mlm *MeshLambertMaterial) MorphNormals() bool {
 	return mlm.Get("morphNormals").Bool()
@@ -309,7 +314,7 @@ func (mlm *MeshLambertMaterial) SpecularMap() *Texture {
 	return &Texture{Value: mlm.Get("specularMap")}
 }
 func (mlm *MeshLambertMaterial) SetSpecularMap(v *Texture) {
-	mlm.Set("specularMap", v)
+	mlm.Set("specularMap", v.Value)
 }
 func (mlm *MeshLambertMaterial) Transparent() bool {
 	return mlm.Get("transparent").Bool()
@@ -383,8 +388,8 @@ func (mlm *MeshLambertMaterial) AddEventListener(typ string, listener js.Value) 
 func (mlm *MeshLambertMaterial) Clone() *MeshLambertMaterial {
 	return &MeshLambertMaterial{Value: mlm.Call("clone")}
 }
-func (mlm *MeshLambertMaterial) Copy(material *Material) *MeshLambertMaterial {
-	return &MeshLambertMaterial{Value: mlm.Call("copy", material)}
+func (mlm *MeshLambertMaterial) Copy(material Material) *MeshLambertMaterial {
+	return &MeshLambertMaterial{Value: mlm.Call("copy", material.JSValue())}
 }
 func (mlm *MeshLambertMaterial) DispatchEvent(event js.Value) {
 	mlm.Call("dispatchEvent", event)

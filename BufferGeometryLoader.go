@@ -8,6 +8,7 @@ import (
 	"syscall/js"
 )
 
+// BufferGeometryLoader extend: []
 type BufferGeometryLoader struct {
 	js.Value
 }
@@ -15,11 +16,14 @@ type BufferGeometryLoader struct {
 func NewBufferGeometryLoader(manager *LoadingManager) *BufferGeometryLoader {
 	return &BufferGeometryLoader{Value: get("BufferGeometryLoader").New(manager)}
 }
+func (bgl *BufferGeometryLoader) JSValue() js.Value {
+	return bgl.Value
+}
 func (bgl *BufferGeometryLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: bgl.Get("manager")}
 }
 func (bgl *BufferGeometryLoader) SetManager(v *LoadingManager) {
-	bgl.Set("manager", v)
+	bgl.Set("manager", v.Value)
 }
 func (bgl *BufferGeometryLoader) Load(url string, onLoad js.Value, onProgress js.Value, onError js.Value) {
 	bgl.Call("load", url, onLoad, onProgress, onError)

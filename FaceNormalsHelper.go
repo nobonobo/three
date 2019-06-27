@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// FaceNormalsHelper extend: [LineSegments]
 type FaceNormalsHelper struct {
 	js.Value
 }
 
 func NewFaceNormalsHelper(object *Object3D, size int, hex int, linewidth float64) *FaceNormalsHelper {
 	return &FaceNormalsHelper{Value: get("FaceNormalsHelper").New(object, size, hex, linewidth)}
+}
+func (fnh *FaceNormalsHelper) JSValue() js.Value {
+	return fnh.Value
 }
 func (fnh *FaceNormalsHelper) CastShadow() bool {
 	return fnh.Get("castShadow").Bool()
@@ -33,11 +37,11 @@ func (fnh *FaceNormalsHelper) FrustumCulled() bool {
 func (fnh *FaceNormalsHelper) SetFrustumCulled(v bool) {
 	fnh.Set("frustumCulled", v)
 }
-func (fnh *FaceNormalsHelper) Geometry() *Geometry {
-	return &Geometry{Value: fnh.Get("geometry")}
+func (fnh *FaceNormalsHelper) Geometry() Geometry {
+	return &GeometryImpl{Value: fnh.Get("geometry")}
 }
-func (fnh *FaceNormalsHelper) SetGeometry(v *Geometry) {
-	fnh.Set("geometry", v)
+func (fnh *FaceNormalsHelper) SetGeometry(v Geometry) {
+	fnh.Set("geometry", v.JSValue())
 }
 func (fnh *FaceNormalsHelper) Id() int {
 	return fnh.Get("id").Int()
@@ -67,19 +71,19 @@ func (fnh *FaceNormalsHelper) Layers() *Layers {
 	return &Layers{Value: fnh.Get("layers")}
 }
 func (fnh *FaceNormalsHelper) SetLayers(v *Layers) {
-	fnh.Set("layers", v)
+	fnh.Set("layers", v.Value)
 }
-func (fnh *FaceNormalsHelper) Material() *Material {
-	return &Material{Value: fnh.Get("material")}
+func (fnh *FaceNormalsHelper) Material() Material {
+	return &MaterialImpl{Value: fnh.Get("material")}
 }
-func (fnh *FaceNormalsHelper) SetMaterial(v *Material) {
-	fnh.Set("material", v)
+func (fnh *FaceNormalsHelper) SetMaterial(v Material) {
+	fnh.Set("material", v.JSValue())
 }
 func (fnh *FaceNormalsHelper) Matrix() *Matrix4 {
 	return &Matrix4{Value: fnh.Get("matrix")}
 }
 func (fnh *FaceNormalsHelper) SetMatrix(v *Matrix4) {
-	fnh.Set("matrix", v)
+	fnh.Set("matrix", v.Value)
 }
 func (fnh *FaceNormalsHelper) MatrixAutoUpdate() bool {
 	return fnh.Get("matrixAutoUpdate").Bool()
@@ -91,7 +95,7 @@ func (fnh *FaceNormalsHelper) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: fnh.Get("matrixWorld")}
 }
 func (fnh *FaceNormalsHelper) SetMatrixWorld(v *Matrix4) {
-	fnh.Set("matrixWorld", v)
+	fnh.Set("matrixWorld", v.Value)
 }
 func (fnh *FaceNormalsHelper) MatrixWorldNeedsUpdate() bool {
 	return fnh.Get("matrixWorldNeedsUpdate").Bool()
@@ -103,7 +107,7 @@ func (fnh *FaceNormalsHelper) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: fnh.Get("modelViewMatrix")}
 }
 func (fnh *FaceNormalsHelper) SetModelViewMatrix(v *Matrix4) {
-	fnh.Set("modelViewMatrix", v)
+	fnh.Set("modelViewMatrix", v.Value)
 }
 func (fnh *FaceNormalsHelper) Name() string {
 	return fnh.Get("name").String()
@@ -115,13 +119,13 @@ func (fnh *FaceNormalsHelper) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: fnh.Get("normalMatrix")}
 }
 func (fnh *FaceNormalsHelper) SetNormalMatrix(v *Matrix3) {
-	fnh.Set("normalMatrix", v)
+	fnh.Set("normalMatrix", v.Value)
 }
 func (fnh *FaceNormalsHelper) Object() *Object3D {
 	return &Object3D{Value: fnh.Get("object")}
 }
 func (fnh *FaceNormalsHelper) SetObject(v *Object3D) {
-	fnh.Set("object", v)
+	fnh.Set("object", v.Value)
 }
 func (fnh *FaceNormalsHelper) OnAfterRender() js.Value {
 	return fnh.Get("onAfterRender")
@@ -139,19 +143,19 @@ func (fnh *FaceNormalsHelper) Parent() *Object3D {
 	return &Object3D{Value: fnh.Get("parent")}
 }
 func (fnh *FaceNormalsHelper) SetParent(v *Object3D) {
-	fnh.Set("parent", v)
+	fnh.Set("parent", v.Value)
 }
 func (fnh *FaceNormalsHelper) Position() *Vector3 {
 	return &Vector3{Value: fnh.Get("position")}
 }
 func (fnh *FaceNormalsHelper) SetPosition(v *Vector3) {
-	fnh.Set("position", v)
+	fnh.Set("position", v.Value)
 }
 func (fnh *FaceNormalsHelper) Quaternion() *Quaternion {
 	return &Quaternion{Value: fnh.Get("quaternion")}
 }
 func (fnh *FaceNormalsHelper) SetQuaternion(v *Quaternion) {
-	fnh.Set("quaternion", v)
+	fnh.Set("quaternion", v.Value)
 }
 func (fnh *FaceNormalsHelper) ReceiveShadow() bool {
 	return fnh.Get("receiveShadow").Bool()
@@ -169,13 +173,13 @@ func (fnh *FaceNormalsHelper) Rotation() *Euler {
 	return &Euler{Value: fnh.Get("rotation")}
 }
 func (fnh *FaceNormalsHelper) SetRotation(v *Euler) {
-	fnh.Set("rotation", v)
+	fnh.Set("rotation", v.Value)
 }
 func (fnh *FaceNormalsHelper) Scale() *Vector3 {
 	return &Vector3{Value: fnh.Get("scale")}
 }
 func (fnh *FaceNormalsHelper) SetScale(v *Vector3) {
-	fnh.Set("scale", v)
+	fnh.Set("scale", v.Value)
 }
 func (fnh *FaceNormalsHelper) Size() float64 {
 	return fnh.Get("size").Float()
@@ -193,7 +197,7 @@ func (fnh *FaceNormalsHelper) Up() *Vector3 {
 	return &Vector3{Value: fnh.Get("up")}
 }
 func (fnh *FaceNormalsHelper) SetUp(v *Vector3) {
-	fnh.Set("up", v)
+	fnh.Set("up", v.Value)
 }
 func (fnh *FaceNormalsHelper) UserData() js.Value {
 	return fnh.Get("userData")
@@ -223,7 +227,7 @@ func (fnh *FaceNormalsHelper) DefaultUp() *Vector3 {
 	return &Vector3{Value: fnh.Get("DefaultUp")}
 }
 func (fnh *FaceNormalsHelper) SetDefaultUp(v *Vector3) {
-	fnh.Set("DefaultUp", v)
+	fnh.Set("DefaultUp", v.Value)
 }
 func (fnh *FaceNormalsHelper) Add(object js.Value) *FaceNormalsHelper {
 	return &FaceNormalsHelper{Value: fnh.Call("add", object)}

@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Interpolant extend: []
 type Interpolant struct {
 	js.Value
 }
 
 func NewInterpolant(parameterPositions js.Value, samplesValues js.Value, sampleSize float64, resultBuffer js.Value) *Interpolant {
 	return &Interpolant{Value: get("Interpolant").New(parameterPositions, samplesValues, sampleSize, resultBuffer)}
+}
+func (ii *Interpolant) JSValue() js.Value {
+	return ii.Value
 }
 func (ii *Interpolant) ParameterPositions() js.Value {
 	return ii.Get("parameterPositions")

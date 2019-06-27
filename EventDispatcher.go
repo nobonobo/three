@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// EventDispatcher extend: []
 type EventDispatcher struct {
 	js.Value
 }
 
 func NewEventDispatcher() *EventDispatcher {
 	return &EventDispatcher{Value: get("EventDispatcher").New()}
+}
+func (ed *EventDispatcher) JSValue() js.Value {
+	return ed.Value
 }
 func (ed *EventDispatcher) AddEventListener(typ string, listener js.Value) {
 	ed.Call("addEventListener", typ, listener)

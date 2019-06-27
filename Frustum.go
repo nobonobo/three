@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Frustum extend: []
 type Frustum struct {
 	js.Value
 }
 
 func NewFrustum(p0 *Plane, p1 *Plane, p2 *Plane, p3 *Plane, p4 *Plane, p5 *Plane) *Frustum {
 	return &Frustum{Value: get("Frustum").New(p0, p1, p2, p3, p4, p5)}
+}
+func (ff *Frustum) JSValue() js.Value {
+	return ff.Value
 }
 func (ff *Frustum) Planes() js.Value {
 	return ff.Get("planes")

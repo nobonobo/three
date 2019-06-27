@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// ArrayCamera extend: [PerspectiveCamera]
 type ArrayCamera struct {
 	js.Value
 }
 
 func NewArrayCamera(cameras js.Value) *ArrayCamera {
 	return &ArrayCamera{Value: get("ArrayCamera").New(cameras)}
+}
+func (ac *ArrayCamera) JSValue() js.Value {
+	return ac.Value
 }
 func (ac *ArrayCamera) Aspect() float64 {
 	return ac.Get("aspect").Float()
@@ -109,13 +113,13 @@ func (ac *ArrayCamera) Layers() *Layers {
 	return &Layers{Value: ac.Get("layers")}
 }
 func (ac *ArrayCamera) SetLayers(v *Layers) {
-	ac.Set("layers", v)
+	ac.Set("layers", v.Value)
 }
 func (ac *ArrayCamera) Matrix() *Matrix4 {
 	return &Matrix4{Value: ac.Get("matrix")}
 }
 func (ac *ArrayCamera) SetMatrix(v *Matrix4) {
-	ac.Set("matrix", v)
+	ac.Set("matrix", v.Value)
 }
 func (ac *ArrayCamera) MatrixAutoUpdate() bool {
 	return ac.Get("matrixAutoUpdate").Bool()
@@ -127,13 +131,13 @@ func (ac *ArrayCamera) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: ac.Get("matrixWorld")}
 }
 func (ac *ArrayCamera) SetMatrixWorld(v *Matrix4) {
-	ac.Set("matrixWorld", v)
+	ac.Set("matrixWorld", v.Value)
 }
 func (ac *ArrayCamera) MatrixWorldInverse() *Matrix4 {
 	return &Matrix4{Value: ac.Get("matrixWorldInverse")}
 }
 func (ac *ArrayCamera) SetMatrixWorldInverse(v *Matrix4) {
-	ac.Set("matrixWorldInverse", v)
+	ac.Set("matrixWorldInverse", v.Value)
 }
 func (ac *ArrayCamera) MatrixWorldNeedsUpdate() bool {
 	return ac.Get("matrixWorldNeedsUpdate").Bool()
@@ -145,7 +149,7 @@ func (ac *ArrayCamera) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: ac.Get("modelViewMatrix")}
 }
 func (ac *ArrayCamera) SetModelViewMatrix(v *Matrix4) {
-	ac.Set("modelViewMatrix", v)
+	ac.Set("modelViewMatrix", v.Value)
 }
 func (ac *ArrayCamera) Name() string {
 	return ac.Get("name").String()
@@ -163,7 +167,7 @@ func (ac *ArrayCamera) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: ac.Get("normalMatrix")}
 }
 func (ac *ArrayCamera) SetNormalMatrix(v *Matrix3) {
-	ac.Set("normalMatrix", v)
+	ac.Set("normalMatrix", v.Value)
 }
 func (ac *ArrayCamera) OnAfterRender() js.Value {
 	return ac.Get("onAfterRender")
@@ -181,25 +185,25 @@ func (ac *ArrayCamera) Parent() *Object3D {
 	return &Object3D{Value: ac.Get("parent")}
 }
 func (ac *ArrayCamera) SetParent(v *Object3D) {
-	ac.Set("parent", v)
+	ac.Set("parent", v.Value)
 }
 func (ac *ArrayCamera) Position() *Vector3 {
 	return &Vector3{Value: ac.Get("position")}
 }
 func (ac *ArrayCamera) SetPosition(v *Vector3) {
-	ac.Set("position", v)
+	ac.Set("position", v.Value)
 }
 func (ac *ArrayCamera) ProjectionMatrix() *Matrix4 {
 	return &Matrix4{Value: ac.Get("projectionMatrix")}
 }
 func (ac *ArrayCamera) SetProjectionMatrix(v *Matrix4) {
-	ac.Set("projectionMatrix", v)
+	ac.Set("projectionMatrix", v.Value)
 }
 func (ac *ArrayCamera) Quaternion() *Quaternion {
 	return &Quaternion{Value: ac.Get("quaternion")}
 }
 func (ac *ArrayCamera) SetQuaternion(v *Quaternion) {
-	ac.Set("quaternion", v)
+	ac.Set("quaternion", v.Value)
 }
 func (ac *ArrayCamera) ReceiveShadow() bool {
 	return ac.Get("receiveShadow").Bool()
@@ -217,13 +221,13 @@ func (ac *ArrayCamera) Rotation() *Euler {
 	return &Euler{Value: ac.Get("rotation")}
 }
 func (ac *ArrayCamera) SetRotation(v *Euler) {
-	ac.Set("rotation", v)
+	ac.Set("rotation", v.Value)
 }
 func (ac *ArrayCamera) Scale() *Vector3 {
 	return &Vector3{Value: ac.Get("scale")}
 }
 func (ac *ArrayCamera) SetScale(v *Vector3) {
-	ac.Set("scale", v)
+	ac.Set("scale", v.Value)
 }
 func (ac *ArrayCamera) Type() string {
 	return ac.Get("type").String()
@@ -235,7 +239,7 @@ func (ac *ArrayCamera) Up() *Vector3 {
 	return &Vector3{Value: ac.Get("up")}
 }
 func (ac *ArrayCamera) SetUp(v *Vector3) {
-	ac.Set("up", v)
+	ac.Set("up", v.Value)
 }
 func (ac *ArrayCamera) UserData() js.Value {
 	return ac.Get("userData")
@@ -277,7 +281,7 @@ func (ac *ArrayCamera) DefaultUp() *Vector3 {
 	return &Vector3{Value: ac.Get("DefaultUp")}
 }
 func (ac *ArrayCamera) SetDefaultUp(v *Vector3) {
-	ac.Set("DefaultUp", v)
+	ac.Set("DefaultUp", v.Value)
 }
 func (ac *ArrayCamera) Add(object js.Value) *ArrayCamera {
 	return &ArrayCamera{Value: ac.Call("add", object)}
@@ -297,8 +301,8 @@ func (ac *ArrayCamera) ClearViewOffset() {
 func (ac *ArrayCamera) Clone(recursive bool) *ArrayCamera {
 	return &ArrayCamera{Value: ac.Call("clone", recursive)}
 }
-func (ac *ArrayCamera) Copy(source *Camera, recursive bool) *ArrayCamera {
-	return &ArrayCamera{Value: ac.Call("copy", source, recursive)}
+func (ac *ArrayCamera) Copy(source Camera, recursive bool) *ArrayCamera {
+	return &ArrayCamera{Value: ac.Call("copy", source.JSValue(), recursive)}
 }
 func (ac *ArrayCamera) DispatchEvent(event js.Value) {
 	ac.Call("dispatchEvent", event)

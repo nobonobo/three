@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// SplineCurve extend: [Curve]
 type SplineCurve struct {
 	js.Value
 }
 
 func NewSplineCurve(points js.Value) *SplineCurve {
 	return &SplineCurve{Value: get("SplineCurve").New(points)}
+}
+func (sc *SplineCurve) JSValue() js.Value {
+	return sc.Value
 }
 func (sc *SplineCurve) ArcLengthDivisions() float64 {
 	return sc.Get("arcLengthDivisions").Float()

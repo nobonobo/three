@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// InstancedInterleavedBuffer extend: [InterleavedBuffer]
 type InstancedInterleavedBuffer struct {
 	js.Value
 }
 
 func NewInstancedInterleavedBuffer(array js.Value, stride int, meshPerAttribute float64) *InstancedInterleavedBuffer {
 	return &InstancedInterleavedBuffer{Value: get("InstancedInterleavedBuffer").New(array, stride, meshPerAttribute)}
+}
+func (iib *InstancedInterleavedBuffer) JSValue() js.Value {
+	return iib.Value
 }
 func (iib *InstancedInterleavedBuffer) Array() js.Value {
 	return iib.Get("array")

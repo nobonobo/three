@@ -12,12 +12,17 @@ type Intersection interface {
 }
 type RaycasterParameters interface {
 }
+
+// Raycaster extend: []
 type Raycaster struct {
 	js.Value
 }
 
 func NewRaycaster(origin *Vector3, direction *Vector3, near float64, far float64) *Raycaster {
 	return &Raycaster{Value: get("Raycaster").New(origin, direction, near, far)}
+}
+func (rr *Raycaster) JSValue() js.Value {
+	return rr.Value
 }
 func (rr *Raycaster) Far() float64 {
 	return rr.Get("far").Float()
@@ -37,17 +42,17 @@ func (rr *Raycaster) Near() float64 {
 func (rr *Raycaster) SetNear(v float64) {
 	rr.Set("near", v)
 }
-func (rr *Raycaster) Params() RaycasterParameters {
-	return RaycasterParameters(rr.Get("params"))
+func (rr *Raycaster) Params() js.Value {
+	return rr.Get("params")
 }
-func (rr *Raycaster) SetParams(v RaycasterParameters) {
+func (rr *Raycaster) SetParams(v js.Value) {
 	rr.Set("params", v)
 }
 func (rr *Raycaster) Ray() *Ray {
 	return &Ray{Value: rr.Get("ray")}
 }
 func (rr *Raycaster) SetRay(v *Ray) {
-	rr.Set("ray", v)
+	rr.Set("ray", v.Value)
 }
 func (rr *Raycaster) IntersectObject(object *Object3D, recursive bool, optionalTarget js.Value) js.Value {
 	return rr.Call("intersectObject", object, recursive, optionalTarget)
@@ -58,6 +63,6 @@ func (rr *Raycaster) IntersectObjects(objects js.Value, recursive bool, optional
 func (rr *Raycaster) Set2(origin *Vector3, direction *Vector3) {
 	rr.Call("set", origin, direction)
 }
-func (rr *Raycaster) SetFromCamera(coords js.Value, camera *Camera) {
-	rr.Call("setFromCamera", coords, camera)
+func (rr *Raycaster) SetFromCamera(coords js.Value, camera Camera) {
+	rr.Call("setFromCamera", coords, camera.JSValue())
 }

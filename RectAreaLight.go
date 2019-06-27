@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// RectAreaLight extend: [Light]
 type RectAreaLight struct {
 	js.Value
 }
 
 func NewRectAreaLight(color *Color, intensity float64, width float64, height float64) *RectAreaLight {
 	return &RectAreaLight{Value: get("RectAreaLight").New(color, intensity, width, height)}
+}
+func (ral *RectAreaLight) JSValue() js.Value {
+	return ral.Value
 }
 func (ral *RectAreaLight) CastShadow() bool {
 	return ral.Get("castShadow").Bool()
@@ -31,7 +35,7 @@ func (ral *RectAreaLight) Color() *Color {
 	return &Color{Value: ral.Get("color")}
 }
 func (ral *RectAreaLight) SetColor(v *Color) {
-	ral.Set("color", v)
+	ral.Set("color", v.Value)
 }
 func (ral *RectAreaLight) FrustumCulled() bool {
 	return ral.Get("frustumCulled").Bool()
@@ -73,13 +77,13 @@ func (ral *RectAreaLight) Layers() *Layers {
 	return &Layers{Value: ral.Get("layers")}
 }
 func (ral *RectAreaLight) SetLayers(v *Layers) {
-	ral.Set("layers", v)
+	ral.Set("layers", v.Value)
 }
 func (ral *RectAreaLight) Matrix() *Matrix4 {
 	return &Matrix4{Value: ral.Get("matrix")}
 }
 func (ral *RectAreaLight) SetMatrix(v *Matrix4) {
-	ral.Set("matrix", v)
+	ral.Set("matrix", v.Value)
 }
 func (ral *RectAreaLight) MatrixAutoUpdate() bool {
 	return ral.Get("matrixAutoUpdate").Bool()
@@ -91,7 +95,7 @@ func (ral *RectAreaLight) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: ral.Get("matrixWorld")}
 }
 func (ral *RectAreaLight) SetMatrixWorld(v *Matrix4) {
-	ral.Set("matrixWorld", v)
+	ral.Set("matrixWorld", v.Value)
 }
 func (ral *RectAreaLight) MatrixWorldNeedsUpdate() bool {
 	return ral.Get("matrixWorldNeedsUpdate").Bool()
@@ -103,7 +107,7 @@ func (ral *RectAreaLight) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: ral.Get("modelViewMatrix")}
 }
 func (ral *RectAreaLight) SetModelViewMatrix(v *Matrix4) {
-	ral.Set("modelViewMatrix", v)
+	ral.Set("modelViewMatrix", v.Value)
 }
 func (ral *RectAreaLight) Name() string {
 	return ral.Get("name").String()
@@ -115,7 +119,7 @@ func (ral *RectAreaLight) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: ral.Get("normalMatrix")}
 }
 func (ral *RectAreaLight) SetNormalMatrix(v *Matrix3) {
-	ral.Set("normalMatrix", v)
+	ral.Set("normalMatrix", v.Value)
 }
 func (ral *RectAreaLight) OnAfterRender() js.Value {
 	return ral.Get("onAfterRender")
@@ -133,19 +137,19 @@ func (ral *RectAreaLight) Parent() *Object3D {
 	return &Object3D{Value: ral.Get("parent")}
 }
 func (ral *RectAreaLight) SetParent(v *Object3D) {
-	ral.Set("parent", v)
+	ral.Set("parent", v.Value)
 }
 func (ral *RectAreaLight) Position() *Vector3 {
 	return &Vector3{Value: ral.Get("position")}
 }
 func (ral *RectAreaLight) SetPosition(v *Vector3) {
-	ral.Set("position", v)
+	ral.Set("position", v.Value)
 }
 func (ral *RectAreaLight) Quaternion() *Quaternion {
 	return &Quaternion{Value: ral.Get("quaternion")}
 }
 func (ral *RectAreaLight) SetQuaternion(v *Quaternion) {
-	ral.Set("quaternion", v)
+	ral.Set("quaternion", v.Value)
 }
 func (ral *RectAreaLight) ReceiveShadow() bool {
 	return ral.Get("receiveShadow").Bool()
@@ -163,19 +167,19 @@ func (ral *RectAreaLight) Rotation() *Euler {
 	return &Euler{Value: ral.Get("rotation")}
 }
 func (ral *RectAreaLight) SetRotation(v *Euler) {
-	ral.Set("rotation", v)
+	ral.Set("rotation", v.Value)
 }
 func (ral *RectAreaLight) Scale() *Vector3 {
 	return &Vector3{Value: ral.Get("scale")}
 }
 func (ral *RectAreaLight) SetScale(v *Vector3) {
-	ral.Set("scale", v)
+	ral.Set("scale", v.Value)
 }
 func (ral *RectAreaLight) Shadow() *LightShadow {
 	return &LightShadow{Value: ral.Get("shadow")}
 }
 func (ral *RectAreaLight) SetShadow(v *LightShadow) {
-	ral.Set("shadow", v)
+	ral.Set("shadow", v.Value)
 }
 func (ral *RectAreaLight) ShadowBias() js.Value {
 	return ral.Get("shadowBias")
@@ -247,7 +251,7 @@ func (ral *RectAreaLight) Up() *Vector3 {
 	return &Vector3{Value: ral.Get("up")}
 }
 func (ral *RectAreaLight) SetUp(v *Vector3) {
-	ral.Set("up", v)
+	ral.Set("up", v.Value)
 }
 func (ral *RectAreaLight) UserData() js.Value {
 	return ral.Get("userData")
@@ -283,7 +287,7 @@ func (ral *RectAreaLight) DefaultUp() *Vector3 {
 	return &Vector3{Value: ral.Get("DefaultUp")}
 }
 func (ral *RectAreaLight) SetDefaultUp(v *Vector3) {
-	ral.Set("DefaultUp", v)
+	ral.Set("DefaultUp", v.Value)
 }
 func (ral *RectAreaLight) Add(object js.Value) *RectAreaLight {
 	return &RectAreaLight{Value: ral.Call("add", object)}

@@ -8,6 +8,7 @@ import (
 	"syscall/js"
 )
 
+// Line3 extend: []
 type Line3 struct {
 	js.Value
 }
@@ -15,17 +16,20 @@ type Line3 struct {
 func NewLine3(start *Vector3, end *Vector3) *Line3 {
 	return &Line3{Value: get("Line3").New(start, end)}
 }
+func (ll *Line3) JSValue() js.Value {
+	return ll.Value
+}
 func (ll *Line3) End() *Vector3 {
 	return &Vector3{Value: ll.Get("end")}
 }
 func (ll *Line3) SetEnd(v *Vector3) {
-	ll.Set("end", v)
+	ll.Set("end", v.Value)
 }
 func (ll *Line3) Start() *Vector3 {
 	return &Vector3{Value: ll.Get("start")}
 }
 func (ll *Line3) SetStart(v *Vector3) {
-	ll.Set("start", v)
+	ll.Set("start", v.Value)
 }
 func (ll *Line3) ApplyMatrix4(matrix *Matrix4) *Line3 {
 	return &Line3{Value: ll.Call("applyMatrix4", matrix)}

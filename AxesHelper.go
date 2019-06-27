@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// AxesHelper extend: [LineSegments]
 type AxesHelper struct {
 	js.Value
 }
 
 func NewAxesHelper(size float64) *AxesHelper {
 	return &AxesHelper{Value: get("AxesHelper").New(size)}
+}
+func (ah *AxesHelper) JSValue() js.Value {
+	return ah.Value
 }
 func (ah *AxesHelper) CastShadow() bool {
 	return ah.Get("castShadow").Bool()
@@ -33,11 +37,11 @@ func (ah *AxesHelper) FrustumCulled() bool {
 func (ah *AxesHelper) SetFrustumCulled(v bool) {
 	ah.Set("frustumCulled", v)
 }
-func (ah *AxesHelper) Geometry() *Geometry {
-	return &Geometry{Value: ah.Get("geometry")}
+func (ah *AxesHelper) Geometry() Geometry {
+	return &GeometryImpl{Value: ah.Get("geometry")}
 }
-func (ah *AxesHelper) SetGeometry(v *Geometry) {
-	ah.Set("geometry", v)
+func (ah *AxesHelper) SetGeometry(v Geometry) {
+	ah.Set("geometry", v.JSValue())
 }
 func (ah *AxesHelper) Id() int {
 	return ah.Get("id").Int()
@@ -67,19 +71,19 @@ func (ah *AxesHelper) Layers() *Layers {
 	return &Layers{Value: ah.Get("layers")}
 }
 func (ah *AxesHelper) SetLayers(v *Layers) {
-	ah.Set("layers", v)
+	ah.Set("layers", v.Value)
 }
-func (ah *AxesHelper) Material() *Material {
-	return &Material{Value: ah.Get("material")}
+func (ah *AxesHelper) Material() Material {
+	return &MaterialImpl{Value: ah.Get("material")}
 }
-func (ah *AxesHelper) SetMaterial(v *Material) {
-	ah.Set("material", v)
+func (ah *AxesHelper) SetMaterial(v Material) {
+	ah.Set("material", v.JSValue())
 }
 func (ah *AxesHelper) Matrix() *Matrix4 {
 	return &Matrix4{Value: ah.Get("matrix")}
 }
 func (ah *AxesHelper) SetMatrix(v *Matrix4) {
-	ah.Set("matrix", v)
+	ah.Set("matrix", v.Value)
 }
 func (ah *AxesHelper) MatrixAutoUpdate() bool {
 	return ah.Get("matrixAutoUpdate").Bool()
@@ -91,7 +95,7 @@ func (ah *AxesHelper) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: ah.Get("matrixWorld")}
 }
 func (ah *AxesHelper) SetMatrixWorld(v *Matrix4) {
-	ah.Set("matrixWorld", v)
+	ah.Set("matrixWorld", v.Value)
 }
 func (ah *AxesHelper) MatrixWorldNeedsUpdate() bool {
 	return ah.Get("matrixWorldNeedsUpdate").Bool()
@@ -103,7 +107,7 @@ func (ah *AxesHelper) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: ah.Get("modelViewMatrix")}
 }
 func (ah *AxesHelper) SetModelViewMatrix(v *Matrix4) {
-	ah.Set("modelViewMatrix", v)
+	ah.Set("modelViewMatrix", v.Value)
 }
 func (ah *AxesHelper) Name() string {
 	return ah.Get("name").String()
@@ -115,7 +119,7 @@ func (ah *AxesHelper) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: ah.Get("normalMatrix")}
 }
 func (ah *AxesHelper) SetNormalMatrix(v *Matrix3) {
-	ah.Set("normalMatrix", v)
+	ah.Set("normalMatrix", v.Value)
 }
 func (ah *AxesHelper) OnAfterRender() js.Value {
 	return ah.Get("onAfterRender")
@@ -133,19 +137,19 @@ func (ah *AxesHelper) Parent() *Object3D {
 	return &Object3D{Value: ah.Get("parent")}
 }
 func (ah *AxesHelper) SetParent(v *Object3D) {
-	ah.Set("parent", v)
+	ah.Set("parent", v.Value)
 }
 func (ah *AxesHelper) Position() *Vector3 {
 	return &Vector3{Value: ah.Get("position")}
 }
 func (ah *AxesHelper) SetPosition(v *Vector3) {
-	ah.Set("position", v)
+	ah.Set("position", v.Value)
 }
 func (ah *AxesHelper) Quaternion() *Quaternion {
 	return &Quaternion{Value: ah.Get("quaternion")}
 }
 func (ah *AxesHelper) SetQuaternion(v *Quaternion) {
-	ah.Set("quaternion", v)
+	ah.Set("quaternion", v.Value)
 }
 func (ah *AxesHelper) ReceiveShadow() bool {
 	return ah.Get("receiveShadow").Bool()
@@ -163,13 +167,13 @@ func (ah *AxesHelper) Rotation() *Euler {
 	return &Euler{Value: ah.Get("rotation")}
 }
 func (ah *AxesHelper) SetRotation(v *Euler) {
-	ah.Set("rotation", v)
+	ah.Set("rotation", v.Value)
 }
 func (ah *AxesHelper) Scale() *Vector3 {
 	return &Vector3{Value: ah.Get("scale")}
 }
 func (ah *AxesHelper) SetScale(v *Vector3) {
-	ah.Set("scale", v)
+	ah.Set("scale", v.Value)
 }
 func (ah *AxesHelper) Type() string {
 	return ah.Get("type").String()
@@ -181,7 +185,7 @@ func (ah *AxesHelper) Up() *Vector3 {
 	return &Vector3{Value: ah.Get("up")}
 }
 func (ah *AxesHelper) SetUp(v *Vector3) {
-	ah.Set("up", v)
+	ah.Set("up", v.Value)
 }
 func (ah *AxesHelper) UserData() js.Value {
 	return ah.Get("userData")
@@ -211,7 +215,7 @@ func (ah *AxesHelper) DefaultUp() *Vector3 {
 	return &Vector3{Value: ah.Get("DefaultUp")}
 }
 func (ah *AxesHelper) SetDefaultUp(v *Vector3) {
-	ah.Set("DefaultUp", v)
+	ah.Set("DefaultUp", v.Value)
 }
 func (ah *AxesHelper) Add(object js.Value) *AxesHelper {
 	return &AxesHelper{Value: ah.Call("add", object)}

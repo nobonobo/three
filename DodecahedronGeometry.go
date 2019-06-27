@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// DodecahedronBufferGeometry extend: [PolyhedronBufferGeometry]
 type DodecahedronBufferGeometry struct {
 	js.Value
 }
 
 func NewDodecahedronBufferGeometry(radius float64, detail float64) *DodecahedronBufferGeometry {
 	return &DodecahedronBufferGeometry{Value: get("DodecahedronBufferGeometry").New(radius, detail)}
+}
+func (dbg *DodecahedronBufferGeometry) JSValue() js.Value {
+	return dbg.Value
 }
 func (dbg *DodecahedronBufferGeometry) Attributes() js.Value {
 	return dbg.Get("attributes")
@@ -25,13 +29,13 @@ func (dbg *DodecahedronBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: dbg.Get("boundingBox")}
 }
 func (dbg *DodecahedronBufferGeometry) SetBoundingBox(v *Box3) {
-	dbg.Set("boundingBox", v)
+	dbg.Set("boundingBox", v.Value)
 }
 func (dbg *DodecahedronBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: dbg.Get("boundingSphere")}
 }
 func (dbg *DodecahedronBufferGeometry) SetBoundingSphere(v *Sphere) {
-	dbg.Set("boundingSphere", v)
+	dbg.Set("boundingSphere", v.Value)
 }
 func (dbg *DodecahedronBufferGeometry) DrawRange() js.Value {
 	return dbg.Get("drawRange")
@@ -61,7 +65,7 @@ func (dbg *DodecahedronBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: dbg.Get("index")}
 }
 func (dbg *DodecahedronBufferGeometry) SetIndex(v *BufferAttribute) {
-	dbg.Set("index", v)
+	dbg.Set("index", v.Value)
 }
 func (dbg *DodecahedronBufferGeometry) MorphAttributes() js.Value {
 	return dbg.Get("morphAttributes")
@@ -165,8 +169,8 @@ func (dbg *DodecahedronBufferGeometry) Dispose() {
 func (dbg *DodecahedronBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: dbg.Call("fromDirectGeometry", geometry)}
 }
-func (dbg *DodecahedronBufferGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("fromGeometry", geometry, settings)}
+func (dbg *DodecahedronBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: dbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (dbg *DodecahedronBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: dbg.Call("getAttribute", name)}
@@ -229,6 +233,7 @@ func (dbg *DodecahedronBufferGeometry) UpdateFromObject(object *Object3D) {
 	dbg.Call("updateFromObject", object)
 }
 
+// DodecahedronGeometry extend: [Geometry]
 type DodecahedronGeometry struct {
 	js.Value
 }
@@ -236,11 +241,14 @@ type DodecahedronGeometry struct {
 func NewDodecahedronGeometry(radius float64, detail float64) *DodecahedronGeometry {
 	return &DodecahedronGeometry{Value: get("DodecahedronGeometry").New(radius, detail)}
 }
+func (dg *DodecahedronGeometry) JSValue() js.Value {
+	return dg.Value
+}
 func (dg *DodecahedronGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: dg.Get("animation")}
 }
 func (dg *DodecahedronGeometry) SetAnimation(v *AnimationClip) {
-	dg.Set("animation", v)
+	dg.Set("animation", v.Value)
 }
 func (dg *DodecahedronGeometry) Animations() js.Value {
 	return dg.Get("animations")
@@ -258,13 +266,13 @@ func (dg *DodecahedronGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: dg.Get("boundingBox")}
 }
 func (dg *DodecahedronGeometry) SetBoundingBox(v *Box3) {
-	dg.Set("boundingBox", v)
+	dg.Set("boundingBox", v.Value)
 }
 func (dg *DodecahedronGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: dg.Get("boundingSphere")}
 }
 func (dg *DodecahedronGeometry) SetBoundingSphere(v *Sphere) {
-	dg.Set("boundingSphere", v)
+	dg.Set("boundingSphere", v.Value)
 }
 func (dg *DodecahedronGeometry) Colors() js.Value {
 	return dg.Get("colors")
@@ -395,13 +403,13 @@ func (dg *DodecahedronGeometry) SetVerticesNeedUpdate(v bool) {
 func (dg *DodecahedronGeometry) AddEventListener(typ string, listener js.Value) {
 	dg.Call("addEventListener", typ, listener)
 }
-func (dg *DodecahedronGeometry) ApplyMatrix(matrix *Matrix4) *Geometry {
-	return &Geometry{Value: dg.Call("applyMatrix", matrix)}
+func (dg *DodecahedronGeometry) ApplyMatrix(matrix *Matrix4) Geometry {
+	return &GeometryImpl{Value: dg.Call("applyMatrix", matrix)}
 }
-func (dg *DodecahedronGeometry) Center() *Geometry {
-	return &Geometry{Value: dg.Call("center")}
+func (dg *DodecahedronGeometry) Center() Geometry {
+	return &GeometryImpl{Value: dg.Call("center")}
 }
-func (dg *DodecahedronGeometry) Clone() *DodecahedronGeometry {
+func (dg *DodecahedronGeometry) Clone() Geometry {
 	return &DodecahedronGeometry{Value: dg.Call("clone")}
 }
 func (dg *DodecahedronGeometry) ComputeBoundingBox() {
@@ -422,8 +430,8 @@ func (dg *DodecahedronGeometry) ComputeMorphNormals() {
 func (dg *DodecahedronGeometry) ComputeVertexNormals(areaWeighted bool) {
 	dg.Call("computeVertexNormals", areaWeighted)
 }
-func (dg *DodecahedronGeometry) Copy(source *Geometry) *DodecahedronGeometry {
-	return &DodecahedronGeometry{Value: dg.Call("copy", source)}
+func (dg *DodecahedronGeometry) Copy(source Geometry) Geometry {
+	return &DodecahedronGeometry{Value: dg.Call("copy", source.JSValue())}
 }
 func (dg *DodecahedronGeometry) DispatchEvent(event js.Value) {
 	dg.Call("dispatchEvent", event)
@@ -431,8 +439,8 @@ func (dg *DodecahedronGeometry) DispatchEvent(event js.Value) {
 func (dg *DodecahedronGeometry) Dispose() {
 	dg.Call("dispose")
 }
-func (dg *DodecahedronGeometry) FromBufferGeometry(geometry *BufferGeometry) *Geometry {
-	return &Geometry{Value: dg.Call("fromBufferGeometry", geometry)}
+func (dg *DodecahedronGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
+	return &GeometryImpl{Value: dg.Call("fromBufferGeometry", geometry)}
 }
 func (dg *DodecahedronGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return dg.Call("hasEventListener", typ, listener).Bool()
@@ -440,8 +448,8 @@ func (dg *DodecahedronGeometry) HasEventListener(typ string, listener js.Value) 
 func (dg *DodecahedronGeometry) LookAt(vector *Vector3) {
 	dg.Call("lookAt", vector)
 }
-func (dg *DodecahedronGeometry) Merge(geometry *Geometry, matrix Matrix, materialIndexOffset int) {
-	dg.Call("merge", geometry, matrix, materialIndexOffset)
+func (dg *DodecahedronGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
+	dg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
 func (dg *DodecahedronGeometry) MergeMesh(mesh *Mesh) {
 	dg.Call("mergeMesh", mesh)
@@ -449,25 +457,25 @@ func (dg *DodecahedronGeometry) MergeMesh(mesh *Mesh) {
 func (dg *DodecahedronGeometry) MergeVertices() float64 {
 	return dg.Call("mergeVertices").Float()
 }
-func (dg *DodecahedronGeometry) Normalize() *Geometry {
-	return &Geometry{Value: dg.Call("normalize")}
+func (dg *DodecahedronGeometry) Normalize() Geometry {
+	return &GeometryImpl{Value: dg.Call("normalize")}
 }
 func (dg *DodecahedronGeometry) RemoveEventListener(typ string, listener js.Value) {
 	dg.Call("removeEventListener", typ, listener)
 }
-func (dg *DodecahedronGeometry) RotateX(angle float64) *Geometry {
-	return &Geometry{Value: dg.Call("rotateX", angle)}
+func (dg *DodecahedronGeometry) RotateX(angle float64) Geometry {
+	return &GeometryImpl{Value: dg.Call("rotateX", angle)}
 }
-func (dg *DodecahedronGeometry) RotateY(angle float64) *Geometry {
-	return &Geometry{Value: dg.Call("rotateY", angle)}
+func (dg *DodecahedronGeometry) RotateY(angle float64) Geometry {
+	return &GeometryImpl{Value: dg.Call("rotateY", angle)}
 }
-func (dg *DodecahedronGeometry) RotateZ(angle float64) *Geometry {
-	return &Geometry{Value: dg.Call("rotateZ", angle)}
+func (dg *DodecahedronGeometry) RotateZ(angle float64) Geometry {
+	return &GeometryImpl{Value: dg.Call("rotateZ", angle)}
 }
-func (dg *DodecahedronGeometry) Scale(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: dg.Call("scale", x, y, z)}
+func (dg *DodecahedronGeometry) Scale(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: dg.Call("scale", x, y, z)}
 }
-func (dg *DodecahedronGeometry) SetFromPoints(points js.Value) *DodecahedronGeometry {
+func (dg *DodecahedronGeometry) SetFromPoints(points js.Value) Geometry {
 	return &DodecahedronGeometry{Value: dg.Call("setFromPoints", points)}
 }
 func (dg *DodecahedronGeometry) SortFacesByMaterialIndex() {
@@ -476,6 +484,6 @@ func (dg *DodecahedronGeometry) SortFacesByMaterialIndex() {
 func (dg *DodecahedronGeometry) ToJSON() js.Value {
 	return dg.Call("toJSON")
 }
-func (dg *DodecahedronGeometry) Translate(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: dg.Call("translate", x, y, z)}
+func (dg *DodecahedronGeometry) Translate(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: dg.Call("translate", x, y, z)}
 }

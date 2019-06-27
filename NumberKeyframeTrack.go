@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// NumberKeyframeTrack extend: [KeyframeTrack]
 type NumberKeyframeTrack struct {
 	js.Value
 }
 
 func NewNumberKeyframeTrack(name string, times js.Value, values js.Value, interpolation InterpolationModes) *NumberKeyframeTrack {
 	return &NumberKeyframeTrack{Value: get("NumberKeyframeTrack").New(name, times, values, interpolation)}
+}
+func (nkt *NumberKeyframeTrack) JSValue() js.Value {
+	return nkt.Value
 }
 func (nkt *NumberKeyframeTrack) DefaultInterpolation() InterpolationModes {
 	return InterpolationModes(nkt.Get("DefaultInterpolation"))

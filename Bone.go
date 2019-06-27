@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Bone extend: [Object3D]
 type Bone struct {
 	js.Value
 }
 
 func NewBone() *Bone {
 	return &Bone{Value: get("Bone").New()}
+}
+func (bb *Bone) JSValue() js.Value {
+	return bb.Value
 }
 func (bb *Bone) CastShadow() bool {
 	return bb.Get("castShadow").Bool()
@@ -55,13 +59,13 @@ func (bb *Bone) Layers() *Layers {
 	return &Layers{Value: bb.Get("layers")}
 }
 func (bb *Bone) SetLayers(v *Layers) {
-	bb.Set("layers", v)
+	bb.Set("layers", v.Value)
 }
 func (bb *Bone) Matrix() *Matrix4 {
 	return &Matrix4{Value: bb.Get("matrix")}
 }
 func (bb *Bone) SetMatrix(v *Matrix4) {
-	bb.Set("matrix", v)
+	bb.Set("matrix", v.Value)
 }
 func (bb *Bone) MatrixAutoUpdate() bool {
 	return bb.Get("matrixAutoUpdate").Bool()
@@ -73,7 +77,7 @@ func (bb *Bone) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: bb.Get("matrixWorld")}
 }
 func (bb *Bone) SetMatrixWorld(v *Matrix4) {
-	bb.Set("matrixWorld", v)
+	bb.Set("matrixWorld", v.Value)
 }
 func (bb *Bone) MatrixWorldNeedsUpdate() bool {
 	return bb.Get("matrixWorldNeedsUpdate").Bool()
@@ -85,7 +89,7 @@ func (bb *Bone) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: bb.Get("modelViewMatrix")}
 }
 func (bb *Bone) SetModelViewMatrix(v *Matrix4) {
-	bb.Set("modelViewMatrix", v)
+	bb.Set("modelViewMatrix", v.Value)
 }
 func (bb *Bone) Name() string {
 	return bb.Get("name").String()
@@ -97,7 +101,7 @@ func (bb *Bone) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: bb.Get("normalMatrix")}
 }
 func (bb *Bone) SetNormalMatrix(v *Matrix3) {
-	bb.Set("normalMatrix", v)
+	bb.Set("normalMatrix", v.Value)
 }
 func (bb *Bone) OnAfterRender() js.Value {
 	return bb.Get("onAfterRender")
@@ -115,19 +119,19 @@ func (bb *Bone) Parent() *Object3D {
 	return &Object3D{Value: bb.Get("parent")}
 }
 func (bb *Bone) SetParent(v *Object3D) {
-	bb.Set("parent", v)
+	bb.Set("parent", v.Value)
 }
 func (bb *Bone) Position() *Vector3 {
 	return &Vector3{Value: bb.Get("position")}
 }
 func (bb *Bone) SetPosition(v *Vector3) {
-	bb.Set("position", v)
+	bb.Set("position", v.Value)
 }
 func (bb *Bone) Quaternion() *Quaternion {
 	return &Quaternion{Value: bb.Get("quaternion")}
 }
 func (bb *Bone) SetQuaternion(v *Quaternion) {
-	bb.Set("quaternion", v)
+	bb.Set("quaternion", v.Value)
 }
 func (bb *Bone) ReceiveShadow() bool {
 	return bb.Get("receiveShadow").Bool()
@@ -145,13 +149,13 @@ func (bb *Bone) Rotation() *Euler {
 	return &Euler{Value: bb.Get("rotation")}
 }
 func (bb *Bone) SetRotation(v *Euler) {
-	bb.Set("rotation", v)
+	bb.Set("rotation", v.Value)
 }
 func (bb *Bone) Scale() *Vector3 {
 	return &Vector3{Value: bb.Get("scale")}
 }
 func (bb *Bone) SetScale(v *Vector3) {
-	bb.Set("scale", v)
+	bb.Set("scale", v.Value)
 }
 func (bb *Bone) Type() string {
 	return bb.Get("type").String()
@@ -163,7 +167,7 @@ func (bb *Bone) Up() *Vector3 {
 	return &Vector3{Value: bb.Get("up")}
 }
 func (bb *Bone) SetUp(v *Vector3) {
-	bb.Set("up", v)
+	bb.Set("up", v.Value)
 }
 func (bb *Bone) UserData() js.Value {
 	return bb.Get("userData")
@@ -193,7 +197,7 @@ func (bb *Bone) DefaultUp() *Vector3 {
 	return &Vector3{Value: bb.Get("DefaultUp")}
 }
 func (bb *Bone) SetDefaultUp(v *Vector3) {
-	bb.Set("DefaultUp", v)
+	bb.Set("DefaultUp", v.Value)
 }
 func (bb *Bone) Add(object js.Value) *Bone {
 	return &Bone{Value: bb.Call("add", object)}

@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// VectorKeyframeTrack extend: [KeyframeTrack]
 type VectorKeyframeTrack struct {
 	js.Value
 }
 
 func NewVectorKeyframeTrack(name string, times js.Value, values js.Value, interpolation InterpolationModes) *VectorKeyframeTrack {
 	return &VectorKeyframeTrack{Value: get("VectorKeyframeTrack").New(name, times, values, interpolation)}
+}
+func (vkt *VectorKeyframeTrack) JSValue() js.Value {
+	return vkt.Value
 }
 func (vkt *VectorKeyframeTrack) DefaultInterpolation() InterpolationModes {
 	return InterpolationModes(vkt.Get("DefaultInterpolation"))

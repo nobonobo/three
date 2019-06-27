@@ -21,247 +21,334 @@ type MorphNormals interface {
 }
 type MorphTarget interface {
 }
-type Geometry struct {
+type Geometry interface {
+	JSValue() js.Value
+	Animation() *AnimationClip
+	SetAnimation(v *AnimationClip)
+	Animations() js.Value
+	SetAnimations(v js.Value)
+	Bones() js.Value
+	SetBones(v js.Value)
+	BoundingBox() *Box3
+	SetBoundingBox(v *Box3)
+	BoundingSphere() *Sphere
+	SetBoundingSphere(v *Sphere)
+	Colors() js.Value
+	SetColors(v js.Value)
+	ColorsNeedUpdate() bool
+	SetColorsNeedUpdate(v bool)
+	ElementsNeedUpdate() bool
+	SetElementsNeedUpdate(v bool)
+	FaceVertexUvs() js.Value
+	SetFaceVertexUvs(v js.Value)
+	Faces() js.Value
+	SetFaces(v js.Value)
+	GroupsNeedUpdate() bool
+	SetGroupsNeedUpdate(v bool)
+	Id() int
+	SetId(v int)
+	LineDistances() js.Value
+	SetLineDistances(v js.Value)
+	LineDistancesNeedUpdate() bool
+	SetLineDistancesNeedUpdate(v bool)
+	MorphNormals() js.Value
+	SetMorphNormals(v js.Value)
+	MorphTargets() js.Value
+	SetMorphTargets(v js.Value)
+	Name() string
+	SetName(v string)
+	NormalsNeedUpdate() bool
+	SetNormalsNeedUpdate(v bool)
+	SkinIndices() js.Value
+	SetSkinIndices(v js.Value)
+	SkinWeights() js.Value
+	SetSkinWeights(v js.Value)
+	Type() string
+	SetType(v string)
+	Uuid() string
+	SetUuid(v string)
+	UvsNeedUpdate() bool
+	SetUvsNeedUpdate(v bool)
+	Vertices() js.Value
+	SetVertices(v js.Value)
+	VerticesNeedUpdate() bool
+	SetVerticesNeedUpdate(v bool)
+	AddEventListener(typ string, listener js.Value)
+	ApplyMatrix(matrix *Matrix4) Geometry
+	Center() Geometry
+	Clone() Geometry
+	ComputeBoundingBox()
+	ComputeBoundingSphere()
+	ComputeFaceNormals()
+	ComputeFlatVertexNormals()
+	ComputeMorphNormals()
+	ComputeVertexNormals(areaWeighted bool)
+	Copy(source Geometry) Geometry
+	DispatchEvent(event js.Value)
+	Dispose()
+	FromBufferGeometry(geometry *BufferGeometry) Geometry
+	HasEventListener(typ string, listener js.Value) bool
+	LookAt(vector *Vector3)
+	Merge(geometry Geometry, matrix Matrix, materialIndexOffset int)
+	MergeMesh(mesh *Mesh)
+	MergeVertices() float64
+	Normalize() Geometry
+	RemoveEventListener(typ string, listener js.Value)
+	RotateX(angle float64) Geometry
+	RotateY(angle float64) Geometry
+	RotateZ(angle float64) Geometry
+	Scale(x float64, y float64, z float64) Geometry
+	SetFromPoints(points js.Value) Geometry
+	SortFacesByMaterialIndex()
+	ToJSON() js.Value
+	Translate(x float64, y float64, z float64) Geometry
+}
+
+// GeometryImpl extend: [EventDispatcher]
+type GeometryImpl struct {
 	js.Value
 }
 
-func NewGeometry() *Geometry {
-	return &Geometry{Value: get("Geometry").New()}
+func NewGeometry() *GeometryImpl {
+	return &GeometryImpl{Value: get("Geometry").New()}
 }
-func (gg *Geometry) Animation() *AnimationClip {
+func (gg *GeometryImpl) JSValue() js.Value {
+	return gg.Value
+}
+func (gg *GeometryImpl) Animation() *AnimationClip {
 	return &AnimationClip{Value: gg.Get("animation")}
 }
-func (gg *Geometry) SetAnimation(v *AnimationClip) {
-	gg.Set("animation", v)
+func (gg *GeometryImpl) SetAnimation(v *AnimationClip) {
+	gg.Set("animation", v.Value)
 }
-func (gg *Geometry) Animations() js.Value {
+func (gg *GeometryImpl) Animations() js.Value {
 	return gg.Get("animations")
 }
-func (gg *Geometry) SetAnimations(v js.Value) {
+func (gg *GeometryImpl) SetAnimations(v js.Value) {
 	gg.Set("animations", v)
 }
-func (gg *Geometry) Bones() js.Value {
+func (gg *GeometryImpl) Bones() js.Value {
 	return gg.Get("bones")
 }
-func (gg *Geometry) SetBones(v js.Value) {
+func (gg *GeometryImpl) SetBones(v js.Value) {
 	gg.Set("bones", v)
 }
-func (gg *Geometry) BoundingBox() *Box3 {
+func (gg *GeometryImpl) BoundingBox() *Box3 {
 	return &Box3{Value: gg.Get("boundingBox")}
 }
-func (gg *Geometry) SetBoundingBox(v *Box3) {
-	gg.Set("boundingBox", v)
+func (gg *GeometryImpl) SetBoundingBox(v *Box3) {
+	gg.Set("boundingBox", v.Value)
 }
-func (gg *Geometry) BoundingSphere() *Sphere {
+func (gg *GeometryImpl) BoundingSphere() *Sphere {
 	return &Sphere{Value: gg.Get("boundingSphere")}
 }
-func (gg *Geometry) SetBoundingSphere(v *Sphere) {
-	gg.Set("boundingSphere", v)
+func (gg *GeometryImpl) SetBoundingSphere(v *Sphere) {
+	gg.Set("boundingSphere", v.Value)
 }
-func (gg *Geometry) Colors() js.Value {
+func (gg *GeometryImpl) Colors() js.Value {
 	return gg.Get("colors")
 }
-func (gg *Geometry) SetColors(v js.Value) {
+func (gg *GeometryImpl) SetColors(v js.Value) {
 	gg.Set("colors", v)
 }
-func (gg *Geometry) ColorsNeedUpdate() bool {
+func (gg *GeometryImpl) ColorsNeedUpdate() bool {
 	return gg.Get("colorsNeedUpdate").Bool()
 }
-func (gg *Geometry) SetColorsNeedUpdate(v bool) {
+func (gg *GeometryImpl) SetColorsNeedUpdate(v bool) {
 	gg.Set("colorsNeedUpdate", v)
 }
-func (gg *Geometry) ElementsNeedUpdate() bool {
+func (gg *GeometryImpl) ElementsNeedUpdate() bool {
 	return gg.Get("elementsNeedUpdate").Bool()
 }
-func (gg *Geometry) SetElementsNeedUpdate(v bool) {
+func (gg *GeometryImpl) SetElementsNeedUpdate(v bool) {
 	gg.Set("elementsNeedUpdate", v)
 }
-func (gg *Geometry) FaceVertexUvs() js.Value {
+func (gg *GeometryImpl) FaceVertexUvs() js.Value {
 	return gg.Get("faceVertexUvs")
 }
-func (gg *Geometry) SetFaceVertexUvs(v js.Value) {
+func (gg *GeometryImpl) SetFaceVertexUvs(v js.Value) {
 	gg.Set("faceVertexUvs", v)
 }
-func (gg *Geometry) Faces() js.Value {
+func (gg *GeometryImpl) Faces() js.Value {
 	return gg.Get("faces")
 }
-func (gg *Geometry) SetFaces(v js.Value) {
+func (gg *GeometryImpl) SetFaces(v js.Value) {
 	gg.Set("faces", v)
 }
-func (gg *Geometry) GroupsNeedUpdate() bool {
+func (gg *GeometryImpl) GroupsNeedUpdate() bool {
 	return gg.Get("groupsNeedUpdate").Bool()
 }
-func (gg *Geometry) SetGroupsNeedUpdate(v bool) {
+func (gg *GeometryImpl) SetGroupsNeedUpdate(v bool) {
 	gg.Set("groupsNeedUpdate", v)
 }
-func (gg *Geometry) Id() int {
+func (gg *GeometryImpl) Id() int {
 	return gg.Get("id").Int()
 }
-func (gg *Geometry) SetId(v int) {
+func (gg *GeometryImpl) SetId(v int) {
 	gg.Set("id", v)
 }
-func (gg *Geometry) LineDistances() js.Value {
+func (gg *GeometryImpl) LineDistances() js.Value {
 	return gg.Get("lineDistances")
 }
-func (gg *Geometry) SetLineDistances(v js.Value) {
+func (gg *GeometryImpl) SetLineDistances(v js.Value) {
 	gg.Set("lineDistances", v)
 }
-func (gg *Geometry) LineDistancesNeedUpdate() bool {
+func (gg *GeometryImpl) LineDistancesNeedUpdate() bool {
 	return gg.Get("lineDistancesNeedUpdate").Bool()
 }
-func (gg *Geometry) SetLineDistancesNeedUpdate(v bool) {
+func (gg *GeometryImpl) SetLineDistancesNeedUpdate(v bool) {
 	gg.Set("lineDistancesNeedUpdate", v)
 }
-func (gg *Geometry) MorphNormals() js.Value {
+func (gg *GeometryImpl) MorphNormals() js.Value {
 	return gg.Get("morphNormals")
 }
-func (gg *Geometry) SetMorphNormals(v js.Value) {
+func (gg *GeometryImpl) SetMorphNormals(v js.Value) {
 	gg.Set("morphNormals", v)
 }
-func (gg *Geometry) MorphTargets() js.Value {
+func (gg *GeometryImpl) MorphTargets() js.Value {
 	return gg.Get("morphTargets")
 }
-func (gg *Geometry) SetMorphTargets(v js.Value) {
+func (gg *GeometryImpl) SetMorphTargets(v js.Value) {
 	gg.Set("morphTargets", v)
 }
-func (gg *Geometry) Name() string {
+func (gg *GeometryImpl) Name() string {
 	return gg.Get("name").String()
 }
-func (gg *Geometry) SetName(v string) {
+func (gg *GeometryImpl) SetName(v string) {
 	gg.Set("name", v)
 }
-func (gg *Geometry) NormalsNeedUpdate() bool {
+func (gg *GeometryImpl) NormalsNeedUpdate() bool {
 	return gg.Get("normalsNeedUpdate").Bool()
 }
-func (gg *Geometry) SetNormalsNeedUpdate(v bool) {
+func (gg *GeometryImpl) SetNormalsNeedUpdate(v bool) {
 	gg.Set("normalsNeedUpdate", v)
 }
-func (gg *Geometry) SkinIndices() js.Value {
+func (gg *GeometryImpl) SkinIndices() js.Value {
 	return gg.Get("skinIndices")
 }
-func (gg *Geometry) SetSkinIndices(v js.Value) {
+func (gg *GeometryImpl) SetSkinIndices(v js.Value) {
 	gg.Set("skinIndices", v)
 }
-func (gg *Geometry) SkinWeights() js.Value {
+func (gg *GeometryImpl) SkinWeights() js.Value {
 	return gg.Get("skinWeights")
 }
-func (gg *Geometry) SetSkinWeights(v js.Value) {
+func (gg *GeometryImpl) SetSkinWeights(v js.Value) {
 	gg.Set("skinWeights", v)
 }
-func (gg *Geometry) Type() string {
+func (gg *GeometryImpl) Type() string {
 	return gg.Get("type").String()
 }
-func (gg *Geometry) SetType(v string) {
+func (gg *GeometryImpl) SetType(v string) {
 	gg.Set("type", v)
 }
-func (gg *Geometry) Uuid() string {
+func (gg *GeometryImpl) Uuid() string {
 	return gg.Get("uuid").String()
 }
-func (gg *Geometry) SetUuid(v string) {
+func (gg *GeometryImpl) SetUuid(v string) {
 	gg.Set("uuid", v)
 }
-func (gg *Geometry) UvsNeedUpdate() bool {
+func (gg *GeometryImpl) UvsNeedUpdate() bool {
 	return gg.Get("uvsNeedUpdate").Bool()
 }
-func (gg *Geometry) SetUvsNeedUpdate(v bool) {
+func (gg *GeometryImpl) SetUvsNeedUpdate(v bool) {
 	gg.Set("uvsNeedUpdate", v)
 }
-func (gg *Geometry) Vertices() js.Value {
+func (gg *GeometryImpl) Vertices() js.Value {
 	return gg.Get("vertices")
 }
-func (gg *Geometry) SetVertices(v js.Value) {
+func (gg *GeometryImpl) SetVertices(v js.Value) {
 	gg.Set("vertices", v)
 }
-func (gg *Geometry) VerticesNeedUpdate() bool {
+func (gg *GeometryImpl) VerticesNeedUpdate() bool {
 	return gg.Get("verticesNeedUpdate").Bool()
 }
-func (gg *Geometry) SetVerticesNeedUpdate(v bool) {
+func (gg *GeometryImpl) SetVerticesNeedUpdate(v bool) {
 	gg.Set("verticesNeedUpdate", v)
 }
-func (gg *Geometry) AddEventListener(typ string, listener js.Value) {
+func (gg *GeometryImpl) AddEventListener(typ string, listener js.Value) {
 	gg.Call("addEventListener", typ, listener)
 }
-func (gg *Geometry) ApplyMatrix(matrix *Matrix4) *Geometry {
-	return &Geometry{Value: gg.Call("applyMatrix", matrix)}
+func (gg *GeometryImpl) ApplyMatrix(matrix *Matrix4) Geometry {
+	return &GeometryImpl{Value: gg.Call("applyMatrix", matrix)}
 }
-func (gg *Geometry) Center() *Geometry {
-	return &Geometry{Value: gg.Call("center")}
+func (gg *GeometryImpl) Center() Geometry {
+	return &GeometryImpl{Value: gg.Call("center")}
 }
-func (gg *Geometry) Clone() *Geometry {
-	return &Geometry{Value: gg.Call("clone")}
+func (gg *GeometryImpl) Clone() Geometry {
+	return &GeometryImpl{Value: gg.Call("clone")}
 }
-func (gg *Geometry) ComputeBoundingBox() {
+func (gg *GeometryImpl) ComputeBoundingBox() {
 	gg.Call("computeBoundingBox")
 }
-func (gg *Geometry) ComputeBoundingSphere() {
+func (gg *GeometryImpl) ComputeBoundingSphere() {
 	gg.Call("computeBoundingSphere")
 }
-func (gg *Geometry) ComputeFaceNormals() {
+func (gg *GeometryImpl) ComputeFaceNormals() {
 	gg.Call("computeFaceNormals")
 }
-func (gg *Geometry) ComputeFlatVertexNormals() {
+func (gg *GeometryImpl) ComputeFlatVertexNormals() {
 	gg.Call("computeFlatVertexNormals")
 }
-func (gg *Geometry) ComputeMorphNormals() {
+func (gg *GeometryImpl) ComputeMorphNormals() {
 	gg.Call("computeMorphNormals")
 }
-func (gg *Geometry) ComputeVertexNormals(areaWeighted bool) {
+func (gg *GeometryImpl) ComputeVertexNormals(areaWeighted bool) {
 	gg.Call("computeVertexNormals", areaWeighted)
 }
-func (gg *Geometry) Copy(source *Geometry) *Geometry {
-	return &Geometry{Value: gg.Call("copy", source)}
+func (gg *GeometryImpl) Copy(source Geometry) Geometry {
+	return &GeometryImpl{Value: gg.Call("copy", source.JSValue())}
 }
-func (gg *Geometry) DispatchEvent(event js.Value) {
+func (gg *GeometryImpl) DispatchEvent(event js.Value) {
 	gg.Call("dispatchEvent", event)
 }
-func (gg *Geometry) Dispose() {
+func (gg *GeometryImpl) Dispose() {
 	gg.Call("dispose")
 }
-func (gg *Geometry) FromBufferGeometry(geometry *BufferGeometry) *Geometry {
-	return &Geometry{Value: gg.Call("fromBufferGeometry", geometry)}
+func (gg *GeometryImpl) FromBufferGeometry(geometry *BufferGeometry) Geometry {
+	return &GeometryImpl{Value: gg.Call("fromBufferGeometry", geometry)}
 }
-func (gg *Geometry) HasEventListener(typ string, listener js.Value) bool {
+func (gg *GeometryImpl) HasEventListener(typ string, listener js.Value) bool {
 	return gg.Call("hasEventListener", typ, listener).Bool()
 }
-func (gg *Geometry) LookAt(vector *Vector3) {
+func (gg *GeometryImpl) LookAt(vector *Vector3) {
 	gg.Call("lookAt", vector)
 }
-func (gg *Geometry) Merge(geometry *Geometry, matrix Matrix, materialIndexOffset int) {
-	gg.Call("merge", geometry, matrix, materialIndexOffset)
+func (gg *GeometryImpl) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
+	gg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
-func (gg *Geometry) MergeMesh(mesh *Mesh) {
+func (gg *GeometryImpl) MergeMesh(mesh *Mesh) {
 	gg.Call("mergeMesh", mesh)
 }
-func (gg *Geometry) MergeVertices() float64 {
+func (gg *GeometryImpl) MergeVertices() float64 {
 	return gg.Call("mergeVertices").Float()
 }
-func (gg *Geometry) Normalize() *Geometry {
-	return &Geometry{Value: gg.Call("normalize")}
+func (gg *GeometryImpl) Normalize() Geometry {
+	return &GeometryImpl{Value: gg.Call("normalize")}
 }
-func (gg *Geometry) RemoveEventListener(typ string, listener js.Value) {
+func (gg *GeometryImpl) RemoveEventListener(typ string, listener js.Value) {
 	gg.Call("removeEventListener", typ, listener)
 }
-func (gg *Geometry) RotateX(angle float64) *Geometry {
-	return &Geometry{Value: gg.Call("rotateX", angle)}
+func (gg *GeometryImpl) RotateX(angle float64) Geometry {
+	return &GeometryImpl{Value: gg.Call("rotateX", angle)}
 }
-func (gg *Geometry) RotateY(angle float64) *Geometry {
-	return &Geometry{Value: gg.Call("rotateY", angle)}
+func (gg *GeometryImpl) RotateY(angle float64) Geometry {
+	return &GeometryImpl{Value: gg.Call("rotateY", angle)}
 }
-func (gg *Geometry) RotateZ(angle float64) *Geometry {
-	return &Geometry{Value: gg.Call("rotateZ", angle)}
+func (gg *GeometryImpl) RotateZ(angle float64) Geometry {
+	return &GeometryImpl{Value: gg.Call("rotateZ", angle)}
 }
-func (gg *Geometry) Scale(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: gg.Call("scale", x, y, z)}
+func (gg *GeometryImpl) Scale(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: gg.Call("scale", x, y, z)}
 }
-func (gg *Geometry) SetFromPoints(points js.Value) *Geometry {
-	return &Geometry{Value: gg.Call("setFromPoints", points)}
+func (gg *GeometryImpl) SetFromPoints(points js.Value) Geometry {
+	return &GeometryImpl{Value: gg.Call("setFromPoints", points)}
 }
-func (gg *Geometry) SortFacesByMaterialIndex() {
+func (gg *GeometryImpl) SortFacesByMaterialIndex() {
 	gg.Call("sortFacesByMaterialIndex")
 }
-func (gg *Geometry) ToJSON() js.Value {
+func (gg *GeometryImpl) ToJSON() js.Value {
 	return gg.Call("toJSON")
 }
-func (gg *Geometry) Translate(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: gg.Call("translate", x, y, z)}
+func (gg *GeometryImpl) Translate(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: gg.Call("translate", x, y, z)}
 }

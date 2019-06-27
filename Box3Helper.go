@@ -8,6 +8,7 @@ import (
 	"syscall/js"
 )
 
+// Box3Helper extend: []
 type Box3Helper struct {
 	js.Value
 }
@@ -15,11 +16,14 @@ type Box3Helper struct {
 func NewBox3Helper(object *Object3D, color *Color) *Box3Helper {
 	return &Box3Helper{Value: get("Box3Helper").New(object, color)}
 }
+func (bh *Box3Helper) JSValue() js.Value {
+	return bh.Value
+}
 func (bh *Box3Helper) Box() *Box3 {
 	return &Box3{Value: bh.Get("box")}
 }
 func (bh *Box3Helper) SetBox(v *Box3) {
-	bh.Set("box", v)
+	bh.Set("box", v.Value)
 }
 func (bh *Box3Helper) Type() string {
 	return bh.Get("type").String()

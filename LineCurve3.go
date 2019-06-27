@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// LineCurve3 extend: [Curve]
 type LineCurve3 struct {
 	js.Value
 }
 
 func NewLineCurve3(v1 *Vector3, v2 *Vector3) *LineCurve3 {
 	return &LineCurve3{Value: get("LineCurve3").New(v1, v2)}
+}
+func (lc *LineCurve3) JSValue() js.Value {
+	return lc.Value
 }
 func (lc *LineCurve3) ArcLengthDivisions() float64 {
 	return lc.Get("arcLengthDivisions").Float()
@@ -25,13 +29,13 @@ func (lc *LineCurve3) V1() *Vector3 {
 	return &Vector3{Value: lc.Get("v1")}
 }
 func (lc *LineCurve3) SetV1(v *Vector3) {
-	lc.Set("v1", v)
+	lc.Set("v1", v.Value)
 }
 func (lc *LineCurve3) V2() *Vector3 {
 	return &Vector3{Value: lc.Get("v2")}
 }
 func (lc *LineCurve3) SetV2(v *Vector3) {
-	lc.Set("v2", v)
+	lc.Set("v2", v.Value)
 }
 func (lc *LineCurve3) GetLength() float64 {
 	return lc.Call("getLength").Float()

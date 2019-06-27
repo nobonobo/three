@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// AmbientLight extend: [Light]
 type AmbientLight struct {
 	js.Value
 }
 
 func NewAmbientLight(color *Color, intensity float64) *AmbientLight {
 	return &AmbientLight{Value: get("AmbientLight").New(color, intensity)}
+}
+func (al *AmbientLight) JSValue() js.Value {
+	return al.Value
 }
 func (al *AmbientLight) CastShadow() bool {
 	return al.Get("castShadow").Bool()
@@ -31,7 +35,7 @@ func (al *AmbientLight) Color() *Color {
 	return &Color{Value: al.Get("color")}
 }
 func (al *AmbientLight) SetColor(v *Color) {
-	al.Set("color", v)
+	al.Set("color", v.Value)
 }
 func (al *AmbientLight) FrustumCulled() bool {
 	return al.Get("frustumCulled").Bool()
@@ -67,13 +71,13 @@ func (al *AmbientLight) Layers() *Layers {
 	return &Layers{Value: al.Get("layers")}
 }
 func (al *AmbientLight) SetLayers(v *Layers) {
-	al.Set("layers", v)
+	al.Set("layers", v.Value)
 }
 func (al *AmbientLight) Matrix() *Matrix4 {
 	return &Matrix4{Value: al.Get("matrix")}
 }
 func (al *AmbientLight) SetMatrix(v *Matrix4) {
-	al.Set("matrix", v)
+	al.Set("matrix", v.Value)
 }
 func (al *AmbientLight) MatrixAutoUpdate() bool {
 	return al.Get("matrixAutoUpdate").Bool()
@@ -85,7 +89,7 @@ func (al *AmbientLight) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: al.Get("matrixWorld")}
 }
 func (al *AmbientLight) SetMatrixWorld(v *Matrix4) {
-	al.Set("matrixWorld", v)
+	al.Set("matrixWorld", v.Value)
 }
 func (al *AmbientLight) MatrixWorldNeedsUpdate() bool {
 	return al.Get("matrixWorldNeedsUpdate").Bool()
@@ -97,7 +101,7 @@ func (al *AmbientLight) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: al.Get("modelViewMatrix")}
 }
 func (al *AmbientLight) SetModelViewMatrix(v *Matrix4) {
-	al.Set("modelViewMatrix", v)
+	al.Set("modelViewMatrix", v.Value)
 }
 func (al *AmbientLight) Name() string {
 	return al.Get("name").String()
@@ -109,7 +113,7 @@ func (al *AmbientLight) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: al.Get("normalMatrix")}
 }
 func (al *AmbientLight) SetNormalMatrix(v *Matrix3) {
-	al.Set("normalMatrix", v)
+	al.Set("normalMatrix", v.Value)
 }
 func (al *AmbientLight) OnAfterRender() js.Value {
 	return al.Get("onAfterRender")
@@ -127,19 +131,19 @@ func (al *AmbientLight) Parent() *Object3D {
 	return &Object3D{Value: al.Get("parent")}
 }
 func (al *AmbientLight) SetParent(v *Object3D) {
-	al.Set("parent", v)
+	al.Set("parent", v.Value)
 }
 func (al *AmbientLight) Position() *Vector3 {
 	return &Vector3{Value: al.Get("position")}
 }
 func (al *AmbientLight) SetPosition(v *Vector3) {
-	al.Set("position", v)
+	al.Set("position", v.Value)
 }
 func (al *AmbientLight) Quaternion() *Quaternion {
 	return &Quaternion{Value: al.Get("quaternion")}
 }
 func (al *AmbientLight) SetQuaternion(v *Quaternion) {
-	al.Set("quaternion", v)
+	al.Set("quaternion", v.Value)
 }
 func (al *AmbientLight) ReceiveShadow() bool {
 	return al.Get("receiveShadow").Bool()
@@ -157,19 +161,19 @@ func (al *AmbientLight) Rotation() *Euler {
 	return &Euler{Value: al.Get("rotation")}
 }
 func (al *AmbientLight) SetRotation(v *Euler) {
-	al.Set("rotation", v)
+	al.Set("rotation", v.Value)
 }
 func (al *AmbientLight) Scale() *Vector3 {
 	return &Vector3{Value: al.Get("scale")}
 }
 func (al *AmbientLight) SetScale(v *Vector3) {
-	al.Set("scale", v)
+	al.Set("scale", v.Value)
 }
 func (al *AmbientLight) Shadow() *LightShadow {
 	return &LightShadow{Value: al.Get("shadow")}
 }
 func (al *AmbientLight) SetShadow(v *LightShadow) {
-	al.Set("shadow", v)
+	al.Set("shadow", v.Value)
 }
 func (al *AmbientLight) ShadowBias() js.Value {
 	return al.Get("shadowBias")
@@ -241,7 +245,7 @@ func (al *AmbientLight) Up() *Vector3 {
 	return &Vector3{Value: al.Get("up")}
 }
 func (al *AmbientLight) SetUp(v *Vector3) {
-	al.Set("up", v)
+	al.Set("up", v.Value)
 }
 func (al *AmbientLight) UserData() js.Value {
 	return al.Get("userData")
@@ -271,7 +275,7 @@ func (al *AmbientLight) DefaultUp() *Vector3 {
 	return &Vector3{Value: al.Get("DefaultUp")}
 }
 func (al *AmbientLight) SetDefaultUp(v *Vector3) {
-	al.Set("DefaultUp", v)
+	al.Set("DefaultUp", v.Value)
 }
 func (al *AmbientLight) Add(object js.Value) *AmbientLight {
 	return &AmbientLight{Value: al.Call("add", object)}

@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// OrthographicCamera extend: [Camera]
 type OrthographicCamera struct {
 	js.Value
 }
 
 func NewOrthographicCamera(left float64, right float64, top float64, bottom float64, near float64, far float64) *OrthographicCamera {
 	return &OrthographicCamera{Value: get("OrthographicCamera").New(left, right, top, bottom, near, far)}
+}
+func (oc *OrthographicCamera) JSValue() js.Value {
+	return oc.Value
 }
 func (oc *OrthographicCamera) Bottom() float64 {
 	return oc.Get("bottom").Float()
@@ -73,7 +77,7 @@ func (oc *OrthographicCamera) Layers() *Layers {
 	return &Layers{Value: oc.Get("layers")}
 }
 func (oc *OrthographicCamera) SetLayers(v *Layers) {
-	oc.Set("layers", v)
+	oc.Set("layers", v.Value)
 }
 func (oc *OrthographicCamera) Left() float64 {
 	return oc.Get("left").Float()
@@ -85,7 +89,7 @@ func (oc *OrthographicCamera) Matrix() *Matrix4 {
 	return &Matrix4{Value: oc.Get("matrix")}
 }
 func (oc *OrthographicCamera) SetMatrix(v *Matrix4) {
-	oc.Set("matrix", v)
+	oc.Set("matrix", v.Value)
 }
 func (oc *OrthographicCamera) MatrixAutoUpdate() bool {
 	return oc.Get("matrixAutoUpdate").Bool()
@@ -97,13 +101,13 @@ func (oc *OrthographicCamera) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: oc.Get("matrixWorld")}
 }
 func (oc *OrthographicCamera) SetMatrixWorld(v *Matrix4) {
-	oc.Set("matrixWorld", v)
+	oc.Set("matrixWorld", v.Value)
 }
 func (oc *OrthographicCamera) MatrixWorldInverse() *Matrix4 {
 	return &Matrix4{Value: oc.Get("matrixWorldInverse")}
 }
 func (oc *OrthographicCamera) SetMatrixWorldInverse(v *Matrix4) {
-	oc.Set("matrixWorldInverse", v)
+	oc.Set("matrixWorldInverse", v.Value)
 }
 func (oc *OrthographicCamera) MatrixWorldNeedsUpdate() bool {
 	return oc.Get("matrixWorldNeedsUpdate").Bool()
@@ -115,7 +119,7 @@ func (oc *OrthographicCamera) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: oc.Get("modelViewMatrix")}
 }
 func (oc *OrthographicCamera) SetModelViewMatrix(v *Matrix4) {
-	oc.Set("modelViewMatrix", v)
+	oc.Set("modelViewMatrix", v.Value)
 }
 func (oc *OrthographicCamera) Name() string {
 	return oc.Get("name").String()
@@ -133,7 +137,7 @@ func (oc *OrthographicCamera) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: oc.Get("normalMatrix")}
 }
 func (oc *OrthographicCamera) SetNormalMatrix(v *Matrix3) {
-	oc.Set("normalMatrix", v)
+	oc.Set("normalMatrix", v.Value)
 }
 func (oc *OrthographicCamera) OnAfterRender() js.Value {
 	return oc.Get("onAfterRender")
@@ -151,25 +155,25 @@ func (oc *OrthographicCamera) Parent() *Object3D {
 	return &Object3D{Value: oc.Get("parent")}
 }
 func (oc *OrthographicCamera) SetParent(v *Object3D) {
-	oc.Set("parent", v)
+	oc.Set("parent", v.Value)
 }
 func (oc *OrthographicCamera) Position() *Vector3 {
 	return &Vector3{Value: oc.Get("position")}
 }
 func (oc *OrthographicCamera) SetPosition(v *Vector3) {
-	oc.Set("position", v)
+	oc.Set("position", v.Value)
 }
 func (oc *OrthographicCamera) ProjectionMatrix() *Matrix4 {
 	return &Matrix4{Value: oc.Get("projectionMatrix")}
 }
 func (oc *OrthographicCamera) SetProjectionMatrix(v *Matrix4) {
-	oc.Set("projectionMatrix", v)
+	oc.Set("projectionMatrix", v.Value)
 }
 func (oc *OrthographicCamera) Quaternion() *Quaternion {
 	return &Quaternion{Value: oc.Get("quaternion")}
 }
 func (oc *OrthographicCamera) SetQuaternion(v *Quaternion) {
-	oc.Set("quaternion", v)
+	oc.Set("quaternion", v.Value)
 }
 func (oc *OrthographicCamera) ReceiveShadow() bool {
 	return oc.Get("receiveShadow").Bool()
@@ -193,13 +197,13 @@ func (oc *OrthographicCamera) Rotation() *Euler {
 	return &Euler{Value: oc.Get("rotation")}
 }
 func (oc *OrthographicCamera) SetRotation(v *Euler) {
-	oc.Set("rotation", v)
+	oc.Set("rotation", v.Value)
 }
 func (oc *OrthographicCamera) Scale() *Vector3 {
 	return &Vector3{Value: oc.Get("scale")}
 }
 func (oc *OrthographicCamera) SetScale(v *Vector3) {
-	oc.Set("scale", v)
+	oc.Set("scale", v.Value)
 }
 func (oc *OrthographicCamera) Top() float64 {
 	return oc.Get("top").Float()
@@ -217,7 +221,7 @@ func (oc *OrthographicCamera) Up() *Vector3 {
 	return &Vector3{Value: oc.Get("up")}
 }
 func (oc *OrthographicCamera) SetUp(v *Vector3) {
-	oc.Set("up", v)
+	oc.Set("up", v.Value)
 }
 func (oc *OrthographicCamera) UserData() js.Value {
 	return oc.Get("userData")
@@ -259,7 +263,7 @@ func (oc *OrthographicCamera) DefaultUp() *Vector3 {
 	return &Vector3{Value: oc.Get("DefaultUp")}
 }
 func (oc *OrthographicCamera) SetDefaultUp(v *Vector3) {
-	oc.Set("DefaultUp", v)
+	oc.Set("DefaultUp", v.Value)
 }
 func (oc *OrthographicCamera) Add(object js.Value) *OrthographicCamera {
 	return &OrthographicCamera{Value: oc.Call("add", object)}
@@ -279,8 +283,8 @@ func (oc *OrthographicCamera) ClearViewOffset() {
 func (oc *OrthographicCamera) Clone(recursive bool) *OrthographicCamera {
 	return &OrthographicCamera{Value: oc.Call("clone", recursive)}
 }
-func (oc *OrthographicCamera) Copy(source *Camera, recursive bool) *OrthographicCamera {
-	return &OrthographicCamera{Value: oc.Call("copy", source, recursive)}
+func (oc *OrthographicCamera) Copy(source Camera, recursive bool) *OrthographicCamera {
+	return &OrthographicCamera{Value: oc.Call("copy", source.JSValue(), recursive)}
 }
 func (oc *OrthographicCamera) DispatchEvent(event js.Value) {
 	oc.Call("dispatchEvent", event)

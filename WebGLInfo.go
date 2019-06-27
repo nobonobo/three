@@ -8,10 +8,14 @@ import (
 	"syscall/js"
 )
 
+// WebGLInfo extend: []
 type WebGLInfo struct {
 	js.Value
 }
 
+func (wgli *WebGLInfo) JSValue() js.Value {
+	return wgli.Value
+}
 func (wgli *WebGLInfo) AutoReset() bool {
 	return wgli.Get("autoReset").Bool()
 }

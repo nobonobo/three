@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// InterleavedBufferAttribute extend: []
 type InterleavedBufferAttribute struct {
 	js.Value
 }
 
 func NewInterleavedBufferAttribute(interleavedBuffer *InterleavedBuffer, itemSize int, offset int, normalized bool) *InterleavedBufferAttribute {
 	return &InterleavedBufferAttribute{Value: get("InterleavedBufferAttribute").New(interleavedBuffer, itemSize, offset, normalized)}
+}
+func (iba *InterleavedBufferAttribute) JSValue() js.Value {
+	return iba.Value
 }
 func (iba *InterleavedBufferAttribute) Array() js.Value {
 	return iba.Get("array")
@@ -31,7 +35,7 @@ func (iba *InterleavedBufferAttribute) Data() *InterleavedBuffer {
 	return &InterleavedBuffer{Value: iba.Get("data")}
 }
 func (iba *InterleavedBufferAttribute) SetData(v *InterleavedBuffer) {
-	iba.Set("data", v)
+	iba.Set("data", v.Value)
 }
 func (iba *InterleavedBufferAttribute) ItemSize() int {
 	return iba.Get("itemSize").Int()

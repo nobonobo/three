@@ -8,6 +8,7 @@ import (
 	"syscall/js"
 )
 
+// DirectGeometry extend: [EventDispatcher]
 type DirectGeometry struct {
 	js.Value
 }
@@ -15,17 +16,20 @@ type DirectGeometry struct {
 func NewDirectGeometry() *DirectGeometry {
 	return &DirectGeometry{Value: get("DirectGeometry").New()}
 }
+func (dg *DirectGeometry) JSValue() js.Value {
+	return dg.Value
+}
 func (dg *DirectGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: dg.Get("boundingBox")}
 }
 func (dg *DirectGeometry) SetBoundingBox(v *Box3) {
-	dg.Set("boundingBox", v)
+	dg.Set("boundingBox", v.Value)
 }
 func (dg *DirectGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: dg.Get("boundingSphere")}
 }
 func (dg *DirectGeometry) SetBoundingSphere(v *Sphere) {
-	dg.Set("boundingSphere", v)
+	dg.Set("boundingSphere", v.Value)
 }
 func (dg *DirectGeometry) Colors() js.Value {
 	return dg.Get("colors")
@@ -150,8 +154,8 @@ func (dg *DirectGeometry) ComputeBoundingBox() {
 func (dg *DirectGeometry) ComputeBoundingSphere() {
 	dg.Call("computeBoundingSphere")
 }
-func (dg *DirectGeometry) ComputeGroups(geometry *Geometry) {
-	dg.Call("computeGroups", geometry)
+func (dg *DirectGeometry) ComputeGroups(geometry Geometry) {
+	dg.Call("computeGroups", geometry.JSValue())
 }
 func (dg *DirectGeometry) DispatchEvent(event js.Value) {
 	dg.Call("dispatchEvent", event)
@@ -159,8 +163,8 @@ func (dg *DirectGeometry) DispatchEvent(event js.Value) {
 func (dg *DirectGeometry) Dispose() {
 	dg.Call("dispose")
 }
-func (dg *DirectGeometry) FromGeometry(geometry *Geometry) *DirectGeometry {
-	return &DirectGeometry{Value: dg.Call("fromGeometry", geometry)}
+func (dg *DirectGeometry) FromGeometry(geometry Geometry) *DirectGeometry {
+	return &DirectGeometry{Value: dg.Call("fromGeometry", geometry.JSValue())}
 }
 func (dg *DirectGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return dg.Call("hasEventListener", typ, listener).Bool()

@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// WebGLTextures extend: []
 type WebGLTextures struct {
 	js.Value
 }
 
 func NewWebGLTextures(gl js.Value, extensions js.Value, state js.Value, properties js.Value, capabilities js.Value, paramThreeToGL js.Value, info js.Value) *WebGLTextures {
 	return &WebGLTextures{Value: get("WebGLTextures").New(gl, extensions, state, properties, capabilities, paramThreeToGL, info)}
+}
+func (wglt *WebGLTextures) JSValue() js.Value {
+	return wglt.Value
 }
 func (wglt *WebGLTextures) SetTexture2D(texture js.Value, slot float64) {
 	wglt.Call("setTexture2D", texture, slot)

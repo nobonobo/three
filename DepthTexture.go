@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// DepthTexture extend: [Texture]
 type DepthTexture struct {
 	js.Value
 }
 
 func NewDepthTexture(width float64, heighht float64, typ TextureDataType, mapping Mapping, wrapS Wrapping, wrapT Wrapping, magFilter TextureFilter, minFilter TextureFilter, anisotropy float64) *DepthTexture {
 	return &DepthTexture{Value: get("DepthTexture").New(width, heighht, typ, mapping, wrapS, wrapT, magFilter, minFilter, anisotropy)}
+}
+func (dt *DepthTexture) JSValue() js.Value {
+	return dt.Value
 }
 func (dt *DepthTexture) Anisotropy() float64 {
 	return dt.Get("anisotropy").Float()
@@ -25,7 +29,7 @@ func (dt *DepthTexture) Center() *Vector2 {
 	return &Vector2{Value: dt.Get("center")}
 }
 func (dt *DepthTexture) SetCenter(v *Vector2) {
-	dt.Set("center", v)
+	dt.Set("center", v.Value)
 }
 func (dt *DepthTexture) Encoding() TextureEncoding {
 	return TextureEncoding(dt.Get("encoding"))
@@ -103,7 +107,7 @@ func (dt *DepthTexture) Offset() *Vector2 {
 	return &Vector2{Value: dt.Get("offset")}
 }
 func (dt *DepthTexture) SetOffset(v *Vector2) {
-	dt.Set("offset", v)
+	dt.Set("offset", v.Value)
 }
 func (dt *DepthTexture) OnUpdate() js.Value {
 	return dt.Get("onUpdate")
@@ -121,7 +125,7 @@ func (dt *DepthTexture) Repeat() *Vector2 {
 	return &Vector2{Value: dt.Get("repeat")}
 }
 func (dt *DepthTexture) SetRepeat(v *Vector2) {
-	dt.Set("repeat", v)
+	dt.Set("repeat", v.Value)
 }
 func (dt *DepthTexture) Rotation() float64 {
 	return dt.Get("rotation").Float()

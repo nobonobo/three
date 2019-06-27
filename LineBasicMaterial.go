@@ -10,12 +10,17 @@ import (
 
 type LineBasicMaterialParameters interface {
 }
+
+// LineBasicMaterial extend: [Material]
 type LineBasicMaterial struct {
 	js.Value
 }
 
 func NewLineBasicMaterial(parameters LineBasicMaterialParameters) *LineBasicMaterial {
 	return &LineBasicMaterial{Value: get("LineBasicMaterial").New(parameters)}
+}
+func (lbm *LineBasicMaterial) JSValue() js.Value {
+	return lbm.Value
 }
 func (lbm *LineBasicMaterial) AlphaTest() float64 {
 	return lbm.Get("alphaTest").Float()
@@ -87,7 +92,7 @@ func (lbm *LineBasicMaterial) Color() *Color {
 	return &Color{Value: lbm.Get("color")}
 }
 func (lbm *LineBasicMaterial) SetColor(v *Color) {
-	lbm.Set("color", v)
+	lbm.Set("color", v.Value)
 }
 func (lbm *LineBasicMaterial) ColorWrite() bool {
 	return lbm.Get("colorWrite").Bool()
@@ -275,8 +280,8 @@ func (lbm *LineBasicMaterial) AddEventListener(typ string, listener js.Value) {
 func (lbm *LineBasicMaterial) Clone() *LineBasicMaterial {
 	return &LineBasicMaterial{Value: lbm.Call("clone")}
 }
-func (lbm *LineBasicMaterial) Copy(material *Material) *LineBasicMaterial {
-	return &LineBasicMaterial{Value: lbm.Call("copy", material)}
+func (lbm *LineBasicMaterial) Copy(material Material) *LineBasicMaterial {
+	return &LineBasicMaterial{Value: lbm.Call("copy", material.JSValue())}
 }
 func (lbm *LineBasicMaterial) DispatchEvent(event js.Value) {
 	lbm.Call("dispatchEvent", event)

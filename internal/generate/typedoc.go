@@ -113,6 +113,7 @@ type Define struct {
 	Type          *Type        `json:"type,omitempty"`
 	InheritedFrom *Type        `json:"inheritedFrom,omitempty"`
 	Sources       []*Source    `json:"sources,omitempty"`
+	ExtendedTypes []*Type      `json:"extendedTypes,omitempty"`
 }
 
 /* type memo

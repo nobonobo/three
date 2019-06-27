@@ -34,12 +34,17 @@ type Vector interface {
 	Sub(v Vector) *Vector
 	SubVectors(a Vector, b Vector) *Vector
 }
+
+// Vector2 extend: []
 type Vector2 struct {
 	js.Value
 }
 
 func NewVector2(x float64, y float64) *Vector2 {
 	return &Vector2{Value: get("Vector2").New(x, y)}
+}
+func (vv *Vector2) JSValue() js.Value {
+	return vv.Value
 }
 func (vv *Vector2) Height() float64 {
 	return vv.Get("height").Float()

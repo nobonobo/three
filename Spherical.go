@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Spherical extend: []
 type Spherical struct {
 	js.Value
 }
 
 func NewSpherical(radius float64, phi float64, theta float64) *Spherical {
 	return &Spherical{Value: get("Spherical").New(radius, phi, theta)}
+}
+func (ss *Spherical) JSValue() js.Value {
+	return ss.Value
 }
 func (ss *Spherical) Phi() float64 {
 	return ss.Get("phi").Float()

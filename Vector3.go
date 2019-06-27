@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Vector3 extend: []
 type Vector3 struct {
 	js.Value
 }
 
 func NewVector3(x float64, y float64, z float64) *Vector3 {
 	return &Vector3{Value: get("Vector3").New(x, y, z)}
+}
+func (vv *Vector3) JSValue() js.Value {
+	return vv.Value
 }
 func (vv *Vector3) IsVector3() bool {
 	return vv.Get("isVector3").Bool()
@@ -168,8 +172,8 @@ func (vv *Vector3) Negate() *Vector3 {
 func (vv *Vector3) Normalize() *Vector3 {
 	return &Vector3{Value: vv.Call("normalize")}
 }
-func (vv *Vector3) Project(camera *Camera) *Vector3 {
-	return &Vector3{Value: vv.Call("project", camera)}
+func (vv *Vector3) Project(camera Camera) *Vector3 {
+	return &Vector3{Value: vv.Call("project", camera.JSValue())}
 }
 func (vv *Vector3) ProjectOnPlane(planeNormal *Vector3) *Vector3 {
 	return &Vector3{Value: vv.Call("projectOnPlane", planeNormal)}
@@ -240,6 +244,6 @@ func (vv *Vector3) ToArray2(xyz js.Value, offset int) js.Value {
 func (vv *Vector3) TransformDirection(m *Matrix4) *Vector3 {
 	return &Vector3{Value: vv.Call("transformDirection", m)}
 }
-func (vv *Vector3) Unproject(camera *Camera) *Vector3 {
-	return &Vector3{Value: vv.Call("unproject", camera)}
+func (vv *Vector3) Unproject(camera Camera) *Vector3 {
+	return &Vector3{Value: vv.Call("unproject", camera.JSValue())}
 }

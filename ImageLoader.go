@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// ImageLoader extend: []
 type ImageLoader struct {
 	js.Value
 }
 
 func NewImageLoader(manager *LoadingManager) *ImageLoader {
 	return &ImageLoader{Value: get("ImageLoader").New(manager)}
+}
+func (il *ImageLoader) JSValue() js.Value {
+	return il.Value
 }
 func (il *ImageLoader) CrossOrigin() string {
 	return il.Get("crossOrigin").String()
@@ -25,7 +29,7 @@ func (il *ImageLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: il.Get("manager")}
 }
 func (il *ImageLoader) SetManager(v *LoadingManager) {
-	il.Set("manager", v)
+	il.Set("manager", v.Value)
 }
 func (il *ImageLoader) Path() string {
 	return il.Get("path").String()

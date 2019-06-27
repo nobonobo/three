@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// AudioAnalyser extend: []
 type AudioAnalyser struct {
 	js.Value
 }
 
 func NewAudioAnalyser(audio js.Value, fftSize float64) *AudioAnalyser {
 	return &AudioAnalyser{Value: get("AudioAnalyser").New(audio, fftSize)}
+}
+func (aa *AudioAnalyser) JSValue() js.Value {
+	return aa.Value
 }
 func (aa *AudioAnalyser) Analyser() js.Value {
 	return aa.Get("analyser")

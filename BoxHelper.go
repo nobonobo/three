@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// BoxHelper extend: [LineSegments]
 type BoxHelper struct {
 	js.Value
 }
 
 func NewBoxHelper(object *Object3D, color *Color) *BoxHelper {
 	return &BoxHelper{Value: get("BoxHelper").New(object, color)}
+}
+func (bh *BoxHelper) JSValue() js.Value {
+	return bh.Value
 }
 func (bh *BoxHelper) CastShadow() bool {
 	return bh.Get("castShadow").Bool()
@@ -33,11 +37,11 @@ func (bh *BoxHelper) FrustumCulled() bool {
 func (bh *BoxHelper) SetFrustumCulled(v bool) {
 	bh.Set("frustumCulled", v)
 }
-func (bh *BoxHelper) Geometry() *Geometry {
-	return &Geometry{Value: bh.Get("geometry")}
+func (bh *BoxHelper) Geometry() Geometry {
+	return &GeometryImpl{Value: bh.Get("geometry")}
 }
-func (bh *BoxHelper) SetGeometry(v *Geometry) {
-	bh.Set("geometry", v)
+func (bh *BoxHelper) SetGeometry(v Geometry) {
+	bh.Set("geometry", v.JSValue())
 }
 func (bh *BoxHelper) Id() int {
 	return bh.Get("id").Int()
@@ -67,19 +71,19 @@ func (bh *BoxHelper) Layers() *Layers {
 	return &Layers{Value: bh.Get("layers")}
 }
 func (bh *BoxHelper) SetLayers(v *Layers) {
-	bh.Set("layers", v)
+	bh.Set("layers", v.Value)
 }
-func (bh *BoxHelper) Material() *Material {
-	return &Material{Value: bh.Get("material")}
+func (bh *BoxHelper) Material() Material {
+	return &MaterialImpl{Value: bh.Get("material")}
 }
-func (bh *BoxHelper) SetMaterial(v *Material) {
-	bh.Set("material", v)
+func (bh *BoxHelper) SetMaterial(v Material) {
+	bh.Set("material", v.JSValue())
 }
 func (bh *BoxHelper) Matrix() *Matrix4 {
 	return &Matrix4{Value: bh.Get("matrix")}
 }
 func (bh *BoxHelper) SetMatrix(v *Matrix4) {
-	bh.Set("matrix", v)
+	bh.Set("matrix", v.Value)
 }
 func (bh *BoxHelper) MatrixAutoUpdate() bool {
 	return bh.Get("matrixAutoUpdate").Bool()
@@ -91,7 +95,7 @@ func (bh *BoxHelper) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: bh.Get("matrixWorld")}
 }
 func (bh *BoxHelper) SetMatrixWorld(v *Matrix4) {
-	bh.Set("matrixWorld", v)
+	bh.Set("matrixWorld", v.Value)
 }
 func (bh *BoxHelper) MatrixWorldNeedsUpdate() bool {
 	return bh.Get("matrixWorldNeedsUpdate").Bool()
@@ -103,7 +107,7 @@ func (bh *BoxHelper) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: bh.Get("modelViewMatrix")}
 }
 func (bh *BoxHelper) SetModelViewMatrix(v *Matrix4) {
-	bh.Set("modelViewMatrix", v)
+	bh.Set("modelViewMatrix", v.Value)
 }
 func (bh *BoxHelper) Name() string {
 	return bh.Get("name").String()
@@ -115,7 +119,7 @@ func (bh *BoxHelper) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: bh.Get("normalMatrix")}
 }
 func (bh *BoxHelper) SetNormalMatrix(v *Matrix3) {
-	bh.Set("normalMatrix", v)
+	bh.Set("normalMatrix", v.Value)
 }
 func (bh *BoxHelper) OnAfterRender() js.Value {
 	return bh.Get("onAfterRender")
@@ -133,19 +137,19 @@ func (bh *BoxHelper) Parent() *Object3D {
 	return &Object3D{Value: bh.Get("parent")}
 }
 func (bh *BoxHelper) SetParent(v *Object3D) {
-	bh.Set("parent", v)
+	bh.Set("parent", v.Value)
 }
 func (bh *BoxHelper) Position() *Vector3 {
 	return &Vector3{Value: bh.Get("position")}
 }
 func (bh *BoxHelper) SetPosition(v *Vector3) {
-	bh.Set("position", v)
+	bh.Set("position", v.Value)
 }
 func (bh *BoxHelper) Quaternion() *Quaternion {
 	return &Quaternion{Value: bh.Get("quaternion")}
 }
 func (bh *BoxHelper) SetQuaternion(v *Quaternion) {
-	bh.Set("quaternion", v)
+	bh.Set("quaternion", v.Value)
 }
 func (bh *BoxHelper) ReceiveShadow() bool {
 	return bh.Get("receiveShadow").Bool()
@@ -163,13 +167,13 @@ func (bh *BoxHelper) Rotation() *Euler {
 	return &Euler{Value: bh.Get("rotation")}
 }
 func (bh *BoxHelper) SetRotation(v *Euler) {
-	bh.Set("rotation", v)
+	bh.Set("rotation", v.Value)
 }
 func (bh *BoxHelper) Scale() *Vector3 {
 	return &Vector3{Value: bh.Get("scale")}
 }
 func (bh *BoxHelper) SetScale(v *Vector3) {
-	bh.Set("scale", v)
+	bh.Set("scale", v.Value)
 }
 func (bh *BoxHelper) Type() string {
 	return bh.Get("type").String()
@@ -181,7 +185,7 @@ func (bh *BoxHelper) Up() *Vector3 {
 	return &Vector3{Value: bh.Get("up")}
 }
 func (bh *BoxHelper) SetUp(v *Vector3) {
-	bh.Set("up", v)
+	bh.Set("up", v.Value)
 }
 func (bh *BoxHelper) UserData() js.Value {
 	return bh.Get("userData")
@@ -211,7 +215,7 @@ func (bh *BoxHelper) DefaultUp() *Vector3 {
 	return &Vector3{Value: bh.Get("DefaultUp")}
 }
 func (bh *BoxHelper) SetDefaultUp(v *Vector3) {
-	bh.Set("DefaultUp", v)
+	bh.Set("DefaultUp", v.Value)
 }
 func (bh *BoxHelper) Add(object js.Value) *BoxHelper {
 	return &BoxHelper{Value: bh.Call("add", object)}

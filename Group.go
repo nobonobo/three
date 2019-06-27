@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Group extend: [Object3D]
 type Group struct {
 	js.Value
 }
 
 func NewGroup() *Group {
 	return &Group{Value: get("Group").New()}
+}
+func (gg *Group) JSValue() js.Value {
+	return gg.Value
 }
 func (gg *Group) CastShadow() bool {
 	return gg.Get("castShadow").Bool()
@@ -55,13 +59,13 @@ func (gg *Group) Layers() *Layers {
 	return &Layers{Value: gg.Get("layers")}
 }
 func (gg *Group) SetLayers(v *Layers) {
-	gg.Set("layers", v)
+	gg.Set("layers", v.Value)
 }
 func (gg *Group) Matrix() *Matrix4 {
 	return &Matrix4{Value: gg.Get("matrix")}
 }
 func (gg *Group) SetMatrix(v *Matrix4) {
-	gg.Set("matrix", v)
+	gg.Set("matrix", v.Value)
 }
 func (gg *Group) MatrixAutoUpdate() bool {
 	return gg.Get("matrixAutoUpdate").Bool()
@@ -73,7 +77,7 @@ func (gg *Group) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: gg.Get("matrixWorld")}
 }
 func (gg *Group) SetMatrixWorld(v *Matrix4) {
-	gg.Set("matrixWorld", v)
+	gg.Set("matrixWorld", v.Value)
 }
 func (gg *Group) MatrixWorldNeedsUpdate() bool {
 	return gg.Get("matrixWorldNeedsUpdate").Bool()
@@ -85,7 +89,7 @@ func (gg *Group) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: gg.Get("modelViewMatrix")}
 }
 func (gg *Group) SetModelViewMatrix(v *Matrix4) {
-	gg.Set("modelViewMatrix", v)
+	gg.Set("modelViewMatrix", v.Value)
 }
 func (gg *Group) Name() string {
 	return gg.Get("name").String()
@@ -97,7 +101,7 @@ func (gg *Group) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: gg.Get("normalMatrix")}
 }
 func (gg *Group) SetNormalMatrix(v *Matrix3) {
-	gg.Set("normalMatrix", v)
+	gg.Set("normalMatrix", v.Value)
 }
 func (gg *Group) OnAfterRender() js.Value {
 	return gg.Get("onAfterRender")
@@ -115,19 +119,19 @@ func (gg *Group) Parent() *Object3D {
 	return &Object3D{Value: gg.Get("parent")}
 }
 func (gg *Group) SetParent(v *Object3D) {
-	gg.Set("parent", v)
+	gg.Set("parent", v.Value)
 }
 func (gg *Group) Position() *Vector3 {
 	return &Vector3{Value: gg.Get("position")}
 }
 func (gg *Group) SetPosition(v *Vector3) {
-	gg.Set("position", v)
+	gg.Set("position", v.Value)
 }
 func (gg *Group) Quaternion() *Quaternion {
 	return &Quaternion{Value: gg.Get("quaternion")}
 }
 func (gg *Group) SetQuaternion(v *Quaternion) {
-	gg.Set("quaternion", v)
+	gg.Set("quaternion", v.Value)
 }
 func (gg *Group) ReceiveShadow() bool {
 	return gg.Get("receiveShadow").Bool()
@@ -145,13 +149,13 @@ func (gg *Group) Rotation() *Euler {
 	return &Euler{Value: gg.Get("rotation")}
 }
 func (gg *Group) SetRotation(v *Euler) {
-	gg.Set("rotation", v)
+	gg.Set("rotation", v.Value)
 }
 func (gg *Group) Scale() *Vector3 {
 	return &Vector3{Value: gg.Get("scale")}
 }
 func (gg *Group) SetScale(v *Vector3) {
-	gg.Set("scale", v)
+	gg.Set("scale", v.Value)
 }
 func (gg *Group) Type() string {
 	return gg.Get("type").String()
@@ -163,7 +167,7 @@ func (gg *Group) Up() *Vector3 {
 	return &Vector3{Value: gg.Get("up")}
 }
 func (gg *Group) SetUp(v *Vector3) {
-	gg.Set("up", v)
+	gg.Set("up", v.Value)
 }
 func (gg *Group) UserData() js.Value {
 	return gg.Get("userData")
@@ -193,7 +197,7 @@ func (gg *Group) DefaultUp() *Vector3 {
 	return &Vector3{Value: gg.Get("DefaultUp")}
 }
 func (gg *Group) SetDefaultUp(v *Vector3) {
-	gg.Set("DefaultUp", v)
+	gg.Set("DefaultUp", v.Value)
 }
 func (gg *Group) Add(object js.Value) *Group {
 	return &Group{Value: gg.Call("add", object)}

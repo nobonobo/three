@@ -10,12 +10,17 @@ import (
 
 type LineDashedMaterialParameters interface {
 }
+
+// LineDashedMaterial extend: [LineBasicMaterial]
 type LineDashedMaterial struct {
 	js.Value
 }
 
 func NewLineDashedMaterial(parameters LineDashedMaterialParameters) *LineDashedMaterial {
 	return &LineDashedMaterial{Value: get("LineDashedMaterial").New(parameters)}
+}
+func (ldm *LineDashedMaterial) JSValue() js.Value {
+	return ldm.Value
 }
 func (ldm *LineDashedMaterial) AlphaTest() float64 {
 	return ldm.Get("alphaTest").Float()
@@ -87,7 +92,7 @@ func (ldm *LineDashedMaterial) Color() *Color {
 	return &Color{Value: ldm.Get("color")}
 }
 func (ldm *LineDashedMaterial) SetColor(v *Color) {
-	ldm.Set("color", v)
+	ldm.Set("color", v.Value)
 }
 func (ldm *LineDashedMaterial) ColorWrite() bool {
 	return ldm.Get("colorWrite").Bool()
@@ -299,8 +304,8 @@ func (ldm *LineDashedMaterial) AddEventListener(typ string, listener js.Value) {
 func (ldm *LineDashedMaterial) Clone() *LineDashedMaterial {
 	return &LineDashedMaterial{Value: ldm.Call("clone")}
 }
-func (ldm *LineDashedMaterial) Copy(material *Material) *LineDashedMaterial {
-	return &LineDashedMaterial{Value: ldm.Call("copy", material)}
+func (ldm *LineDashedMaterial) Copy(material Material) *LineDashedMaterial {
+	return &LineDashedMaterial{Value: ldm.Call("copy", material.JSValue())}
 }
 func (ldm *LineDashedMaterial) DispatchEvent(event js.Value) {
 	ldm.Call("dispatchEvent", event)

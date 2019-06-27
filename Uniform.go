@@ -8,6 +8,7 @@ import (
 	"syscall/js"
 )
 
+// Uniform extend: []
 type Uniform struct {
 	js.Value
 }
@@ -17,6 +18,9 @@ func NewUniform(value js.Value) *Uniform {
 }
 func NewUniform2(typ string, value js.Value) *Uniform {
 	return &Uniform{Value: get("Uniform").New(typ, value)}
+}
+func (uu *Uniform) JSValue() js.Value {
+	return uu.Value
 }
 func (uu *Uniform) Dynamic() bool {
 	return uu.Get("dynamic").Bool()

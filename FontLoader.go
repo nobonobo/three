@@ -8,6 +8,7 @@ import (
 	"syscall/js"
 )
 
+// FontLoader extend: []
 type FontLoader struct {
 	js.Value
 }
@@ -15,11 +16,14 @@ type FontLoader struct {
 func NewFontLoader(manager *LoadingManager) *FontLoader {
 	return &FontLoader{Value: get("FontLoader").New(manager)}
 }
+func (fl *FontLoader) JSValue() js.Value {
+	return fl.Value
+}
 func (fl *FontLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: fl.Get("manager")}
 }
 func (fl *FontLoader) SetManager(v *LoadingManager) {
-	fl.Set("manager", v)
+	fl.Set("manager", v.Value)
 }
 func (fl *FontLoader) Load(url string, onLoad js.Value, onProgress js.Value, onError js.Value) {
 	fl.Call("load", url, onLoad, onProgress, onError)

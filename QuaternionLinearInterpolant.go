@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// QuaternionLinearInterpolant extend: [Interpolant]
 type QuaternionLinearInterpolant struct {
 	js.Value
 }
 
 func NewQuaternionLinearInterpolant(parameterPositions js.Value, samplesValues js.Value, sampleSize float64, resultBuffer js.Value) *QuaternionLinearInterpolant {
 	return &QuaternionLinearInterpolant{Value: get("QuaternionLinearInterpolant").New(parameterPositions, samplesValues, sampleSize, resultBuffer)}
+}
+func (qli *QuaternionLinearInterpolant) JSValue() js.Value {
+	return qli.Value
 }
 func (qli *QuaternionLinearInterpolant) ParameterPositions() js.Value {
 	return qli.Get("parameterPositions")

@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// AnimationClip extend: []
 type AnimationClip struct {
 	js.Value
 }
 
 func NewAnimationClip(name string, duration float64, tracks js.Value) *AnimationClip {
 	return &AnimationClip{Value: get("AnimationClip").New(name, duration, tracks)}
+}
+func (ac *AnimationClip) JSValue() js.Value {
+	return ac.Value
 }
 func (ac *AnimationClip) Duration() float64 {
 	return ac.Get("duration").Float()

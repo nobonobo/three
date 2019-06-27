@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// InterleavedBuffer extend: []
 type InterleavedBuffer struct {
 	js.Value
 }
 
 func NewInterleavedBuffer(array js.Value, stride int) *InterleavedBuffer {
 	return &InterleavedBuffer{Value: get("InterleavedBuffer").New(array, stride)}
+}
+func (ib *InterleavedBuffer) JSValue() js.Value {
+	return ib.Value
 }
 func (ib *InterleavedBuffer) Array() js.Value {
 	return ib.Get("array")

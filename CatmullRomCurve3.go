@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// CatmullRomCurve3 extend: [Curve]
 type CatmullRomCurve3 struct {
 	js.Value
 }
 
 func NewCatmullRomCurve3(points js.Value, closed bool, curveType string, tension float64) *CatmullRomCurve3 {
 	return &CatmullRomCurve3{Value: get("CatmullRomCurve3").New(points, closed, curveType, tension)}
+}
+func (crc *CatmullRomCurve3) JSValue() js.Value {
+	return crc.Value
 }
 func (crc *CatmullRomCurve3) ArcLengthDivisions() float64 {
 	return crc.Get("arcLengthDivisions").Float()

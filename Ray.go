@@ -8,6 +8,7 @@ import (
 	"syscall/js"
 )
 
+// Ray extend: []
 type Ray struct {
 	js.Value
 }
@@ -15,17 +16,20 @@ type Ray struct {
 func NewRay(origin *Vector3, direction *Vector3) *Ray {
 	return &Ray{Value: get("Ray").New(origin, direction)}
 }
+func (rr *Ray) JSValue() js.Value {
+	return rr.Value
+}
 func (rr *Ray) Direction() *Vector3 {
 	return &Vector3{Value: rr.Get("direction")}
 }
 func (rr *Ray) SetDirection(v *Vector3) {
-	rr.Set("direction", v)
+	rr.Set("direction", v.Value)
 }
 func (rr *Ray) Origin() *Vector3 {
 	return &Vector3{Value: rr.Get("origin")}
 }
 func (rr *Ray) SetOrigin(v *Vector3) {
-	rr.Set("origin", v)
+	rr.Set("origin", v.Value)
 }
 func (rr *Ray) ApplyMatrix4(matrix4 *Matrix4) *Ray {
 	return &Ray{Value: rr.Call("applyMatrix4", matrix4)}

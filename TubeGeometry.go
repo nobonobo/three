@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// TubeBufferGeometry extend: [BufferGeometry]
 type TubeBufferGeometry struct {
 	js.Value
 }
 
-func NewTubeBufferGeometry(path js.Value, tubularSegments float64, radius float64, radiusSegments float64, closed bool) *TubeBufferGeometry {
+func NewTubeBufferGeometry(path js.Value, tubularSegments int, radius float64, radiusSegments int, closed bool) *TubeBufferGeometry {
 	return &TubeBufferGeometry{Value: get("TubeBufferGeometry").New(path, tubularSegments, radius, radiusSegments, closed)}
+}
+func (tbg *TubeBufferGeometry) JSValue() js.Value {
+	return tbg.Value
 }
 func (tbg *TubeBufferGeometry) Attributes() js.Value {
 	return tbg.Get("attributes")
@@ -31,13 +35,13 @@ func (tbg *TubeBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: tbg.Get("boundingBox")}
 }
 func (tbg *TubeBufferGeometry) SetBoundingBox(v *Box3) {
-	tbg.Set("boundingBox", v)
+	tbg.Set("boundingBox", v.Value)
 }
 func (tbg *TubeBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: tbg.Get("boundingSphere")}
 }
 func (tbg *TubeBufferGeometry) SetBoundingSphere(v *Sphere) {
-	tbg.Set("boundingSphere", v)
+	tbg.Set("boundingSphere", v.Value)
 }
 func (tbg *TubeBufferGeometry) DrawRange() js.Value {
 	return tbg.Get("drawRange")
@@ -67,7 +71,7 @@ func (tbg *TubeBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: tbg.Get("index")}
 }
 func (tbg *TubeBufferGeometry) SetIndex(v *BufferAttribute) {
-	tbg.Set("index", v)
+	tbg.Set("index", v.Value)
 }
 func (tbg *TubeBufferGeometry) MorphAttributes() js.Value {
 	return tbg.Get("morphAttributes")
@@ -183,8 +187,8 @@ func (tbg *TubeBufferGeometry) Dispose() {
 func (tbg *TubeBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: tbg.Call("fromDirectGeometry", geometry)}
 }
-func (tbg *TubeBufferGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("fromGeometry", geometry, settings)}
+func (tbg *TubeBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: tbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (tbg *TubeBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: tbg.Call("getAttribute", name)}
@@ -247,18 +251,22 @@ func (tbg *TubeBufferGeometry) UpdateFromObject(object *Object3D) {
 	tbg.Call("updateFromObject", object)
 }
 
+// TubeGeometry extend: [Geometry]
 type TubeGeometry struct {
 	js.Value
 }
 
-func NewTubeGeometry(path js.Value, tubularSegments float64, radius float64, radiusSegments float64, closed bool) *TubeGeometry {
+func NewTubeGeometry(path js.Value, tubularSegments int, radius float64, radiusSegments int, closed bool) *TubeGeometry {
 	return &TubeGeometry{Value: get("TubeGeometry").New(path, tubularSegments, radius, radiusSegments, closed)}
+}
+func (tg *TubeGeometry) JSValue() js.Value {
+	return tg.Value
 }
 func (tg *TubeGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: tg.Get("animation")}
 }
 func (tg *TubeGeometry) SetAnimation(v *AnimationClip) {
-	tg.Set("animation", v)
+	tg.Set("animation", v.Value)
 }
 func (tg *TubeGeometry) Animations() js.Value {
 	return tg.Get("animations")
@@ -282,13 +290,13 @@ func (tg *TubeGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: tg.Get("boundingBox")}
 }
 func (tg *TubeGeometry) SetBoundingBox(v *Box3) {
-	tg.Set("boundingBox", v)
+	tg.Set("boundingBox", v.Value)
 }
 func (tg *TubeGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: tg.Get("boundingSphere")}
 }
 func (tg *TubeGeometry) SetBoundingSphere(v *Sphere) {
-	tg.Set("boundingSphere", v)
+	tg.Set("boundingSphere", v.Value)
 }
 func (tg *TubeGeometry) Colors() js.Value {
 	return tg.Get("colors")
@@ -431,13 +439,13 @@ func (tg *TubeGeometry) SetVerticesNeedUpdate(v bool) {
 func (tg *TubeGeometry) AddEventListener(typ string, listener js.Value) {
 	tg.Call("addEventListener", typ, listener)
 }
-func (tg *TubeGeometry) ApplyMatrix(matrix *Matrix4) *Geometry {
-	return &Geometry{Value: tg.Call("applyMatrix", matrix)}
+func (tg *TubeGeometry) ApplyMatrix(matrix *Matrix4) Geometry {
+	return &GeometryImpl{Value: tg.Call("applyMatrix", matrix)}
 }
-func (tg *TubeGeometry) Center() *Geometry {
-	return &Geometry{Value: tg.Call("center")}
+func (tg *TubeGeometry) Center() Geometry {
+	return &GeometryImpl{Value: tg.Call("center")}
 }
-func (tg *TubeGeometry) Clone() *TubeGeometry {
+func (tg *TubeGeometry) Clone() Geometry {
 	return &TubeGeometry{Value: tg.Call("clone")}
 }
 func (tg *TubeGeometry) ComputeBoundingBox() {
@@ -458,8 +466,8 @@ func (tg *TubeGeometry) ComputeMorphNormals() {
 func (tg *TubeGeometry) ComputeVertexNormals(areaWeighted bool) {
 	tg.Call("computeVertexNormals", areaWeighted)
 }
-func (tg *TubeGeometry) Copy(source *Geometry) *TubeGeometry {
-	return &TubeGeometry{Value: tg.Call("copy", source)}
+func (tg *TubeGeometry) Copy(source Geometry) Geometry {
+	return &TubeGeometry{Value: tg.Call("copy", source.JSValue())}
 }
 func (tg *TubeGeometry) DispatchEvent(event js.Value) {
 	tg.Call("dispatchEvent", event)
@@ -467,8 +475,8 @@ func (tg *TubeGeometry) DispatchEvent(event js.Value) {
 func (tg *TubeGeometry) Dispose() {
 	tg.Call("dispose")
 }
-func (tg *TubeGeometry) FromBufferGeometry(geometry *BufferGeometry) *Geometry {
-	return &Geometry{Value: tg.Call("fromBufferGeometry", geometry)}
+func (tg *TubeGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
+	return &GeometryImpl{Value: tg.Call("fromBufferGeometry", geometry)}
 }
 func (tg *TubeGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return tg.Call("hasEventListener", typ, listener).Bool()
@@ -476,8 +484,8 @@ func (tg *TubeGeometry) HasEventListener(typ string, listener js.Value) bool {
 func (tg *TubeGeometry) LookAt(vector *Vector3) {
 	tg.Call("lookAt", vector)
 }
-func (tg *TubeGeometry) Merge(geometry *Geometry, matrix Matrix, materialIndexOffset int) {
-	tg.Call("merge", geometry, matrix, materialIndexOffset)
+func (tg *TubeGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
+	tg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
 func (tg *TubeGeometry) MergeMesh(mesh *Mesh) {
 	tg.Call("mergeMesh", mesh)
@@ -485,25 +493,25 @@ func (tg *TubeGeometry) MergeMesh(mesh *Mesh) {
 func (tg *TubeGeometry) MergeVertices() float64 {
 	return tg.Call("mergeVertices").Float()
 }
-func (tg *TubeGeometry) Normalize() *Geometry {
-	return &Geometry{Value: tg.Call("normalize")}
+func (tg *TubeGeometry) Normalize() Geometry {
+	return &GeometryImpl{Value: tg.Call("normalize")}
 }
 func (tg *TubeGeometry) RemoveEventListener(typ string, listener js.Value) {
 	tg.Call("removeEventListener", typ, listener)
 }
-func (tg *TubeGeometry) RotateX(angle float64) *Geometry {
-	return &Geometry{Value: tg.Call("rotateX", angle)}
+func (tg *TubeGeometry) RotateX(angle float64) Geometry {
+	return &GeometryImpl{Value: tg.Call("rotateX", angle)}
 }
-func (tg *TubeGeometry) RotateY(angle float64) *Geometry {
-	return &Geometry{Value: tg.Call("rotateY", angle)}
+func (tg *TubeGeometry) RotateY(angle float64) Geometry {
+	return &GeometryImpl{Value: tg.Call("rotateY", angle)}
 }
-func (tg *TubeGeometry) RotateZ(angle float64) *Geometry {
-	return &Geometry{Value: tg.Call("rotateZ", angle)}
+func (tg *TubeGeometry) RotateZ(angle float64) Geometry {
+	return &GeometryImpl{Value: tg.Call("rotateZ", angle)}
 }
-func (tg *TubeGeometry) Scale(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: tg.Call("scale", x, y, z)}
+func (tg *TubeGeometry) Scale(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: tg.Call("scale", x, y, z)}
 }
-func (tg *TubeGeometry) SetFromPoints(points js.Value) *TubeGeometry {
+func (tg *TubeGeometry) SetFromPoints(points js.Value) Geometry {
 	return &TubeGeometry{Value: tg.Call("setFromPoints", points)}
 }
 func (tg *TubeGeometry) SortFacesByMaterialIndex() {
@@ -512,6 +520,6 @@ func (tg *TubeGeometry) SortFacesByMaterialIndex() {
 func (tg *TubeGeometry) ToJSON() js.Value {
 	return tg.Call("toJSON")
 }
-func (tg *TubeGeometry) Translate(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: tg.Call("translate", x, y, z)}
+func (tg *TubeGeometry) Translate(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: tg.Call("translate", x, y, z)}
 }

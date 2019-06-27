@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Cylindrical extend: []
 type Cylindrical struct {
 	js.Value
 }
 
 func NewCylindrical(radius float64, theta float64, y float64) *Cylindrical {
 	return &Cylindrical{Value: get("Cylindrical").New(radius, theta, y)}
+}
+func (cc *Cylindrical) JSValue() js.Value {
+	return cc.Value
 }
 func (cc *Cylindrical) Radius() float64 {
 	return cc.Get("radius").Float()

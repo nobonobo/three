@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// TetrahedronBufferGeometry extend: [PolyhedronBufferGeometry]
 type TetrahedronBufferGeometry struct {
 	js.Value
 }
 
 func NewTetrahedronBufferGeometry(radius float64, detail float64) *TetrahedronBufferGeometry {
 	return &TetrahedronBufferGeometry{Value: get("TetrahedronBufferGeometry").New(radius, detail)}
+}
+func (tbg *TetrahedronBufferGeometry) JSValue() js.Value {
+	return tbg.Value
 }
 func (tbg *TetrahedronBufferGeometry) Attributes() js.Value {
 	return tbg.Get("attributes")
@@ -25,13 +29,13 @@ func (tbg *TetrahedronBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: tbg.Get("boundingBox")}
 }
 func (tbg *TetrahedronBufferGeometry) SetBoundingBox(v *Box3) {
-	tbg.Set("boundingBox", v)
+	tbg.Set("boundingBox", v.Value)
 }
 func (tbg *TetrahedronBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: tbg.Get("boundingSphere")}
 }
 func (tbg *TetrahedronBufferGeometry) SetBoundingSphere(v *Sphere) {
-	tbg.Set("boundingSphere", v)
+	tbg.Set("boundingSphere", v.Value)
 }
 func (tbg *TetrahedronBufferGeometry) DrawRange() js.Value {
 	return tbg.Get("drawRange")
@@ -61,7 +65,7 @@ func (tbg *TetrahedronBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: tbg.Get("index")}
 }
 func (tbg *TetrahedronBufferGeometry) SetIndex(v *BufferAttribute) {
-	tbg.Set("index", v)
+	tbg.Set("index", v.Value)
 }
 func (tbg *TetrahedronBufferGeometry) MorphAttributes() js.Value {
 	return tbg.Get("morphAttributes")
@@ -165,8 +169,8 @@ func (tbg *TetrahedronBufferGeometry) Dispose() {
 func (tbg *TetrahedronBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: tbg.Call("fromDirectGeometry", geometry)}
 }
-func (tbg *TetrahedronBufferGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("fromGeometry", geometry, settings)}
+func (tbg *TetrahedronBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: tbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (tbg *TetrahedronBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: tbg.Call("getAttribute", name)}
@@ -229,6 +233,7 @@ func (tbg *TetrahedronBufferGeometry) UpdateFromObject(object *Object3D) {
 	tbg.Call("updateFromObject", object)
 }
 
+// TetrahedronGeometry extend: [PolyhedronGeometry]
 type TetrahedronGeometry struct {
 	js.Value
 }
@@ -236,11 +241,14 @@ type TetrahedronGeometry struct {
 func NewTetrahedronGeometry(radius float64, detail float64) *TetrahedronGeometry {
 	return &TetrahedronGeometry{Value: get("TetrahedronGeometry").New(radius, detail)}
 }
+func (tg *TetrahedronGeometry) JSValue() js.Value {
+	return tg.Value
+}
 func (tg *TetrahedronGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: tg.Get("animation")}
 }
 func (tg *TetrahedronGeometry) SetAnimation(v *AnimationClip) {
-	tg.Set("animation", v)
+	tg.Set("animation", v.Value)
 }
 func (tg *TetrahedronGeometry) Animations() js.Value {
 	return tg.Get("animations")
@@ -258,13 +266,13 @@ func (tg *TetrahedronGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: tg.Get("boundingBox")}
 }
 func (tg *TetrahedronGeometry) SetBoundingBox(v *Box3) {
-	tg.Set("boundingBox", v)
+	tg.Set("boundingBox", v.Value)
 }
 func (tg *TetrahedronGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: tg.Get("boundingSphere")}
 }
 func (tg *TetrahedronGeometry) SetBoundingSphere(v *Sphere) {
-	tg.Set("boundingSphere", v)
+	tg.Set("boundingSphere", v.Value)
 }
 func (tg *TetrahedronGeometry) Colors() js.Value {
 	return tg.Get("colors")
@@ -395,13 +403,13 @@ func (tg *TetrahedronGeometry) SetVerticesNeedUpdate(v bool) {
 func (tg *TetrahedronGeometry) AddEventListener(typ string, listener js.Value) {
 	tg.Call("addEventListener", typ, listener)
 }
-func (tg *TetrahedronGeometry) ApplyMatrix(matrix *Matrix4) *Geometry {
-	return &Geometry{Value: tg.Call("applyMatrix", matrix)}
+func (tg *TetrahedronGeometry) ApplyMatrix(matrix *Matrix4) Geometry {
+	return &GeometryImpl{Value: tg.Call("applyMatrix", matrix)}
 }
-func (tg *TetrahedronGeometry) Center() *Geometry {
-	return &Geometry{Value: tg.Call("center")}
+func (tg *TetrahedronGeometry) Center() Geometry {
+	return &GeometryImpl{Value: tg.Call("center")}
 }
-func (tg *TetrahedronGeometry) Clone() *TetrahedronGeometry {
+func (tg *TetrahedronGeometry) Clone() Geometry {
 	return &TetrahedronGeometry{Value: tg.Call("clone")}
 }
 func (tg *TetrahedronGeometry) ComputeBoundingBox() {
@@ -422,8 +430,8 @@ func (tg *TetrahedronGeometry) ComputeMorphNormals() {
 func (tg *TetrahedronGeometry) ComputeVertexNormals(areaWeighted bool) {
 	tg.Call("computeVertexNormals", areaWeighted)
 }
-func (tg *TetrahedronGeometry) Copy(source *Geometry) *TetrahedronGeometry {
-	return &TetrahedronGeometry{Value: tg.Call("copy", source)}
+func (tg *TetrahedronGeometry) Copy(source Geometry) Geometry {
+	return &TetrahedronGeometry{Value: tg.Call("copy", source.JSValue())}
 }
 func (tg *TetrahedronGeometry) DispatchEvent(event js.Value) {
 	tg.Call("dispatchEvent", event)
@@ -431,8 +439,8 @@ func (tg *TetrahedronGeometry) DispatchEvent(event js.Value) {
 func (tg *TetrahedronGeometry) Dispose() {
 	tg.Call("dispose")
 }
-func (tg *TetrahedronGeometry) FromBufferGeometry(geometry *BufferGeometry) *Geometry {
-	return &Geometry{Value: tg.Call("fromBufferGeometry", geometry)}
+func (tg *TetrahedronGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
+	return &GeometryImpl{Value: tg.Call("fromBufferGeometry", geometry)}
 }
 func (tg *TetrahedronGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return tg.Call("hasEventListener", typ, listener).Bool()
@@ -440,8 +448,8 @@ func (tg *TetrahedronGeometry) HasEventListener(typ string, listener js.Value) b
 func (tg *TetrahedronGeometry) LookAt(vector *Vector3) {
 	tg.Call("lookAt", vector)
 }
-func (tg *TetrahedronGeometry) Merge(geometry *Geometry, matrix Matrix, materialIndexOffset int) {
-	tg.Call("merge", geometry, matrix, materialIndexOffset)
+func (tg *TetrahedronGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
+	tg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
 func (tg *TetrahedronGeometry) MergeMesh(mesh *Mesh) {
 	tg.Call("mergeMesh", mesh)
@@ -449,25 +457,25 @@ func (tg *TetrahedronGeometry) MergeMesh(mesh *Mesh) {
 func (tg *TetrahedronGeometry) MergeVertices() float64 {
 	return tg.Call("mergeVertices").Float()
 }
-func (tg *TetrahedronGeometry) Normalize() *Geometry {
-	return &Geometry{Value: tg.Call("normalize")}
+func (tg *TetrahedronGeometry) Normalize() Geometry {
+	return &GeometryImpl{Value: tg.Call("normalize")}
 }
 func (tg *TetrahedronGeometry) RemoveEventListener(typ string, listener js.Value) {
 	tg.Call("removeEventListener", typ, listener)
 }
-func (tg *TetrahedronGeometry) RotateX(angle float64) *Geometry {
-	return &Geometry{Value: tg.Call("rotateX", angle)}
+func (tg *TetrahedronGeometry) RotateX(angle float64) Geometry {
+	return &GeometryImpl{Value: tg.Call("rotateX", angle)}
 }
-func (tg *TetrahedronGeometry) RotateY(angle float64) *Geometry {
-	return &Geometry{Value: tg.Call("rotateY", angle)}
+func (tg *TetrahedronGeometry) RotateY(angle float64) Geometry {
+	return &GeometryImpl{Value: tg.Call("rotateY", angle)}
 }
-func (tg *TetrahedronGeometry) RotateZ(angle float64) *Geometry {
-	return &Geometry{Value: tg.Call("rotateZ", angle)}
+func (tg *TetrahedronGeometry) RotateZ(angle float64) Geometry {
+	return &GeometryImpl{Value: tg.Call("rotateZ", angle)}
 }
-func (tg *TetrahedronGeometry) Scale(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: tg.Call("scale", x, y, z)}
+func (tg *TetrahedronGeometry) Scale(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: tg.Call("scale", x, y, z)}
 }
-func (tg *TetrahedronGeometry) SetFromPoints(points js.Value) *TetrahedronGeometry {
+func (tg *TetrahedronGeometry) SetFromPoints(points js.Value) Geometry {
 	return &TetrahedronGeometry{Value: tg.Call("setFromPoints", points)}
 }
 func (tg *TetrahedronGeometry) SortFacesByMaterialIndex() {
@@ -476,6 +484,6 @@ func (tg *TetrahedronGeometry) SortFacesByMaterialIndex() {
 func (tg *TetrahedronGeometry) ToJSON() js.Value {
 	return tg.Call("toJSON")
 }
-func (tg *TetrahedronGeometry) Translate(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: tg.Call("translate", x, y, z)}
+func (tg *TetrahedronGeometry) Translate(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: tg.Call("translate", x, y, z)}
 }

@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// CylinderBufferGeometry extend: [BufferGeometry]
 type CylinderBufferGeometry struct {
 	js.Value
 }
 
-func NewCylinderBufferGeometry(radiusTop float64, radiusBottom float64, height float64, radialSegments float64, heightSegments float64, openEnded bool, thetaStart float64, thetaLength float64) *CylinderBufferGeometry {
+func NewCylinderBufferGeometry(radiusTop float64, radiusBottom float64, height float64, radialSegments int, heightSegments int, openEnded bool, thetaStart float64, thetaLength float64) *CylinderBufferGeometry {
 	return &CylinderBufferGeometry{Value: get("CylinderBufferGeometry").New(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength)}
+}
+func (cbg *CylinderBufferGeometry) JSValue() js.Value {
+	return cbg.Value
 }
 func (cbg *CylinderBufferGeometry) Attributes() js.Value {
 	return cbg.Get("attributes")
@@ -25,13 +29,13 @@ func (cbg *CylinderBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: cbg.Get("boundingBox")}
 }
 func (cbg *CylinderBufferGeometry) SetBoundingBox(v *Box3) {
-	cbg.Set("boundingBox", v)
+	cbg.Set("boundingBox", v.Value)
 }
 func (cbg *CylinderBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: cbg.Get("boundingSphere")}
 }
 func (cbg *CylinderBufferGeometry) SetBoundingSphere(v *Sphere) {
-	cbg.Set("boundingSphere", v)
+	cbg.Set("boundingSphere", v.Value)
 }
 func (cbg *CylinderBufferGeometry) DrawRange() js.Value {
 	return cbg.Get("drawRange")
@@ -61,7 +65,7 @@ func (cbg *CylinderBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: cbg.Get("index")}
 }
 func (cbg *CylinderBufferGeometry) SetIndex(v *BufferAttribute) {
-	cbg.Set("index", v)
+	cbg.Set("index", v.Value)
 }
 func (cbg *CylinderBufferGeometry) MorphAttributes() js.Value {
 	return cbg.Get("morphAttributes")
@@ -165,8 +169,8 @@ func (cbg *CylinderBufferGeometry) Dispose() {
 func (cbg *CylinderBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: cbg.Call("fromDirectGeometry", geometry)}
 }
-func (cbg *CylinderBufferGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("fromGeometry", geometry, settings)}
+func (cbg *CylinderBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: cbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (cbg *CylinderBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: cbg.Call("getAttribute", name)}
@@ -229,18 +233,22 @@ func (cbg *CylinderBufferGeometry) UpdateFromObject(object *Object3D) {
 	cbg.Call("updateFromObject", object)
 }
 
+// CylinderGeometry extend: [Geometry]
 type CylinderGeometry struct {
 	js.Value
 }
 
-func NewCylinderGeometry(radiusTop float64, radiusBottom float64, height float64, radiusSegments float64, heightSegments float64, openEnded bool, thetaStart float64, thetaLength float64) *CylinderGeometry {
+func NewCylinderGeometry(radiusTop float64, radiusBottom float64, height float64, radiusSegments int, heightSegments int, openEnded bool, thetaStart float64, thetaLength float64) *CylinderGeometry {
 	return &CylinderGeometry{Value: get("CylinderGeometry").New(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, thetaStart, thetaLength)}
+}
+func (cg *CylinderGeometry) JSValue() js.Value {
+	return cg.Value
 }
 func (cg *CylinderGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: cg.Get("animation")}
 }
 func (cg *CylinderGeometry) SetAnimation(v *AnimationClip) {
-	cg.Set("animation", v)
+	cg.Set("animation", v.Value)
 }
 func (cg *CylinderGeometry) Animations() js.Value {
 	return cg.Get("animations")
@@ -258,13 +266,13 @@ func (cg *CylinderGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: cg.Get("boundingBox")}
 }
 func (cg *CylinderGeometry) SetBoundingBox(v *Box3) {
-	cg.Set("boundingBox", v)
+	cg.Set("boundingBox", v.Value)
 }
 func (cg *CylinderGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: cg.Get("boundingSphere")}
 }
 func (cg *CylinderGeometry) SetBoundingSphere(v *Sphere) {
-	cg.Set("boundingSphere", v)
+	cg.Set("boundingSphere", v.Value)
 }
 func (cg *CylinderGeometry) Colors() js.Value {
 	return cg.Get("colors")
@@ -395,13 +403,13 @@ func (cg *CylinderGeometry) SetVerticesNeedUpdate(v bool) {
 func (cg *CylinderGeometry) AddEventListener(typ string, listener js.Value) {
 	cg.Call("addEventListener", typ, listener)
 }
-func (cg *CylinderGeometry) ApplyMatrix(matrix *Matrix4) *Geometry {
-	return &Geometry{Value: cg.Call("applyMatrix", matrix)}
+func (cg *CylinderGeometry) ApplyMatrix(matrix *Matrix4) Geometry {
+	return &GeometryImpl{Value: cg.Call("applyMatrix", matrix)}
 }
-func (cg *CylinderGeometry) Center() *Geometry {
-	return &Geometry{Value: cg.Call("center")}
+func (cg *CylinderGeometry) Center() Geometry {
+	return &GeometryImpl{Value: cg.Call("center")}
 }
-func (cg *CylinderGeometry) Clone() *CylinderGeometry {
+func (cg *CylinderGeometry) Clone() Geometry {
 	return &CylinderGeometry{Value: cg.Call("clone")}
 }
 func (cg *CylinderGeometry) ComputeBoundingBox() {
@@ -422,8 +430,8 @@ func (cg *CylinderGeometry) ComputeMorphNormals() {
 func (cg *CylinderGeometry) ComputeVertexNormals(areaWeighted bool) {
 	cg.Call("computeVertexNormals", areaWeighted)
 }
-func (cg *CylinderGeometry) Copy(source *Geometry) *CylinderGeometry {
-	return &CylinderGeometry{Value: cg.Call("copy", source)}
+func (cg *CylinderGeometry) Copy(source Geometry) Geometry {
+	return &CylinderGeometry{Value: cg.Call("copy", source.JSValue())}
 }
 func (cg *CylinderGeometry) DispatchEvent(event js.Value) {
 	cg.Call("dispatchEvent", event)
@@ -431,8 +439,8 @@ func (cg *CylinderGeometry) DispatchEvent(event js.Value) {
 func (cg *CylinderGeometry) Dispose() {
 	cg.Call("dispose")
 }
-func (cg *CylinderGeometry) FromBufferGeometry(geometry *BufferGeometry) *Geometry {
-	return &Geometry{Value: cg.Call("fromBufferGeometry", geometry)}
+func (cg *CylinderGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
+	return &GeometryImpl{Value: cg.Call("fromBufferGeometry", geometry)}
 }
 func (cg *CylinderGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return cg.Call("hasEventListener", typ, listener).Bool()
@@ -440,8 +448,8 @@ func (cg *CylinderGeometry) HasEventListener(typ string, listener js.Value) bool
 func (cg *CylinderGeometry) LookAt(vector *Vector3) {
 	cg.Call("lookAt", vector)
 }
-func (cg *CylinderGeometry) Merge(geometry *Geometry, matrix Matrix, materialIndexOffset int) {
-	cg.Call("merge", geometry, matrix, materialIndexOffset)
+func (cg *CylinderGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
+	cg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
 func (cg *CylinderGeometry) MergeMesh(mesh *Mesh) {
 	cg.Call("mergeMesh", mesh)
@@ -449,25 +457,25 @@ func (cg *CylinderGeometry) MergeMesh(mesh *Mesh) {
 func (cg *CylinderGeometry) MergeVertices() float64 {
 	return cg.Call("mergeVertices").Float()
 }
-func (cg *CylinderGeometry) Normalize() *Geometry {
-	return &Geometry{Value: cg.Call("normalize")}
+func (cg *CylinderGeometry) Normalize() Geometry {
+	return &GeometryImpl{Value: cg.Call("normalize")}
 }
 func (cg *CylinderGeometry) RemoveEventListener(typ string, listener js.Value) {
 	cg.Call("removeEventListener", typ, listener)
 }
-func (cg *CylinderGeometry) RotateX(angle float64) *Geometry {
-	return &Geometry{Value: cg.Call("rotateX", angle)}
+func (cg *CylinderGeometry) RotateX(angle float64) Geometry {
+	return &GeometryImpl{Value: cg.Call("rotateX", angle)}
 }
-func (cg *CylinderGeometry) RotateY(angle float64) *Geometry {
-	return &Geometry{Value: cg.Call("rotateY", angle)}
+func (cg *CylinderGeometry) RotateY(angle float64) Geometry {
+	return &GeometryImpl{Value: cg.Call("rotateY", angle)}
 }
-func (cg *CylinderGeometry) RotateZ(angle float64) *Geometry {
-	return &Geometry{Value: cg.Call("rotateZ", angle)}
+func (cg *CylinderGeometry) RotateZ(angle float64) Geometry {
+	return &GeometryImpl{Value: cg.Call("rotateZ", angle)}
 }
-func (cg *CylinderGeometry) Scale(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: cg.Call("scale", x, y, z)}
+func (cg *CylinderGeometry) Scale(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: cg.Call("scale", x, y, z)}
 }
-func (cg *CylinderGeometry) SetFromPoints(points js.Value) *CylinderGeometry {
+func (cg *CylinderGeometry) SetFromPoints(points js.Value) Geometry {
 	return &CylinderGeometry{Value: cg.Call("setFromPoints", points)}
 }
 func (cg *CylinderGeometry) SortFacesByMaterialIndex() {
@@ -476,6 +484,6 @@ func (cg *CylinderGeometry) SortFacesByMaterialIndex() {
 func (cg *CylinderGeometry) ToJSON() js.Value {
 	return cg.Call("toJSON")
 }
-func (cg *CylinderGeometry) Translate(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: cg.Call("translate", x, y, z)}
+func (cg *CylinderGeometry) Translate(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: cg.Call("translate", x, y, z)}
 }

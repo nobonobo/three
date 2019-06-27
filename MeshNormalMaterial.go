@@ -10,12 +10,17 @@ import (
 
 type MeshNormalMaterialParameters interface {
 }
+
+// MeshNormalMaterial extend: [Material]
 type MeshNormalMaterial struct {
 	js.Value
 }
 
-func NewMeshNormalMaterial(parameters MeshNormalMaterialParameters) *MeshNormalMaterial {
+func NewMeshNormalMaterial(parameters js.Value) *MeshNormalMaterial {
 	return &MeshNormalMaterial{Value: get("MeshNormalMaterial").New(parameters)}
+}
+func (mnm *MeshNormalMaterial) JSValue() js.Value {
+	return mnm.Value
 }
 func (mnm *MeshNormalMaterial) AlphaTest() float64 {
 	return mnm.Get("alphaTest").Float()
@@ -69,7 +74,7 @@ func (mnm *MeshNormalMaterial) BumpMap() *Texture {
 	return &Texture{Value: mnm.Get("bumpMap")}
 }
 func (mnm *MeshNormalMaterial) SetBumpMap(v *Texture) {
-	mnm.Set("bumpMap", v)
+	mnm.Set("bumpMap", v.Value)
 }
 func (mnm *MeshNormalMaterial) BumpScale() int {
 	return mnm.Get("bumpScale").Int()
@@ -129,7 +134,7 @@ func (mnm *MeshNormalMaterial) DisplacementMap() *Texture {
 	return &Texture{Value: mnm.Get("displacementMap")}
 }
 func (mnm *MeshNormalMaterial) SetDisplacementMap(v *Texture) {
-	mnm.Set("displacementMap", v)
+	mnm.Set("displacementMap", v.Value)
 }
 func (mnm *MeshNormalMaterial) DisplacementScale() int {
 	return mnm.Get("displacementScale").Int()
@@ -201,7 +206,7 @@ func (mnm *MeshNormalMaterial) NormalMap() *Texture {
 	return &Texture{Value: mnm.Get("normalMap")}
 }
 func (mnm *MeshNormalMaterial) SetNormalMap(v *Texture) {
-	mnm.Set("normalMap", v)
+	mnm.Set("normalMap", v.Value)
 }
 func (mnm *MeshNormalMaterial) NormalMapType() NormalMapTypes {
 	return NormalMapTypes(mnm.Get("normalMapType"))
@@ -213,7 +218,7 @@ func (mnm *MeshNormalMaterial) NormalScale() *Vector2 {
 	return &Vector2{Value: mnm.Get("normalScale")}
 }
 func (mnm *MeshNormalMaterial) SetNormalScale(v *Vector2) {
-	mnm.Set("normalScale", v)
+	mnm.Set("normalScale", v.Value)
 }
 func (mnm *MeshNormalMaterial) Opacity() float64 {
 	return mnm.Get("opacity").Float()
@@ -326,11 +331,11 @@ func (mnm *MeshNormalMaterial) SetWireframeLinewidth(v float64) {
 func (mnm *MeshNormalMaterial) AddEventListener(typ string, listener js.Value) {
 	mnm.Call("addEventListener", typ, listener)
 }
-func (mnm *MeshNormalMaterial) Clone() *MeshNormalMaterial {
+func (mnm *MeshNormalMaterial) Clone() Material {
 	return &MeshNormalMaterial{Value: mnm.Call("clone")}
 }
-func (mnm *MeshNormalMaterial) Copy(material *Material) *MeshNormalMaterial {
-	return &MeshNormalMaterial{Value: mnm.Call("copy", material)}
+func (mnm *MeshNormalMaterial) Copy(material Material) Material {
+	return &MeshNormalMaterial{Value: mnm.Call("copy", material.JSValue())}
 }
 func (mnm *MeshNormalMaterial) DispatchEvent(event js.Value) {
 	mnm.Call("dispatchEvent", event)
@@ -347,7 +352,7 @@ func (mnm *MeshNormalMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLR
 func (mnm *MeshNormalMaterial) RemoveEventListener(typ string, listener js.Value) {
 	mnm.Call("removeEventListener", typ, listener)
 }
-func (mnm *MeshNormalMaterial) SetValues(parameters MeshNormalMaterialParameters) {
+func (mnm *MeshNormalMaterial) SetValues(parameters js.Value) {
 	mnm.Call("setValues", parameters)
 }
 func (mnm *MeshNormalMaterial) ToJSON(meta js.Value) js.Value {

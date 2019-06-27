@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// DirectionalLightHelper extend: [Object3D]
 type DirectionalLightHelper struct {
 	js.Value
 }
 
 func NewDirectionalLightHelper(light *DirectionalLight, size float64, color *Color) *DirectionalLightHelper {
 	return &DirectionalLightHelper{Value: get("DirectionalLightHelper").New(light, size, color)}
+}
+func (dlh *DirectionalLightHelper) JSValue() js.Value {
+	return dlh.Value
 }
 func (dlh *DirectionalLightHelper) CastShadow() bool {
 	return dlh.Get("castShadow").Bool()
@@ -31,7 +35,7 @@ func (dlh *DirectionalLightHelper) Color() *Color {
 	return &Color{Value: dlh.Get("color")}
 }
 func (dlh *DirectionalLightHelper) SetColor(v *Color) {
-	dlh.Set("color", v)
+	dlh.Set("color", v.Value)
 }
 func (dlh *DirectionalLightHelper) FrustumCulled() bool {
 	return dlh.Get("frustumCulled").Bool()
@@ -55,25 +59,25 @@ func (dlh *DirectionalLightHelper) Layers() *Layers {
 	return &Layers{Value: dlh.Get("layers")}
 }
 func (dlh *DirectionalLightHelper) SetLayers(v *Layers) {
-	dlh.Set("layers", v)
+	dlh.Set("layers", v.Value)
 }
 func (dlh *DirectionalLightHelper) Light() *DirectionalLight {
 	return &DirectionalLight{Value: dlh.Get("light")}
 }
 func (dlh *DirectionalLightHelper) SetLight(v *DirectionalLight) {
-	dlh.Set("light", v)
+	dlh.Set("light", v.Value)
 }
 func (dlh *DirectionalLightHelper) LightPlane() *Line {
 	return &Line{Value: dlh.Get("lightPlane")}
 }
 func (dlh *DirectionalLightHelper) SetLightPlane(v *Line) {
-	dlh.Set("lightPlane", v)
+	dlh.Set("lightPlane", v.Value)
 }
 func (dlh *DirectionalLightHelper) Matrix() *Matrix4 {
 	return &Matrix4{Value: dlh.Get("matrix")}
 }
 func (dlh *DirectionalLightHelper) SetMatrix(v *Matrix4) {
-	dlh.Set("matrix", v)
+	dlh.Set("matrix", v.Value)
 }
 func (dlh *DirectionalLightHelper) MatrixAutoUpdate() bool {
 	return dlh.Get("matrixAutoUpdate").Bool()
@@ -85,7 +89,7 @@ func (dlh *DirectionalLightHelper) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: dlh.Get("matrixWorld")}
 }
 func (dlh *DirectionalLightHelper) SetMatrixWorld(v *Matrix4) {
-	dlh.Set("matrixWorld", v)
+	dlh.Set("matrixWorld", v.Value)
 }
 func (dlh *DirectionalLightHelper) MatrixWorldNeedsUpdate() bool {
 	return dlh.Get("matrixWorldNeedsUpdate").Bool()
@@ -97,7 +101,7 @@ func (dlh *DirectionalLightHelper) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: dlh.Get("modelViewMatrix")}
 }
 func (dlh *DirectionalLightHelper) SetModelViewMatrix(v *Matrix4) {
-	dlh.Set("modelViewMatrix", v)
+	dlh.Set("modelViewMatrix", v.Value)
 }
 func (dlh *DirectionalLightHelper) Name() string {
 	return dlh.Get("name").String()
@@ -109,7 +113,7 @@ func (dlh *DirectionalLightHelper) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: dlh.Get("normalMatrix")}
 }
 func (dlh *DirectionalLightHelper) SetNormalMatrix(v *Matrix3) {
-	dlh.Set("normalMatrix", v)
+	dlh.Set("normalMatrix", v.Value)
 }
 func (dlh *DirectionalLightHelper) OnAfterRender() js.Value {
 	return dlh.Get("onAfterRender")
@@ -127,19 +131,19 @@ func (dlh *DirectionalLightHelper) Parent() *Object3D {
 	return &Object3D{Value: dlh.Get("parent")}
 }
 func (dlh *DirectionalLightHelper) SetParent(v *Object3D) {
-	dlh.Set("parent", v)
+	dlh.Set("parent", v.Value)
 }
 func (dlh *DirectionalLightHelper) Position() *Vector3 {
 	return &Vector3{Value: dlh.Get("position")}
 }
 func (dlh *DirectionalLightHelper) SetPosition(v *Vector3) {
-	dlh.Set("position", v)
+	dlh.Set("position", v.Value)
 }
 func (dlh *DirectionalLightHelper) Quaternion() *Quaternion {
 	return &Quaternion{Value: dlh.Get("quaternion")}
 }
 func (dlh *DirectionalLightHelper) SetQuaternion(v *Quaternion) {
-	dlh.Set("quaternion", v)
+	dlh.Set("quaternion", v.Value)
 }
 func (dlh *DirectionalLightHelper) ReceiveShadow() bool {
 	return dlh.Get("receiveShadow").Bool()
@@ -157,19 +161,19 @@ func (dlh *DirectionalLightHelper) Rotation() *Euler {
 	return &Euler{Value: dlh.Get("rotation")}
 }
 func (dlh *DirectionalLightHelper) SetRotation(v *Euler) {
-	dlh.Set("rotation", v)
+	dlh.Set("rotation", v.Value)
 }
 func (dlh *DirectionalLightHelper) Scale() *Vector3 {
 	return &Vector3{Value: dlh.Get("scale")}
 }
 func (dlh *DirectionalLightHelper) SetScale(v *Vector3) {
-	dlh.Set("scale", v)
+	dlh.Set("scale", v.Value)
 }
 func (dlh *DirectionalLightHelper) TargetPlane() *Line {
 	return &Line{Value: dlh.Get("targetPlane")}
 }
 func (dlh *DirectionalLightHelper) SetTargetPlane(v *Line) {
-	dlh.Set("targetPlane", v)
+	dlh.Set("targetPlane", v.Value)
 }
 func (dlh *DirectionalLightHelper) Type() string {
 	return dlh.Get("type").String()
@@ -181,7 +185,7 @@ func (dlh *DirectionalLightHelper) Up() *Vector3 {
 	return &Vector3{Value: dlh.Get("up")}
 }
 func (dlh *DirectionalLightHelper) SetUp(v *Vector3) {
-	dlh.Set("up", v)
+	dlh.Set("up", v.Value)
 }
 func (dlh *DirectionalLightHelper) UserData() js.Value {
 	return dlh.Get("userData")
@@ -211,7 +215,7 @@ func (dlh *DirectionalLightHelper) DefaultUp() *Vector3 {
 	return &Vector3{Value: dlh.Get("DefaultUp")}
 }
 func (dlh *DirectionalLightHelper) SetDefaultUp(v *Vector3) {
-	dlh.Set("DefaultUp", v)
+	dlh.Set("DefaultUp", v.Value)
 }
 func (dlh *DirectionalLightHelper) Add(object js.Value) *DirectionalLightHelper {
 	return &DirectionalLightHelper{Value: dlh.Call("add", object)}

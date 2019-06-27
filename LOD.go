@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// LOD extend: [Object3D]
 type LOD struct {
 	js.Value
 }
 
 func NewLOD() *LOD {
 	return &LOD{Value: get("LOD").New()}
+}
+func (lod *LOD) JSValue() js.Value {
+	return lod.Value
 }
 func (lod *LOD) CastShadow() bool {
 	return lod.Get("castShadow").Bool()
@@ -49,7 +53,7 @@ func (lod *LOD) Layers() *Layers {
 	return &Layers{Value: lod.Get("layers")}
 }
 func (lod *LOD) SetLayers(v *Layers) {
-	lod.Set("layers", v)
+	lod.Set("layers", v.Value)
 }
 func (lod *LOD) Levels() js.Value {
 	return lod.Get("levels")
@@ -61,7 +65,7 @@ func (lod *LOD) Matrix() *Matrix4 {
 	return &Matrix4{Value: lod.Get("matrix")}
 }
 func (lod *LOD) SetMatrix(v *Matrix4) {
-	lod.Set("matrix", v)
+	lod.Set("matrix", v.Value)
 }
 func (lod *LOD) MatrixAutoUpdate() bool {
 	return lod.Get("matrixAutoUpdate").Bool()
@@ -73,7 +77,7 @@ func (lod *LOD) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: lod.Get("matrixWorld")}
 }
 func (lod *LOD) SetMatrixWorld(v *Matrix4) {
-	lod.Set("matrixWorld", v)
+	lod.Set("matrixWorld", v.Value)
 }
 func (lod *LOD) MatrixWorldNeedsUpdate() bool {
 	return lod.Get("matrixWorldNeedsUpdate").Bool()
@@ -85,7 +89,7 @@ func (lod *LOD) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: lod.Get("modelViewMatrix")}
 }
 func (lod *LOD) SetModelViewMatrix(v *Matrix4) {
-	lod.Set("modelViewMatrix", v)
+	lod.Set("modelViewMatrix", v.Value)
 }
 func (lod *LOD) Name() string {
 	return lod.Get("name").String()
@@ -97,7 +101,7 @@ func (lod *LOD) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: lod.Get("normalMatrix")}
 }
 func (lod *LOD) SetNormalMatrix(v *Matrix3) {
-	lod.Set("normalMatrix", v)
+	lod.Set("normalMatrix", v.Value)
 }
 func (lod *LOD) Objects() js.Value {
 	return lod.Get("objects")
@@ -121,19 +125,19 @@ func (lod *LOD) Parent() *Object3D {
 	return &Object3D{Value: lod.Get("parent")}
 }
 func (lod *LOD) SetParent(v *Object3D) {
-	lod.Set("parent", v)
+	lod.Set("parent", v.Value)
 }
 func (lod *LOD) Position() *Vector3 {
 	return &Vector3{Value: lod.Get("position")}
 }
 func (lod *LOD) SetPosition(v *Vector3) {
-	lod.Set("position", v)
+	lod.Set("position", v.Value)
 }
 func (lod *LOD) Quaternion() *Quaternion {
 	return &Quaternion{Value: lod.Get("quaternion")}
 }
 func (lod *LOD) SetQuaternion(v *Quaternion) {
-	lod.Set("quaternion", v)
+	lod.Set("quaternion", v.Value)
 }
 func (lod *LOD) ReceiveShadow() bool {
 	return lod.Get("receiveShadow").Bool()
@@ -151,13 +155,13 @@ func (lod *LOD) Rotation() *Euler {
 	return &Euler{Value: lod.Get("rotation")}
 }
 func (lod *LOD) SetRotation(v *Euler) {
-	lod.Set("rotation", v)
+	lod.Set("rotation", v.Value)
 }
 func (lod *LOD) Scale() *Vector3 {
 	return &Vector3{Value: lod.Get("scale")}
 }
 func (lod *LOD) SetScale(v *Vector3) {
-	lod.Set("scale", v)
+	lod.Set("scale", v.Value)
 }
 func (lod *LOD) Type() string {
 	return lod.Get("type").String()
@@ -169,7 +173,7 @@ func (lod *LOD) Up() *Vector3 {
 	return &Vector3{Value: lod.Get("up")}
 }
 func (lod *LOD) SetUp(v *Vector3) {
-	lod.Set("up", v)
+	lod.Set("up", v.Value)
 }
 func (lod *LOD) UserData() js.Value {
 	return lod.Get("userData")
@@ -199,7 +203,7 @@ func (lod *LOD) DefaultUp() *Vector3 {
 	return &Vector3{Value: lod.Get("DefaultUp")}
 }
 func (lod *LOD) SetDefaultUp(v *Vector3) {
-	lod.Set("DefaultUp", v)
+	lod.Set("DefaultUp", v.Value)
 }
 func (lod *LOD) Add(object js.Value) *LOD {
 	return &LOD{Value: lod.Call("add", object)}
@@ -318,8 +322,8 @@ func (lod *LOD) TraverseAncestors(callback js.Value) {
 func (lod *LOD) TraverseVisible(callback js.Value) {
 	lod.Call("traverseVisible", callback)
 }
-func (lod *LOD) Update(camera *Camera) {
-	lod.Call("update", camera)
+func (lod *LOD) Update(camera Camera) {
+	lod.Call("update", camera.JSValue())
 }
 func (lod *LOD) UpdateMatrix() {
 	lod.Call("updateMatrix")

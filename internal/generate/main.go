@@ -125,7 +125,8 @@ func walk(tab int, node *Define) {
 	case Class:
 		file := fileStack[len(fileStack)-1]
 		klass := &Klass{
-			Name: node.Name,
+			Name:          node.Name,
+			ExtendedTypes: node.ExtendedTypes,
 		}
 		file.Klasses = append(file.Klasses, klass)
 		klassStack = append(klassStack, klass)

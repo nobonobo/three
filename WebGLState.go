@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// WebGLColorBuffer extend: []
 type WebGLColorBuffer struct {
 	js.Value
 }
 
 func NewWebGLColorBuffer() *WebGLColorBuffer {
 	return &WebGLColorBuffer{Value: get("WebGLColorBuffer").New()}
+}
+func (wglcb *WebGLColorBuffer) JSValue() js.Value {
+	return wglcb.Value
 }
 func (wglcb *WebGLColorBuffer) Reset() {
 	wglcb.Call("reset")
@@ -28,12 +32,16 @@ func (wglcb *WebGLColorBuffer) SetMask(colorMask bool) {
 	wglcb.Call("setMask", colorMask)
 }
 
+// WebGLDepthBuffer extend: []
 type WebGLDepthBuffer struct {
 	js.Value
 }
 
 func NewWebGLDepthBuffer() *WebGLDepthBuffer {
 	return &WebGLDepthBuffer{Value: get("WebGLDepthBuffer").New()}
+}
+func (wgldb *WebGLDepthBuffer) JSValue() js.Value {
+	return wgldb.Value
 }
 func (wgldb *WebGLDepthBuffer) Reset() {
 	wgldb.Call("reset")
@@ -54,12 +62,16 @@ func (wgldb *WebGLDepthBuffer) SetTest(depthTest bool) {
 	wgldb.Call("setTest", depthTest)
 }
 
+// WebGLState extend: []
 type WebGLState struct {
 	js.Value
 }
 
 func NewWebGLState(gl js.Value, extensions *WebGLExtensions, utils js.Value, capabilities *WebGLCapabilities) *WebGLState {
 	return &WebGLState{Value: get("WebGLState").New(gl, extensions, utils, capabilities)}
+}
+func (wgls *WebGLState) JSValue() js.Value {
+	return wgls.Value
 }
 func (wgls *WebGLState) Buffers() js.Value {
 	return wgls.Get("buffers")
@@ -115,8 +127,8 @@ func (wgls *WebGLState) SetFlipSided(flipSided bool) {
 func (wgls *WebGLState) SetLineWidth(width float64) {
 	wgls.Call("setLineWidth", width)
 }
-func (wgls *WebGLState) SetMaterial(material *Material, frontFaceCW bool) {
-	wgls.Call("setMaterial", material, frontFaceCW)
+func (wgls *WebGLState) SetMaterial(material Material, frontFaceCW bool) {
+	wgls.Call("setMaterial", material.JSValue(), frontFaceCW)
 }
 func (wgls *WebGLState) SetPolygonOffset(polygonoffset bool, factor float64, units float64) {
 	wgls.Call("setPolygonOffset", polygonoffset, factor, units)
@@ -140,12 +152,16 @@ func (wgls *WebGLState) Viewport(viewport *Vector4) {
 	wgls.Call("viewport", viewport)
 }
 
+// WebGLStencilBuffer extend: []
 type WebGLStencilBuffer struct {
 	js.Value
 }
 
 func NewWebGLStencilBuffer() *WebGLStencilBuffer {
 	return &WebGLStencilBuffer{Value: get("WebGLStencilBuffer").New()}
+}
+func (wglsb *WebGLStencilBuffer) JSValue() js.Value {
+	return wglsb.Value
 }
 func (wglsb *WebGLStencilBuffer) Reset() {
 	wglsb.Call("reset")

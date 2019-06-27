@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// OctahedronBufferGeometry extend: [PolyhedronBufferGeometry]
 type OctahedronBufferGeometry struct {
 	js.Value
 }
 
 func NewOctahedronBufferGeometry(radius float64, detail float64) *OctahedronBufferGeometry {
 	return &OctahedronBufferGeometry{Value: get("OctahedronBufferGeometry").New(radius, detail)}
+}
+func (obg *OctahedronBufferGeometry) JSValue() js.Value {
+	return obg.Value
 }
 func (obg *OctahedronBufferGeometry) Attributes() js.Value {
 	return obg.Get("attributes")
@@ -25,13 +29,13 @@ func (obg *OctahedronBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: obg.Get("boundingBox")}
 }
 func (obg *OctahedronBufferGeometry) SetBoundingBox(v *Box3) {
-	obg.Set("boundingBox", v)
+	obg.Set("boundingBox", v.Value)
 }
 func (obg *OctahedronBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: obg.Get("boundingSphere")}
 }
 func (obg *OctahedronBufferGeometry) SetBoundingSphere(v *Sphere) {
-	obg.Set("boundingSphere", v)
+	obg.Set("boundingSphere", v.Value)
 }
 func (obg *OctahedronBufferGeometry) DrawRange() js.Value {
 	return obg.Get("drawRange")
@@ -61,7 +65,7 @@ func (obg *OctahedronBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: obg.Get("index")}
 }
 func (obg *OctahedronBufferGeometry) SetIndex(v *BufferAttribute) {
-	obg.Set("index", v)
+	obg.Set("index", v.Value)
 }
 func (obg *OctahedronBufferGeometry) MorphAttributes() js.Value {
 	return obg.Get("morphAttributes")
@@ -165,8 +169,8 @@ func (obg *OctahedronBufferGeometry) Dispose() {
 func (obg *OctahedronBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: obg.Call("fromDirectGeometry", geometry)}
 }
-func (obg *OctahedronBufferGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("fromGeometry", geometry, settings)}
+func (obg *OctahedronBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: obg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (obg *OctahedronBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: obg.Call("getAttribute", name)}
@@ -229,6 +233,7 @@ func (obg *OctahedronBufferGeometry) UpdateFromObject(object *Object3D) {
 	obg.Call("updateFromObject", object)
 }
 
+// OctahedronGeometry extend: [PolyhedronGeometry]
 type OctahedronGeometry struct {
 	js.Value
 }
@@ -236,11 +241,14 @@ type OctahedronGeometry struct {
 func NewOctahedronGeometry(radius float64, detail float64) *OctahedronGeometry {
 	return &OctahedronGeometry{Value: get("OctahedronGeometry").New(radius, detail)}
 }
+func (og *OctahedronGeometry) JSValue() js.Value {
+	return og.Value
+}
 func (og *OctahedronGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: og.Get("animation")}
 }
 func (og *OctahedronGeometry) SetAnimation(v *AnimationClip) {
-	og.Set("animation", v)
+	og.Set("animation", v.Value)
 }
 func (og *OctahedronGeometry) Animations() js.Value {
 	return og.Get("animations")
@@ -258,13 +266,13 @@ func (og *OctahedronGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: og.Get("boundingBox")}
 }
 func (og *OctahedronGeometry) SetBoundingBox(v *Box3) {
-	og.Set("boundingBox", v)
+	og.Set("boundingBox", v.Value)
 }
 func (og *OctahedronGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: og.Get("boundingSphere")}
 }
 func (og *OctahedronGeometry) SetBoundingSphere(v *Sphere) {
-	og.Set("boundingSphere", v)
+	og.Set("boundingSphere", v.Value)
 }
 func (og *OctahedronGeometry) Colors() js.Value {
 	return og.Get("colors")
@@ -395,13 +403,13 @@ func (og *OctahedronGeometry) SetVerticesNeedUpdate(v bool) {
 func (og *OctahedronGeometry) AddEventListener(typ string, listener js.Value) {
 	og.Call("addEventListener", typ, listener)
 }
-func (og *OctahedronGeometry) ApplyMatrix(matrix *Matrix4) *Geometry {
-	return &Geometry{Value: og.Call("applyMatrix", matrix)}
+func (og *OctahedronGeometry) ApplyMatrix(matrix *Matrix4) Geometry {
+	return &GeometryImpl{Value: og.Call("applyMatrix", matrix)}
 }
-func (og *OctahedronGeometry) Center() *Geometry {
-	return &Geometry{Value: og.Call("center")}
+func (og *OctahedronGeometry) Center() Geometry {
+	return &GeometryImpl{Value: og.Call("center")}
 }
-func (og *OctahedronGeometry) Clone() *OctahedronGeometry {
+func (og *OctahedronGeometry) Clone() Geometry {
 	return &OctahedronGeometry{Value: og.Call("clone")}
 }
 func (og *OctahedronGeometry) ComputeBoundingBox() {
@@ -422,8 +430,8 @@ func (og *OctahedronGeometry) ComputeMorphNormals() {
 func (og *OctahedronGeometry) ComputeVertexNormals(areaWeighted bool) {
 	og.Call("computeVertexNormals", areaWeighted)
 }
-func (og *OctahedronGeometry) Copy(source *Geometry) *OctahedronGeometry {
-	return &OctahedronGeometry{Value: og.Call("copy", source)}
+func (og *OctahedronGeometry) Copy(source Geometry) Geometry {
+	return &OctahedronGeometry{Value: og.Call("copy", source.JSValue())}
 }
 func (og *OctahedronGeometry) DispatchEvent(event js.Value) {
 	og.Call("dispatchEvent", event)
@@ -431,8 +439,8 @@ func (og *OctahedronGeometry) DispatchEvent(event js.Value) {
 func (og *OctahedronGeometry) Dispose() {
 	og.Call("dispose")
 }
-func (og *OctahedronGeometry) FromBufferGeometry(geometry *BufferGeometry) *Geometry {
-	return &Geometry{Value: og.Call("fromBufferGeometry", geometry)}
+func (og *OctahedronGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
+	return &GeometryImpl{Value: og.Call("fromBufferGeometry", geometry)}
 }
 func (og *OctahedronGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return og.Call("hasEventListener", typ, listener).Bool()
@@ -440,8 +448,8 @@ func (og *OctahedronGeometry) HasEventListener(typ string, listener js.Value) bo
 func (og *OctahedronGeometry) LookAt(vector *Vector3) {
 	og.Call("lookAt", vector)
 }
-func (og *OctahedronGeometry) Merge(geometry *Geometry, matrix Matrix, materialIndexOffset int) {
-	og.Call("merge", geometry, matrix, materialIndexOffset)
+func (og *OctahedronGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
+	og.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
 func (og *OctahedronGeometry) MergeMesh(mesh *Mesh) {
 	og.Call("mergeMesh", mesh)
@@ -449,25 +457,25 @@ func (og *OctahedronGeometry) MergeMesh(mesh *Mesh) {
 func (og *OctahedronGeometry) MergeVertices() float64 {
 	return og.Call("mergeVertices").Float()
 }
-func (og *OctahedronGeometry) Normalize() *Geometry {
-	return &Geometry{Value: og.Call("normalize")}
+func (og *OctahedronGeometry) Normalize() Geometry {
+	return &GeometryImpl{Value: og.Call("normalize")}
 }
 func (og *OctahedronGeometry) RemoveEventListener(typ string, listener js.Value) {
 	og.Call("removeEventListener", typ, listener)
 }
-func (og *OctahedronGeometry) RotateX(angle float64) *Geometry {
-	return &Geometry{Value: og.Call("rotateX", angle)}
+func (og *OctahedronGeometry) RotateX(angle float64) Geometry {
+	return &GeometryImpl{Value: og.Call("rotateX", angle)}
 }
-func (og *OctahedronGeometry) RotateY(angle float64) *Geometry {
-	return &Geometry{Value: og.Call("rotateY", angle)}
+func (og *OctahedronGeometry) RotateY(angle float64) Geometry {
+	return &GeometryImpl{Value: og.Call("rotateY", angle)}
 }
-func (og *OctahedronGeometry) RotateZ(angle float64) *Geometry {
-	return &Geometry{Value: og.Call("rotateZ", angle)}
+func (og *OctahedronGeometry) RotateZ(angle float64) Geometry {
+	return &GeometryImpl{Value: og.Call("rotateZ", angle)}
 }
-func (og *OctahedronGeometry) Scale(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: og.Call("scale", x, y, z)}
+func (og *OctahedronGeometry) Scale(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: og.Call("scale", x, y, z)}
 }
-func (og *OctahedronGeometry) SetFromPoints(points js.Value) *OctahedronGeometry {
+func (og *OctahedronGeometry) SetFromPoints(points js.Value) Geometry {
 	return &OctahedronGeometry{Value: og.Call("setFromPoints", points)}
 }
 func (og *OctahedronGeometry) SortFacesByMaterialIndex() {
@@ -476,6 +484,6 @@ func (og *OctahedronGeometry) SortFacesByMaterialIndex() {
 func (og *OctahedronGeometry) ToJSON() js.Value {
 	return og.Call("toJSON")
 }
-func (og *OctahedronGeometry) Translate(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: og.Call("translate", x, y, z)}
+func (og *OctahedronGeometry) Translate(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: og.Call("translate", x, y, z)}
 }

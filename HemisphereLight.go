@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// HemisphereLight extend: [Light]
 type HemisphereLight struct {
 	js.Value
 }
 
 func NewHemisphereLight(skyColor *Color, groundColor *Color, intensity float64) *HemisphereLight {
 	return &HemisphereLight{Value: get("HemisphereLight").New(skyColor, groundColor, intensity)}
+}
+func (hl *HemisphereLight) JSValue() js.Value {
+	return hl.Value
 }
 func (hl *HemisphereLight) CastShadow() bool {
 	return hl.Get("castShadow").Bool()
@@ -31,7 +35,7 @@ func (hl *HemisphereLight) Color() *Color {
 	return &Color{Value: hl.Get("color")}
 }
 func (hl *HemisphereLight) SetColor(v *Color) {
-	hl.Set("color", v)
+	hl.Set("color", v.Value)
 }
 func (hl *HemisphereLight) FrustumCulled() bool {
 	return hl.Get("frustumCulled").Bool()
@@ -43,7 +47,7 @@ func (hl *HemisphereLight) GroundColor() *Color {
 	return &Color{Value: hl.Get("groundColor")}
 }
 func (hl *HemisphereLight) SetGroundColor(v *Color) {
-	hl.Set("groundColor", v)
+	hl.Set("groundColor", v.Value)
 }
 func (hl *HemisphereLight) Id() int {
 	return hl.Get("id").Int()
@@ -73,13 +77,13 @@ func (hl *HemisphereLight) Layers() *Layers {
 	return &Layers{Value: hl.Get("layers")}
 }
 func (hl *HemisphereLight) SetLayers(v *Layers) {
-	hl.Set("layers", v)
+	hl.Set("layers", v.Value)
 }
 func (hl *HemisphereLight) Matrix() *Matrix4 {
 	return &Matrix4{Value: hl.Get("matrix")}
 }
 func (hl *HemisphereLight) SetMatrix(v *Matrix4) {
-	hl.Set("matrix", v)
+	hl.Set("matrix", v.Value)
 }
 func (hl *HemisphereLight) MatrixAutoUpdate() bool {
 	return hl.Get("matrixAutoUpdate").Bool()
@@ -91,7 +95,7 @@ func (hl *HemisphereLight) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: hl.Get("matrixWorld")}
 }
 func (hl *HemisphereLight) SetMatrixWorld(v *Matrix4) {
-	hl.Set("matrixWorld", v)
+	hl.Set("matrixWorld", v.Value)
 }
 func (hl *HemisphereLight) MatrixWorldNeedsUpdate() bool {
 	return hl.Get("matrixWorldNeedsUpdate").Bool()
@@ -103,7 +107,7 @@ func (hl *HemisphereLight) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: hl.Get("modelViewMatrix")}
 }
 func (hl *HemisphereLight) SetModelViewMatrix(v *Matrix4) {
-	hl.Set("modelViewMatrix", v)
+	hl.Set("modelViewMatrix", v.Value)
 }
 func (hl *HemisphereLight) Name() string {
 	return hl.Get("name").String()
@@ -115,7 +119,7 @@ func (hl *HemisphereLight) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: hl.Get("normalMatrix")}
 }
 func (hl *HemisphereLight) SetNormalMatrix(v *Matrix3) {
-	hl.Set("normalMatrix", v)
+	hl.Set("normalMatrix", v.Value)
 }
 func (hl *HemisphereLight) OnAfterRender() js.Value {
 	return hl.Get("onAfterRender")
@@ -133,19 +137,19 @@ func (hl *HemisphereLight) Parent() *Object3D {
 	return &Object3D{Value: hl.Get("parent")}
 }
 func (hl *HemisphereLight) SetParent(v *Object3D) {
-	hl.Set("parent", v)
+	hl.Set("parent", v.Value)
 }
 func (hl *HemisphereLight) Position() *Vector3 {
 	return &Vector3{Value: hl.Get("position")}
 }
 func (hl *HemisphereLight) SetPosition(v *Vector3) {
-	hl.Set("position", v)
+	hl.Set("position", v.Value)
 }
 func (hl *HemisphereLight) Quaternion() *Quaternion {
 	return &Quaternion{Value: hl.Get("quaternion")}
 }
 func (hl *HemisphereLight) SetQuaternion(v *Quaternion) {
-	hl.Set("quaternion", v)
+	hl.Set("quaternion", v.Value)
 }
 func (hl *HemisphereLight) ReceiveShadow() bool {
 	return hl.Get("receiveShadow").Bool()
@@ -163,19 +167,19 @@ func (hl *HemisphereLight) Rotation() *Euler {
 	return &Euler{Value: hl.Get("rotation")}
 }
 func (hl *HemisphereLight) SetRotation(v *Euler) {
-	hl.Set("rotation", v)
+	hl.Set("rotation", v.Value)
 }
 func (hl *HemisphereLight) Scale() *Vector3 {
 	return &Vector3{Value: hl.Get("scale")}
 }
 func (hl *HemisphereLight) SetScale(v *Vector3) {
-	hl.Set("scale", v)
+	hl.Set("scale", v.Value)
 }
 func (hl *HemisphereLight) Shadow() *LightShadow {
 	return &LightShadow{Value: hl.Get("shadow")}
 }
 func (hl *HemisphereLight) SetShadow(v *LightShadow) {
-	hl.Set("shadow", v)
+	hl.Set("shadow", v.Value)
 }
 func (hl *HemisphereLight) ShadowBias() js.Value {
 	return hl.Get("shadowBias")
@@ -241,7 +245,7 @@ func (hl *HemisphereLight) SkyColor() *Color {
 	return &Color{Value: hl.Get("skyColor")}
 }
 func (hl *HemisphereLight) SetSkyColor(v *Color) {
-	hl.Set("skyColor", v)
+	hl.Set("skyColor", v.Value)
 }
 func (hl *HemisphereLight) Type() string {
 	return hl.Get("type").String()
@@ -253,7 +257,7 @@ func (hl *HemisphereLight) Up() *Vector3 {
 	return &Vector3{Value: hl.Get("up")}
 }
 func (hl *HemisphereLight) SetUp(v *Vector3) {
-	hl.Set("up", v)
+	hl.Set("up", v.Value)
 }
 func (hl *HemisphereLight) UserData() js.Value {
 	return hl.Get("userData")
@@ -283,7 +287,7 @@ func (hl *HemisphereLight) DefaultUp() *Vector3 {
 	return &Vector3{Value: hl.Get("DefaultUp")}
 }
 func (hl *HemisphereLight) SetDefaultUp(v *Vector3) {
-	hl.Set("DefaultUp", v)
+	hl.Set("DefaultUp", v.Value)
 }
 func (hl *HemisphereLight) Add(object js.Value) *HemisphereLight {
 	return &HemisphereLight{Value: hl.Call("add", object)}

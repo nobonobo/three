@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Euler extend: []
 type Euler struct {
 	js.Value
 }
 
 func NewEuler(x float64, y float64, z float64, order string) *Euler {
 	return &Euler{Value: get("Euler").New(x, y, z, order)}
+}
+func (ee *Euler) JSValue() js.Value {
+	return ee.Value
 }
 func (ee *Euler) OnChangeCallback() js.Value {
 	return ee.Get("onChangeCallback")

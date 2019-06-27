@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Clock extend: []
 type Clock struct {
 	js.Value
 }
 
 func NewClock(autoStart bool) *Clock {
 	return &Clock{Value: get("Clock").New(autoStart)}
+}
+func (cc *Clock) JSValue() js.Value {
+	return cc.Value
 }
 func (cc *Clock) AutoStart() bool {
 	return cc.Get("autoStart").Bool()

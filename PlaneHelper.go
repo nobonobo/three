@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// PlaneHelper extend: [LineSegments]
 type PlaneHelper struct {
 	js.Value
 }
 
 func NewPlaneHelper(plane *Plane, size int, hex int) *PlaneHelper {
 	return &PlaneHelper{Value: get("PlaneHelper").New(plane, size, hex)}
+}
+func (ph *PlaneHelper) JSValue() js.Value {
+	return ph.Value
 }
 func (ph *PlaneHelper) CastShadow() bool {
 	return ph.Get("castShadow").Bool()
@@ -33,11 +37,11 @@ func (ph *PlaneHelper) FrustumCulled() bool {
 func (ph *PlaneHelper) SetFrustumCulled(v bool) {
 	ph.Set("frustumCulled", v)
 }
-func (ph *PlaneHelper) Geometry() *Geometry {
-	return &Geometry{Value: ph.Get("geometry")}
+func (ph *PlaneHelper) Geometry() Geometry {
+	return &GeometryImpl{Value: ph.Get("geometry")}
 }
-func (ph *PlaneHelper) SetGeometry(v *Geometry) {
-	ph.Set("geometry", v)
+func (ph *PlaneHelper) SetGeometry(v Geometry) {
+	ph.Set("geometry", v.JSValue())
 }
 func (ph *PlaneHelper) Id() int {
 	return ph.Get("id").Int()
@@ -67,19 +71,19 @@ func (ph *PlaneHelper) Layers() *Layers {
 	return &Layers{Value: ph.Get("layers")}
 }
 func (ph *PlaneHelper) SetLayers(v *Layers) {
-	ph.Set("layers", v)
+	ph.Set("layers", v.Value)
 }
-func (ph *PlaneHelper) Material() *Material {
-	return &Material{Value: ph.Get("material")}
+func (ph *PlaneHelper) Material() Material {
+	return &MaterialImpl{Value: ph.Get("material")}
 }
-func (ph *PlaneHelper) SetMaterial(v *Material) {
-	ph.Set("material", v)
+func (ph *PlaneHelper) SetMaterial(v Material) {
+	ph.Set("material", v.JSValue())
 }
 func (ph *PlaneHelper) Matrix() *Matrix4 {
 	return &Matrix4{Value: ph.Get("matrix")}
 }
 func (ph *PlaneHelper) SetMatrix(v *Matrix4) {
-	ph.Set("matrix", v)
+	ph.Set("matrix", v.Value)
 }
 func (ph *PlaneHelper) MatrixAutoUpdate() bool {
 	return ph.Get("matrixAutoUpdate").Bool()
@@ -91,7 +95,7 @@ func (ph *PlaneHelper) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: ph.Get("matrixWorld")}
 }
 func (ph *PlaneHelper) SetMatrixWorld(v *Matrix4) {
-	ph.Set("matrixWorld", v)
+	ph.Set("matrixWorld", v.Value)
 }
 func (ph *PlaneHelper) MatrixWorldNeedsUpdate() bool {
 	return ph.Get("matrixWorldNeedsUpdate").Bool()
@@ -103,7 +107,7 @@ func (ph *PlaneHelper) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: ph.Get("modelViewMatrix")}
 }
 func (ph *PlaneHelper) SetModelViewMatrix(v *Matrix4) {
-	ph.Set("modelViewMatrix", v)
+	ph.Set("modelViewMatrix", v.Value)
 }
 func (ph *PlaneHelper) Name() string {
 	return ph.Get("name").String()
@@ -115,7 +119,7 @@ func (ph *PlaneHelper) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: ph.Get("normalMatrix")}
 }
 func (ph *PlaneHelper) SetNormalMatrix(v *Matrix3) {
-	ph.Set("normalMatrix", v)
+	ph.Set("normalMatrix", v.Value)
 }
 func (ph *PlaneHelper) OnAfterRender() js.Value {
 	return ph.Get("onAfterRender")
@@ -133,25 +137,25 @@ func (ph *PlaneHelper) Parent() *Object3D {
 	return &Object3D{Value: ph.Get("parent")}
 }
 func (ph *PlaneHelper) SetParent(v *Object3D) {
-	ph.Set("parent", v)
+	ph.Set("parent", v.Value)
 }
 func (ph *PlaneHelper) Plane() *Plane {
 	return &Plane{Value: ph.Get("plane")}
 }
 func (ph *PlaneHelper) SetPlane(v *Plane) {
-	ph.Set("plane", v)
+	ph.Set("plane", v.Value)
 }
 func (ph *PlaneHelper) Position() *Vector3 {
 	return &Vector3{Value: ph.Get("position")}
 }
 func (ph *PlaneHelper) SetPosition(v *Vector3) {
-	ph.Set("position", v)
+	ph.Set("position", v.Value)
 }
 func (ph *PlaneHelper) Quaternion() *Quaternion {
 	return &Quaternion{Value: ph.Get("quaternion")}
 }
 func (ph *PlaneHelper) SetQuaternion(v *Quaternion) {
-	ph.Set("quaternion", v)
+	ph.Set("quaternion", v.Value)
 }
 func (ph *PlaneHelper) ReceiveShadow() bool {
 	return ph.Get("receiveShadow").Bool()
@@ -169,13 +173,13 @@ func (ph *PlaneHelper) Rotation() *Euler {
 	return &Euler{Value: ph.Get("rotation")}
 }
 func (ph *PlaneHelper) SetRotation(v *Euler) {
-	ph.Set("rotation", v)
+	ph.Set("rotation", v.Value)
 }
 func (ph *PlaneHelper) Scale() *Vector3 {
 	return &Vector3{Value: ph.Get("scale")}
 }
 func (ph *PlaneHelper) SetScale(v *Vector3) {
-	ph.Set("scale", v)
+	ph.Set("scale", v.Value)
 }
 func (ph *PlaneHelper) Size() float64 {
 	return ph.Get("size").Float()
@@ -193,7 +197,7 @@ func (ph *PlaneHelper) Up() *Vector3 {
 	return &Vector3{Value: ph.Get("up")}
 }
 func (ph *PlaneHelper) SetUp(v *Vector3) {
-	ph.Set("up", v)
+	ph.Set("up", v.Value)
 }
 func (ph *PlaneHelper) UserData() js.Value {
 	return ph.Get("userData")
@@ -223,7 +227,7 @@ func (ph *PlaneHelper) DefaultUp() *Vector3 {
 	return &Vector3{Value: ph.Get("DefaultUp")}
 }
 func (ph *PlaneHelper) SetDefaultUp(v *Vector3) {
-	ph.Set("DefaultUp", v)
+	ph.Set("DefaultUp", v.Value)
 }
 func (ph *PlaneHelper) Add(object js.Value) *PlaneHelper {
 	return &PlaneHelper{Value: ph.Call("add", object)}

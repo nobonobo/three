@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// VertexNormalsHelper extend: [LineSegments]
 type VertexNormalsHelper struct {
 	js.Value
 }
 
 func NewVertexNormalsHelper(object *Object3D, size int, hex int, linewidth float64) *VertexNormalsHelper {
 	return &VertexNormalsHelper{Value: get("VertexNormalsHelper").New(object, size, hex, linewidth)}
+}
+func (vnh *VertexNormalsHelper) JSValue() js.Value {
+	return vnh.Value
 }
 func (vnh *VertexNormalsHelper) CastShadow() bool {
 	return vnh.Get("castShadow").Bool()
@@ -33,11 +37,11 @@ func (vnh *VertexNormalsHelper) FrustumCulled() bool {
 func (vnh *VertexNormalsHelper) SetFrustumCulled(v bool) {
 	vnh.Set("frustumCulled", v)
 }
-func (vnh *VertexNormalsHelper) Geometry() *Geometry {
-	return &Geometry{Value: vnh.Get("geometry")}
+func (vnh *VertexNormalsHelper) Geometry() Geometry {
+	return &GeometryImpl{Value: vnh.Get("geometry")}
 }
-func (vnh *VertexNormalsHelper) SetGeometry(v *Geometry) {
-	vnh.Set("geometry", v)
+func (vnh *VertexNormalsHelper) SetGeometry(v Geometry) {
+	vnh.Set("geometry", v.JSValue())
 }
 func (vnh *VertexNormalsHelper) Id() int {
 	return vnh.Get("id").Int()
@@ -67,19 +71,19 @@ func (vnh *VertexNormalsHelper) Layers() *Layers {
 	return &Layers{Value: vnh.Get("layers")}
 }
 func (vnh *VertexNormalsHelper) SetLayers(v *Layers) {
-	vnh.Set("layers", v)
+	vnh.Set("layers", v.Value)
 }
-func (vnh *VertexNormalsHelper) Material() *Material {
-	return &Material{Value: vnh.Get("material")}
+func (vnh *VertexNormalsHelper) Material() Material {
+	return &MaterialImpl{Value: vnh.Get("material")}
 }
-func (vnh *VertexNormalsHelper) SetMaterial(v *Material) {
-	vnh.Set("material", v)
+func (vnh *VertexNormalsHelper) SetMaterial(v Material) {
+	vnh.Set("material", v.JSValue())
 }
 func (vnh *VertexNormalsHelper) Matrix() *Matrix4 {
 	return &Matrix4{Value: vnh.Get("matrix")}
 }
 func (vnh *VertexNormalsHelper) SetMatrix(v *Matrix4) {
-	vnh.Set("matrix", v)
+	vnh.Set("matrix", v.Value)
 }
 func (vnh *VertexNormalsHelper) MatrixAutoUpdate() bool {
 	return vnh.Get("matrixAutoUpdate").Bool()
@@ -91,7 +95,7 @@ func (vnh *VertexNormalsHelper) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: vnh.Get("matrixWorld")}
 }
 func (vnh *VertexNormalsHelper) SetMatrixWorld(v *Matrix4) {
-	vnh.Set("matrixWorld", v)
+	vnh.Set("matrixWorld", v.Value)
 }
 func (vnh *VertexNormalsHelper) MatrixWorldNeedsUpdate() bool {
 	return vnh.Get("matrixWorldNeedsUpdate").Bool()
@@ -103,7 +107,7 @@ func (vnh *VertexNormalsHelper) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: vnh.Get("modelViewMatrix")}
 }
 func (vnh *VertexNormalsHelper) SetModelViewMatrix(v *Matrix4) {
-	vnh.Set("modelViewMatrix", v)
+	vnh.Set("modelViewMatrix", v.Value)
 }
 func (vnh *VertexNormalsHelper) Name() string {
 	return vnh.Get("name").String()
@@ -115,13 +119,13 @@ func (vnh *VertexNormalsHelper) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: vnh.Get("normalMatrix")}
 }
 func (vnh *VertexNormalsHelper) SetNormalMatrix(v *Matrix3) {
-	vnh.Set("normalMatrix", v)
+	vnh.Set("normalMatrix", v.Value)
 }
 func (vnh *VertexNormalsHelper) Object() *Object3D {
 	return &Object3D{Value: vnh.Get("object")}
 }
 func (vnh *VertexNormalsHelper) SetObject(v *Object3D) {
-	vnh.Set("object", v)
+	vnh.Set("object", v.Value)
 }
 func (vnh *VertexNormalsHelper) OnAfterRender() js.Value {
 	return vnh.Get("onAfterRender")
@@ -139,19 +143,19 @@ func (vnh *VertexNormalsHelper) Parent() *Object3D {
 	return &Object3D{Value: vnh.Get("parent")}
 }
 func (vnh *VertexNormalsHelper) SetParent(v *Object3D) {
-	vnh.Set("parent", v)
+	vnh.Set("parent", v.Value)
 }
 func (vnh *VertexNormalsHelper) Position() *Vector3 {
 	return &Vector3{Value: vnh.Get("position")}
 }
 func (vnh *VertexNormalsHelper) SetPosition(v *Vector3) {
-	vnh.Set("position", v)
+	vnh.Set("position", v.Value)
 }
 func (vnh *VertexNormalsHelper) Quaternion() *Quaternion {
 	return &Quaternion{Value: vnh.Get("quaternion")}
 }
 func (vnh *VertexNormalsHelper) SetQuaternion(v *Quaternion) {
-	vnh.Set("quaternion", v)
+	vnh.Set("quaternion", v.Value)
 }
 func (vnh *VertexNormalsHelper) ReceiveShadow() bool {
 	return vnh.Get("receiveShadow").Bool()
@@ -169,13 +173,13 @@ func (vnh *VertexNormalsHelper) Rotation() *Euler {
 	return &Euler{Value: vnh.Get("rotation")}
 }
 func (vnh *VertexNormalsHelper) SetRotation(v *Euler) {
-	vnh.Set("rotation", v)
+	vnh.Set("rotation", v.Value)
 }
 func (vnh *VertexNormalsHelper) Scale() *Vector3 {
 	return &Vector3{Value: vnh.Get("scale")}
 }
 func (vnh *VertexNormalsHelper) SetScale(v *Vector3) {
-	vnh.Set("scale", v)
+	vnh.Set("scale", v.Value)
 }
 func (vnh *VertexNormalsHelper) Size() float64 {
 	return vnh.Get("size").Float()
@@ -193,7 +197,7 @@ func (vnh *VertexNormalsHelper) Up() *Vector3 {
 	return &Vector3{Value: vnh.Get("up")}
 }
 func (vnh *VertexNormalsHelper) SetUp(v *Vector3) {
-	vnh.Set("up", v)
+	vnh.Set("up", v.Value)
 }
 func (vnh *VertexNormalsHelper) UserData() js.Value {
 	return vnh.Get("userData")
@@ -223,7 +227,7 @@ func (vnh *VertexNormalsHelper) DefaultUp() *Vector3 {
 	return &Vector3{Value: vnh.Get("DefaultUp")}
 }
 func (vnh *VertexNormalsHelper) SetDefaultUp(v *Vector3) {
-	vnh.Set("DefaultUp", v)
+	vnh.Set("DefaultUp", v.Value)
 }
 func (vnh *VertexNormalsHelper) Add(object js.Value) *VertexNormalsHelper {
 	return &VertexNormalsHelper{Value: vnh.Call("add", object)}

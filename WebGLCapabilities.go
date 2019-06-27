@@ -10,12 +10,17 @@ import (
 
 type WebGLCapabilitiesParameters interface {
 }
+
+// WebGLCapabilities extend: []
 type WebGLCapabilities struct {
 	js.Value
 }
 
 func NewWebGLCapabilities(gl js.Value, extensions js.Value, parameters WebGLCapabilitiesParameters) *WebGLCapabilities {
 	return &WebGLCapabilities{Value: get("WebGLCapabilities").New(gl, extensions, parameters)}
+}
+func (wglc *WebGLCapabilities) JSValue() js.Value {
+	return wglc.Value
 }
 func (wglc *WebGLCapabilities) FloatFragmentTextures() js.Value {
 	return wglc.Get("floatFragmentTextures")

@@ -8,10 +8,14 @@ import (
 	"syscall/js"
 )
 
+// AnimationAction extend: []
 type AnimationAction struct {
 	js.Value
 }
 
+func (aa *AnimationAction) JSValue() js.Value {
+	return aa.Value
+}
 func (aa *AnimationAction) ClampWhenFinished() bool {
 	return aa.Get("clampWhenFinished").Bool()
 }

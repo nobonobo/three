@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// ColorKeyframeTrack extend: [KeyframeTrack]
 type ColorKeyframeTrack struct {
 	js.Value
 }
 
 func NewColorKeyframeTrack(name string, times js.Value, values js.Value, interpolation InterpolationModes) *ColorKeyframeTrack {
 	return &ColorKeyframeTrack{Value: get("ColorKeyframeTrack").New(name, times, values, interpolation)}
+}
+func (ckt *ColorKeyframeTrack) JSValue() js.Value {
+	return ckt.Value
 }
 func (ckt *ColorKeyframeTrack) DefaultInterpolation() InterpolationModes {
 	return InterpolationModes(ckt.Get("DefaultInterpolation"))

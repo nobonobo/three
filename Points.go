@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Points extend: [Object3D]
 type Points struct {
 	js.Value
 }
 
-func NewPoints(geometry *Geometry, material *Material) *Points {
-	return &Points{Value: get("Points").New(geometry, material)}
+func NewPoints(geometry Geometry, material Material) *Points {
+	return &Points{Value: get("Points").New(geometry.JSValue(), material.JSValue())}
+}
+func (pp *Points) JSValue() js.Value {
+	return pp.Value
 }
 func (pp *Points) CastShadow() bool {
 	return pp.Get("castShadow").Bool()
@@ -33,11 +37,11 @@ func (pp *Points) FrustumCulled() bool {
 func (pp *Points) SetFrustumCulled(v bool) {
 	pp.Set("frustumCulled", v)
 }
-func (pp *Points) Geometry() *Geometry {
-	return &Geometry{Value: pp.Get("geometry")}
+func (pp *Points) Geometry() Geometry {
+	return &GeometryImpl{Value: pp.Get("geometry")}
 }
-func (pp *Points) SetGeometry(v *Geometry) {
-	pp.Set("geometry", v)
+func (pp *Points) SetGeometry(v Geometry) {
+	pp.Set("geometry", v.JSValue())
 }
 func (pp *Points) Id() int {
 	return pp.Get("id").Int()
@@ -61,19 +65,19 @@ func (pp *Points) Layers() *Layers {
 	return &Layers{Value: pp.Get("layers")}
 }
 func (pp *Points) SetLayers(v *Layers) {
-	pp.Set("layers", v)
+	pp.Set("layers", v.Value)
 }
-func (pp *Points) Material() *Material {
-	return &Material{Value: pp.Get("material")}
+func (pp *Points) Material() Material {
+	return &MaterialImpl{Value: pp.Get("material")}
 }
-func (pp *Points) SetMaterial(v *Material) {
-	pp.Set("material", v)
+func (pp *Points) SetMaterial(v Material) {
+	pp.Set("material", v.JSValue())
 }
 func (pp *Points) Matrix() *Matrix4 {
 	return &Matrix4{Value: pp.Get("matrix")}
 }
 func (pp *Points) SetMatrix(v *Matrix4) {
-	pp.Set("matrix", v)
+	pp.Set("matrix", v.Value)
 }
 func (pp *Points) MatrixAutoUpdate() bool {
 	return pp.Get("matrixAutoUpdate").Bool()
@@ -85,7 +89,7 @@ func (pp *Points) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: pp.Get("matrixWorld")}
 }
 func (pp *Points) SetMatrixWorld(v *Matrix4) {
-	pp.Set("matrixWorld", v)
+	pp.Set("matrixWorld", v.Value)
 }
 func (pp *Points) MatrixWorldNeedsUpdate() bool {
 	return pp.Get("matrixWorldNeedsUpdate").Bool()
@@ -97,7 +101,7 @@ func (pp *Points) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: pp.Get("modelViewMatrix")}
 }
 func (pp *Points) SetModelViewMatrix(v *Matrix4) {
-	pp.Set("modelViewMatrix", v)
+	pp.Set("modelViewMatrix", v.Value)
 }
 func (pp *Points) Name() string {
 	return pp.Get("name").String()
@@ -109,7 +113,7 @@ func (pp *Points) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: pp.Get("normalMatrix")}
 }
 func (pp *Points) SetNormalMatrix(v *Matrix3) {
-	pp.Set("normalMatrix", v)
+	pp.Set("normalMatrix", v.Value)
 }
 func (pp *Points) OnAfterRender() js.Value {
 	return pp.Get("onAfterRender")
@@ -127,19 +131,19 @@ func (pp *Points) Parent() *Object3D {
 	return &Object3D{Value: pp.Get("parent")}
 }
 func (pp *Points) SetParent(v *Object3D) {
-	pp.Set("parent", v)
+	pp.Set("parent", v.Value)
 }
 func (pp *Points) Position() *Vector3 {
 	return &Vector3{Value: pp.Get("position")}
 }
 func (pp *Points) SetPosition(v *Vector3) {
-	pp.Set("position", v)
+	pp.Set("position", v.Value)
 }
 func (pp *Points) Quaternion() *Quaternion {
 	return &Quaternion{Value: pp.Get("quaternion")}
 }
 func (pp *Points) SetQuaternion(v *Quaternion) {
-	pp.Set("quaternion", v)
+	pp.Set("quaternion", v.Value)
 }
 func (pp *Points) ReceiveShadow() bool {
 	return pp.Get("receiveShadow").Bool()
@@ -157,13 +161,13 @@ func (pp *Points) Rotation() *Euler {
 	return &Euler{Value: pp.Get("rotation")}
 }
 func (pp *Points) SetRotation(v *Euler) {
-	pp.Set("rotation", v)
+	pp.Set("rotation", v.Value)
 }
 func (pp *Points) Scale() *Vector3 {
 	return &Vector3{Value: pp.Get("scale")}
 }
 func (pp *Points) SetScale(v *Vector3) {
-	pp.Set("scale", v)
+	pp.Set("scale", v.Value)
 }
 func (pp *Points) Type() string {
 	return pp.Get("type").String()
@@ -175,7 +179,7 @@ func (pp *Points) Up() *Vector3 {
 	return &Vector3{Value: pp.Get("up")}
 }
 func (pp *Points) SetUp(v *Vector3) {
-	pp.Set("up", v)
+	pp.Set("up", v.Value)
 }
 func (pp *Points) UserData() js.Value {
 	return pp.Get("userData")
@@ -205,7 +209,7 @@ func (pp *Points) DefaultUp() *Vector3 {
 	return &Vector3{Value: pp.Get("DefaultUp")}
 }
 func (pp *Points) SetDefaultUp(v *Vector3) {
-	pp.Set("DefaultUp", v)
+	pp.Set("DefaultUp", v.Value)
 }
 func (pp *Points) Add(object js.Value) *Points {
 	return &Points{Value: pp.Call("add", object)}

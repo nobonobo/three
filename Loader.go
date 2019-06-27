@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Loader extend: []
 type Loader struct {
 	js.Value
 }
 
 func NewLoader() *Loader {
 	return &Loader{Value: get("Loader").New()}
+}
+func (ll *Loader) JSValue() js.Value {
+	return ll.Value
 }
 func (ll *Loader) CrossOrigin() string {
 	return ll.Get("crossOrigin").String()
@@ -45,8 +49,8 @@ func (ll *Loader) Handlers() js.Value {
 func (ll *Loader) SetHandlers(v js.Value) {
 	ll.Set("Handlers", v)
 }
-func (ll *Loader) CreateMaterial(m *Material, texturePath string, crossOrigin string) bool {
-	return ll.Call("createMaterial", m, texturePath, crossOrigin).Bool()
+func (ll *Loader) CreateMaterial(m Material, texturePath string, crossOrigin string) bool {
+	return ll.Call("createMaterial", m.JSValue(), texturePath, crossOrigin).Bool()
 }
 func (ll *Loader) ExtractUrlBase(url string) string {
 	return ll.Call("extractUrlBase", url).String()

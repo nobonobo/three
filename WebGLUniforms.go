@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// WebGLUniforms extend: []
 type WebGLUniforms struct {
 	js.Value
 }
 
 func NewWebGLUniforms(gl js.Value, program *WebGLProgram) *WebGLUniforms {
 	return &WebGLUniforms{Value: get("WebGLUniforms").New(gl, program)}
+}
+func (wglu *WebGLUniforms) JSValue() js.Value {
+	return wglu.Value
 }
 func (wglu *WebGLUniforms) SetOptional(gl js.Value, object js.Value, name string) {
 	wglu.Call("setOptional", gl, object, name)

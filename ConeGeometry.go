@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// ConeBufferGeometry extend: [BufferGeometry]
 type ConeBufferGeometry struct {
 	js.Value
 }
 
-func NewConeBufferGeometry(radius float64, height float64, radialSegment float64, heightSegment float64, openEnded bool, thetaStart float64, thetaLength float64) *ConeBufferGeometry {
+func NewConeBufferGeometry(radius float64, height float64, radialSegment int, heightSegment int, openEnded bool, thetaStart float64, thetaLength float64) *ConeBufferGeometry {
 	return &ConeBufferGeometry{Value: get("ConeBufferGeometry").New(radius, height, radialSegment, heightSegment, openEnded, thetaStart, thetaLength)}
+}
+func (cbg *ConeBufferGeometry) JSValue() js.Value {
+	return cbg.Value
 }
 func (cbg *ConeBufferGeometry) Attributes() js.Value {
 	return cbg.Get("attributes")
@@ -25,13 +29,13 @@ func (cbg *ConeBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: cbg.Get("boundingBox")}
 }
 func (cbg *ConeBufferGeometry) SetBoundingBox(v *Box3) {
-	cbg.Set("boundingBox", v)
+	cbg.Set("boundingBox", v.Value)
 }
 func (cbg *ConeBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: cbg.Get("boundingSphere")}
 }
 func (cbg *ConeBufferGeometry) SetBoundingSphere(v *Sphere) {
-	cbg.Set("boundingSphere", v)
+	cbg.Set("boundingSphere", v.Value)
 }
 func (cbg *ConeBufferGeometry) DrawRange() js.Value {
 	return cbg.Get("drawRange")
@@ -61,7 +65,7 @@ func (cbg *ConeBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: cbg.Get("index")}
 }
 func (cbg *ConeBufferGeometry) SetIndex(v *BufferAttribute) {
-	cbg.Set("index", v)
+	cbg.Set("index", v.Value)
 }
 func (cbg *ConeBufferGeometry) MorphAttributes() js.Value {
 	return cbg.Get("morphAttributes")
@@ -159,8 +163,8 @@ func (cbg *ConeBufferGeometry) Dispose() {
 func (cbg *ConeBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
 	return &BufferGeometry{Value: cbg.Call("fromDirectGeometry", geometry)}
 }
-func (cbg *ConeBufferGeometry) FromGeometry(geometry *Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("fromGeometry", geometry, settings)}
+func (cbg *ConeBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
+	return &BufferGeometry{Value: cbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (cbg *ConeBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: cbg.Call("getAttribute", name)}
@@ -223,18 +227,22 @@ func (cbg *ConeBufferGeometry) UpdateFromObject(object *Object3D) {
 	cbg.Call("updateFromObject", object)
 }
 
+// ConeGeometry extend: [CylinderGeometry]
 type ConeGeometry struct {
 	js.Value
 }
 
-func NewConeGeometry(radius float64, height float64, radialSegment float64, heightSegment float64, openEnded bool, thetaStart float64, thetaLength float64) *ConeGeometry {
+func NewConeGeometry(radius float64, height float64, radialSegment int, heightSegment int, openEnded bool, thetaStart float64, thetaLength float64) *ConeGeometry {
 	return &ConeGeometry{Value: get("ConeGeometry").New(radius, height, radialSegment, heightSegment, openEnded, thetaStart, thetaLength)}
+}
+func (cg *ConeGeometry) JSValue() js.Value {
+	return cg.Value
 }
 func (cg *ConeGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: cg.Get("animation")}
 }
 func (cg *ConeGeometry) SetAnimation(v *AnimationClip) {
-	cg.Set("animation", v)
+	cg.Set("animation", v.Value)
 }
 func (cg *ConeGeometry) Animations() js.Value {
 	return cg.Get("animations")
@@ -252,13 +260,13 @@ func (cg *ConeGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: cg.Get("boundingBox")}
 }
 func (cg *ConeGeometry) SetBoundingBox(v *Box3) {
-	cg.Set("boundingBox", v)
+	cg.Set("boundingBox", v.Value)
 }
 func (cg *ConeGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: cg.Get("boundingSphere")}
 }
 func (cg *ConeGeometry) SetBoundingSphere(v *Sphere) {
-	cg.Set("boundingSphere", v)
+	cg.Set("boundingSphere", v.Value)
 }
 func (cg *ConeGeometry) Colors() js.Value {
 	return cg.Get("colors")
@@ -389,13 +397,13 @@ func (cg *ConeGeometry) SetVerticesNeedUpdate(v bool) {
 func (cg *ConeGeometry) AddEventListener(typ string, listener js.Value) {
 	cg.Call("addEventListener", typ, listener)
 }
-func (cg *ConeGeometry) ApplyMatrix(matrix *Matrix4) *Geometry {
-	return &Geometry{Value: cg.Call("applyMatrix", matrix)}
+func (cg *ConeGeometry) ApplyMatrix(matrix *Matrix4) Geometry {
+	return &GeometryImpl{Value: cg.Call("applyMatrix", matrix)}
 }
-func (cg *ConeGeometry) Center() *Geometry {
-	return &Geometry{Value: cg.Call("center")}
+func (cg *ConeGeometry) Center() Geometry {
+	return &GeometryImpl{Value: cg.Call("center")}
 }
-func (cg *ConeGeometry) Clone() *ConeGeometry {
+func (cg *ConeGeometry) Clone() Geometry {
 	return &ConeGeometry{Value: cg.Call("clone")}
 }
 func (cg *ConeGeometry) ComputeBoundingBox() {
@@ -416,8 +424,8 @@ func (cg *ConeGeometry) ComputeMorphNormals() {
 func (cg *ConeGeometry) ComputeVertexNormals(areaWeighted bool) {
 	cg.Call("computeVertexNormals", areaWeighted)
 }
-func (cg *ConeGeometry) Copy(source *Geometry) *ConeGeometry {
-	return &ConeGeometry{Value: cg.Call("copy", source)}
+func (cg *ConeGeometry) Copy(source Geometry) Geometry {
+	return &ConeGeometry{Value: cg.Call("copy", source.JSValue())}
 }
 func (cg *ConeGeometry) DispatchEvent(event js.Value) {
 	cg.Call("dispatchEvent", event)
@@ -425,8 +433,8 @@ func (cg *ConeGeometry) DispatchEvent(event js.Value) {
 func (cg *ConeGeometry) Dispose() {
 	cg.Call("dispose")
 }
-func (cg *ConeGeometry) FromBufferGeometry(geometry *BufferGeometry) *Geometry {
-	return &Geometry{Value: cg.Call("fromBufferGeometry", geometry)}
+func (cg *ConeGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
+	return &GeometryImpl{Value: cg.Call("fromBufferGeometry", geometry)}
 }
 func (cg *ConeGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return cg.Call("hasEventListener", typ, listener).Bool()
@@ -434,8 +442,8 @@ func (cg *ConeGeometry) HasEventListener(typ string, listener js.Value) bool {
 func (cg *ConeGeometry) LookAt(vector *Vector3) {
 	cg.Call("lookAt", vector)
 }
-func (cg *ConeGeometry) Merge(geometry *Geometry, matrix Matrix, materialIndexOffset int) {
-	cg.Call("merge", geometry, matrix, materialIndexOffset)
+func (cg *ConeGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
+	cg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
 func (cg *ConeGeometry) MergeMesh(mesh *Mesh) {
 	cg.Call("mergeMesh", mesh)
@@ -443,25 +451,25 @@ func (cg *ConeGeometry) MergeMesh(mesh *Mesh) {
 func (cg *ConeGeometry) MergeVertices() float64 {
 	return cg.Call("mergeVertices").Float()
 }
-func (cg *ConeGeometry) Normalize() *Geometry {
-	return &Geometry{Value: cg.Call("normalize")}
+func (cg *ConeGeometry) Normalize() Geometry {
+	return &GeometryImpl{Value: cg.Call("normalize")}
 }
 func (cg *ConeGeometry) RemoveEventListener(typ string, listener js.Value) {
 	cg.Call("removeEventListener", typ, listener)
 }
-func (cg *ConeGeometry) RotateX(angle float64) *Geometry {
-	return &Geometry{Value: cg.Call("rotateX", angle)}
+func (cg *ConeGeometry) RotateX(angle float64) Geometry {
+	return &GeometryImpl{Value: cg.Call("rotateX", angle)}
 }
-func (cg *ConeGeometry) RotateY(angle float64) *Geometry {
-	return &Geometry{Value: cg.Call("rotateY", angle)}
+func (cg *ConeGeometry) RotateY(angle float64) Geometry {
+	return &GeometryImpl{Value: cg.Call("rotateY", angle)}
 }
-func (cg *ConeGeometry) RotateZ(angle float64) *Geometry {
-	return &Geometry{Value: cg.Call("rotateZ", angle)}
+func (cg *ConeGeometry) RotateZ(angle float64) Geometry {
+	return &GeometryImpl{Value: cg.Call("rotateZ", angle)}
 }
-func (cg *ConeGeometry) Scale(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: cg.Call("scale", x, y, z)}
+func (cg *ConeGeometry) Scale(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: cg.Call("scale", x, y, z)}
 }
-func (cg *ConeGeometry) SetFromPoints(points js.Value) *ConeGeometry {
+func (cg *ConeGeometry) SetFromPoints(points js.Value) Geometry {
 	return &ConeGeometry{Value: cg.Call("setFromPoints", points)}
 }
 func (cg *ConeGeometry) SortFacesByMaterialIndex() {
@@ -470,6 +478,6 @@ func (cg *ConeGeometry) SortFacesByMaterialIndex() {
 func (cg *ConeGeometry) ToJSON() js.Value {
 	return cg.Call("toJSON")
 }
-func (cg *ConeGeometry) Translate(x float64, y float64, z float64) *Geometry {
-	return &Geometry{Value: cg.Call("translate", x, y, z)}
+func (cg *ConeGeometry) Translate(x float64, y float64, z float64) Geometry {
+	return &GeometryImpl{Value: cg.Call("translate", x, y, z)}
 }

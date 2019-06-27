@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// Skeleton extend: []
 type Skeleton struct {
 	js.Value
 }
 
 func NewSkeleton(bones js.Value, boneInverses js.Value) *Skeleton {
 	return &Skeleton{Value: get("Skeleton").New(bones, boneInverses)}
+}
+func (ss *Skeleton) JSValue() js.Value {
+	return ss.Value
 }
 func (ss *Skeleton) BoneInverses() js.Value {
 	return ss.Get("boneInverses")
@@ -31,7 +35,7 @@ func (ss *Skeleton) BoneTexture() *DataTexture {
 	return &DataTexture{Value: ss.Get("boneTexture")}
 }
 func (ss *Skeleton) SetBoneTexture(v *DataTexture) {
-	ss.Set("boneTexture", v)
+	ss.Set("boneTexture", v.Value)
 }
 func (ss *Skeleton) BoneTextureHeight() float64 {
 	return ss.Get("boneTextureHeight").Float()
@@ -55,7 +59,7 @@ func (ss *Skeleton) IdentityMatrix() *Matrix4 {
 	return &Matrix4{Value: ss.Get("identityMatrix")}
 }
 func (ss *Skeleton) SetIdentityMatrix(v *Matrix4) {
-	ss.Set("identityMatrix", v)
+	ss.Set("identityMatrix", v.Value)
 }
 func (ss *Skeleton) UseVertexTexture() bool {
 	return ss.Get("useVertexTexture").Bool()

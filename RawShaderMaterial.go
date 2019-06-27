@@ -8,12 +8,16 @@ import (
 	"syscall/js"
 )
 
+// RawShaderMaterial extend: [ShaderMaterial]
 type RawShaderMaterial struct {
 	js.Value
 }
 
 func NewRawShaderMaterial(parameters ShaderMaterialParameters) *RawShaderMaterial {
 	return &RawShaderMaterial{Value: get("RawShaderMaterial").New(parameters)}
+}
+func (rsm *RawShaderMaterial) JSValue() js.Value {
+	return rsm.Value
 }
 func (rsm *RawShaderMaterial) AlphaTest() float64 {
 	return rsm.Get("alphaTest").Float()
@@ -339,8 +343,8 @@ func (rsm *RawShaderMaterial) AddEventListener(typ string, listener js.Value) {
 func (rsm *RawShaderMaterial) Clone() *RawShaderMaterial {
 	return &RawShaderMaterial{Value: rsm.Call("clone")}
 }
-func (rsm *RawShaderMaterial) Copy(material *Material) *RawShaderMaterial {
-	return &RawShaderMaterial{Value: rsm.Call("copy", material)}
+func (rsm *RawShaderMaterial) Copy(material Material) *RawShaderMaterial {
+	return &RawShaderMaterial{Value: rsm.Call("copy", material.JSValue())}
 }
 func (rsm *RawShaderMaterial) DispatchEvent(event js.Value) {
 	rsm.Call("dispatchEvent", event)

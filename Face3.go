@@ -10,6 +10,8 @@ import (
 
 type Event interface {
 }
+
+// Face3 extend: []
 type Face3 struct {
 	js.Value
 }
@@ -25,6 +27,9 @@ func NewFace33(a float64, b float64, c float64, vertexNormals js.Value, color *C
 }
 func NewFace34(a float64, b float64, c float64, vertexNormals js.Value, vertexColors js.Value, materialIndex int) *Face3 {
 	return &Face3{Value: get("Face3").New(a, b, c, vertexNormals, vertexColors, materialIndex)}
+}
+func (ff *Face3) JSValue() js.Value {
+	return ff.Value
 }
 func (ff *Face3) A() float64 {
 	return ff.Get("a").Float()
@@ -48,7 +53,7 @@ func (ff *Face3) Color() *Color {
 	return &Color{Value: ff.Get("color")}
 }
 func (ff *Face3) SetColor(v *Color) {
-	ff.Set("color", v)
+	ff.Set("color", v.Value)
 }
 func (ff *Face3) MaterialIndex() int {
 	return ff.Get("materialIndex").Int()
@@ -60,7 +65,7 @@ func (ff *Face3) Normal() *Vector3 {
 	return &Vector3{Value: ff.Get("normal")}
 }
 func (ff *Face3) SetNormal(v *Vector3) {
-	ff.Set("normal", v)
+	ff.Set("normal", v.Value)
 }
 func (ff *Face3) VertexColors() js.Value {
 	return ff.Get("vertexColors")
