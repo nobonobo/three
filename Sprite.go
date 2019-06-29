@@ -14,7 +14,7 @@ type Sprite struct {
 }
 
 func NewSprite(material *SpriteMaterial) *Sprite {
-	return &Sprite{Value: get("Sprite").New(material)}
+	return &Sprite{Value: get("Sprite").New(material.JSValue())}
 }
 func (ss *Sprite) JSValue() js.Value {
 	return ss.Value
@@ -29,7 +29,7 @@ func (ss *Sprite) Center() *Vector2 {
 	return &Vector2{Value: ss.Get("center")}
 }
 func (ss *Sprite) SetCenter(v *Vector2) {
-	ss.Set("center", v.Value)
+	ss.Set("center", v.JSValue())
 }
 func (ss *Sprite) Children() js.Value {
 	return ss.Get("children")
@@ -47,7 +47,7 @@ func (ss *Sprite) Geometry() *BufferGeometry {
 	return &BufferGeometry{Value: ss.Get("geometry")}
 }
 func (ss *Sprite) SetGeometry(v *BufferGeometry) {
-	ss.Set("geometry", v.Value)
+	ss.Set("geometry", v.JSValue())
 }
 func (ss *Sprite) Id() int {
 	return ss.Get("id").Int()
@@ -71,19 +71,19 @@ func (ss *Sprite) Layers() *Layers {
 	return &Layers{Value: ss.Get("layers")}
 }
 func (ss *Sprite) SetLayers(v *Layers) {
-	ss.Set("layers", v.Value)
+	ss.Set("layers", v.JSValue())
 }
 func (ss *Sprite) Material() *SpriteMaterial {
 	return &SpriteMaterial{Value: ss.Get("material")}
 }
 func (ss *Sprite) SetMaterial(v *SpriteMaterial) {
-	ss.Set("material", v.Value)
+	ss.Set("material", v.JSValue())
 }
 func (ss *Sprite) Matrix() *Matrix4 {
 	return &Matrix4{Value: ss.Get("matrix")}
 }
 func (ss *Sprite) SetMatrix(v *Matrix4) {
-	ss.Set("matrix", v.Value)
+	ss.Set("matrix", v.JSValue())
 }
 func (ss *Sprite) MatrixAutoUpdate() bool {
 	return ss.Get("matrixAutoUpdate").Bool()
@@ -95,7 +95,7 @@ func (ss *Sprite) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: ss.Get("matrixWorld")}
 }
 func (ss *Sprite) SetMatrixWorld(v *Matrix4) {
-	ss.Set("matrixWorld", v.Value)
+	ss.Set("matrixWorld", v.JSValue())
 }
 func (ss *Sprite) MatrixWorldNeedsUpdate() bool {
 	return ss.Get("matrixWorldNeedsUpdate").Bool()
@@ -107,7 +107,7 @@ func (ss *Sprite) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: ss.Get("modelViewMatrix")}
 }
 func (ss *Sprite) SetModelViewMatrix(v *Matrix4) {
-	ss.Set("modelViewMatrix", v.Value)
+	ss.Set("modelViewMatrix", v.JSValue())
 }
 func (ss *Sprite) Name() string {
 	return ss.Get("name").String()
@@ -119,7 +119,7 @@ func (ss *Sprite) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: ss.Get("normalMatrix")}
 }
 func (ss *Sprite) SetNormalMatrix(v *Matrix3) {
-	ss.Set("normalMatrix", v.Value)
+	ss.Set("normalMatrix", v.JSValue())
 }
 func (ss *Sprite) OnAfterRender() js.Value {
 	return ss.Get("onAfterRender")
@@ -137,19 +137,19 @@ func (ss *Sprite) Parent() *Object3D {
 	return &Object3D{Value: ss.Get("parent")}
 }
 func (ss *Sprite) SetParent(v *Object3D) {
-	ss.Set("parent", v.Value)
+	ss.Set("parent", v.JSValue())
 }
 func (ss *Sprite) Position() *Vector3 {
 	return &Vector3{Value: ss.Get("position")}
 }
 func (ss *Sprite) SetPosition(v *Vector3) {
-	ss.Set("position", v.Value)
+	ss.Set("position", v.JSValue())
 }
 func (ss *Sprite) Quaternion() *Quaternion {
 	return &Quaternion{Value: ss.Get("quaternion")}
 }
 func (ss *Sprite) SetQuaternion(v *Quaternion) {
-	ss.Set("quaternion", v.Value)
+	ss.Set("quaternion", v.JSValue())
 }
 func (ss *Sprite) ReceiveShadow() bool {
 	return ss.Get("receiveShadow").Bool()
@@ -167,13 +167,13 @@ func (ss *Sprite) Rotation() *Euler {
 	return &Euler{Value: ss.Get("rotation")}
 }
 func (ss *Sprite) SetRotation(v *Euler) {
-	ss.Set("rotation", v.Value)
+	ss.Set("rotation", v.JSValue())
 }
 func (ss *Sprite) Scale() *Vector3 {
 	return &Vector3{Value: ss.Get("scale")}
 }
 func (ss *Sprite) SetScale(v *Vector3) {
-	ss.Set("scale", v.Value)
+	ss.Set("scale", v.JSValue())
 }
 func (ss *Sprite) Type() string {
 	return ss.Get("type").String()
@@ -185,7 +185,7 @@ func (ss *Sprite) Up() *Vector3 {
 	return &Vector3{Value: ss.Get("up")}
 }
 func (ss *Sprite) SetUp(v *Vector3) {
-	ss.Set("up", v.Value)
+	ss.Set("up", v.JSValue())
 }
 func (ss *Sprite) UserData() js.Value {
 	return ss.Get("userData")
@@ -215,7 +215,7 @@ func (ss *Sprite) DefaultUp() *Vector3 {
 	return &Vector3{Value: ss.Get("DefaultUp")}
 }
 func (ss *Sprite) SetDefaultUp(v *Vector3) {
-	ss.Set("DefaultUp", v.Value)
+	ss.Set("DefaultUp", v.JSValue())
 }
 func (ss *Sprite) Add(object js.Value) *Sprite {
 	return &Sprite{Value: ss.Call("add", object)}
@@ -224,7 +224,7 @@ func (ss *Sprite) AddEventListener(typ string, listener js.Value) {
 	ss.Call("addEventListener", typ, listener)
 }
 func (ss *Sprite) ApplyMatrix(matrix *Matrix4) {
-	ss.Call("applyMatrix", matrix)
+	ss.Call("applyMatrix", matrix.JSValue())
 }
 func (ss *Sprite) ApplyQuaternion(quaternion *Quaternion) *Sprite {
 	return &Sprite{Value: ss.Call("applyQuaternion", quaternion)}
@@ -269,7 +269,7 @@ func (ss *Sprite) LookAt(vector *Vector3, y float64, z float64) {
 	ss.Call("lookAt", vector, y, z)
 }
 func (ss *Sprite) Raycast(raycaster *Raycaster, intersects js.Value) {
-	ss.Call("raycast", raycaster, intersects)
+	ss.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (ss *Sprite) Remove(object js.Value) *Sprite {
 	return &Sprite{Value: ss.Call("remove", object)}
@@ -293,16 +293,16 @@ func (ss *Sprite) RotateZ(angle float64) *Sprite {
 	return &Sprite{Value: ss.Call("rotateZ", angle)}
 }
 func (ss *Sprite) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	ss.Call("setRotationFromAxisAngle", axis, angle)
+	ss.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (ss *Sprite) SetRotationFromEuler(euler *Euler) {
-	ss.Call("setRotationFromEuler", euler)
+	ss.Call("setRotationFromEuler", euler.JSValue())
 }
 func (ss *Sprite) SetRotationFromMatrix(m *Matrix4) {
-	ss.Call("setRotationFromMatrix", m)
+	ss.Call("setRotationFromMatrix", m.JSValue())
 }
 func (ss *Sprite) SetRotationFromQuaternion(q *Quaternion) {
-	ss.Call("setRotationFromQuaternion", q)
+	ss.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (ss *Sprite) ToJSON(meta js.Value) js.Value {
 	return ss.Call("toJSON", meta)

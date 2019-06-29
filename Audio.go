@@ -14,7 +14,7 @@ type Audio struct {
 }
 
 func NewAudio(listener *AudioListener) *Audio {
-	return &Audio{Value: get("Audio").New(listener)}
+	return &Audio{Value: get("Audio").New(listener.JSValue())}
 }
 func (aa *Audio) JSValue() js.Value {
 	return aa.Value
@@ -101,7 +101,7 @@ func (aa *Audio) Layers() *Layers {
 	return &Layers{Value: aa.Get("layers")}
 }
 func (aa *Audio) SetLayers(v *Layers) {
-	aa.Set("layers", v.Value)
+	aa.Set("layers", v.JSValue())
 }
 func (aa *Audio) Loop() bool {
 	return aa.Get("loop").Bool()
@@ -113,7 +113,7 @@ func (aa *Audio) Matrix() *Matrix4 {
 	return &Matrix4{Value: aa.Get("matrix")}
 }
 func (aa *Audio) SetMatrix(v *Matrix4) {
-	aa.Set("matrix", v.Value)
+	aa.Set("matrix", v.JSValue())
 }
 func (aa *Audio) MatrixAutoUpdate() bool {
 	return aa.Get("matrixAutoUpdate").Bool()
@@ -125,7 +125,7 @@ func (aa *Audio) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: aa.Get("matrixWorld")}
 }
 func (aa *Audio) SetMatrixWorld(v *Matrix4) {
-	aa.Set("matrixWorld", v.Value)
+	aa.Set("matrixWorld", v.JSValue())
 }
 func (aa *Audio) MatrixWorldNeedsUpdate() bool {
 	return aa.Get("matrixWorldNeedsUpdate").Bool()
@@ -137,7 +137,7 @@ func (aa *Audio) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: aa.Get("modelViewMatrix")}
 }
 func (aa *Audio) SetModelViewMatrix(v *Matrix4) {
-	aa.Set("modelViewMatrix", v.Value)
+	aa.Set("modelViewMatrix", v.JSValue())
 }
 func (aa *Audio) Name() string {
 	return aa.Get("name").String()
@@ -149,7 +149,7 @@ func (aa *Audio) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: aa.Get("normalMatrix")}
 }
 func (aa *Audio) SetNormalMatrix(v *Matrix3) {
-	aa.Set("normalMatrix", v.Value)
+	aa.Set("normalMatrix", v.JSValue())
 }
 func (aa *Audio) Offset() float64 {
 	return aa.Get("offset").Float()
@@ -173,7 +173,7 @@ func (aa *Audio) Parent() *Object3D {
 	return &Object3D{Value: aa.Get("parent")}
 }
 func (aa *Audio) SetParent(v *Object3D) {
-	aa.Set("parent", v.Value)
+	aa.Set("parent", v.JSValue())
 }
 func (aa *Audio) PlaybackRate() float64 {
 	return aa.Get("playbackRate").Float()
@@ -185,13 +185,13 @@ func (aa *Audio) Position() *Vector3 {
 	return &Vector3{Value: aa.Get("position")}
 }
 func (aa *Audio) SetPosition(v *Vector3) {
-	aa.Set("position", v.Value)
+	aa.Set("position", v.JSValue())
 }
 func (aa *Audio) Quaternion() *Quaternion {
 	return &Quaternion{Value: aa.Get("quaternion")}
 }
 func (aa *Audio) SetQuaternion(v *Quaternion) {
-	aa.Set("quaternion", v.Value)
+	aa.Set("quaternion", v.JSValue())
 }
 func (aa *Audio) ReceiveShadow() bool {
 	return aa.Get("receiveShadow").Bool()
@@ -209,13 +209,13 @@ func (aa *Audio) Rotation() *Euler {
 	return &Euler{Value: aa.Get("rotation")}
 }
 func (aa *Audio) SetRotation(v *Euler) {
-	aa.Set("rotation", v.Value)
+	aa.Set("rotation", v.JSValue())
 }
 func (aa *Audio) Scale() *Vector3 {
 	return &Vector3{Value: aa.Get("scale")}
 }
 func (aa *Audio) SetScale(v *Vector3) {
-	aa.Set("scale", v.Value)
+	aa.Set("scale", v.JSValue())
 }
 func (aa *Audio) Source() js.Value {
 	return aa.Get("source")
@@ -245,7 +245,7 @@ func (aa *Audio) Up() *Vector3 {
 	return &Vector3{Value: aa.Get("up")}
 }
 func (aa *Audio) SetUp(v *Vector3) {
-	aa.Set("up", v.Value)
+	aa.Set("up", v.JSValue())
 }
 func (aa *Audio) UserData() js.Value {
 	return aa.Get("userData")
@@ -275,7 +275,7 @@ func (aa *Audio) DefaultUp() *Vector3 {
 	return &Vector3{Value: aa.Get("DefaultUp")}
 }
 func (aa *Audio) SetDefaultUp(v *Vector3) {
-	aa.Set("DefaultUp", v.Value)
+	aa.Set("DefaultUp", v.JSValue())
 }
 func (aa *Audio) Add(object js.Value) *Audio {
 	return &Audio{Value: aa.Call("add", object)}
@@ -284,7 +284,7 @@ func (aa *Audio) AddEventListener(typ string, listener js.Value) {
 	aa.Call("addEventListener", typ, listener)
 }
 func (aa *Audio) ApplyMatrix(matrix *Matrix4) {
-	aa.Call("applyMatrix", matrix)
+	aa.Call("applyMatrix", matrix.JSValue())
 }
 func (aa *Audio) ApplyQuaternion(quaternion *Quaternion) *Audio {
 	return &Audio{Value: aa.Call("applyQuaternion", quaternion)}
@@ -368,7 +368,7 @@ func (aa *Audio) Play() *Audio {
 	return &Audio{Value: aa.Call("play")}
 }
 func (aa *Audio) Raycast(raycaster *Raycaster, intersects js.Value) {
-	aa.Call("raycast", raycaster, intersects)
+	aa.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (aa *Audio) Remove(object js.Value) *Audio {
 	return &Audio{Value: aa.Call("remove", object)}
@@ -416,16 +416,16 @@ func (aa *Audio) SetPlaybackRate2(value float64) *Audio {
 	return &Audio{Value: aa.Call("setPlaybackRate", value)}
 }
 func (aa *Audio) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	aa.Call("setRotationFromAxisAngle", axis, angle)
+	aa.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (aa *Audio) SetRotationFromEuler(euler *Euler) {
-	aa.Call("setRotationFromEuler", euler)
+	aa.Call("setRotationFromEuler", euler.JSValue())
 }
 func (aa *Audio) SetRotationFromMatrix(m *Matrix4) {
-	aa.Call("setRotationFromMatrix", m)
+	aa.Call("setRotationFromMatrix", m.JSValue())
 }
 func (aa *Audio) SetRotationFromQuaternion(q *Quaternion) {
-	aa.Call("setRotationFromQuaternion", q)
+	aa.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (aa *Audio) SetVolume(value float64) *Audio {
 	return &Audio{Value: aa.Call("setVolume", value)}

@@ -182,13 +182,13 @@ func (ss *SceneImpl) Layers() *Layers {
 	return &Layers{Value: ss.Get("layers")}
 }
 func (ss *SceneImpl) SetLayers(v *Layers) {
-	ss.Set("layers", v.Value)
+	ss.Set("layers", v.JSValue())
 }
 func (ss *SceneImpl) Matrix() *Matrix4 {
 	return &Matrix4{Value: ss.Get("matrix")}
 }
 func (ss *SceneImpl) SetMatrix(v *Matrix4) {
-	ss.Set("matrix", v.Value)
+	ss.Set("matrix", v.JSValue())
 }
 func (ss *SceneImpl) MatrixAutoUpdate() bool {
 	return ss.Get("matrixAutoUpdate").Bool()
@@ -200,7 +200,7 @@ func (ss *SceneImpl) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: ss.Get("matrixWorld")}
 }
 func (ss *SceneImpl) SetMatrixWorld(v *Matrix4) {
-	ss.Set("matrixWorld", v.Value)
+	ss.Set("matrixWorld", v.JSValue())
 }
 func (ss *SceneImpl) MatrixWorldNeedsUpdate() bool {
 	return ss.Get("matrixWorldNeedsUpdate").Bool()
@@ -212,7 +212,7 @@ func (ss *SceneImpl) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: ss.Get("modelViewMatrix")}
 }
 func (ss *SceneImpl) SetModelViewMatrix(v *Matrix4) {
-	ss.Set("modelViewMatrix", v.Value)
+	ss.Set("modelViewMatrix", v.JSValue())
 }
 func (ss *SceneImpl) Name() string {
 	return ss.Get("name").String()
@@ -224,7 +224,7 @@ func (ss *SceneImpl) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: ss.Get("normalMatrix")}
 }
 func (ss *SceneImpl) SetNormalMatrix(v *Matrix3) {
-	ss.Set("normalMatrix", v.Value)
+	ss.Set("normalMatrix", v.JSValue())
 }
 func (ss *SceneImpl) OnAfterRender() js.Value {
 	return ss.Get("onAfterRender")
@@ -248,19 +248,19 @@ func (ss *SceneImpl) Parent() *Object3D {
 	return &Object3D{Value: ss.Get("parent")}
 }
 func (ss *SceneImpl) SetParent(v *Object3D) {
-	ss.Set("parent", v.Value)
+	ss.Set("parent", v.JSValue())
 }
 func (ss *SceneImpl) Position() *Vector3 {
 	return &Vector3{Value: ss.Get("position")}
 }
 func (ss *SceneImpl) SetPosition(v *Vector3) {
-	ss.Set("position", v.Value)
+	ss.Set("position", v.JSValue())
 }
 func (ss *SceneImpl) Quaternion() *Quaternion {
 	return &Quaternion{Value: ss.Get("quaternion")}
 }
 func (ss *SceneImpl) SetQuaternion(v *Quaternion) {
-	ss.Set("quaternion", v.Value)
+	ss.Set("quaternion", v.JSValue())
 }
 func (ss *SceneImpl) ReceiveShadow() bool {
 	return ss.Get("receiveShadow").Bool()
@@ -278,13 +278,13 @@ func (ss *SceneImpl) Rotation() *Euler {
 	return &Euler{Value: ss.Get("rotation")}
 }
 func (ss *SceneImpl) SetRotation(v *Euler) {
-	ss.Set("rotation", v.Value)
+	ss.Set("rotation", v.JSValue())
 }
 func (ss *SceneImpl) Scale() *Vector3 {
 	return &Vector3{Value: ss.Get("scale")}
 }
 func (ss *SceneImpl) SetScale(v *Vector3) {
-	ss.Set("scale", v.Value)
+	ss.Set("scale", v.JSValue())
 }
 func (ss *SceneImpl) Type() string {
 	return ss.Get("type").String()
@@ -296,7 +296,7 @@ func (ss *SceneImpl) Up() *Vector3 {
 	return &Vector3{Value: ss.Get("up")}
 }
 func (ss *SceneImpl) SetUp(v *Vector3) {
-	ss.Set("up", v.Value)
+	ss.Set("up", v.JSValue())
 }
 func (ss *SceneImpl) UserData() js.Value {
 	return ss.Get("userData")
@@ -326,7 +326,7 @@ func (ss *SceneImpl) DefaultUp() *Vector3 {
 	return &Vector3{Value: ss.Get("DefaultUp")}
 }
 func (ss *SceneImpl) SetDefaultUp(v *Vector3) {
-	ss.Set("DefaultUp", v.Value)
+	ss.Set("DefaultUp", v.JSValue())
 }
 func (ss *SceneImpl) Add(object js.Value) Scene {
 	return &SceneImpl{Value: ss.Call("add", object)}
@@ -335,7 +335,7 @@ func (ss *SceneImpl) AddEventListener(typ string, listener js.Value) {
 	ss.Call("addEventListener", typ, listener)
 }
 func (ss *SceneImpl) ApplyMatrix(matrix *Matrix4) {
-	ss.Call("applyMatrix", matrix)
+	ss.Call("applyMatrix", matrix.JSValue())
 }
 func (ss *SceneImpl) ApplyQuaternion(quaternion *Quaternion) Scene {
 	return &SceneImpl{Value: ss.Call("applyQuaternion", quaternion)}
@@ -380,7 +380,7 @@ func (ss *SceneImpl) LookAt(vector *Vector3, y float64, z float64) {
 	ss.Call("lookAt", vector, y, z)
 }
 func (ss *SceneImpl) Raycast(raycaster *Raycaster, intersects js.Value) {
-	ss.Call("raycast", raycaster, intersects)
+	ss.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (ss *SceneImpl) Remove(object js.Value) Scene {
 	return &SceneImpl{Value: ss.Call("remove", object)}
@@ -404,16 +404,16 @@ func (ss *SceneImpl) RotateZ(angle float64) Scene {
 	return &SceneImpl{Value: ss.Call("rotateZ", angle)}
 }
 func (ss *SceneImpl) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	ss.Call("setRotationFromAxisAngle", axis, angle)
+	ss.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (ss *SceneImpl) SetRotationFromEuler(euler *Euler) {
-	ss.Call("setRotationFromEuler", euler)
+	ss.Call("setRotationFromEuler", euler.JSValue())
 }
 func (ss *SceneImpl) SetRotationFromMatrix(m *Matrix4) {
-	ss.Call("setRotationFromMatrix", m)
+	ss.Call("setRotationFromMatrix", m.JSValue())
 }
 func (ss *SceneImpl) SetRotationFromQuaternion(q *Quaternion) {
-	ss.Call("setRotationFromQuaternion", q)
+	ss.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (ss *SceneImpl) ToJSON(meta js.Value) js.Value {
 	return ss.Call("toJSON", meta)

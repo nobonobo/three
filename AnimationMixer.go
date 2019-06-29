@@ -56,10 +56,10 @@ func (am *AnimationMixer) StopAllAction() *AnimationMixer {
 	return &AnimationMixer{Value: am.Call("stopAllAction")}
 }
 func (am *AnimationMixer) UncacheAction(clip *AnimationClip, root js.Value) {
-	am.Call("uncacheAction", clip, root)
+	am.Call("uncacheAction", clip.JSValue(), root)
 }
 func (am *AnimationMixer) UncacheClip(clip *AnimationClip) {
-	am.Call("uncacheClip", clip)
+	am.Call("uncacheClip", clip.JSValue())
 }
 func (am *AnimationMixer) UncacheRoot(root js.Value) {
 	am.Call("uncacheRoot", root)

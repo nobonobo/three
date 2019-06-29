@@ -92,7 +92,7 @@ func (lbm *LineBasicMaterial) Color() *Color {
 	return &Color{Value: lbm.Get("color")}
 }
 func (lbm *LineBasicMaterial) SetColor(v *Color) {
-	lbm.Set("color", v.Value)
+	lbm.Set("color", v.JSValue())
 }
 func (lbm *LineBasicMaterial) ColorWrite() bool {
 	return lbm.Get("colorWrite").Bool()
@@ -293,7 +293,7 @@ func (lbm *LineBasicMaterial) HasEventListener(typ string, listener js.Value) bo
 	return lbm.Call("hasEventListener", typ, listener).Bool()
 }
 func (lbm *LineBasicMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	lbm.Call("onBeforeCompile", shader, renderer)
+	lbm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (lbm *LineBasicMaterial) RemoveEventListener(typ string, listener js.Value) {
 	lbm.Call("removeEventListener", typ, listener)

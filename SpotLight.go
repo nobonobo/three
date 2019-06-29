@@ -41,7 +41,7 @@ func (sl *SpotLight) Color() *Color {
 	return &Color{Value: sl.Get("color")}
 }
 func (sl *SpotLight) SetColor(v *Color) {
-	sl.Set("color", v.Value)
+	sl.Set("color", v.JSValue())
 }
 func (sl *SpotLight) Decay() float64 {
 	return sl.Get("decay").Float()
@@ -95,13 +95,13 @@ func (sl *SpotLight) Layers() *Layers {
 	return &Layers{Value: sl.Get("layers")}
 }
 func (sl *SpotLight) SetLayers(v *Layers) {
-	sl.Set("layers", v.Value)
+	sl.Set("layers", v.JSValue())
 }
 func (sl *SpotLight) Matrix() *Matrix4 {
 	return &Matrix4{Value: sl.Get("matrix")}
 }
 func (sl *SpotLight) SetMatrix(v *Matrix4) {
-	sl.Set("matrix", v.Value)
+	sl.Set("matrix", v.JSValue())
 }
 func (sl *SpotLight) MatrixAutoUpdate() bool {
 	return sl.Get("matrixAutoUpdate").Bool()
@@ -113,7 +113,7 @@ func (sl *SpotLight) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: sl.Get("matrixWorld")}
 }
 func (sl *SpotLight) SetMatrixWorld(v *Matrix4) {
-	sl.Set("matrixWorld", v.Value)
+	sl.Set("matrixWorld", v.JSValue())
 }
 func (sl *SpotLight) MatrixWorldNeedsUpdate() bool {
 	return sl.Get("matrixWorldNeedsUpdate").Bool()
@@ -125,7 +125,7 @@ func (sl *SpotLight) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: sl.Get("modelViewMatrix")}
 }
 func (sl *SpotLight) SetModelViewMatrix(v *Matrix4) {
-	sl.Set("modelViewMatrix", v.Value)
+	sl.Set("modelViewMatrix", v.JSValue())
 }
 func (sl *SpotLight) Name() string {
 	return sl.Get("name").String()
@@ -137,7 +137,7 @@ func (sl *SpotLight) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: sl.Get("normalMatrix")}
 }
 func (sl *SpotLight) SetNormalMatrix(v *Matrix3) {
-	sl.Set("normalMatrix", v.Value)
+	sl.Set("normalMatrix", v.JSValue())
 }
 func (sl *SpotLight) OnAfterRender() js.Value {
 	return sl.Get("onAfterRender")
@@ -155,7 +155,7 @@ func (sl *SpotLight) Parent() *Object3D {
 	return &Object3D{Value: sl.Get("parent")}
 }
 func (sl *SpotLight) SetParent(v *Object3D) {
-	sl.Set("parent", v.Value)
+	sl.Set("parent", v.JSValue())
 }
 func (sl *SpotLight) Penumbra() float64 {
 	return sl.Get("penumbra").Float()
@@ -167,7 +167,7 @@ func (sl *SpotLight) Position() *Vector3 {
 	return &Vector3{Value: sl.Get("position")}
 }
 func (sl *SpotLight) SetPosition(v *Vector3) {
-	sl.Set("position", v.Value)
+	sl.Set("position", v.JSValue())
 }
 func (sl *SpotLight) Power() float64 {
 	return sl.Get("power").Float()
@@ -179,7 +179,7 @@ func (sl *SpotLight) Quaternion() *Quaternion {
 	return &Quaternion{Value: sl.Get("quaternion")}
 }
 func (sl *SpotLight) SetQuaternion(v *Quaternion) {
-	sl.Set("quaternion", v.Value)
+	sl.Set("quaternion", v.JSValue())
 }
 func (sl *SpotLight) ReceiveShadow() bool {
 	return sl.Get("receiveShadow").Bool()
@@ -197,19 +197,19 @@ func (sl *SpotLight) Rotation() *Euler {
 	return &Euler{Value: sl.Get("rotation")}
 }
 func (sl *SpotLight) SetRotation(v *Euler) {
-	sl.Set("rotation", v.Value)
+	sl.Set("rotation", v.JSValue())
 }
 func (sl *SpotLight) Scale() *Vector3 {
 	return &Vector3{Value: sl.Get("scale")}
 }
 func (sl *SpotLight) SetScale(v *Vector3) {
-	sl.Set("scale", v.Value)
+	sl.Set("scale", v.JSValue())
 }
 func (sl *SpotLight) Shadow() *SpotLightShadow {
 	return &SpotLightShadow{Value: sl.Get("shadow")}
 }
 func (sl *SpotLight) SetShadow(v *SpotLightShadow) {
-	sl.Set("shadow", v.Value)
+	sl.Set("shadow", v.JSValue())
 }
 func (sl *SpotLight) ShadowBias() js.Value {
 	return sl.Get("shadowBias")
@@ -275,7 +275,7 @@ func (sl *SpotLight) Target() *Object3D {
 	return &Object3D{Value: sl.Get("target")}
 }
 func (sl *SpotLight) SetTarget(v *Object3D) {
-	sl.Set("target", v.Value)
+	sl.Set("target", v.JSValue())
 }
 func (sl *SpotLight) Type() string {
 	return sl.Get("type").String()
@@ -287,7 +287,7 @@ func (sl *SpotLight) Up() *Vector3 {
 	return &Vector3{Value: sl.Get("up")}
 }
 func (sl *SpotLight) SetUp(v *Vector3) {
-	sl.Set("up", v.Value)
+	sl.Set("up", v.JSValue())
 }
 func (sl *SpotLight) UserData() js.Value {
 	return sl.Get("userData")
@@ -317,7 +317,7 @@ func (sl *SpotLight) DefaultUp() *Vector3 {
 	return &Vector3{Value: sl.Get("DefaultUp")}
 }
 func (sl *SpotLight) SetDefaultUp(v *Vector3) {
-	sl.Set("DefaultUp", v.Value)
+	sl.Set("DefaultUp", v.JSValue())
 }
 func (sl *SpotLight) Add(object js.Value) *SpotLight {
 	return &SpotLight{Value: sl.Call("add", object)}
@@ -326,7 +326,7 @@ func (sl *SpotLight) AddEventListener(typ string, listener js.Value) {
 	sl.Call("addEventListener", typ, listener)
 }
 func (sl *SpotLight) ApplyMatrix(matrix *Matrix4) {
-	sl.Call("applyMatrix", matrix)
+	sl.Call("applyMatrix", matrix.JSValue())
 }
 func (sl *SpotLight) ApplyQuaternion(quaternion *Quaternion) *SpotLight {
 	return &SpotLight{Value: sl.Call("applyQuaternion", quaternion)}
@@ -371,7 +371,7 @@ func (sl *SpotLight) LookAt(vector *Vector3, y float64, z float64) {
 	sl.Call("lookAt", vector, y, z)
 }
 func (sl *SpotLight) Raycast(raycaster *Raycaster, intersects js.Value) {
-	sl.Call("raycast", raycaster, intersects)
+	sl.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (sl *SpotLight) Remove(object js.Value) *SpotLight {
 	return &SpotLight{Value: sl.Call("remove", object)}
@@ -395,16 +395,16 @@ func (sl *SpotLight) RotateZ(angle float64) *SpotLight {
 	return &SpotLight{Value: sl.Call("rotateZ", angle)}
 }
 func (sl *SpotLight) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	sl.Call("setRotationFromAxisAngle", axis, angle)
+	sl.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (sl *SpotLight) SetRotationFromEuler(euler *Euler) {
-	sl.Call("setRotationFromEuler", euler)
+	sl.Call("setRotationFromEuler", euler.JSValue())
 }
 func (sl *SpotLight) SetRotationFromMatrix(m *Matrix4) {
-	sl.Call("setRotationFromMatrix", m)
+	sl.Call("setRotationFromMatrix", m.JSValue())
 }
 func (sl *SpotLight) SetRotationFromQuaternion(q *Quaternion) {
-	sl.Call("setRotationFromQuaternion", q)
+	sl.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (sl *SpotLight) ToJSON(meta js.Value) js.Value {
 	return sl.Call("toJSON", meta)

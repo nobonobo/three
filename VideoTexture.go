@@ -29,7 +29,7 @@ func (vt *VideoTexture) Center() *Vector2 {
 	return &Vector2{Value: vt.Get("center")}
 }
 func (vt *VideoTexture) SetCenter(v *Vector2) {
-	vt.Set("center", v.Value)
+	vt.Set("center", v.JSValue())
 }
 func (vt *VideoTexture) Encoding() TextureEncoding {
 	return TextureEncoding(vt.Get("encoding"))
@@ -107,7 +107,7 @@ func (vt *VideoTexture) Offset() *Vector2 {
 	return &Vector2{Value: vt.Get("offset")}
 }
 func (vt *VideoTexture) SetOffset(v *Vector2) {
-	vt.Set("offset", v.Value)
+	vt.Set("offset", v.JSValue())
 }
 func (vt *VideoTexture) OnUpdate() js.Value {
 	return vt.Get("onUpdate")
@@ -125,7 +125,7 @@ func (vt *VideoTexture) Repeat() *Vector2 {
 	return &Vector2{Value: vt.Get("repeat")}
 }
 func (vt *VideoTexture) SetRepeat(v *Vector2) {
-	vt.Set("repeat", v.Value)
+	vt.Set("repeat", v.JSValue())
 }
 func (vt *VideoTexture) Rotation() float64 {
 	return vt.Get("rotation").Float()

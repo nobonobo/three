@@ -53,13 +53,13 @@ func (cc *CubeCamera) Layers() *Layers {
 	return &Layers{Value: cc.Get("layers")}
 }
 func (cc *CubeCamera) SetLayers(v *Layers) {
-	cc.Set("layers", v.Value)
+	cc.Set("layers", v.JSValue())
 }
 func (cc *CubeCamera) Matrix() *Matrix4 {
 	return &Matrix4{Value: cc.Get("matrix")}
 }
 func (cc *CubeCamera) SetMatrix(v *Matrix4) {
-	cc.Set("matrix", v.Value)
+	cc.Set("matrix", v.JSValue())
 }
 func (cc *CubeCamera) MatrixAutoUpdate() bool {
 	return cc.Get("matrixAutoUpdate").Bool()
@@ -71,7 +71,7 @@ func (cc *CubeCamera) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: cc.Get("matrixWorld")}
 }
 func (cc *CubeCamera) SetMatrixWorld(v *Matrix4) {
-	cc.Set("matrixWorld", v.Value)
+	cc.Set("matrixWorld", v.JSValue())
 }
 func (cc *CubeCamera) MatrixWorldNeedsUpdate() bool {
 	return cc.Get("matrixWorldNeedsUpdate").Bool()
@@ -83,7 +83,7 @@ func (cc *CubeCamera) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: cc.Get("modelViewMatrix")}
 }
 func (cc *CubeCamera) SetModelViewMatrix(v *Matrix4) {
-	cc.Set("modelViewMatrix", v.Value)
+	cc.Set("modelViewMatrix", v.JSValue())
 }
 func (cc *CubeCamera) Name() string {
 	return cc.Get("name").String()
@@ -95,7 +95,7 @@ func (cc *CubeCamera) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: cc.Get("normalMatrix")}
 }
 func (cc *CubeCamera) SetNormalMatrix(v *Matrix3) {
-	cc.Set("normalMatrix", v.Value)
+	cc.Set("normalMatrix", v.JSValue())
 }
 func (cc *CubeCamera) OnAfterRender() js.Value {
 	return cc.Get("onAfterRender")
@@ -113,19 +113,19 @@ func (cc *CubeCamera) Parent() *Object3D {
 	return &Object3D{Value: cc.Get("parent")}
 }
 func (cc *CubeCamera) SetParent(v *Object3D) {
-	cc.Set("parent", v.Value)
+	cc.Set("parent", v.JSValue())
 }
 func (cc *CubeCamera) Position() *Vector3 {
 	return &Vector3{Value: cc.Get("position")}
 }
 func (cc *CubeCamera) SetPosition(v *Vector3) {
-	cc.Set("position", v.Value)
+	cc.Set("position", v.JSValue())
 }
 func (cc *CubeCamera) Quaternion() *Quaternion {
 	return &Quaternion{Value: cc.Get("quaternion")}
 }
 func (cc *CubeCamera) SetQuaternion(v *Quaternion) {
-	cc.Set("quaternion", v.Value)
+	cc.Set("quaternion", v.JSValue())
 }
 func (cc *CubeCamera) ReceiveShadow() bool {
 	return cc.Get("receiveShadow").Bool()
@@ -143,19 +143,19 @@ func (cc *CubeCamera) RenderTarget() *WebGLRenderTargetCube {
 	return &WebGLRenderTargetCube{Value: cc.Get("renderTarget")}
 }
 func (cc *CubeCamera) SetRenderTarget(v *WebGLRenderTargetCube) {
-	cc.Set("renderTarget", v.Value)
+	cc.Set("renderTarget", v.JSValue())
 }
 func (cc *CubeCamera) Rotation() *Euler {
 	return &Euler{Value: cc.Get("rotation")}
 }
 func (cc *CubeCamera) SetRotation(v *Euler) {
-	cc.Set("rotation", v.Value)
+	cc.Set("rotation", v.JSValue())
 }
 func (cc *CubeCamera) Scale() *Vector3 {
 	return &Vector3{Value: cc.Get("scale")}
 }
 func (cc *CubeCamera) SetScale(v *Vector3) {
-	cc.Set("scale", v.Value)
+	cc.Set("scale", v.JSValue())
 }
 func (cc *CubeCamera) Type() string {
 	return cc.Get("type").String()
@@ -167,7 +167,7 @@ func (cc *CubeCamera) Up() *Vector3 {
 	return &Vector3{Value: cc.Get("up")}
 }
 func (cc *CubeCamera) SetUp(v *Vector3) {
-	cc.Set("up", v.Value)
+	cc.Set("up", v.JSValue())
 }
 func (cc *CubeCamera) UserData() js.Value {
 	return cc.Get("userData")
@@ -197,7 +197,7 @@ func (cc *CubeCamera) DefaultUp() *Vector3 {
 	return &Vector3{Value: cc.Get("DefaultUp")}
 }
 func (cc *CubeCamera) SetDefaultUp(v *Vector3) {
-	cc.Set("DefaultUp", v.Value)
+	cc.Set("DefaultUp", v.JSValue())
 }
 func (cc *CubeCamera) Add(object js.Value) *CubeCamera {
 	return &CubeCamera{Value: cc.Call("add", object)}
@@ -206,7 +206,7 @@ func (cc *CubeCamera) AddEventListener(typ string, listener js.Value) {
 	cc.Call("addEventListener", typ, listener)
 }
 func (cc *CubeCamera) ApplyMatrix(matrix *Matrix4) {
-	cc.Call("applyMatrix", matrix)
+	cc.Call("applyMatrix", matrix.JSValue())
 }
 func (cc *CubeCamera) ApplyQuaternion(quaternion *Quaternion) *CubeCamera {
 	return &CubeCamera{Value: cc.Call("applyQuaternion", quaternion)}
@@ -251,7 +251,7 @@ func (cc *CubeCamera) LookAt(vector *Vector3, y float64, z float64) {
 	cc.Call("lookAt", vector, y, z)
 }
 func (cc *CubeCamera) Raycast(raycaster *Raycaster, intersects js.Value) {
-	cc.Call("raycast", raycaster, intersects)
+	cc.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (cc *CubeCamera) Remove(object js.Value) *CubeCamera {
 	return &CubeCamera{Value: cc.Call("remove", object)}
@@ -275,16 +275,16 @@ func (cc *CubeCamera) RotateZ(angle float64) *CubeCamera {
 	return &CubeCamera{Value: cc.Call("rotateZ", angle)}
 }
 func (cc *CubeCamera) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	cc.Call("setRotationFromAxisAngle", axis, angle)
+	cc.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (cc *CubeCamera) SetRotationFromEuler(euler *Euler) {
-	cc.Call("setRotationFromEuler", euler)
+	cc.Call("setRotationFromEuler", euler.JSValue())
 }
 func (cc *CubeCamera) SetRotationFromMatrix(m *Matrix4) {
-	cc.Call("setRotationFromMatrix", m)
+	cc.Call("setRotationFromMatrix", m.JSValue())
 }
 func (cc *CubeCamera) SetRotationFromQuaternion(q *Quaternion) {
-	cc.Call("setRotationFromQuaternion", q)
+	cc.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (cc *CubeCamera) ToJSON(meta js.Value) js.Value {
 	return cc.Call("toJSON", meta)
@@ -311,7 +311,7 @@ func (cc *CubeCamera) TraverseVisible(callback js.Value) {
 	cc.Call("traverseVisible", callback)
 }
 func (cc *CubeCamera) Update(renderer *WebGLRenderer, scene Scene) {
-	cc.Call("update", renderer, scene.JSValue())
+	cc.Call("update", renderer.JSValue(), scene.JSValue())
 }
 func (cc *CubeCamera) UpdateMatrix() {
 	cc.Call("updateMatrix")

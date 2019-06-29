@@ -14,7 +14,7 @@ type FontLoader struct {
 }
 
 func NewFontLoader(manager *LoadingManager) *FontLoader {
-	return &FontLoader{Value: get("FontLoader").New(manager)}
+	return &FontLoader{Value: get("FontLoader").New(manager.JSValue())}
 }
 func (fl *FontLoader) JSValue() js.Value {
 	return fl.Value
@@ -23,7 +23,7 @@ func (fl *FontLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: fl.Get("manager")}
 }
 func (fl *FontLoader) SetManager(v *LoadingManager) {
-	fl.Set("manager", v.Value)
+	fl.Set("manager", v.JSValue())
 }
 func (fl *FontLoader) Load(url string, onLoad js.Value, onProgress js.Value, onError js.Value) {
 	fl.Call("load", url, onLoad, onProgress, onError)

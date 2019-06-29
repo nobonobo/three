@@ -29,13 +29,13 @@ func (cbg *CylinderBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: cbg.Get("boundingBox")}
 }
 func (cbg *CylinderBufferGeometry) SetBoundingBox(v *Box3) {
-	cbg.Set("boundingBox", v.Value)
+	cbg.Set("boundingBox", v.JSValue())
 }
 func (cbg *CylinderBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: cbg.Get("boundingSphere")}
 }
 func (cbg *CylinderBufferGeometry) SetBoundingSphere(v *Sphere) {
-	cbg.Set("boundingSphere", v.Value)
+	cbg.Set("boundingSphere", v.JSValue())
 }
 func (cbg *CylinderBufferGeometry) DrawRange() js.Value {
 	return cbg.Get("drawRange")
@@ -65,7 +65,7 @@ func (cbg *CylinderBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: cbg.Get("index")}
 }
 func (cbg *CylinderBufferGeometry) SetIndex(v *BufferAttribute) {
-	cbg.Set("index", v.Value)
+	cbg.Set("index", v.JSValue())
 }
 func (cbg *CylinderBufferGeometry) MorphAttributes() js.Value {
 	return cbg.Get("morphAttributes")
@@ -182,7 +182,7 @@ func (cbg *CylinderBufferGeometry) HasEventListener(typ string, listener js.Valu
 	return cbg.Call("hasEventListener", typ, listener).Bool()
 }
 func (cbg *CylinderBufferGeometry) LookAt(v *Vector3) {
-	cbg.Call("lookAt", v)
+	cbg.Call("lookAt", v.JSValue())
 }
 func (cbg *CylinderBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
 	return &BufferGeometry{Value: cbg.Call("merge", geometry, offset)}
@@ -230,7 +230,7 @@ func (cbg *CylinderBufferGeometry) Translate(x float64, y float64, z float64) *B
 	return &BufferGeometry{Value: cbg.Call("translate", x, y, z)}
 }
 func (cbg *CylinderBufferGeometry) UpdateFromObject(object *Object3D) {
-	cbg.Call("updateFromObject", object)
+	cbg.Call("updateFromObject", object.JSValue())
 }
 
 // CylinderGeometry extend: [Geometry]
@@ -248,7 +248,7 @@ func (cg *CylinderGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: cg.Get("animation")}
 }
 func (cg *CylinderGeometry) SetAnimation(v *AnimationClip) {
-	cg.Set("animation", v.Value)
+	cg.Set("animation", v.JSValue())
 }
 func (cg *CylinderGeometry) Animations() js.Value {
 	return cg.Get("animations")
@@ -266,13 +266,13 @@ func (cg *CylinderGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: cg.Get("boundingBox")}
 }
 func (cg *CylinderGeometry) SetBoundingBox(v *Box3) {
-	cg.Set("boundingBox", v.Value)
+	cg.Set("boundingBox", v.JSValue())
 }
 func (cg *CylinderGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: cg.Get("boundingSphere")}
 }
 func (cg *CylinderGeometry) SetBoundingSphere(v *Sphere) {
-	cg.Set("boundingSphere", v.Value)
+	cg.Set("boundingSphere", v.JSValue())
 }
 func (cg *CylinderGeometry) Colors() js.Value {
 	return cg.Get("colors")
@@ -446,13 +446,13 @@ func (cg *CylinderGeometry) HasEventListener(typ string, listener js.Value) bool
 	return cg.Call("hasEventListener", typ, listener).Bool()
 }
 func (cg *CylinderGeometry) LookAt(vector *Vector3) {
-	cg.Call("lookAt", vector)
+	cg.Call("lookAt", vector.JSValue())
 }
 func (cg *CylinderGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
 	cg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
-func (cg *CylinderGeometry) MergeMesh(mesh *Mesh) {
-	cg.Call("mergeMesh", mesh)
+func (cg *CylinderGeometry) MergeMesh(mesh Mesh) {
+	cg.Call("mergeMesh", mesh.JSValue())
 }
 func (cg *CylinderGeometry) MergeVertices() float64 {
 	return cg.Call("mergeVertices").Float()

@@ -29,13 +29,13 @@ func (bg *BufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: bg.Get("boundingBox")}
 }
 func (bg *BufferGeometry) SetBoundingBox(v *Box3) {
-	bg.Set("boundingBox", v.Value)
+	bg.Set("boundingBox", v.JSValue())
 }
 func (bg *BufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: bg.Get("boundingSphere")}
 }
 func (bg *BufferGeometry) SetBoundingSphere(v *Sphere) {
-	bg.Set("boundingSphere", v.Value)
+	bg.Set("boundingSphere", v.JSValue())
 }
 func (bg *BufferGeometry) DrawRange() js.Value {
 	return bg.Get("drawRange")
@@ -65,7 +65,7 @@ func (bg *BufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: bg.Get("index")}
 }
 func (bg *BufferGeometry) SetIndex(v *BufferAttribute) {
-	bg.Set("index", v.Value)
+	bg.Set("index", v.JSValue())
 }
 func (bg *BufferGeometry) MorphAttributes() js.Value {
 	return bg.Get("morphAttributes")
@@ -176,7 +176,7 @@ func (bg *BufferGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return bg.Call("hasEventListener", typ, listener).Bool()
 }
 func (bg *BufferGeometry) LookAt(v *Vector3) {
-	bg.Call("lookAt", v)
+	bg.Call("lookAt", v.JSValue())
 }
 func (bg *BufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
 	return &BufferGeometry{Value: bg.Call("merge", geometry, offset)}
@@ -224,5 +224,5 @@ func (bg *BufferGeometry) Translate(x float64, y float64, z float64) *BufferGeom
 	return &BufferGeometry{Value: bg.Call("translate", x, y, z)}
 }
 func (bg *BufferGeometry) UpdateFromObject(object *Object3D) {
-	bg.Call("updateFromObject", object)
+	bg.Call("updateFromObject", object.JSValue())
 }

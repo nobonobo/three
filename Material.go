@@ -366,7 +366,7 @@ func (mm *MaterialImpl) HasEventListener(typ string, listener js.Value) bool {
 	return mm.Call("hasEventListener", typ, listener).Bool()
 }
 func (mm *MaterialImpl) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	mm.Call("onBeforeCompile", shader, renderer)
+	mm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (mm *MaterialImpl) RemoveEventListener(typ string, listener js.Value) {
 	mm.Call("removeEventListener", typ, listener)

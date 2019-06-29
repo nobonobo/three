@@ -14,7 +14,7 @@ type WebGLPrograms struct {
 }
 
 func NewWebGLPrograms(renderer *WebGLRenderer, extensions *WebGLExtensions, capabilities *WebGLCapabilities, textures *WebGLTextures) *WebGLPrograms {
-	return &WebGLPrograms{Value: get("WebGLPrograms").New(renderer, extensions, capabilities, textures)}
+	return &WebGLPrograms{Value: get("WebGLPrograms").New(renderer.JSValue(), extensions.JSValue(), capabilities.JSValue(), textures.JSValue())}
 }
 func (wglp *WebGLPrograms) JSValue() js.Value {
 	return wglp.Value
@@ -35,5 +35,5 @@ func (wglp *WebGLPrograms) GetProgramCode(material *ShaderMaterial, parameters j
 	return wglp.Call("getProgramCode", material, parameters).String()
 }
 func (wglp *WebGLPrograms) ReleaseProgram(program *WebGLProgram) {
-	wglp.Call("releaseProgram", program)
+	wglp.Call("releaseProgram", program.JSValue())
 }

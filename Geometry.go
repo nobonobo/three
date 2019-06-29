@@ -90,7 +90,7 @@ type Geometry interface {
 	HasEventListener(typ string, listener js.Value) bool
 	LookAt(vector *Vector3)
 	Merge(geometry Geometry, matrix Matrix, materialIndexOffset int)
-	MergeMesh(mesh *Mesh)
+	MergeMesh(mesh Mesh)
 	MergeVertices() float64
 	Normalize() Geometry
 	RemoveEventListener(typ string, listener js.Value)
@@ -119,7 +119,7 @@ func (gg *GeometryImpl) Animation() *AnimationClip {
 	return &AnimationClip{Value: gg.Get("animation")}
 }
 func (gg *GeometryImpl) SetAnimation(v *AnimationClip) {
-	gg.Set("animation", v.Value)
+	gg.Set("animation", v.JSValue())
 }
 func (gg *GeometryImpl) Animations() js.Value {
 	return gg.Get("animations")
@@ -137,13 +137,13 @@ func (gg *GeometryImpl) BoundingBox() *Box3 {
 	return &Box3{Value: gg.Get("boundingBox")}
 }
 func (gg *GeometryImpl) SetBoundingBox(v *Box3) {
-	gg.Set("boundingBox", v.Value)
+	gg.Set("boundingBox", v.JSValue())
 }
 func (gg *GeometryImpl) BoundingSphere() *Sphere {
 	return &Sphere{Value: gg.Get("boundingSphere")}
 }
 func (gg *GeometryImpl) SetBoundingSphere(v *Sphere) {
-	gg.Set("boundingSphere", v.Value)
+	gg.Set("boundingSphere", v.JSValue())
 }
 func (gg *GeometryImpl) Colors() js.Value {
 	return gg.Get("colors")
@@ -311,13 +311,13 @@ func (gg *GeometryImpl) HasEventListener(typ string, listener js.Value) bool {
 	return gg.Call("hasEventListener", typ, listener).Bool()
 }
 func (gg *GeometryImpl) LookAt(vector *Vector3) {
-	gg.Call("lookAt", vector)
+	gg.Call("lookAt", vector.JSValue())
 }
 func (gg *GeometryImpl) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
 	gg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
-func (gg *GeometryImpl) MergeMesh(mesh *Mesh) {
-	gg.Call("mergeMesh", mesh)
+func (gg *GeometryImpl) MergeMesh(mesh Mesh) {
+	gg.Call("mergeMesh", mesh.JSValue())
 }
 func (gg *GeometryImpl) MergeVertices() float64 {
 	return gg.Call("mergeVertices").Float()

@@ -128,7 +128,7 @@ func (mdm *MeshDepthMaterial) DisplacementMap() *Texture {
 	return &Texture{Value: mdm.Get("displacementMap")}
 }
 func (mdm *MeshDepthMaterial) SetDisplacementMap(v *Texture) {
-	mdm.Set("displacementMap", v.Value)
+	mdm.Set("displacementMap", v.JSValue())
 }
 func (mdm *MeshDepthMaterial) DisplacementScale() int {
 	return mdm.Get("displacementScale").Int()
@@ -305,7 +305,7 @@ func (mdm *MeshDepthMaterial) HasEventListener(typ string, listener js.Value) bo
 	return mdm.Call("hasEventListener", typ, listener).Bool()
 }
 func (mdm *MeshDepthMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	mdm.Call("onBeforeCompile", shader, renderer)
+	mdm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (mdm *MeshDepthMaterial) RemoveEventListener(typ string, listener js.Value) {
 	mdm.Call("removeEventListener", typ, listener)

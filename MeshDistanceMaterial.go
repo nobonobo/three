@@ -122,7 +122,7 @@ func (mdm *MeshDistanceMaterial) DisplacementMap() *Texture {
 	return &Texture{Value: mdm.Get("displacementMap")}
 }
 func (mdm *MeshDistanceMaterial) SetDisplacementMap(v *Texture) {
-	mdm.Set("displacementMap", v.Value)
+	mdm.Set("displacementMap", v.JSValue())
 }
 func (mdm *MeshDistanceMaterial) DisplacementScale() int {
 	return mdm.Get("displacementScale").Int()
@@ -236,7 +236,7 @@ func (mdm *MeshDistanceMaterial) ReferencePosition() *Vector3 {
 	return &Vector3{Value: mdm.Get("referencePosition")}
 }
 func (mdm *MeshDistanceMaterial) SetReferencePosition(v *Vector3) {
-	mdm.Set("referencePosition", v.Value)
+	mdm.Set("referencePosition", v.JSValue())
 }
 func (mdm *MeshDistanceMaterial) Side() Side {
 	return Side(mdm.Get("side"))
@@ -305,7 +305,7 @@ func (mdm *MeshDistanceMaterial) HasEventListener(typ string, listener js.Value)
 	return mdm.Call("hasEventListener", typ, listener).Bool()
 }
 func (mdm *MeshDistanceMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	mdm.Call("onBeforeCompile", shader, renderer)
+	mdm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (mdm *MeshDistanceMaterial) RemoveEventListener(typ string, listener js.Value) {
 	mdm.Call("removeEventListener", typ, listener)

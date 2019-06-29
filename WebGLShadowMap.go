@@ -14,7 +14,7 @@ type WebGLShadowMap struct {
 }
 
 func NewWebGLShadowMap(_renderer *WebGLRenderer, _lights js.Value, _objects js.Value, capabilities js.Value) *WebGLShadowMap {
-	return &WebGLShadowMap{Value: get("WebGLShadowMap").New(_renderer, _lights, _objects, capabilities)}
+	return &WebGLShadowMap{Value: get("WebGLShadowMap").New(_renderer.JSValue(), _lights, _objects, capabilities)}
 }
 func (wglsm *WebGLShadowMap) JSValue() js.Value {
 	return wglsm.Value

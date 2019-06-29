@@ -29,7 +29,7 @@ func (dtda *DataTexture2DArray) Center() *Vector2 {
 	return &Vector2{Value: dtda.Get("center")}
 }
 func (dtda *DataTexture2DArray) SetCenter(v *Vector2) {
-	dtda.Set("center", v.Value)
+	dtda.Set("center", v.JSValue())
 }
 func (dtda *DataTexture2DArray) Encoding() TextureEncoding {
 	return TextureEncoding(dtda.Get("encoding"))
@@ -107,7 +107,7 @@ func (dtda *DataTexture2DArray) Offset() *Vector2 {
 	return &Vector2{Value: dtda.Get("offset")}
 }
 func (dtda *DataTexture2DArray) SetOffset(v *Vector2) {
-	dtda.Set("offset", v.Value)
+	dtda.Set("offset", v.JSValue())
 }
 func (dtda *DataTexture2DArray) OnUpdate() js.Value {
 	return dtda.Get("onUpdate")
@@ -125,7 +125,7 @@ func (dtda *DataTexture2DArray) Repeat() *Vector2 {
 	return &Vector2{Value: dtda.Get("repeat")}
 }
 func (dtda *DataTexture2DArray) SetRepeat(v *Vector2) {
-	dtda.Set("repeat", v.Value)
+	dtda.Set("repeat", v.JSValue())
 }
 func (dtda *DataTexture2DArray) Rotation() float64 {
 	return dtda.Get("rotation").Float()

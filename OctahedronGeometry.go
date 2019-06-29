@@ -29,13 +29,13 @@ func (obg *OctahedronBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: obg.Get("boundingBox")}
 }
 func (obg *OctahedronBufferGeometry) SetBoundingBox(v *Box3) {
-	obg.Set("boundingBox", v.Value)
+	obg.Set("boundingBox", v.JSValue())
 }
 func (obg *OctahedronBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: obg.Get("boundingSphere")}
 }
 func (obg *OctahedronBufferGeometry) SetBoundingSphere(v *Sphere) {
-	obg.Set("boundingSphere", v.Value)
+	obg.Set("boundingSphere", v.JSValue())
 }
 func (obg *OctahedronBufferGeometry) DrawRange() js.Value {
 	return obg.Get("drawRange")
@@ -65,7 +65,7 @@ func (obg *OctahedronBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: obg.Get("index")}
 }
 func (obg *OctahedronBufferGeometry) SetIndex(v *BufferAttribute) {
-	obg.Set("index", v.Value)
+	obg.Set("index", v.JSValue())
 }
 func (obg *OctahedronBufferGeometry) MorphAttributes() js.Value {
 	return obg.Get("morphAttributes")
@@ -182,7 +182,7 @@ func (obg *OctahedronBufferGeometry) HasEventListener(typ string, listener js.Va
 	return obg.Call("hasEventListener", typ, listener).Bool()
 }
 func (obg *OctahedronBufferGeometry) LookAt(v *Vector3) {
-	obg.Call("lookAt", v)
+	obg.Call("lookAt", v.JSValue())
 }
 func (obg *OctahedronBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
 	return &BufferGeometry{Value: obg.Call("merge", geometry, offset)}
@@ -230,7 +230,7 @@ func (obg *OctahedronBufferGeometry) Translate(x float64, y float64, z float64) 
 	return &BufferGeometry{Value: obg.Call("translate", x, y, z)}
 }
 func (obg *OctahedronBufferGeometry) UpdateFromObject(object *Object3D) {
-	obg.Call("updateFromObject", object)
+	obg.Call("updateFromObject", object.JSValue())
 }
 
 // OctahedronGeometry extend: [PolyhedronGeometry]
@@ -248,7 +248,7 @@ func (og *OctahedronGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: og.Get("animation")}
 }
 func (og *OctahedronGeometry) SetAnimation(v *AnimationClip) {
-	og.Set("animation", v.Value)
+	og.Set("animation", v.JSValue())
 }
 func (og *OctahedronGeometry) Animations() js.Value {
 	return og.Get("animations")
@@ -266,13 +266,13 @@ func (og *OctahedronGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: og.Get("boundingBox")}
 }
 func (og *OctahedronGeometry) SetBoundingBox(v *Box3) {
-	og.Set("boundingBox", v.Value)
+	og.Set("boundingBox", v.JSValue())
 }
 func (og *OctahedronGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: og.Get("boundingSphere")}
 }
 func (og *OctahedronGeometry) SetBoundingSphere(v *Sphere) {
-	og.Set("boundingSphere", v.Value)
+	og.Set("boundingSphere", v.JSValue())
 }
 func (og *OctahedronGeometry) Colors() js.Value {
 	return og.Get("colors")
@@ -446,13 +446,13 @@ func (og *OctahedronGeometry) HasEventListener(typ string, listener js.Value) bo
 	return og.Call("hasEventListener", typ, listener).Bool()
 }
 func (og *OctahedronGeometry) LookAt(vector *Vector3) {
-	og.Call("lookAt", vector)
+	og.Call("lookAt", vector.JSValue())
 }
 func (og *OctahedronGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
 	og.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
-func (og *OctahedronGeometry) MergeMesh(mesh *Mesh) {
-	og.Call("mergeMesh", mesh)
+func (og *OctahedronGeometry) MergeMesh(mesh Mesh) {
+	og.Call("mergeMesh", mesh.JSValue())
 }
 func (og *OctahedronGeometry) MergeVertices() float64 {
 	return og.Call("mergeVertices").Float()

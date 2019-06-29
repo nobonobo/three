@@ -35,7 +35,7 @@ func (ss *Skeleton) BoneTexture() *DataTexture {
 	return &DataTexture{Value: ss.Get("boneTexture")}
 }
 func (ss *Skeleton) SetBoneTexture(v *DataTexture) {
-	ss.Set("boneTexture", v.Value)
+	ss.Set("boneTexture", v.JSValue())
 }
 func (ss *Skeleton) BoneTextureHeight() float64 {
 	return ss.Get("boneTextureHeight").Float()
@@ -59,7 +59,7 @@ func (ss *Skeleton) IdentityMatrix() *Matrix4 {
 	return &Matrix4{Value: ss.Get("identityMatrix")}
 }
 func (ss *Skeleton) SetIdentityMatrix(v *Matrix4) {
-	ss.Set("identityMatrix", v.Value)
+	ss.Set("identityMatrix", v.JSValue())
 }
 func (ss *Skeleton) UseVertexTexture() bool {
 	return ss.Get("useVertexTexture").Bool()
@@ -68,7 +68,7 @@ func (ss *Skeleton) SetUseVertexTexture(v bool) {
 	ss.Set("useVertexTexture", v)
 }
 func (ss *Skeleton) CalculateInverses(bone *Bone) {
-	ss.Call("calculateInverses", bone)
+	ss.Call("calculateInverses", bone.JSValue())
 }
 func (ss *Skeleton) Clone() *Skeleton {
 	return &Skeleton{Value: ss.Call("clone")}

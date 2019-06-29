@@ -29,13 +29,13 @@ func (eg *EdgesGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: eg.Get("boundingBox")}
 }
 func (eg *EdgesGeometry) SetBoundingBox(v *Box3) {
-	eg.Set("boundingBox", v.Value)
+	eg.Set("boundingBox", v.JSValue())
 }
 func (eg *EdgesGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: eg.Get("boundingSphere")}
 }
 func (eg *EdgesGeometry) SetBoundingSphere(v *Sphere) {
-	eg.Set("boundingSphere", v.Value)
+	eg.Set("boundingSphere", v.JSValue())
 }
 func (eg *EdgesGeometry) DrawRange() js.Value {
 	return eg.Get("drawRange")
@@ -65,7 +65,7 @@ func (eg *EdgesGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: eg.Get("index")}
 }
 func (eg *EdgesGeometry) SetIndex(v *BufferAttribute) {
-	eg.Set("index", v.Value)
+	eg.Set("index", v.JSValue())
 }
 func (eg *EdgesGeometry) MorphAttributes() js.Value {
 	return eg.Get("morphAttributes")
@@ -176,7 +176,7 @@ func (eg *EdgesGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return eg.Call("hasEventListener", typ, listener).Bool()
 }
 func (eg *EdgesGeometry) LookAt(v *Vector3) {
-	eg.Call("lookAt", v)
+	eg.Call("lookAt", v.JSValue())
 }
 func (eg *EdgesGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
 	return &BufferGeometry{Value: eg.Call("merge", geometry, offset)}
@@ -224,5 +224,5 @@ func (eg *EdgesGeometry) Translate(x float64, y float64, z float64) *BufferGeome
 	return &BufferGeometry{Value: eg.Call("translate", x, y, z)}
 }
 func (eg *EdgesGeometry) UpdateFromObject(object *Object3D) {
-	eg.Call("updateFromObject", object)
+	eg.Call("updateFromObject", object.JSValue())
 }

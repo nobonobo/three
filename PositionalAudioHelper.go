@@ -14,7 +14,7 @@ type PositionalAudioHelper struct {
 }
 
 func NewPositionalAudioHelper(audio *PositionalAudio, rng float64, divisionsInnerAngle float64, divisionsOuterAngle float64) *PositionalAudioHelper {
-	return &PositionalAudioHelper{Value: get("PositionalAudioHelper").New(audio, rng, divisionsInnerAngle, divisionsOuterAngle)}
+	return &PositionalAudioHelper{Value: get("PositionalAudioHelper").New(audio.JSValue(), rng, divisionsInnerAngle, divisionsOuterAngle)}
 }
 func (pah *PositionalAudioHelper) JSValue() js.Value {
 	return pah.Value
@@ -23,7 +23,7 @@ func (pah *PositionalAudioHelper) Audio() *PositionalAudio {
 	return &PositionalAudio{Value: pah.Get("audio")}
 }
 func (pah *PositionalAudioHelper) SetAudio(v *PositionalAudio) {
-	pah.Set("audio", v.Value)
+	pah.Set("audio", v.JSValue())
 }
 func (pah *PositionalAudioHelper) CastShadow() bool {
 	return pah.Get("castShadow").Bool()
@@ -83,7 +83,7 @@ func (pah *PositionalAudioHelper) Layers() *Layers {
 	return &Layers{Value: pah.Get("layers")}
 }
 func (pah *PositionalAudioHelper) SetLayers(v *Layers) {
-	pah.Set("layers", v.Value)
+	pah.Set("layers", v.JSValue())
 }
 func (pah *PositionalAudioHelper) Material() Material {
 	return &MaterialImpl{Value: pah.Get("material")}
@@ -95,7 +95,7 @@ func (pah *PositionalAudioHelper) Matrix() *Matrix4 {
 	return &Matrix4{Value: pah.Get("matrix")}
 }
 func (pah *PositionalAudioHelper) SetMatrix(v *Matrix4) {
-	pah.Set("matrix", v.Value)
+	pah.Set("matrix", v.JSValue())
 }
 func (pah *PositionalAudioHelper) MatrixAutoUpdate() bool {
 	return pah.Get("matrixAutoUpdate").Bool()
@@ -107,7 +107,7 @@ func (pah *PositionalAudioHelper) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: pah.Get("matrixWorld")}
 }
 func (pah *PositionalAudioHelper) SetMatrixWorld(v *Matrix4) {
-	pah.Set("matrixWorld", v.Value)
+	pah.Set("matrixWorld", v.JSValue())
 }
 func (pah *PositionalAudioHelper) MatrixWorldNeedsUpdate() bool {
 	return pah.Get("matrixWorldNeedsUpdate").Bool()
@@ -119,7 +119,7 @@ func (pah *PositionalAudioHelper) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: pah.Get("modelViewMatrix")}
 }
 func (pah *PositionalAudioHelper) SetModelViewMatrix(v *Matrix4) {
-	pah.Set("modelViewMatrix", v.Value)
+	pah.Set("modelViewMatrix", v.JSValue())
 }
 func (pah *PositionalAudioHelper) Name() string {
 	return pah.Get("name").String()
@@ -131,7 +131,7 @@ func (pah *PositionalAudioHelper) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: pah.Get("normalMatrix")}
 }
 func (pah *PositionalAudioHelper) SetNormalMatrix(v *Matrix3) {
-	pah.Set("normalMatrix", v.Value)
+	pah.Set("normalMatrix", v.JSValue())
 }
 func (pah *PositionalAudioHelper) OnAfterRender() js.Value {
 	return pah.Get("onAfterRender")
@@ -149,19 +149,19 @@ func (pah *PositionalAudioHelper) Parent() *Object3D {
 	return &Object3D{Value: pah.Get("parent")}
 }
 func (pah *PositionalAudioHelper) SetParent(v *Object3D) {
-	pah.Set("parent", v.Value)
+	pah.Set("parent", v.JSValue())
 }
 func (pah *PositionalAudioHelper) Position() *Vector3 {
 	return &Vector3{Value: pah.Get("position")}
 }
 func (pah *PositionalAudioHelper) SetPosition(v *Vector3) {
-	pah.Set("position", v.Value)
+	pah.Set("position", v.JSValue())
 }
 func (pah *PositionalAudioHelper) Quaternion() *Quaternion {
 	return &Quaternion{Value: pah.Get("quaternion")}
 }
 func (pah *PositionalAudioHelper) SetQuaternion(v *Quaternion) {
-	pah.Set("quaternion", v.Value)
+	pah.Set("quaternion", v.JSValue())
 }
 func (pah *PositionalAudioHelper) Range() float64 {
 	return pah.Get("range").Float()
@@ -185,13 +185,13 @@ func (pah *PositionalAudioHelper) Rotation() *Euler {
 	return &Euler{Value: pah.Get("rotation")}
 }
 func (pah *PositionalAudioHelper) SetRotation(v *Euler) {
-	pah.Set("rotation", v.Value)
+	pah.Set("rotation", v.JSValue())
 }
 func (pah *PositionalAudioHelper) Scale() *Vector3 {
 	return &Vector3{Value: pah.Get("scale")}
 }
 func (pah *PositionalAudioHelper) SetScale(v *Vector3) {
-	pah.Set("scale", v.Value)
+	pah.Set("scale", v.JSValue())
 }
 func (pah *PositionalAudioHelper) Type() string {
 	return pah.Get("type").String()
@@ -203,7 +203,7 @@ func (pah *PositionalAudioHelper) Up() *Vector3 {
 	return &Vector3{Value: pah.Get("up")}
 }
 func (pah *PositionalAudioHelper) SetUp(v *Vector3) {
-	pah.Set("up", v.Value)
+	pah.Set("up", v.JSValue())
 }
 func (pah *PositionalAudioHelper) UserData() js.Value {
 	return pah.Get("userData")
@@ -233,7 +233,7 @@ func (pah *PositionalAudioHelper) DefaultUp() *Vector3 {
 	return &Vector3{Value: pah.Get("DefaultUp")}
 }
 func (pah *PositionalAudioHelper) SetDefaultUp(v *Vector3) {
-	pah.Set("DefaultUp", v.Value)
+	pah.Set("DefaultUp", v.JSValue())
 }
 func (pah *PositionalAudioHelper) Add(object js.Value) *PositionalAudioHelper {
 	return &PositionalAudioHelper{Value: pah.Call("add", object)}
@@ -242,7 +242,7 @@ func (pah *PositionalAudioHelper) AddEventListener(typ string, listener js.Value
 	pah.Call("addEventListener", typ, listener)
 }
 func (pah *PositionalAudioHelper) ApplyMatrix(matrix *Matrix4) {
-	pah.Call("applyMatrix", matrix)
+	pah.Call("applyMatrix", matrix.JSValue())
 }
 func (pah *PositionalAudioHelper) ApplyQuaternion(quaternion *Quaternion) *PositionalAudioHelper {
 	return &PositionalAudioHelper{Value: pah.Call("applyQuaternion", quaternion)}
@@ -293,7 +293,7 @@ func (pah *PositionalAudioHelper) LookAt(vector *Vector3, y float64, z float64) 
 	pah.Call("lookAt", vector, y, z)
 }
 func (pah *PositionalAudioHelper) Raycast(raycaster *Raycaster, intersects js.Value) {
-	pah.Call("raycast", raycaster, intersects)
+	pah.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (pah *PositionalAudioHelper) Remove(object js.Value) *PositionalAudioHelper {
 	return &PositionalAudioHelper{Value: pah.Call("remove", object)}
@@ -317,16 +317,16 @@ func (pah *PositionalAudioHelper) RotateZ(angle float64) *PositionalAudioHelper 
 	return &PositionalAudioHelper{Value: pah.Call("rotateZ", angle)}
 }
 func (pah *PositionalAudioHelper) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	pah.Call("setRotationFromAxisAngle", axis, angle)
+	pah.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (pah *PositionalAudioHelper) SetRotationFromEuler(euler *Euler) {
-	pah.Call("setRotationFromEuler", euler)
+	pah.Call("setRotationFromEuler", euler.JSValue())
 }
 func (pah *PositionalAudioHelper) SetRotationFromMatrix(m *Matrix4) {
-	pah.Call("setRotationFromMatrix", m)
+	pah.Call("setRotationFromMatrix", m.JSValue())
 }
 func (pah *PositionalAudioHelper) SetRotationFromQuaternion(q *Quaternion) {
-	pah.Call("setRotationFromQuaternion", q)
+	pah.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (pah *PositionalAudioHelper) ToJSON(meta js.Value) js.Value {
 	return pah.Call("toJSON", meta)

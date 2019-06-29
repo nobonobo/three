@@ -29,13 +29,13 @@ func (pbg *ParametricBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: pbg.Get("boundingBox")}
 }
 func (pbg *ParametricBufferGeometry) SetBoundingBox(v *Box3) {
-	pbg.Set("boundingBox", v.Value)
+	pbg.Set("boundingBox", v.JSValue())
 }
 func (pbg *ParametricBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: pbg.Get("boundingSphere")}
 }
 func (pbg *ParametricBufferGeometry) SetBoundingSphere(v *Sphere) {
-	pbg.Set("boundingSphere", v.Value)
+	pbg.Set("boundingSphere", v.JSValue())
 }
 func (pbg *ParametricBufferGeometry) DrawRange() js.Value {
 	return pbg.Get("drawRange")
@@ -65,7 +65,7 @@ func (pbg *ParametricBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: pbg.Get("index")}
 }
 func (pbg *ParametricBufferGeometry) SetIndex(v *BufferAttribute) {
-	pbg.Set("index", v.Value)
+	pbg.Set("index", v.JSValue())
 }
 func (pbg *ParametricBufferGeometry) MorphAttributes() js.Value {
 	return pbg.Get("morphAttributes")
@@ -182,7 +182,7 @@ func (pbg *ParametricBufferGeometry) HasEventListener(typ string, listener js.Va
 	return pbg.Call("hasEventListener", typ, listener).Bool()
 }
 func (pbg *ParametricBufferGeometry) LookAt(v *Vector3) {
-	pbg.Call("lookAt", v)
+	pbg.Call("lookAt", v.JSValue())
 }
 func (pbg *ParametricBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
 	return &BufferGeometry{Value: pbg.Call("merge", geometry, offset)}
@@ -230,7 +230,7 @@ func (pbg *ParametricBufferGeometry) Translate(x float64, y float64, z float64) 
 	return &BufferGeometry{Value: pbg.Call("translate", x, y, z)}
 }
 func (pbg *ParametricBufferGeometry) UpdateFromObject(object *Object3D) {
-	pbg.Call("updateFromObject", object)
+	pbg.Call("updateFromObject", object.JSValue())
 }
 
 // ParametricGeometry extend: [Geometry]
@@ -248,7 +248,7 @@ func (pg *ParametricGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: pg.Get("animation")}
 }
 func (pg *ParametricGeometry) SetAnimation(v *AnimationClip) {
-	pg.Set("animation", v.Value)
+	pg.Set("animation", v.JSValue())
 }
 func (pg *ParametricGeometry) Animations() js.Value {
 	return pg.Get("animations")
@@ -266,13 +266,13 @@ func (pg *ParametricGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: pg.Get("boundingBox")}
 }
 func (pg *ParametricGeometry) SetBoundingBox(v *Box3) {
-	pg.Set("boundingBox", v.Value)
+	pg.Set("boundingBox", v.JSValue())
 }
 func (pg *ParametricGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: pg.Get("boundingSphere")}
 }
 func (pg *ParametricGeometry) SetBoundingSphere(v *Sphere) {
-	pg.Set("boundingSphere", v.Value)
+	pg.Set("boundingSphere", v.JSValue())
 }
 func (pg *ParametricGeometry) Colors() js.Value {
 	return pg.Get("colors")
@@ -446,13 +446,13 @@ func (pg *ParametricGeometry) HasEventListener(typ string, listener js.Value) bo
 	return pg.Call("hasEventListener", typ, listener).Bool()
 }
 func (pg *ParametricGeometry) LookAt(vector *Vector3) {
-	pg.Call("lookAt", vector)
+	pg.Call("lookAt", vector.JSValue())
 }
 func (pg *ParametricGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
 	pg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
-func (pg *ParametricGeometry) MergeMesh(mesh *Mesh) {
-	pg.Call("mergeMesh", mesh)
+func (pg *ParametricGeometry) MergeMesh(mesh Mesh) {
+	pg.Call("mergeMesh", mesh.JSValue())
 }
 func (pg *ParametricGeometry) MergeVertices() float64 {
 	return pg.Call("mergeVertices").Float()

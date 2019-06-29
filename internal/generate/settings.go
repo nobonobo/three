@@ -46,6 +46,7 @@ var (
 		"RaycasterParameters":          struct{}{},
 		"MaterialParameters":           struct{}{},
 		"MeshNormalMaterialParameters": struct{}{},
+		"MeshBasicMaterialParameters":  struct{}{},
 	}
 	// BlackListArrayType ...
 	BlackListArrayType = map[string]struct{}{
@@ -90,8 +91,11 @@ var (
 		"Camera":               "Camera",
 		"PerspectiveCamera":    "Camera",
 		"StereoCamera":         "Camera",
+		"Mesh":                 "Mesh",
+		"SkinnedMesh":          "Mesh",
 		"Material":             "Material",
 		"MeshNormalMaterial":   "Material",
+		"MeshBasicMaterial":    "Material",
 		"Geometry":             "Geometry",
 		"BoxGeometry":          "Geometry",
 		"CircleGeometry":       "Geometry",

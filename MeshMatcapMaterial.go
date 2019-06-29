@@ -26,7 +26,7 @@ func (mmm *MeshMatcapMaterial) AlphaMap() *Texture {
 	return &Texture{Value: mmm.Get("alphaMap")}
 }
 func (mmm *MeshMatcapMaterial) SetAlphaMap(v *Texture) {
-	mmm.Set("alphaMap", v.Value)
+	mmm.Set("alphaMap", v.JSValue())
 }
 func (mmm *MeshMatcapMaterial) AlphaTest() int {
 	return mmm.Get("alphaTest").Int()
@@ -80,7 +80,7 @@ func (mmm *MeshMatcapMaterial) BumpMap() *Texture {
 	return &Texture{Value: mmm.Get("bumpMap")}
 }
 func (mmm *MeshMatcapMaterial) SetBumpMap(v *Texture) {
-	mmm.Set("bumpMap", v.Value)
+	mmm.Set("bumpMap", v.JSValue())
 }
 func (mmm *MeshMatcapMaterial) BumpScale() int {
 	return mmm.Get("bumpScale").Int()
@@ -110,7 +110,7 @@ func (mmm *MeshMatcapMaterial) Color() *Color {
 	return &Color{Value: mmm.Get("color")}
 }
 func (mmm *MeshMatcapMaterial) SetColor(v *Color) {
-	mmm.Set("color", v.Value)
+	mmm.Set("color", v.JSValue())
 }
 func (mmm *MeshMatcapMaterial) ColorWrite() bool {
 	return mmm.Get("colorWrite").Bool()
@@ -146,7 +146,7 @@ func (mmm *MeshMatcapMaterial) DisplacementMap() *Texture {
 	return &Texture{Value: mmm.Get("displacementMap")}
 }
 func (mmm *MeshMatcapMaterial) SetDisplacementMap(v *Texture) {
-	mmm.Set("displacementMap", v.Value)
+	mmm.Set("displacementMap", v.JSValue())
 }
 func (mmm *MeshMatcapMaterial) DisplacementScale() int {
 	return mmm.Get("displacementScale").Int()
@@ -194,13 +194,13 @@ func (mmm *MeshMatcapMaterial) Map() *Texture {
 	return &Texture{Value: mmm.Get("map")}
 }
 func (mmm *MeshMatcapMaterial) SetMap(v *Texture) {
-	mmm.Set("map", v.Value)
+	mmm.Set("map", v.JSValue())
 }
 func (mmm *MeshMatcapMaterial) MatMap() *Texture {
 	return &Texture{Value: mmm.Get("matMap")}
 }
 func (mmm *MeshMatcapMaterial) SetMatMap(v *Texture) {
-	mmm.Set("matMap", v.Value)
+	mmm.Set("matMap", v.JSValue())
 }
 func (mmm *MeshMatcapMaterial) MorphNormals() bool {
 	return mmm.Get("morphNormals").Bool()
@@ -230,7 +230,7 @@ func (mmm *MeshMatcapMaterial) NormalMap() *Texture {
 	return &Texture{Value: mmm.Get("normalMap")}
 }
 func (mmm *MeshMatcapMaterial) SetNormalMap(v *Texture) {
-	mmm.Set("normalMap", v.Value)
+	mmm.Set("normalMap", v.JSValue())
 }
 func (mmm *MeshMatcapMaterial) NormalMapType() NormalMapTypes {
 	return NormalMapTypes(mmm.Get("normalMapType"))
@@ -242,7 +242,7 @@ func (mmm *MeshMatcapMaterial) NormalScale() *Vector2 {
 	return &Vector2{Value: mmm.Get("normalScale")}
 }
 func (mmm *MeshMatcapMaterial) SetNormalScale(v *Vector2) {
-	mmm.Set("normalScale", v.Value)
+	mmm.Set("normalScale", v.JSValue())
 }
 func (mmm *MeshMatcapMaterial) Opacity() int {
 	return mmm.Get("opacity").Int()
@@ -359,7 +359,7 @@ func (mmm *MeshMatcapMaterial) HasEventListener(typ string, listener js.Value) b
 	return mmm.Call("hasEventListener", typ, listener).Bool()
 }
 func (mmm *MeshMatcapMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	mmm.Call("onBeforeCompile", shader, renderer)
+	mmm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (mmm *MeshMatcapMaterial) RemoveEventListener(typ string, listener js.Value) {
 	mmm.Call("removeEventListener", typ, listener)

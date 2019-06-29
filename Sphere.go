@@ -14,7 +14,7 @@ type Sphere struct {
 }
 
 func NewSphere(center *Vector3, radius float64) *Sphere {
-	return &Sphere{Value: get("Sphere").New(center, radius)}
+	return &Sphere{Value: get("Sphere").New(center.JSValue(), radius)}
 }
 func (ss *Sphere) JSValue() js.Value {
 	return ss.Value
@@ -23,7 +23,7 @@ func (ss *Sphere) Center() *Vector3 {
 	return &Vector3{Value: ss.Get("center")}
 }
 func (ss *Sphere) SetCenter(v *Vector3) {
-	ss.Set("center", v.Value)
+	ss.Set("center", v.JSValue())
 }
 func (ss *Sphere) Radius() float64 {
 	return ss.Get("radius").Float()

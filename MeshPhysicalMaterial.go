@@ -26,7 +26,7 @@ func (mpm *MeshPhysicalMaterial) AlphaMap() *Texture {
 	return &Texture{Value: mpm.Get("alphaMap")}
 }
 func (mpm *MeshPhysicalMaterial) SetAlphaMap(v *Texture) {
-	mpm.Set("alphaMap", v.Value)
+	mpm.Set("alphaMap", v.JSValue())
 }
 func (mpm *MeshPhysicalMaterial) AlphaTest() float64 {
 	return mpm.Get("alphaTest").Float()
@@ -38,7 +38,7 @@ func (mpm *MeshPhysicalMaterial) AoMap() *Texture {
 	return &Texture{Value: mpm.Get("aoMap")}
 }
 func (mpm *MeshPhysicalMaterial) SetAoMap(v *Texture) {
-	mpm.Set("aoMap", v.Value)
+	mpm.Set("aoMap", v.JSValue())
 }
 func (mpm *MeshPhysicalMaterial) AoMapIntensity() float64 {
 	return mpm.Get("aoMapIntensity").Float()
@@ -92,7 +92,7 @@ func (mpm *MeshPhysicalMaterial) BumpMap() *Texture {
 	return &Texture{Value: mpm.Get("bumpMap")}
 }
 func (mpm *MeshPhysicalMaterial) SetBumpMap(v *Texture) {
-	mpm.Set("bumpMap", v.Value)
+	mpm.Set("bumpMap", v.JSValue())
 }
 func (mpm *MeshPhysicalMaterial) BumpScale() float64 {
 	return mpm.Get("bumpScale").Float()
@@ -134,7 +134,7 @@ func (mpm *MeshPhysicalMaterial) Color() *Color {
 	return &Color{Value: mpm.Get("color")}
 }
 func (mpm *MeshPhysicalMaterial) SetColor(v *Color) {
-	mpm.Set("color", v.Value)
+	mpm.Set("color", v.JSValue())
 }
 func (mpm *MeshPhysicalMaterial) ColorWrite() bool {
 	return mpm.Get("colorWrite").Bool()
@@ -176,7 +176,7 @@ func (mpm *MeshPhysicalMaterial) DisplacementMap() *Texture {
 	return &Texture{Value: mpm.Get("displacementMap")}
 }
 func (mpm *MeshPhysicalMaterial) SetDisplacementMap(v *Texture) {
-	mpm.Set("displacementMap", v.Value)
+	mpm.Set("displacementMap", v.JSValue())
 }
 func (mpm *MeshPhysicalMaterial) DisplacementScale() float64 {
 	return mpm.Get("displacementScale").Float()
@@ -194,7 +194,7 @@ func (mpm *MeshPhysicalMaterial) Emissive() *Color {
 	return &Color{Value: mpm.Get("emissive")}
 }
 func (mpm *MeshPhysicalMaterial) SetEmissive(v *Color) {
-	mpm.Set("emissive", v.Value)
+	mpm.Set("emissive", v.JSValue())
 }
 func (mpm *MeshPhysicalMaterial) EmissiveIntensity() float64 {
 	return mpm.Get("emissiveIntensity").Float()
@@ -206,13 +206,13 @@ func (mpm *MeshPhysicalMaterial) EmissiveMap() *Texture {
 	return &Texture{Value: mpm.Get("emissiveMap")}
 }
 func (mpm *MeshPhysicalMaterial) SetEmissiveMap(v *Texture) {
-	mpm.Set("emissiveMap", v.Value)
+	mpm.Set("emissiveMap", v.JSValue())
 }
 func (mpm *MeshPhysicalMaterial) EnvMap() *Texture {
 	return &Texture{Value: mpm.Get("envMap")}
 }
 func (mpm *MeshPhysicalMaterial) SetEnvMap(v *Texture) {
-	mpm.Set("envMap", v.Value)
+	mpm.Set("envMap", v.JSValue())
 }
 func (mpm *MeshPhysicalMaterial) EnvMapIntensity() float64 {
 	return mpm.Get("envMapIntensity").Float()
@@ -248,7 +248,7 @@ func (mpm *MeshPhysicalMaterial) LightMap() *Texture {
 	return &Texture{Value: mpm.Get("lightMap")}
 }
 func (mpm *MeshPhysicalMaterial) SetLightMap(v *Texture) {
-	mpm.Set("lightMap", v.Value)
+	mpm.Set("lightMap", v.JSValue())
 }
 func (mpm *MeshPhysicalMaterial) LightMapIntensity() float64 {
 	return mpm.Get("lightMapIntensity").Float()
@@ -266,7 +266,7 @@ func (mpm *MeshPhysicalMaterial) Map() *Texture {
 	return &Texture{Value: mpm.Get("map")}
 }
 func (mpm *MeshPhysicalMaterial) SetMap(v *Texture) {
-	mpm.Set("map", v.Value)
+	mpm.Set("map", v.JSValue())
 }
 func (mpm *MeshPhysicalMaterial) Metalness() float64 {
 	return mpm.Get("metalness").Float()
@@ -278,7 +278,7 @@ func (mpm *MeshPhysicalMaterial) MetalnessMap() *Texture {
 	return &Texture{Value: mpm.Get("metalnessMap")}
 }
 func (mpm *MeshPhysicalMaterial) SetMetalnessMap(v *Texture) {
-	mpm.Set("metalnessMap", v.Value)
+	mpm.Set("metalnessMap", v.JSValue())
 }
 func (mpm *MeshPhysicalMaterial) MorphNormals() bool {
 	return mpm.Get("morphNormals").Bool()
@@ -308,7 +308,7 @@ func (mpm *MeshPhysicalMaterial) NormalMap() *Texture {
 	return &Texture{Value: mpm.Get("normalMap")}
 }
 func (mpm *MeshPhysicalMaterial) SetNormalMap(v *Texture) {
-	mpm.Set("normalMap", v.Value)
+	mpm.Set("normalMap", v.JSValue())
 }
 func (mpm *MeshPhysicalMaterial) NormalMapType() NormalMapTypes {
 	return NormalMapTypes(mpm.Get("normalMapType"))
@@ -386,7 +386,7 @@ func (mpm *MeshPhysicalMaterial) RoughnessMap() *Texture {
 	return &Texture{Value: mpm.Get("roughnessMap")}
 }
 func (mpm *MeshPhysicalMaterial) SetRoughnessMap(v *Texture) {
-	mpm.Set("roughnessMap", v.Value)
+	mpm.Set("roughnessMap", v.JSValue())
 }
 func (mpm *MeshPhysicalMaterial) Side() Side {
 	return Side(mpm.Get("side"))
@@ -473,7 +473,7 @@ func (mpm *MeshPhysicalMaterial) HasEventListener(typ string, listener js.Value)
 	return mpm.Call("hasEventListener", typ, listener).Bool()
 }
 func (mpm *MeshPhysicalMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	mpm.Call("onBeforeCompile", shader, renderer)
+	mpm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (mpm *MeshPhysicalMaterial) RemoveEventListener(typ string, listener js.Value) {
 	mpm.Call("removeEventListener", typ, listener)

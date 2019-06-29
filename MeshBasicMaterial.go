@@ -16,7 +16,7 @@ type MeshBasicMaterial struct {
 	js.Value
 }
 
-func NewMeshBasicMaterial(parameters MeshBasicMaterialParameters) *MeshBasicMaterial {
+func NewMeshBasicMaterial(parameters js.Value) *MeshBasicMaterial {
 	return &MeshBasicMaterial{Value: get("MeshBasicMaterial").New(parameters)}
 }
 func (mbm *MeshBasicMaterial) JSValue() js.Value {
@@ -26,7 +26,7 @@ func (mbm *MeshBasicMaterial) AlphaMap() *Texture {
 	return &Texture{Value: mbm.Get("alphaMap")}
 }
 func (mbm *MeshBasicMaterial) SetAlphaMap(v *Texture) {
-	mbm.Set("alphaMap", v.Value)
+	mbm.Set("alphaMap", v.JSValue())
 }
 func (mbm *MeshBasicMaterial) AlphaTest() float64 {
 	return mbm.Get("alphaTest").Float()
@@ -38,7 +38,7 @@ func (mbm *MeshBasicMaterial) AoMap() *Texture {
 	return &Texture{Value: mbm.Get("aoMap")}
 }
 func (mbm *MeshBasicMaterial) SetAoMap(v *Texture) {
-	mbm.Set("aoMap", v.Value)
+	mbm.Set("aoMap", v.JSValue())
 }
 func (mbm *MeshBasicMaterial) AoMapIntensity() float64 {
 	return mbm.Get("aoMapIntensity").Float()
@@ -110,7 +110,7 @@ func (mbm *MeshBasicMaterial) Color() *Color {
 	return &Color{Value: mbm.Get("color")}
 }
 func (mbm *MeshBasicMaterial) SetColor(v *Color) {
-	mbm.Set("color", v.Value)
+	mbm.Set("color", v.JSValue())
 }
 func (mbm *MeshBasicMaterial) ColorWrite() bool {
 	return mbm.Get("colorWrite").Bool()
@@ -152,7 +152,7 @@ func (mbm *MeshBasicMaterial) EnvMap() *Texture {
 	return &Texture{Value: mbm.Get("envMap")}
 }
 func (mbm *MeshBasicMaterial) SetEnvMap(v *Texture) {
-	mbm.Set("envMap", v.Value)
+	mbm.Set("envMap", v.JSValue())
 }
 func (mbm *MeshBasicMaterial) FlatShading() bool {
 	return mbm.Get("flatShading").Bool()
@@ -188,7 +188,7 @@ func (mbm *MeshBasicMaterial) Map() *Texture {
 	return &Texture{Value: mbm.Get("map")}
 }
 func (mbm *MeshBasicMaterial) SetMap(v *Texture) {
-	mbm.Set("map", v.Value)
+	mbm.Set("map", v.JSValue())
 }
 func (mbm *MeshBasicMaterial) MorphTargets() bool {
 	return mbm.Get("morphTargets").Bool()
@@ -278,7 +278,7 @@ func (mbm *MeshBasicMaterial) SpecularMap() *Texture {
 	return &Texture{Value: mbm.Get("specularMap")}
 }
 func (mbm *MeshBasicMaterial) SetSpecularMap(v *Texture) {
-	mbm.Set("specularMap", v.Value)
+	mbm.Set("specularMap", v.JSValue())
 }
 func (mbm *MeshBasicMaterial) Transparent() bool {
 	return mbm.Get("transparent").Bool()
@@ -349,10 +349,10 @@ func (mbm *MeshBasicMaterial) SetWireframeLinewidth(v float64) {
 func (mbm *MeshBasicMaterial) AddEventListener(typ string, listener js.Value) {
 	mbm.Call("addEventListener", typ, listener)
 }
-func (mbm *MeshBasicMaterial) Clone() *MeshBasicMaterial {
+func (mbm *MeshBasicMaterial) Clone() Material {
 	return &MeshBasicMaterial{Value: mbm.Call("clone")}
 }
-func (mbm *MeshBasicMaterial) Copy(material Material) *MeshBasicMaterial {
+func (mbm *MeshBasicMaterial) Copy(material Material) Material {
 	return &MeshBasicMaterial{Value: mbm.Call("copy", material.JSValue())}
 }
 func (mbm *MeshBasicMaterial) DispatchEvent(event js.Value) {
@@ -365,12 +365,12 @@ func (mbm *MeshBasicMaterial) HasEventListener(typ string, listener js.Value) bo
 	return mbm.Call("hasEventListener", typ, listener).Bool()
 }
 func (mbm *MeshBasicMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	mbm.Call("onBeforeCompile", shader, renderer)
+	mbm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (mbm *MeshBasicMaterial) RemoveEventListener(typ string, listener js.Value) {
 	mbm.Call("removeEventListener", typ, listener)
 }
-func (mbm *MeshBasicMaterial) SetValues(parameters MeshBasicMaterialParameters) {
+func (mbm *MeshBasicMaterial) SetValues(parameters js.Value) {
 	mbm.Call("setValues", parameters)
 }
 func (mbm *MeshBasicMaterial) ToJSON(meta js.Value) js.Value {

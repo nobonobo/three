@@ -14,7 +14,7 @@ type AudioLoader struct {
 }
 
 func NewAudioLoader(manager *LoadingManager) *AudioLoader {
-	return &AudioLoader{Value: get("AudioLoader").New(manager)}
+	return &AudioLoader{Value: get("AudioLoader").New(manager.JSValue())}
 }
 func (al *AudioLoader) JSValue() js.Value {
 	return al.Value

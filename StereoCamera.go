@@ -29,13 +29,13 @@ func (sc *StereoCamera) CameraL() *PerspectiveCamera {
 	return &PerspectiveCamera{Value: sc.Get("cameraL")}
 }
 func (sc *StereoCamera) SetCameraL(v *PerspectiveCamera) {
-	sc.Set("cameraL", v.Value)
+	sc.Set("cameraL", v.JSValue())
 }
 func (sc *StereoCamera) CameraR() *PerspectiveCamera {
 	return &PerspectiveCamera{Value: sc.Get("cameraR")}
 }
 func (sc *StereoCamera) SetCameraR(v *PerspectiveCamera) {
-	sc.Set("cameraR", v.Value)
+	sc.Set("cameraR", v.JSValue())
 }
 func (sc *StereoCamera) CastShadow() bool {
 	return sc.Get("castShadow").Bool()
@@ -83,13 +83,13 @@ func (sc *StereoCamera) Layers() *Layers {
 	return &Layers{Value: sc.Get("layers")}
 }
 func (sc *StereoCamera) SetLayers(v *Layers) {
-	sc.Set("layers", v.Value)
+	sc.Set("layers", v.JSValue())
 }
 func (sc *StereoCamera) Matrix() *Matrix4 {
 	return &Matrix4{Value: sc.Get("matrix")}
 }
 func (sc *StereoCamera) SetMatrix(v *Matrix4) {
-	sc.Set("matrix", v.Value)
+	sc.Set("matrix", v.JSValue())
 }
 func (sc *StereoCamera) MatrixAutoUpdate() bool {
 	return sc.Get("matrixAutoUpdate").Bool()
@@ -101,13 +101,13 @@ func (sc *StereoCamera) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: sc.Get("matrixWorld")}
 }
 func (sc *StereoCamera) SetMatrixWorld(v *Matrix4) {
-	sc.Set("matrixWorld", v.Value)
+	sc.Set("matrixWorld", v.JSValue())
 }
 func (sc *StereoCamera) MatrixWorldInverse() *Matrix4 {
 	return &Matrix4{Value: sc.Get("matrixWorldInverse")}
 }
 func (sc *StereoCamera) SetMatrixWorldInverse(v *Matrix4) {
-	sc.Set("matrixWorldInverse", v.Value)
+	sc.Set("matrixWorldInverse", v.JSValue())
 }
 func (sc *StereoCamera) MatrixWorldNeedsUpdate() bool {
 	return sc.Get("matrixWorldNeedsUpdate").Bool()
@@ -119,7 +119,7 @@ func (sc *StereoCamera) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: sc.Get("modelViewMatrix")}
 }
 func (sc *StereoCamera) SetModelViewMatrix(v *Matrix4) {
-	sc.Set("modelViewMatrix", v.Value)
+	sc.Set("modelViewMatrix", v.JSValue())
 }
 func (sc *StereoCamera) Name() string {
 	return sc.Get("name").String()
@@ -131,7 +131,7 @@ func (sc *StereoCamera) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: sc.Get("normalMatrix")}
 }
 func (sc *StereoCamera) SetNormalMatrix(v *Matrix3) {
-	sc.Set("normalMatrix", v.Value)
+	sc.Set("normalMatrix", v.JSValue())
 }
 func (sc *StereoCamera) OnAfterRender() js.Value {
 	return sc.Get("onAfterRender")
@@ -149,25 +149,25 @@ func (sc *StereoCamera) Parent() *Object3D {
 	return &Object3D{Value: sc.Get("parent")}
 }
 func (sc *StereoCamera) SetParent(v *Object3D) {
-	sc.Set("parent", v.Value)
+	sc.Set("parent", v.JSValue())
 }
 func (sc *StereoCamera) Position() *Vector3 {
 	return &Vector3{Value: sc.Get("position")}
 }
 func (sc *StereoCamera) SetPosition(v *Vector3) {
-	sc.Set("position", v.Value)
+	sc.Set("position", v.JSValue())
 }
 func (sc *StereoCamera) ProjectionMatrix() *Matrix4 {
 	return &Matrix4{Value: sc.Get("projectionMatrix")}
 }
 func (sc *StereoCamera) SetProjectionMatrix(v *Matrix4) {
-	sc.Set("projectionMatrix", v.Value)
+	sc.Set("projectionMatrix", v.JSValue())
 }
 func (sc *StereoCamera) Quaternion() *Quaternion {
 	return &Quaternion{Value: sc.Get("quaternion")}
 }
 func (sc *StereoCamera) SetQuaternion(v *Quaternion) {
-	sc.Set("quaternion", v.Value)
+	sc.Set("quaternion", v.JSValue())
 }
 func (sc *StereoCamera) ReceiveShadow() bool {
 	return sc.Get("receiveShadow").Bool()
@@ -185,13 +185,13 @@ func (sc *StereoCamera) Rotation() *Euler {
 	return &Euler{Value: sc.Get("rotation")}
 }
 func (sc *StereoCamera) SetRotation(v *Euler) {
-	sc.Set("rotation", v.Value)
+	sc.Set("rotation", v.JSValue())
 }
 func (sc *StereoCamera) Scale() *Vector3 {
 	return &Vector3{Value: sc.Get("scale")}
 }
 func (sc *StereoCamera) SetScale(v *Vector3) {
-	sc.Set("scale", v.Value)
+	sc.Set("scale", v.JSValue())
 }
 func (sc *StereoCamera) Type() string {
 	return sc.Get("type").String()
@@ -203,7 +203,7 @@ func (sc *StereoCamera) Up() *Vector3 {
 	return &Vector3{Value: sc.Get("up")}
 }
 func (sc *StereoCamera) SetUp(v *Vector3) {
-	sc.Set("up", v.Value)
+	sc.Set("up", v.JSValue())
 }
 func (sc *StereoCamera) UserData() js.Value {
 	return sc.Get("userData")
@@ -233,7 +233,7 @@ func (sc *StereoCamera) DefaultUp() *Vector3 {
 	return &Vector3{Value: sc.Get("DefaultUp")}
 }
 func (sc *StereoCamera) SetDefaultUp(v *Vector3) {
-	sc.Set("DefaultUp", v.Value)
+	sc.Set("DefaultUp", v.JSValue())
 }
 func (sc *StereoCamera) Add(object js.Value) Camera {
 	return &StereoCamera{Value: sc.Call("add", object)}
@@ -242,7 +242,7 @@ func (sc *StereoCamera) AddEventListener(typ string, listener js.Value) {
 	sc.Call("addEventListener", typ, listener)
 }
 func (sc *StereoCamera) ApplyMatrix(matrix *Matrix4) {
-	sc.Call("applyMatrix", matrix)
+	sc.Call("applyMatrix", matrix.JSValue())
 }
 func (sc *StereoCamera) ApplyQuaternion(quaternion *Quaternion) Camera {
 	return &StereoCamera{Value: sc.Call("applyQuaternion", quaternion)}
@@ -287,7 +287,7 @@ func (sc *StereoCamera) LookAt(vector *Vector3, y float64, z float64) {
 	sc.Call("lookAt", vector, y, z)
 }
 func (sc *StereoCamera) Raycast(raycaster *Raycaster, intersects js.Value) {
-	sc.Call("raycast", raycaster, intersects)
+	sc.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (sc *StereoCamera) Remove(object js.Value) Camera {
 	return &StereoCamera{Value: sc.Call("remove", object)}
@@ -311,16 +311,16 @@ func (sc *StereoCamera) RotateZ(angle float64) Camera {
 	return &StereoCamera{Value: sc.Call("rotateZ", angle)}
 }
 func (sc *StereoCamera) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	sc.Call("setRotationFromAxisAngle", axis, angle)
+	sc.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (sc *StereoCamera) SetRotationFromEuler(euler *Euler) {
-	sc.Call("setRotationFromEuler", euler)
+	sc.Call("setRotationFromEuler", euler.JSValue())
 }
 func (sc *StereoCamera) SetRotationFromMatrix(m *Matrix4) {
-	sc.Call("setRotationFromMatrix", m)
+	sc.Call("setRotationFromMatrix", m.JSValue())
 }
 func (sc *StereoCamera) SetRotationFromQuaternion(q *Quaternion) {
-	sc.Call("setRotationFromQuaternion", q)
+	sc.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (sc *StereoCamera) ToJSON(meta js.Value) js.Value {
 	return sc.Call("toJSON", meta)
@@ -347,7 +347,7 @@ func (sc *StereoCamera) TraverseVisible(callback js.Value) {
 	sc.Call("traverseVisible", callback)
 }
 func (sc *StereoCamera) Update(camera *PerspectiveCamera) {
-	sc.Call("update", camera)
+	sc.Call("update", camera.JSValue())
 }
 func (sc *StereoCamera) UpdateMatrix() {
 	sc.Call("updateMatrix")

@@ -14,7 +14,7 @@ type ImageLoader struct {
 }
 
 func NewImageLoader(manager *LoadingManager) *ImageLoader {
-	return &ImageLoader{Value: get("ImageLoader").New(manager)}
+	return &ImageLoader{Value: get("ImageLoader").New(manager.JSValue())}
 }
 func (il *ImageLoader) JSValue() js.Value {
 	return il.Value
@@ -29,7 +29,7 @@ func (il *ImageLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: il.Get("manager")}
 }
 func (il *ImageLoader) SetManager(v *LoadingManager) {
-	il.Set("manager", v.Value)
+	il.Set("manager", v.JSValue())
 }
 func (il *ImageLoader) Path() string {
 	return il.Get("path").String()

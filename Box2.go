@@ -14,7 +14,7 @@ type Box2 struct {
 }
 
 func NewBox2(min *Vector2, max *Vector2) *Box2 {
-	return &Box2{Value: get("Box2").New(min, max)}
+	return &Box2{Value: get("Box2").New(min.JSValue(), max.JSValue())}
 }
 func (bb *Box2) JSValue() js.Value {
 	return bb.Value
@@ -23,13 +23,13 @@ func (bb *Box2) Max() *Vector2 {
 	return &Vector2{Value: bb.Get("max")}
 }
 func (bb *Box2) SetMax(v *Vector2) {
-	bb.Set("max", v.Value)
+	bb.Set("max", v.JSValue())
 }
 func (bb *Box2) Min() *Vector2 {
 	return &Vector2{Value: bb.Get("min")}
 }
 func (bb *Box2) SetMin(v *Vector2) {
-	bb.Set("min", v.Value)
+	bb.Set("min", v.JSValue())
 }
 func (bb *Box2) ClampPoint(point *Vector2, target *Vector2) *Vector2 {
 	return &Vector2{Value: bb.Call("clampPoint", point, target)}

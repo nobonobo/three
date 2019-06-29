@@ -168,13 +168,13 @@ func (cc *CameraImpl) Layers() *Layers {
 	return &Layers{Value: cc.Get("layers")}
 }
 func (cc *CameraImpl) SetLayers(v *Layers) {
-	cc.Set("layers", v.Value)
+	cc.Set("layers", v.JSValue())
 }
 func (cc *CameraImpl) Matrix() *Matrix4 {
 	return &Matrix4{Value: cc.Get("matrix")}
 }
 func (cc *CameraImpl) SetMatrix(v *Matrix4) {
-	cc.Set("matrix", v.Value)
+	cc.Set("matrix", v.JSValue())
 }
 func (cc *CameraImpl) MatrixAutoUpdate() bool {
 	return cc.Get("matrixAutoUpdate").Bool()
@@ -186,13 +186,13 @@ func (cc *CameraImpl) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: cc.Get("matrixWorld")}
 }
 func (cc *CameraImpl) SetMatrixWorld(v *Matrix4) {
-	cc.Set("matrixWorld", v.Value)
+	cc.Set("matrixWorld", v.JSValue())
 }
 func (cc *CameraImpl) MatrixWorldInverse() *Matrix4 {
 	return &Matrix4{Value: cc.Get("matrixWorldInverse")}
 }
 func (cc *CameraImpl) SetMatrixWorldInverse(v *Matrix4) {
-	cc.Set("matrixWorldInverse", v.Value)
+	cc.Set("matrixWorldInverse", v.JSValue())
 }
 func (cc *CameraImpl) MatrixWorldNeedsUpdate() bool {
 	return cc.Get("matrixWorldNeedsUpdate").Bool()
@@ -204,7 +204,7 @@ func (cc *CameraImpl) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: cc.Get("modelViewMatrix")}
 }
 func (cc *CameraImpl) SetModelViewMatrix(v *Matrix4) {
-	cc.Set("modelViewMatrix", v.Value)
+	cc.Set("modelViewMatrix", v.JSValue())
 }
 func (cc *CameraImpl) Name() string {
 	return cc.Get("name").String()
@@ -216,7 +216,7 @@ func (cc *CameraImpl) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: cc.Get("normalMatrix")}
 }
 func (cc *CameraImpl) SetNormalMatrix(v *Matrix3) {
-	cc.Set("normalMatrix", v.Value)
+	cc.Set("normalMatrix", v.JSValue())
 }
 func (cc *CameraImpl) OnAfterRender() js.Value {
 	return cc.Get("onAfterRender")
@@ -234,25 +234,25 @@ func (cc *CameraImpl) Parent() *Object3D {
 	return &Object3D{Value: cc.Get("parent")}
 }
 func (cc *CameraImpl) SetParent(v *Object3D) {
-	cc.Set("parent", v.Value)
+	cc.Set("parent", v.JSValue())
 }
 func (cc *CameraImpl) Position() *Vector3 {
 	return &Vector3{Value: cc.Get("position")}
 }
 func (cc *CameraImpl) SetPosition(v *Vector3) {
-	cc.Set("position", v.Value)
+	cc.Set("position", v.JSValue())
 }
 func (cc *CameraImpl) ProjectionMatrix() *Matrix4 {
 	return &Matrix4{Value: cc.Get("projectionMatrix")}
 }
 func (cc *CameraImpl) SetProjectionMatrix(v *Matrix4) {
-	cc.Set("projectionMatrix", v.Value)
+	cc.Set("projectionMatrix", v.JSValue())
 }
 func (cc *CameraImpl) Quaternion() *Quaternion {
 	return &Quaternion{Value: cc.Get("quaternion")}
 }
 func (cc *CameraImpl) SetQuaternion(v *Quaternion) {
-	cc.Set("quaternion", v.Value)
+	cc.Set("quaternion", v.JSValue())
 }
 func (cc *CameraImpl) ReceiveShadow() bool {
 	return cc.Get("receiveShadow").Bool()
@@ -270,13 +270,13 @@ func (cc *CameraImpl) Rotation() *Euler {
 	return &Euler{Value: cc.Get("rotation")}
 }
 func (cc *CameraImpl) SetRotation(v *Euler) {
-	cc.Set("rotation", v.Value)
+	cc.Set("rotation", v.JSValue())
 }
 func (cc *CameraImpl) Scale() *Vector3 {
 	return &Vector3{Value: cc.Get("scale")}
 }
 func (cc *CameraImpl) SetScale(v *Vector3) {
-	cc.Set("scale", v.Value)
+	cc.Set("scale", v.JSValue())
 }
 func (cc *CameraImpl) Type() string {
 	return cc.Get("type").String()
@@ -288,7 +288,7 @@ func (cc *CameraImpl) Up() *Vector3 {
 	return &Vector3{Value: cc.Get("up")}
 }
 func (cc *CameraImpl) SetUp(v *Vector3) {
-	cc.Set("up", v.Value)
+	cc.Set("up", v.JSValue())
 }
 func (cc *CameraImpl) UserData() js.Value {
 	return cc.Get("userData")
@@ -318,7 +318,7 @@ func (cc *CameraImpl) DefaultUp() *Vector3 {
 	return &Vector3{Value: cc.Get("DefaultUp")}
 }
 func (cc *CameraImpl) SetDefaultUp(v *Vector3) {
-	cc.Set("DefaultUp", v.Value)
+	cc.Set("DefaultUp", v.JSValue())
 }
 func (cc *CameraImpl) Add(object js.Value) Camera {
 	return &CameraImpl{Value: cc.Call("add", object)}
@@ -327,7 +327,7 @@ func (cc *CameraImpl) AddEventListener(typ string, listener js.Value) {
 	cc.Call("addEventListener", typ, listener)
 }
 func (cc *CameraImpl) ApplyMatrix(matrix *Matrix4) {
-	cc.Call("applyMatrix", matrix)
+	cc.Call("applyMatrix", matrix.JSValue())
 }
 func (cc *CameraImpl) ApplyQuaternion(quaternion *Quaternion) Camera {
 	return &CameraImpl{Value: cc.Call("applyQuaternion", quaternion)}
@@ -372,7 +372,7 @@ func (cc *CameraImpl) LookAt(vector *Vector3, y float64, z float64) {
 	cc.Call("lookAt", vector, y, z)
 }
 func (cc *CameraImpl) Raycast(raycaster *Raycaster, intersects js.Value) {
-	cc.Call("raycast", raycaster, intersects)
+	cc.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (cc *CameraImpl) Remove(object js.Value) Camera {
 	return &CameraImpl{Value: cc.Call("remove", object)}
@@ -396,16 +396,16 @@ func (cc *CameraImpl) RotateZ(angle float64) Camera {
 	return &CameraImpl{Value: cc.Call("rotateZ", angle)}
 }
 func (cc *CameraImpl) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	cc.Call("setRotationFromAxisAngle", axis, angle)
+	cc.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (cc *CameraImpl) SetRotationFromEuler(euler *Euler) {
-	cc.Call("setRotationFromEuler", euler)
+	cc.Call("setRotationFromEuler", euler.JSValue())
 }
 func (cc *CameraImpl) SetRotationFromMatrix(m *Matrix4) {
-	cc.Call("setRotationFromMatrix", m)
+	cc.Call("setRotationFromMatrix", m.JSValue())
 }
 func (cc *CameraImpl) SetRotationFromQuaternion(q *Quaternion) {
-	cc.Call("setRotationFromQuaternion", q)
+	cc.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (cc *CameraImpl) ToJSON(meta js.Value) js.Value {
 	return cc.Call("toJSON", meta)

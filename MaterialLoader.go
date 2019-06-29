@@ -14,7 +14,7 @@ type MaterialLoader struct {
 }
 
 func NewMaterialLoader(manager *LoadingManager) *MaterialLoader {
-	return &MaterialLoader{Value: get("MaterialLoader").New(manager)}
+	return &MaterialLoader{Value: get("MaterialLoader").New(manager.JSValue())}
 }
 func (ml *MaterialLoader) JSValue() js.Value {
 	return ml.Value
@@ -23,7 +23,7 @@ func (ml *MaterialLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: ml.Get("manager")}
 }
 func (ml *MaterialLoader) SetManager(v *LoadingManager) {
-	ml.Set("manager", v.Value)
+	ml.Set("manager", v.JSValue())
 }
 func (ml *MaterialLoader) Textures() js.Value {
 	return ml.Get("textures")

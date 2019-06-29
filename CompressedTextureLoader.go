@@ -14,7 +14,7 @@ type CompressedTextureLoader struct {
 }
 
 func NewCompressedTextureLoader(manager *LoadingManager) *CompressedTextureLoader {
-	return &CompressedTextureLoader{Value: get("CompressedTextureLoader").New(manager)}
+	return &CompressedTextureLoader{Value: get("CompressedTextureLoader").New(manager.JSValue())}
 }
 func (ctl *CompressedTextureLoader) JSValue() js.Value {
 	return ctl.Value
@@ -23,7 +23,7 @@ func (ctl *CompressedTextureLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: ctl.Get("manager")}
 }
 func (ctl *CompressedTextureLoader) SetManager(v *LoadingManager) {
-	ctl.Set("manager", v.Value)
+	ctl.Set("manager", v.JSValue())
 }
 func (ctl *CompressedTextureLoader) Path() string {
 	return ctl.Get("path").String()

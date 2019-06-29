@@ -92,7 +92,7 @@ func (ldm *LineDashedMaterial) Color() *Color {
 	return &Color{Value: ldm.Get("color")}
 }
 func (ldm *LineDashedMaterial) SetColor(v *Color) {
-	ldm.Set("color", v.Value)
+	ldm.Set("color", v.JSValue())
 }
 func (ldm *LineDashedMaterial) ColorWrite() bool {
 	return ldm.Get("colorWrite").Bool()
@@ -317,7 +317,7 @@ func (ldm *LineDashedMaterial) HasEventListener(typ string, listener js.Value) b
 	return ldm.Call("hasEventListener", typ, listener).Bool()
 }
 func (ldm *LineDashedMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	ldm.Call("onBeforeCompile", shader, renderer)
+	ldm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (ldm *LineDashedMaterial) RemoveEventListener(typ string, listener js.Value) {
 	ldm.Call("removeEventListener", typ, listener)

@@ -14,7 +14,7 @@ type SpotLightHelper struct {
 }
 
 func NewSpotLightHelper(light *Light, color *Color) *SpotLightHelper {
-	return &SpotLightHelper{Value: get("SpotLightHelper").New(light, color)}
+	return &SpotLightHelper{Value: get("SpotLightHelper").New(light.JSValue(), color)}
 }
 func (slh *SpotLightHelper) JSValue() js.Value {
 	return slh.Value
@@ -35,7 +35,7 @@ func (slh *SpotLightHelper) Color() *Color {
 	return &Color{Value: slh.Get("color")}
 }
 func (slh *SpotLightHelper) SetColor(v *Color) {
-	slh.Set("color", v.Value)
+	slh.Set("color", v.JSValue())
 }
 func (slh *SpotLightHelper) FrustumCulled() bool {
 	return slh.Get("frustumCulled").Bool()
@@ -59,19 +59,19 @@ func (slh *SpotLightHelper) Layers() *Layers {
 	return &Layers{Value: slh.Get("layers")}
 }
 func (slh *SpotLightHelper) SetLayers(v *Layers) {
-	slh.Set("layers", v.Value)
+	slh.Set("layers", v.JSValue())
 }
 func (slh *SpotLightHelper) Light() *Light {
 	return &Light{Value: slh.Get("light")}
 }
 func (slh *SpotLightHelper) SetLight(v *Light) {
-	slh.Set("light", v.Value)
+	slh.Set("light", v.JSValue())
 }
 func (slh *SpotLightHelper) Matrix() *Matrix4 {
 	return &Matrix4{Value: slh.Get("matrix")}
 }
 func (slh *SpotLightHelper) SetMatrix(v *Matrix4) {
-	slh.Set("matrix", v.Value)
+	slh.Set("matrix", v.JSValue())
 }
 func (slh *SpotLightHelper) MatrixAutoUpdate() bool {
 	return slh.Get("matrixAutoUpdate").Bool()
@@ -83,7 +83,7 @@ func (slh *SpotLightHelper) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: slh.Get("matrixWorld")}
 }
 func (slh *SpotLightHelper) SetMatrixWorld(v *Matrix4) {
-	slh.Set("matrixWorld", v.Value)
+	slh.Set("matrixWorld", v.JSValue())
 }
 func (slh *SpotLightHelper) MatrixWorldNeedsUpdate() bool {
 	return slh.Get("matrixWorldNeedsUpdate").Bool()
@@ -95,7 +95,7 @@ func (slh *SpotLightHelper) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: slh.Get("modelViewMatrix")}
 }
 func (slh *SpotLightHelper) SetModelViewMatrix(v *Matrix4) {
-	slh.Set("modelViewMatrix", v.Value)
+	slh.Set("modelViewMatrix", v.JSValue())
 }
 func (slh *SpotLightHelper) Name() string {
 	return slh.Get("name").String()
@@ -107,7 +107,7 @@ func (slh *SpotLightHelper) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: slh.Get("normalMatrix")}
 }
 func (slh *SpotLightHelper) SetNormalMatrix(v *Matrix3) {
-	slh.Set("normalMatrix", v.Value)
+	slh.Set("normalMatrix", v.JSValue())
 }
 func (slh *SpotLightHelper) OnAfterRender() js.Value {
 	return slh.Get("onAfterRender")
@@ -125,19 +125,19 @@ func (slh *SpotLightHelper) Parent() *Object3D {
 	return &Object3D{Value: slh.Get("parent")}
 }
 func (slh *SpotLightHelper) SetParent(v *Object3D) {
-	slh.Set("parent", v.Value)
+	slh.Set("parent", v.JSValue())
 }
 func (slh *SpotLightHelper) Position() *Vector3 {
 	return &Vector3{Value: slh.Get("position")}
 }
 func (slh *SpotLightHelper) SetPosition(v *Vector3) {
-	slh.Set("position", v.Value)
+	slh.Set("position", v.JSValue())
 }
 func (slh *SpotLightHelper) Quaternion() *Quaternion {
 	return &Quaternion{Value: slh.Get("quaternion")}
 }
 func (slh *SpotLightHelper) SetQuaternion(v *Quaternion) {
-	slh.Set("quaternion", v.Value)
+	slh.Set("quaternion", v.JSValue())
 }
 func (slh *SpotLightHelper) ReceiveShadow() bool {
 	return slh.Get("receiveShadow").Bool()
@@ -155,13 +155,13 @@ func (slh *SpotLightHelper) Rotation() *Euler {
 	return &Euler{Value: slh.Get("rotation")}
 }
 func (slh *SpotLightHelper) SetRotation(v *Euler) {
-	slh.Set("rotation", v.Value)
+	slh.Set("rotation", v.JSValue())
 }
 func (slh *SpotLightHelper) Scale() *Vector3 {
 	return &Vector3{Value: slh.Get("scale")}
 }
 func (slh *SpotLightHelper) SetScale(v *Vector3) {
-	slh.Set("scale", v.Value)
+	slh.Set("scale", v.JSValue())
 }
 func (slh *SpotLightHelper) Type() string {
 	return slh.Get("type").String()
@@ -173,7 +173,7 @@ func (slh *SpotLightHelper) Up() *Vector3 {
 	return &Vector3{Value: slh.Get("up")}
 }
 func (slh *SpotLightHelper) SetUp(v *Vector3) {
-	slh.Set("up", v.Value)
+	slh.Set("up", v.JSValue())
 }
 func (slh *SpotLightHelper) UserData() js.Value {
 	return slh.Get("userData")
@@ -203,7 +203,7 @@ func (slh *SpotLightHelper) DefaultUp() *Vector3 {
 	return &Vector3{Value: slh.Get("DefaultUp")}
 }
 func (slh *SpotLightHelper) SetDefaultUp(v *Vector3) {
-	slh.Set("DefaultUp", v.Value)
+	slh.Set("DefaultUp", v.JSValue())
 }
 func (slh *SpotLightHelper) Add(object js.Value) *SpotLightHelper {
 	return &SpotLightHelper{Value: slh.Call("add", object)}
@@ -212,7 +212,7 @@ func (slh *SpotLightHelper) AddEventListener(typ string, listener js.Value) {
 	slh.Call("addEventListener", typ, listener)
 }
 func (slh *SpotLightHelper) ApplyMatrix(matrix *Matrix4) {
-	slh.Call("applyMatrix", matrix)
+	slh.Call("applyMatrix", matrix.JSValue())
 }
 func (slh *SpotLightHelper) ApplyQuaternion(quaternion *Quaternion) *SpotLightHelper {
 	return &SpotLightHelper{Value: slh.Call("applyQuaternion", quaternion)}
@@ -260,7 +260,7 @@ func (slh *SpotLightHelper) LookAt(vector *Vector3, y float64, z float64) {
 	slh.Call("lookAt", vector, y, z)
 }
 func (slh *SpotLightHelper) Raycast(raycaster *Raycaster, intersects js.Value) {
-	slh.Call("raycast", raycaster, intersects)
+	slh.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (slh *SpotLightHelper) Remove(object js.Value) *SpotLightHelper {
 	return &SpotLightHelper{Value: slh.Call("remove", object)}
@@ -284,16 +284,16 @@ func (slh *SpotLightHelper) RotateZ(angle float64) *SpotLightHelper {
 	return &SpotLightHelper{Value: slh.Call("rotateZ", angle)}
 }
 func (slh *SpotLightHelper) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	slh.Call("setRotationFromAxisAngle", axis, angle)
+	slh.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (slh *SpotLightHelper) SetRotationFromEuler(euler *Euler) {
-	slh.Call("setRotationFromEuler", euler)
+	slh.Call("setRotationFromEuler", euler.JSValue())
 }
 func (slh *SpotLightHelper) SetRotationFromMatrix(m *Matrix4) {
-	slh.Call("setRotationFromMatrix", m)
+	slh.Call("setRotationFromMatrix", m.JSValue())
 }
 func (slh *SpotLightHelper) SetRotationFromQuaternion(q *Quaternion) {
-	slh.Call("setRotationFromQuaternion", q)
+	slh.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (slh *SpotLightHelper) ToJSON(meta js.Value) js.Value {
 	return slh.Call("toJSON", meta)

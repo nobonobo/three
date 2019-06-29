@@ -21,7 +21,7 @@ type JSONLoader struct {
 }
 
 func NewJSONLoader(manager *LoadingManager) *JSONLoader {
-	return &JSONLoader{Value: get("JSONLoader").New(manager)}
+	return &JSONLoader{Value: get("JSONLoader").New(manager.JSValue())}
 }
 func (jsonl *JSONLoader) JSValue() js.Value {
 	return jsonl.Value
@@ -36,7 +36,7 @@ func (jsonl *JSONLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: jsonl.Get("manager")}
 }
 func (jsonl *JSONLoader) SetManager(v *LoadingManager) {
-	jsonl.Set("manager", v.Value)
+	jsonl.Set("manager", v.JSValue())
 }
 func (jsonl *JSONLoader) OnLoadComplete() js.Value {
 	return jsonl.Get("onLoadComplete")

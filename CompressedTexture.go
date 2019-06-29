@@ -29,7 +29,7 @@ func (ct *CompressedTexture) Center() *Vector2 {
 	return &Vector2{Value: ct.Get("center")}
 }
 func (ct *CompressedTexture) SetCenter(v *Vector2) {
-	ct.Set("center", v.Value)
+	ct.Set("center", v.JSValue())
 }
 func (ct *CompressedTexture) Encoding() TextureEncoding {
 	return TextureEncoding(ct.Get("encoding"))
@@ -107,7 +107,7 @@ func (ct *CompressedTexture) Offset() *Vector2 {
 	return &Vector2{Value: ct.Get("offset")}
 }
 func (ct *CompressedTexture) SetOffset(v *Vector2) {
-	ct.Set("offset", v.Value)
+	ct.Set("offset", v.JSValue())
 }
 func (ct *CompressedTexture) OnUpdate() js.Value {
 	return ct.Get("onUpdate")
@@ -125,7 +125,7 @@ func (ct *CompressedTexture) Repeat() *Vector2 {
 	return &Vector2{Value: ct.Get("repeat")}
 }
 func (ct *CompressedTexture) SetRepeat(v *Vector2) {
-	ct.Set("repeat", v.Value)
+	ct.Set("repeat", v.JSValue())
 }
 func (ct *CompressedTexture) Rotation() float64 {
 	return ct.Get("rotation").Float()

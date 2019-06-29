@@ -14,7 +14,7 @@ type Plane struct {
 }
 
 func NewPlane(normal *Vector3, constant float64) *Plane {
-	return &Plane{Value: get("Plane").New(normal, constant)}
+	return &Plane{Value: get("Plane").New(normal.JSValue(), constant)}
 }
 func (pp *Plane) JSValue() js.Value {
 	return pp.Value
@@ -29,7 +29,7 @@ func (pp *Plane) Normal() *Vector3 {
 	return &Vector3{Value: pp.Get("normal")}
 }
 func (pp *Plane) SetNormal(v *Vector3) {
-	pp.Set("normal", v.Value)
+	pp.Set("normal", v.JSValue())
 }
 func (pp *Plane) ApplyMatrix4(matrix *Matrix4, optionalNormalMatrix *Matrix3) *Plane {
 	return &Plane{Value: pp.Call("applyMatrix4", matrix, optionalNormalMatrix)}

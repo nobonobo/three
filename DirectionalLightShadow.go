@@ -29,7 +29,7 @@ func (dls *DirectionalLightShadow) Camera() *OrthographicCamera {
 	return &OrthographicCamera{Value: dls.Get("camera")}
 }
 func (dls *DirectionalLightShadow) SetCamera(v *OrthographicCamera) {
-	dls.Set("camera", v.Value)
+	dls.Set("camera", v.JSValue())
 }
 func (dls *DirectionalLightShadow) Map() js.Value {
 	return dls.Get("map")
@@ -41,13 +41,13 @@ func (dls *DirectionalLightShadow) MapSize() *Vector2 {
 	return &Vector2{Value: dls.Get("mapSize")}
 }
 func (dls *DirectionalLightShadow) SetMapSize(v *Vector2) {
-	dls.Set("mapSize", v.Value)
+	dls.Set("mapSize", v.JSValue())
 }
 func (dls *DirectionalLightShadow) Matrix() *Matrix4 {
 	return &Matrix4{Value: dls.Get("matrix")}
 }
 func (dls *DirectionalLightShadow) SetMatrix(v *Matrix4) {
-	dls.Set("matrix", v.Value)
+	dls.Set("matrix", v.JSValue())
 }
 func (dls *DirectionalLightShadow) Radius() float64 {
 	return dls.Get("radius").Float()

@@ -14,7 +14,7 @@ type Frustum struct {
 }
 
 func NewFrustum(p0 *Plane, p1 *Plane, p2 *Plane, p3 *Plane, p4 *Plane, p5 *Plane) *Frustum {
-	return &Frustum{Value: get("Frustum").New(p0, p1, p2, p3, p4, p5)}
+	return &Frustum{Value: get("Frustum").New(p0.JSValue(), p1.JSValue(), p2.JSValue(), p3.JSValue(), p4.JSValue(), p5.JSValue())}
 }
 func (ff *Frustum) JSValue() js.Value {
 	return ff.Value

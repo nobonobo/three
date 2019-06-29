@@ -19,7 +19,7 @@ type Raycaster struct {
 }
 
 func NewRaycaster(origin *Vector3, direction *Vector3, near float64, far float64) *Raycaster {
-	return &Raycaster{Value: get("Raycaster").New(origin, direction, near, far)}
+	return &Raycaster{Value: get("Raycaster").New(origin.JSValue(), direction.JSValue(), near, far)}
 }
 func (rr *Raycaster) JSValue() js.Value {
 	return rr.Value
@@ -52,7 +52,7 @@ func (rr *Raycaster) Ray() *Ray {
 	return &Ray{Value: rr.Get("ray")}
 }
 func (rr *Raycaster) SetRay(v *Ray) {
-	rr.Set("ray", v.Value)
+	rr.Set("ray", v.JSValue())
 }
 func (rr *Raycaster) IntersectObject(object *Object3D, recursive bool, optionalTarget js.Value) js.Value {
 	return rr.Call("intersectObject", object, recursive, optionalTarget)
@@ -61,7 +61,7 @@ func (rr *Raycaster) IntersectObjects(objects js.Value, recursive bool, optional
 	return rr.Call("intersectObjects", objects, recursive, optionalTarget)
 }
 func (rr *Raycaster) Set2(origin *Vector3, direction *Vector3) {
-	rr.Call("set", origin, direction)
+	rr.Call("set", origin.JSValue(), direction.JSValue())
 }
 func (rr *Raycaster) SetFromCamera(coords js.Value, camera Camera) {
 	rr.Call("setFromCamera", coords, camera.JSValue())

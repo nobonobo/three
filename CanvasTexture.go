@@ -29,7 +29,7 @@ func (ct *CanvasTexture) Center() *Vector2 {
 	return &Vector2{Value: ct.Get("center")}
 }
 func (ct *CanvasTexture) SetCenter(v *Vector2) {
-	ct.Set("center", v.Value)
+	ct.Set("center", v.JSValue())
 }
 func (ct *CanvasTexture) Encoding() TextureEncoding {
 	return TextureEncoding(ct.Get("encoding"))
@@ -107,7 +107,7 @@ func (ct *CanvasTexture) Offset() *Vector2 {
 	return &Vector2{Value: ct.Get("offset")}
 }
 func (ct *CanvasTexture) SetOffset(v *Vector2) {
-	ct.Set("offset", v.Value)
+	ct.Set("offset", v.JSValue())
 }
 func (ct *CanvasTexture) OnUpdate() js.Value {
 	return ct.Get("onUpdate")
@@ -125,7 +125,7 @@ func (ct *CanvasTexture) Repeat() *Vector2 {
 	return &Vector2{Value: ct.Get("repeat")}
 }
 func (ct *CanvasTexture) SetRepeat(v *Vector2) {
-	ct.Set("repeat", v.Value)
+	ct.Set("repeat", v.JSValue())
 }
 func (ct *CanvasTexture) Rotation() float64 {
 	return ct.Get("rotation").Float()

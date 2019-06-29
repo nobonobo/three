@@ -22,7 +22,7 @@ type FileLoader struct {
 }
 
 func NewFileLoader(manager *LoadingManager) *FileLoader {
-	return &FileLoader{Value: get("FileLoader").New(manager)}
+	return &FileLoader{Value: get("FileLoader").New(manager.JSValue())}
 }
 func (fl *FileLoader) JSValue() js.Value {
 	return fl.Value
@@ -31,7 +31,7 @@ func (fl *FileLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: fl.Get("manager")}
 }
 func (fl *FileLoader) SetManager(v *LoadingManager) {
-	fl.Set("manager", v.Value)
+	fl.Set("manager", v.JSValue())
 }
 func (fl *FileLoader) MimeType() js.Value {
 	return fl.Get("mimeType")

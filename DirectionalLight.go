@@ -35,7 +35,7 @@ func (dl *DirectionalLight) Color() *Color {
 	return &Color{Value: dl.Get("color")}
 }
 func (dl *DirectionalLight) SetColor(v *Color) {
-	dl.Set("color", v.Value)
+	dl.Set("color", v.JSValue())
 }
 func (dl *DirectionalLight) FrustumCulled() bool {
 	return dl.Get("frustumCulled").Bool()
@@ -71,13 +71,13 @@ func (dl *DirectionalLight) Layers() *Layers {
 	return &Layers{Value: dl.Get("layers")}
 }
 func (dl *DirectionalLight) SetLayers(v *Layers) {
-	dl.Set("layers", v.Value)
+	dl.Set("layers", v.JSValue())
 }
 func (dl *DirectionalLight) Matrix() *Matrix4 {
 	return &Matrix4{Value: dl.Get("matrix")}
 }
 func (dl *DirectionalLight) SetMatrix(v *Matrix4) {
-	dl.Set("matrix", v.Value)
+	dl.Set("matrix", v.JSValue())
 }
 func (dl *DirectionalLight) MatrixAutoUpdate() bool {
 	return dl.Get("matrixAutoUpdate").Bool()
@@ -89,7 +89,7 @@ func (dl *DirectionalLight) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: dl.Get("matrixWorld")}
 }
 func (dl *DirectionalLight) SetMatrixWorld(v *Matrix4) {
-	dl.Set("matrixWorld", v.Value)
+	dl.Set("matrixWorld", v.JSValue())
 }
 func (dl *DirectionalLight) MatrixWorldNeedsUpdate() bool {
 	return dl.Get("matrixWorldNeedsUpdate").Bool()
@@ -101,7 +101,7 @@ func (dl *DirectionalLight) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: dl.Get("modelViewMatrix")}
 }
 func (dl *DirectionalLight) SetModelViewMatrix(v *Matrix4) {
-	dl.Set("modelViewMatrix", v.Value)
+	dl.Set("modelViewMatrix", v.JSValue())
 }
 func (dl *DirectionalLight) Name() string {
 	return dl.Get("name").String()
@@ -113,7 +113,7 @@ func (dl *DirectionalLight) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: dl.Get("normalMatrix")}
 }
 func (dl *DirectionalLight) SetNormalMatrix(v *Matrix3) {
-	dl.Set("normalMatrix", v.Value)
+	dl.Set("normalMatrix", v.JSValue())
 }
 func (dl *DirectionalLight) OnAfterRender() js.Value {
 	return dl.Get("onAfterRender")
@@ -131,19 +131,19 @@ func (dl *DirectionalLight) Parent() *Object3D {
 	return &Object3D{Value: dl.Get("parent")}
 }
 func (dl *DirectionalLight) SetParent(v *Object3D) {
-	dl.Set("parent", v.Value)
+	dl.Set("parent", v.JSValue())
 }
 func (dl *DirectionalLight) Position() *Vector3 {
 	return &Vector3{Value: dl.Get("position")}
 }
 func (dl *DirectionalLight) SetPosition(v *Vector3) {
-	dl.Set("position", v.Value)
+	dl.Set("position", v.JSValue())
 }
 func (dl *DirectionalLight) Quaternion() *Quaternion {
 	return &Quaternion{Value: dl.Get("quaternion")}
 }
 func (dl *DirectionalLight) SetQuaternion(v *Quaternion) {
-	dl.Set("quaternion", v.Value)
+	dl.Set("quaternion", v.JSValue())
 }
 func (dl *DirectionalLight) ReceiveShadow() bool {
 	return dl.Get("receiveShadow").Bool()
@@ -161,19 +161,19 @@ func (dl *DirectionalLight) Rotation() *Euler {
 	return &Euler{Value: dl.Get("rotation")}
 }
 func (dl *DirectionalLight) SetRotation(v *Euler) {
-	dl.Set("rotation", v.Value)
+	dl.Set("rotation", v.JSValue())
 }
 func (dl *DirectionalLight) Scale() *Vector3 {
 	return &Vector3{Value: dl.Get("scale")}
 }
 func (dl *DirectionalLight) SetScale(v *Vector3) {
-	dl.Set("scale", v.Value)
+	dl.Set("scale", v.JSValue())
 }
 func (dl *DirectionalLight) Shadow() *DirectionalLightShadow {
 	return &DirectionalLightShadow{Value: dl.Get("shadow")}
 }
 func (dl *DirectionalLight) SetShadow(v *DirectionalLightShadow) {
-	dl.Set("shadow", v.Value)
+	dl.Set("shadow", v.JSValue())
 }
 func (dl *DirectionalLight) ShadowBias() js.Value {
 	return dl.Get("shadowBias")
@@ -239,7 +239,7 @@ func (dl *DirectionalLight) Target() *Object3D {
 	return &Object3D{Value: dl.Get("target")}
 }
 func (dl *DirectionalLight) SetTarget(v *Object3D) {
-	dl.Set("target", v.Value)
+	dl.Set("target", v.JSValue())
 }
 func (dl *DirectionalLight) Type() string {
 	return dl.Get("type").String()
@@ -251,7 +251,7 @@ func (dl *DirectionalLight) Up() *Vector3 {
 	return &Vector3{Value: dl.Get("up")}
 }
 func (dl *DirectionalLight) SetUp(v *Vector3) {
-	dl.Set("up", v.Value)
+	dl.Set("up", v.JSValue())
 }
 func (dl *DirectionalLight) UserData() js.Value {
 	return dl.Get("userData")
@@ -281,7 +281,7 @@ func (dl *DirectionalLight) DefaultUp() *Vector3 {
 	return &Vector3{Value: dl.Get("DefaultUp")}
 }
 func (dl *DirectionalLight) SetDefaultUp(v *Vector3) {
-	dl.Set("DefaultUp", v.Value)
+	dl.Set("DefaultUp", v.JSValue())
 }
 func (dl *DirectionalLight) Add(object js.Value) *DirectionalLight {
 	return &DirectionalLight{Value: dl.Call("add", object)}
@@ -290,7 +290,7 @@ func (dl *DirectionalLight) AddEventListener(typ string, listener js.Value) {
 	dl.Call("addEventListener", typ, listener)
 }
 func (dl *DirectionalLight) ApplyMatrix(matrix *Matrix4) {
-	dl.Call("applyMatrix", matrix)
+	dl.Call("applyMatrix", matrix.JSValue())
 }
 func (dl *DirectionalLight) ApplyQuaternion(quaternion *Quaternion) *DirectionalLight {
 	return &DirectionalLight{Value: dl.Call("applyQuaternion", quaternion)}
@@ -335,7 +335,7 @@ func (dl *DirectionalLight) LookAt(vector *Vector3, y float64, z float64) {
 	dl.Call("lookAt", vector, y, z)
 }
 func (dl *DirectionalLight) Raycast(raycaster *Raycaster, intersects js.Value) {
-	dl.Call("raycast", raycaster, intersects)
+	dl.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (dl *DirectionalLight) Remove(object js.Value) *DirectionalLight {
 	return &DirectionalLight{Value: dl.Call("remove", object)}
@@ -359,16 +359,16 @@ func (dl *DirectionalLight) RotateZ(angle float64) *DirectionalLight {
 	return &DirectionalLight{Value: dl.Call("rotateZ", angle)}
 }
 func (dl *DirectionalLight) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	dl.Call("setRotationFromAxisAngle", axis, angle)
+	dl.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (dl *DirectionalLight) SetRotationFromEuler(euler *Euler) {
-	dl.Call("setRotationFromEuler", euler)
+	dl.Call("setRotationFromEuler", euler.JSValue())
 }
 func (dl *DirectionalLight) SetRotationFromMatrix(m *Matrix4) {
-	dl.Call("setRotationFromMatrix", m)
+	dl.Call("setRotationFromMatrix", m.JSValue())
 }
 func (dl *DirectionalLight) SetRotationFromQuaternion(q *Quaternion) {
-	dl.Call("setRotationFromQuaternion", q)
+	dl.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (dl *DirectionalLight) ToJSON(meta js.Value) js.Value {
 	return dl.Call("toJSON", meta)

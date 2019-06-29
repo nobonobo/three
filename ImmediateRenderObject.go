@@ -53,7 +53,7 @@ func (iro *ImmediateRenderObject) Layers() *Layers {
 	return &Layers{Value: iro.Get("layers")}
 }
 func (iro *ImmediateRenderObject) SetLayers(v *Layers) {
-	iro.Set("layers", v.Value)
+	iro.Set("layers", v.JSValue())
 }
 func (iro *ImmediateRenderObject) Material() Material {
 	return &MaterialImpl{Value: iro.Get("material")}
@@ -65,7 +65,7 @@ func (iro *ImmediateRenderObject) Matrix() *Matrix4 {
 	return &Matrix4{Value: iro.Get("matrix")}
 }
 func (iro *ImmediateRenderObject) SetMatrix(v *Matrix4) {
-	iro.Set("matrix", v.Value)
+	iro.Set("matrix", v.JSValue())
 }
 func (iro *ImmediateRenderObject) MatrixAutoUpdate() bool {
 	return iro.Get("matrixAutoUpdate").Bool()
@@ -77,7 +77,7 @@ func (iro *ImmediateRenderObject) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: iro.Get("matrixWorld")}
 }
 func (iro *ImmediateRenderObject) SetMatrixWorld(v *Matrix4) {
-	iro.Set("matrixWorld", v.Value)
+	iro.Set("matrixWorld", v.JSValue())
 }
 func (iro *ImmediateRenderObject) MatrixWorldNeedsUpdate() bool {
 	return iro.Get("matrixWorldNeedsUpdate").Bool()
@@ -89,7 +89,7 @@ func (iro *ImmediateRenderObject) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: iro.Get("modelViewMatrix")}
 }
 func (iro *ImmediateRenderObject) SetModelViewMatrix(v *Matrix4) {
-	iro.Set("modelViewMatrix", v.Value)
+	iro.Set("modelViewMatrix", v.JSValue())
 }
 func (iro *ImmediateRenderObject) Name() string {
 	return iro.Get("name").String()
@@ -101,7 +101,7 @@ func (iro *ImmediateRenderObject) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: iro.Get("normalMatrix")}
 }
 func (iro *ImmediateRenderObject) SetNormalMatrix(v *Matrix3) {
-	iro.Set("normalMatrix", v.Value)
+	iro.Set("normalMatrix", v.JSValue())
 }
 func (iro *ImmediateRenderObject) OnAfterRender() js.Value {
 	return iro.Get("onAfterRender")
@@ -119,19 +119,19 @@ func (iro *ImmediateRenderObject) Parent() *Object3D {
 	return &Object3D{Value: iro.Get("parent")}
 }
 func (iro *ImmediateRenderObject) SetParent(v *Object3D) {
-	iro.Set("parent", v.Value)
+	iro.Set("parent", v.JSValue())
 }
 func (iro *ImmediateRenderObject) Position() *Vector3 {
 	return &Vector3{Value: iro.Get("position")}
 }
 func (iro *ImmediateRenderObject) SetPosition(v *Vector3) {
-	iro.Set("position", v.Value)
+	iro.Set("position", v.JSValue())
 }
 func (iro *ImmediateRenderObject) Quaternion() *Quaternion {
 	return &Quaternion{Value: iro.Get("quaternion")}
 }
 func (iro *ImmediateRenderObject) SetQuaternion(v *Quaternion) {
-	iro.Set("quaternion", v.Value)
+	iro.Set("quaternion", v.JSValue())
 }
 func (iro *ImmediateRenderObject) ReceiveShadow() bool {
 	return iro.Get("receiveShadow").Bool()
@@ -149,13 +149,13 @@ func (iro *ImmediateRenderObject) Rotation() *Euler {
 	return &Euler{Value: iro.Get("rotation")}
 }
 func (iro *ImmediateRenderObject) SetRotation(v *Euler) {
-	iro.Set("rotation", v.Value)
+	iro.Set("rotation", v.JSValue())
 }
 func (iro *ImmediateRenderObject) Scale() *Vector3 {
 	return &Vector3{Value: iro.Get("scale")}
 }
 func (iro *ImmediateRenderObject) SetScale(v *Vector3) {
-	iro.Set("scale", v.Value)
+	iro.Set("scale", v.JSValue())
 }
 func (iro *ImmediateRenderObject) Type() string {
 	return iro.Get("type").String()
@@ -167,7 +167,7 @@ func (iro *ImmediateRenderObject) Up() *Vector3 {
 	return &Vector3{Value: iro.Get("up")}
 }
 func (iro *ImmediateRenderObject) SetUp(v *Vector3) {
-	iro.Set("up", v.Value)
+	iro.Set("up", v.JSValue())
 }
 func (iro *ImmediateRenderObject) UserData() js.Value {
 	return iro.Get("userData")
@@ -197,7 +197,7 @@ func (iro *ImmediateRenderObject) DefaultUp() *Vector3 {
 	return &Vector3{Value: iro.Get("DefaultUp")}
 }
 func (iro *ImmediateRenderObject) SetDefaultUp(v *Vector3) {
-	iro.Set("DefaultUp", v.Value)
+	iro.Set("DefaultUp", v.JSValue())
 }
 func (iro *ImmediateRenderObject) Add(object js.Value) *ImmediateRenderObject {
 	return &ImmediateRenderObject{Value: iro.Call("add", object)}
@@ -206,7 +206,7 @@ func (iro *ImmediateRenderObject) AddEventListener(typ string, listener js.Value
 	iro.Call("addEventListener", typ, listener)
 }
 func (iro *ImmediateRenderObject) ApplyMatrix(matrix *Matrix4) {
-	iro.Call("applyMatrix", matrix)
+	iro.Call("applyMatrix", matrix.JSValue())
 }
 func (iro *ImmediateRenderObject) ApplyQuaternion(quaternion *Quaternion) *ImmediateRenderObject {
 	return &ImmediateRenderObject{Value: iro.Call("applyQuaternion", quaternion)}
@@ -251,7 +251,7 @@ func (iro *ImmediateRenderObject) LookAt(vector *Vector3, y float64, z float64) 
 	iro.Call("lookAt", vector, y, z)
 }
 func (iro *ImmediateRenderObject) Raycast(raycaster *Raycaster, intersects js.Value) {
-	iro.Call("raycast", raycaster, intersects)
+	iro.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (iro *ImmediateRenderObject) Remove(object js.Value) *ImmediateRenderObject {
 	return &ImmediateRenderObject{Value: iro.Call("remove", object)}
@@ -278,16 +278,16 @@ func (iro *ImmediateRenderObject) RotateZ(angle float64) *ImmediateRenderObject 
 	return &ImmediateRenderObject{Value: iro.Call("rotateZ", angle)}
 }
 func (iro *ImmediateRenderObject) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	iro.Call("setRotationFromAxisAngle", axis, angle)
+	iro.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (iro *ImmediateRenderObject) SetRotationFromEuler(euler *Euler) {
-	iro.Call("setRotationFromEuler", euler)
+	iro.Call("setRotationFromEuler", euler.JSValue())
 }
 func (iro *ImmediateRenderObject) SetRotationFromMatrix(m *Matrix4) {
-	iro.Call("setRotationFromMatrix", m)
+	iro.Call("setRotationFromMatrix", m.JSValue())
 }
 func (iro *ImmediateRenderObject) SetRotationFromQuaternion(q *Quaternion) {
-	iro.Call("setRotationFromQuaternion", q)
+	iro.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (iro *ImmediateRenderObject) ToJSON(meta js.Value) js.Value {
 	return iro.Call("toJSON", meta)

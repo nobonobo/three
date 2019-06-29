@@ -29,7 +29,7 @@ func (dt *DataTexture) Center() *Vector2 {
 	return &Vector2{Value: dt.Get("center")}
 }
 func (dt *DataTexture) SetCenter(v *Vector2) {
-	dt.Set("center", v.Value)
+	dt.Set("center", v.JSValue())
 }
 func (dt *DataTexture) Encoding() TextureEncoding {
 	return TextureEncoding(dt.Get("encoding"))
@@ -107,7 +107,7 @@ func (dt *DataTexture) Offset() *Vector2 {
 	return &Vector2{Value: dt.Get("offset")}
 }
 func (dt *DataTexture) SetOffset(v *Vector2) {
-	dt.Set("offset", v.Value)
+	dt.Set("offset", v.JSValue())
 }
 func (dt *DataTexture) OnUpdate() js.Value {
 	return dt.Get("onUpdate")
@@ -125,7 +125,7 @@ func (dt *DataTexture) Repeat() *Vector2 {
 	return &Vector2{Value: dt.Get("repeat")}
 }
 func (dt *DataTexture) SetRepeat(v *Vector2) {
-	dt.Set("repeat", v.Value)
+	dt.Set("repeat", v.JSValue())
 }
 func (dt *DataTexture) Rotation() float64 {
 	return dt.Get("rotation").Float()

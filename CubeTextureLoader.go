@@ -14,7 +14,7 @@ type CubeTextureLoader struct {
 }
 
 func NewCubeTextureLoader(manager *LoadingManager) *CubeTextureLoader {
-	return &CubeTextureLoader{Value: get("CubeTextureLoader").New(manager)}
+	return &CubeTextureLoader{Value: get("CubeTextureLoader").New(manager.JSValue())}
 }
 func (ctl *CubeTextureLoader) JSValue() js.Value {
 	return ctl.Value
@@ -29,7 +29,7 @@ func (ctl *CubeTextureLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: ctl.Get("manager")}
 }
 func (ctl *CubeTextureLoader) SetManager(v *LoadingManager) {
-	ctl.Set("manager", v.Value)
+	ctl.Set("manager", v.JSValue())
 }
 func (ctl *CubeTextureLoader) Path() string {
 	return ctl.Get("path").String()

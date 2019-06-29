@@ -706,6 +706,21 @@ func renderInterface(w io.Writer, file *File, name string, klass *Klass) {
 	nsPop()
 }
 
+func getJSWrapped(paramType string , tp *Type) bool {
+	if paramType == "js.Value" {
+		return false
+	}
+	v, ok := InterfaceTypes[paramType]
+	res := ok && v == paramType
+	if tp.Type == "reference" {
+		if d, ok := Links[tp.ID]; ok && (d.EnumType || d.Interface) {
+			return false
+		}
+		return true
+	}
+	return res
+}
+
 func renderKlass(w io.Writer, file *File, name string, klass *Klass) {
 	nsPush(strings.Title(klass.Name))
 	extend := []string{}
@@ -737,7 +752,7 @@ func renderKlass(w io.Writer, file *File, name string, klass *Klass) {
 			paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
 				getName(param.Name), paramType,
 			))
-			if v, ok := InterfaceTypes[paramType]; ok && v == paramType {
+			if getJSWrapped(paramType, param.Type) {
 				params = append(params, getName(param.Name)+".JSValue()")
 			} else {
 				params = append(params, getName(param.Name))
@@ -814,13 +829,11 @@ func renderKlass(w io.Writer, file *File, name string, klass *Klass) {
 			receiverName, name,
 			strings.Title(prop.Name)+setSuffix, paramType,
 		)
-		def, ok := Links[tp.ID]
-		if paramType != "js.Value" && tp.Type == "reference" && (!ok || !def.EnumType) {
-			if _, ok := InterfaceTypes[paramType]; ok {
-				fmt.Fprintf(w, "\t%s.Set(%q, v.JSValue())\n", receiverName, prop.Name)
-			} else {
-				fmt.Fprintf(w, "\t%s.Set(%q, v.Value)\n", receiverName, prop.Name)
-			}
+		if klass.Name=="WebGLState" && prop.Name=="Buffers" {
+			log.Println(paramType, tp, getJSWrapped(paramType, tp))
+		}
+		if getJSWrapped(paramType, tp) {
+			fmt.Fprintf(w, "\t%s.Set(%q, v.JSValue())\n", receiverName, prop.Name)
 		} else {
 			fmt.Fprintf(w, "\t%s.Set(%q, v)\n", receiverName, prop.Name)
 		}
@@ -850,7 +863,7 @@ func renderKlass(w io.Writer, file *File, name string, klass *Klass) {
 				paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
 					getName(param.Name), getKlassParamType(file, klass, param.Type),
 				))
-				if v, ok := InterfaceTypes[paramType]; ok && v == paramType {
+				if getJSWrapped(paramType, param.Type) {
 					params = append(params, getName(param.Name)+".JSValue()")
 				} else {
 					params = append(params, getName(param.Name))

@@ -56,7 +56,7 @@ func (wglr *WebGLRenderer) Capabilities() *WebGLCapabilities {
 	return &WebGLCapabilities{Value: wglr.Get("capabilities")}
 }
 func (wglr *WebGLRenderer) SetCapabilities(v *WebGLCapabilities) {
-	wglr.Set("capabilities", v.Value)
+	wglr.Set("capabilities", v.JSValue())
 }
 func (wglr *WebGLRenderer) ClippingPlanes() js.Value {
 	return wglr.Get("clippingPlanes")
@@ -86,7 +86,7 @@ func (wglr *WebGLRenderer) Extensions() *WebGLExtensions {
 	return &WebGLExtensions{Value: wglr.Get("extensions")}
 }
 func (wglr *WebGLRenderer) SetExtensions(v *WebGLExtensions) {
-	wglr.Set("extensions", v.Value)
+	wglr.Set("extensions", v.JSValue())
 }
 func (wglr *WebGLRenderer) GammaFactor() float64 {
 	return wglr.Get("gammaFactor").Float()
@@ -110,7 +110,7 @@ func (wglr *WebGLRenderer) Info() *WebGLInfo {
 	return &WebGLInfo{Value: wglr.Get("info")}
 }
 func (wglr *WebGLRenderer) SetInfo(v *WebGLInfo) {
-	wglr.Set("info", v.Value)
+	wglr.Set("info", v.JSValue())
 }
 func (wglr *WebGLRenderer) LocalClippingEnabled() bool {
 	return wglr.Get("localClippingEnabled").Bool()
@@ -146,19 +146,19 @@ func (wglr *WebGLRenderer) Properties() *WebGLProperties {
 	return &WebGLProperties{Value: wglr.Get("properties")}
 }
 func (wglr *WebGLRenderer) SetProperties(v *WebGLProperties) {
-	wglr.Set("properties", v.Value)
+	wglr.Set("properties", v.JSValue())
 }
 func (wglr *WebGLRenderer) RenderLists() *WebGLRenderLists {
 	return &WebGLRenderLists{Value: wglr.Get("renderLists")}
 }
 func (wglr *WebGLRenderer) SetRenderLists(v *WebGLRenderLists) {
-	wglr.Set("renderLists", v.Value)
+	wglr.Set("renderLists", v.JSValue())
 }
 func (wglr *WebGLRenderer) ShadowMap() *WebGLShadowMap {
 	return &WebGLShadowMap{Value: wglr.Get("shadowMap")}
 }
 func (wglr *WebGLRenderer) SetShadowMap(v *WebGLShadowMap) {
-	wglr.Set("shadowMap", v.Value)
+	wglr.Set("shadowMap", v.JSValue())
 }
 func (wglr *WebGLRenderer) ShadowMapCullFace() CullFace {
 	return CullFace(wglr.Get("shadowMapCullFace"))
@@ -194,7 +194,7 @@ func (wglr *WebGLRenderer) State() *WebGLState {
 	return &WebGLState{Value: wglr.Get("state")}
 }
 func (wglr *WebGLRenderer) SetState(v *WebGLState) {
-	wglr.Set("state", v.Value)
+	wglr.Set("state", v.JSValue())
 }
 func (wglr *WebGLRenderer) ToneMapping() ToneMapping {
 	return ToneMapping(wglr.Get("toneMapping"))
@@ -236,7 +236,7 @@ func (wglr *WebGLRenderer) ClearStencil() {
 	wglr.Call("clearStencil")
 }
 func (wglr *WebGLRenderer) ClearTarget(renderTarget *WebGLRenderTarget, color bool, depth bool, stencil bool) {
-	wglr.Call("clearTarget", renderTarget, color, depth, stencil)
+	wglr.Call("clearTarget", renderTarget.JSValue(), color, depth, stencil)
 }
 func (wglr *WebGLRenderer) Compile(scene Scene, camera Camera) {
 	wglr.Call("compile", scene.JSValue(), camera.JSValue())
@@ -302,10 +302,10 @@ func (wglr *WebGLRenderer) Render(scene Scene, camera Camera) {
 	wglr.Call("render", scene.JSValue(), camera.JSValue())
 }
 func (wglr *WebGLRenderer) RenderBufferDirect(camera Camera, fog *Fog, material Material, geometryGroup js.Value, object *Object3D) {
-	wglr.Call("renderBufferDirect", camera.JSValue(), fog, material.JSValue(), geometryGroup, object)
+	wglr.Call("renderBufferDirect", camera.JSValue(), fog.JSValue(), material.JSValue(), geometryGroup, object.JSValue())
 }
 func (wglr *WebGLRenderer) RenderBufferImmediate(object *Object3D, program js.Value, material Material) {
-	wglr.Call("renderBufferImmediate", object, program, material.JSValue())
+	wglr.Call("renderBufferImmediate", object.JSValue(), program, material.JSValue())
 }
 func (wglr *WebGLRenderer) ResetGLState() {
 	wglr.Call("resetGLState")
@@ -317,7 +317,7 @@ func (wglr *WebGLRenderer) SetClearAlpha(alpha float64) {
 	wglr.Call("setClearAlpha", alpha)
 }
 func (wglr *WebGLRenderer) SetClearColor(color *Color, alpha float64) {
-	wglr.Call("setClearColor", color, alpha)
+	wglr.Call("setClearColor", color.JSValue(), alpha)
 }
 func (wglr *WebGLRenderer) SetClearColor2(color string, alpha float64) {
 	wglr.Call("setClearColor", color, alpha)

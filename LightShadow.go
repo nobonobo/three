@@ -41,13 +41,13 @@ func (ls *LightShadow) MapSize() *Vector2 {
 	return &Vector2{Value: ls.Get("mapSize")}
 }
 func (ls *LightShadow) SetMapSize(v *Vector2) {
-	ls.Set("mapSize", v.Value)
+	ls.Set("mapSize", v.JSValue())
 }
 func (ls *LightShadow) Matrix() *Matrix4 {
 	return &Matrix4{Value: ls.Get("matrix")}
 }
 func (ls *LightShadow) SetMatrix(v *Matrix4) {
-	ls.Set("matrix", v.Value)
+	ls.Set("matrix", v.JSValue())
 }
 func (ls *LightShadow) Radius() float64 {
 	return ls.Get("radius").Float()

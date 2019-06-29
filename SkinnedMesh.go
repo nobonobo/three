@@ -23,13 +23,13 @@ func (sm *SkinnedMesh) BindMatrix() *Matrix4 {
 	return &Matrix4{Value: sm.Get("bindMatrix")}
 }
 func (sm *SkinnedMesh) SetBindMatrix(v *Matrix4) {
-	sm.Set("bindMatrix", v.Value)
+	sm.Set("bindMatrix", v.JSValue())
 }
 func (sm *SkinnedMesh) BindMatrixInverse() *Matrix4 {
 	return &Matrix4{Value: sm.Get("bindMatrixInverse")}
 }
 func (sm *SkinnedMesh) SetBindMatrixInverse(v *Matrix4) {
-	sm.Set("bindMatrixInverse", v.Value)
+	sm.Set("bindMatrixInverse", v.JSValue())
 }
 func (sm *SkinnedMesh) BindMode() string {
 	return sm.Get("bindMode").String()
@@ -89,7 +89,7 @@ func (sm *SkinnedMesh) Layers() *Layers {
 	return &Layers{Value: sm.Get("layers")}
 }
 func (sm *SkinnedMesh) SetLayers(v *Layers) {
-	sm.Set("layers", v.Value)
+	sm.Set("layers", v.JSValue())
 }
 func (sm *SkinnedMesh) Material() Material {
 	return &MaterialImpl{Value: sm.Get("material")}
@@ -101,7 +101,7 @@ func (sm *SkinnedMesh) Matrix() *Matrix4 {
 	return &Matrix4{Value: sm.Get("matrix")}
 }
 func (sm *SkinnedMesh) SetMatrix(v *Matrix4) {
-	sm.Set("matrix", v.Value)
+	sm.Set("matrix", v.JSValue())
 }
 func (sm *SkinnedMesh) MatrixAutoUpdate() bool {
 	return sm.Get("matrixAutoUpdate").Bool()
@@ -113,7 +113,7 @@ func (sm *SkinnedMesh) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: sm.Get("matrixWorld")}
 }
 func (sm *SkinnedMesh) SetMatrixWorld(v *Matrix4) {
-	sm.Set("matrixWorld", v.Value)
+	sm.Set("matrixWorld", v.JSValue())
 }
 func (sm *SkinnedMesh) MatrixWorldNeedsUpdate() bool {
 	return sm.Get("matrixWorldNeedsUpdate").Bool()
@@ -125,7 +125,7 @@ func (sm *SkinnedMesh) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: sm.Get("modelViewMatrix")}
 }
 func (sm *SkinnedMesh) SetModelViewMatrix(v *Matrix4) {
-	sm.Set("modelViewMatrix", v.Value)
+	sm.Set("modelViewMatrix", v.JSValue())
 }
 func (sm *SkinnedMesh) MorphTargetDictionary() js.Value {
 	return sm.Get("morphTargetDictionary")
@@ -149,7 +149,7 @@ func (sm *SkinnedMesh) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: sm.Get("normalMatrix")}
 }
 func (sm *SkinnedMesh) SetNormalMatrix(v *Matrix3) {
-	sm.Set("normalMatrix", v.Value)
+	sm.Set("normalMatrix", v.JSValue())
 }
 func (sm *SkinnedMesh) OnAfterRender() js.Value {
 	return sm.Get("onAfterRender")
@@ -167,19 +167,19 @@ func (sm *SkinnedMesh) Parent() *Object3D {
 	return &Object3D{Value: sm.Get("parent")}
 }
 func (sm *SkinnedMesh) SetParent(v *Object3D) {
-	sm.Set("parent", v.Value)
+	sm.Set("parent", v.JSValue())
 }
 func (sm *SkinnedMesh) Position() *Vector3 {
 	return &Vector3{Value: sm.Get("position")}
 }
 func (sm *SkinnedMesh) SetPosition(v *Vector3) {
-	sm.Set("position", v.Value)
+	sm.Set("position", v.JSValue())
 }
 func (sm *SkinnedMesh) Quaternion() *Quaternion {
 	return &Quaternion{Value: sm.Get("quaternion")}
 }
 func (sm *SkinnedMesh) SetQuaternion(v *Quaternion) {
-	sm.Set("quaternion", v.Value)
+	sm.Set("quaternion", v.JSValue())
 }
 func (sm *SkinnedMesh) ReceiveShadow() bool {
 	return sm.Get("receiveShadow").Bool()
@@ -197,19 +197,19 @@ func (sm *SkinnedMesh) Rotation() *Euler {
 	return &Euler{Value: sm.Get("rotation")}
 }
 func (sm *SkinnedMesh) SetRotation(v *Euler) {
-	sm.Set("rotation", v.Value)
+	sm.Set("rotation", v.JSValue())
 }
 func (sm *SkinnedMesh) Scale() *Vector3 {
 	return &Vector3{Value: sm.Get("scale")}
 }
 func (sm *SkinnedMesh) SetScale(v *Vector3) {
-	sm.Set("scale", v.Value)
+	sm.Set("scale", v.JSValue())
 }
 func (sm *SkinnedMesh) Skeleton() *Skeleton {
 	return &Skeleton{Value: sm.Get("skeleton")}
 }
 func (sm *SkinnedMesh) SetSkeleton(v *Skeleton) {
-	sm.Set("skeleton", v.Value)
+	sm.Set("skeleton", v.JSValue())
 }
 func (sm *SkinnedMesh) Type() string {
 	return sm.Get("type").String()
@@ -221,7 +221,7 @@ func (sm *SkinnedMesh) Up() *Vector3 {
 	return &Vector3{Value: sm.Get("up")}
 }
 func (sm *SkinnedMesh) SetUp(v *Vector3) {
-	sm.Set("up", v.Value)
+	sm.Set("up", v.JSValue())
 }
 func (sm *SkinnedMesh) UserData() js.Value {
 	return sm.Get("userData")
@@ -251,27 +251,27 @@ func (sm *SkinnedMesh) DefaultUp() *Vector3 {
 	return &Vector3{Value: sm.Get("DefaultUp")}
 }
 func (sm *SkinnedMesh) SetDefaultUp(v *Vector3) {
-	sm.Set("DefaultUp", v.Value)
+	sm.Set("DefaultUp", v.JSValue())
 }
-func (sm *SkinnedMesh) Add(object js.Value) *SkinnedMesh {
+func (sm *SkinnedMesh) Add(object js.Value) Mesh {
 	return &SkinnedMesh{Value: sm.Call("add", object)}
 }
 func (sm *SkinnedMesh) AddEventListener(typ string, listener js.Value) {
 	sm.Call("addEventListener", typ, listener)
 }
 func (sm *SkinnedMesh) ApplyMatrix(matrix *Matrix4) {
-	sm.Call("applyMatrix", matrix)
+	sm.Call("applyMatrix", matrix.JSValue())
 }
-func (sm *SkinnedMesh) ApplyQuaternion(quaternion *Quaternion) *SkinnedMesh {
+func (sm *SkinnedMesh) ApplyQuaternion(quaternion *Quaternion) Mesh {
 	return &SkinnedMesh{Value: sm.Call("applyQuaternion", quaternion)}
 }
 func (sm *SkinnedMesh) Bind(skeleton *Skeleton, bindMatrix *Matrix4) {
-	sm.Call("bind", skeleton, bindMatrix)
+	sm.Call("bind", skeleton.JSValue(), bindMatrix.JSValue())
 }
-func (sm *SkinnedMesh) Clone(recursive bool) *SkinnedMesh {
+func (sm *SkinnedMesh) Clone(recursive bool) Mesh {
 	return &SkinnedMesh{Value: sm.Call("clone", recursive)}
 }
-func (sm *SkinnedMesh) Copy(source *SkinnedMesh, recursive bool) *SkinnedMesh {
+func (sm *SkinnedMesh) Copy(source Mesh, recursive bool) Mesh {
 	return &SkinnedMesh{Value: sm.Call("copy", source, recursive)}
 }
 func (sm *SkinnedMesh) DispatchEvent(event js.Value) {
@@ -314,57 +314,57 @@ func (sm *SkinnedMesh) Pose() {
 	sm.Call("pose")
 }
 func (sm *SkinnedMesh) Raycast(raycaster *Raycaster, intersects js.Value) {
-	sm.Call("raycast", raycaster, intersects)
+	sm.Call("raycast", raycaster.JSValue(), intersects)
 }
-func (sm *SkinnedMesh) Remove(object js.Value) *SkinnedMesh {
+func (sm *SkinnedMesh) Remove(object js.Value) Mesh {
 	return &SkinnedMesh{Value: sm.Call("remove", object)}
 }
 func (sm *SkinnedMesh) RemoveEventListener(typ string, listener js.Value) {
 	sm.Call("removeEventListener", typ, listener)
 }
-func (sm *SkinnedMesh) RotateOnAxis(axis *Vector3, angle float64) *SkinnedMesh {
+func (sm *SkinnedMesh) RotateOnAxis(axis *Vector3, angle float64) Mesh {
 	return &SkinnedMesh{Value: sm.Call("rotateOnAxis", axis, angle)}
 }
-func (sm *SkinnedMesh) RotateOnWorldAxis(axis *Vector3, angle float64) *SkinnedMesh {
+func (sm *SkinnedMesh) RotateOnWorldAxis(axis *Vector3, angle float64) Mesh {
 	return &SkinnedMesh{Value: sm.Call("rotateOnWorldAxis", axis, angle)}
 }
-func (sm *SkinnedMesh) RotateX(angle float64) *SkinnedMesh {
+func (sm *SkinnedMesh) RotateX(angle float64) Mesh {
 	return &SkinnedMesh{Value: sm.Call("rotateX", angle)}
 }
-func (sm *SkinnedMesh) RotateY(angle float64) *SkinnedMesh {
+func (sm *SkinnedMesh) RotateY(angle float64) Mesh {
 	return &SkinnedMesh{Value: sm.Call("rotateY", angle)}
 }
-func (sm *SkinnedMesh) RotateZ(angle float64) *SkinnedMesh {
+func (sm *SkinnedMesh) RotateZ(angle float64) Mesh {
 	return &SkinnedMesh{Value: sm.Call("rotateZ", angle)}
 }
 func (sm *SkinnedMesh) SetDrawMode2(drawMode TrianglesDrawModes) {
 	sm.Call("setDrawMode", drawMode)
 }
 func (sm *SkinnedMesh) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	sm.Call("setRotationFromAxisAngle", axis, angle)
+	sm.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (sm *SkinnedMesh) SetRotationFromEuler(euler *Euler) {
-	sm.Call("setRotationFromEuler", euler)
+	sm.Call("setRotationFromEuler", euler.JSValue())
 }
 func (sm *SkinnedMesh) SetRotationFromMatrix(m *Matrix4) {
-	sm.Call("setRotationFromMatrix", m)
+	sm.Call("setRotationFromMatrix", m.JSValue())
 }
 func (sm *SkinnedMesh) SetRotationFromQuaternion(q *Quaternion) {
-	sm.Call("setRotationFromQuaternion", q)
+	sm.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (sm *SkinnedMesh) ToJSON(meta js.Value) js.Value {
 	return sm.Call("toJSON", meta)
 }
-func (sm *SkinnedMesh) TranslateOnAxis(axis *Vector3, distance float64) *SkinnedMesh {
+func (sm *SkinnedMesh) TranslateOnAxis(axis *Vector3, distance float64) Mesh {
 	return &SkinnedMesh{Value: sm.Call("translateOnAxis", axis, distance)}
 }
-func (sm *SkinnedMesh) TranslateX(distance float64) *SkinnedMesh {
+func (sm *SkinnedMesh) TranslateX(distance float64) Mesh {
 	return &SkinnedMesh{Value: sm.Call("translateX", distance)}
 }
-func (sm *SkinnedMesh) TranslateY(distance float64) *SkinnedMesh {
+func (sm *SkinnedMesh) TranslateY(distance float64) Mesh {
 	return &SkinnedMesh{Value: sm.Call("translateY", distance)}
 }
-func (sm *SkinnedMesh) TranslateZ(distance float64) *SkinnedMesh {
+func (sm *SkinnedMesh) TranslateZ(distance float64) Mesh {
 	return &SkinnedMesh{Value: sm.Call("translateZ", distance)}
 }
 func (sm *SkinnedMesh) Traverse(callback js.Value) {

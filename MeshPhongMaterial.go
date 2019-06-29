@@ -26,7 +26,7 @@ func (mpm *MeshPhongMaterial) AlphaMap() *Texture {
 	return &Texture{Value: mpm.Get("alphaMap")}
 }
 func (mpm *MeshPhongMaterial) SetAlphaMap(v *Texture) {
-	mpm.Set("alphaMap", v.Value)
+	mpm.Set("alphaMap", v.JSValue())
 }
 func (mpm *MeshPhongMaterial) AlphaTest() float64 {
 	return mpm.Get("alphaTest").Float()
@@ -38,7 +38,7 @@ func (mpm *MeshPhongMaterial) AoMap() *Texture {
 	return &Texture{Value: mpm.Get("aoMap")}
 }
 func (mpm *MeshPhongMaterial) SetAoMap(v *Texture) {
-	mpm.Set("aoMap", v.Value)
+	mpm.Set("aoMap", v.JSValue())
 }
 func (mpm *MeshPhongMaterial) AoMapIntensity() float64 {
 	return mpm.Get("aoMapIntensity").Float()
@@ -92,7 +92,7 @@ func (mpm *MeshPhongMaterial) BumpMap() *Texture {
 	return &Texture{Value: mpm.Get("bumpMap")}
 }
 func (mpm *MeshPhongMaterial) SetBumpMap(v *Texture) {
-	mpm.Set("bumpMap", v.Value)
+	mpm.Set("bumpMap", v.JSValue())
 }
 func (mpm *MeshPhongMaterial) BumpScale() float64 {
 	return mpm.Get("bumpScale").Float()
@@ -122,7 +122,7 @@ func (mpm *MeshPhongMaterial) Color() *Color {
 	return &Color{Value: mpm.Get("color")}
 }
 func (mpm *MeshPhongMaterial) SetColor(v *Color) {
-	mpm.Set("color", v.Value)
+	mpm.Set("color", v.JSValue())
 }
 func (mpm *MeshPhongMaterial) ColorWrite() bool {
 	return mpm.Get("colorWrite").Bool()
@@ -164,7 +164,7 @@ func (mpm *MeshPhongMaterial) DisplacementMap() *Texture {
 	return &Texture{Value: mpm.Get("displacementMap")}
 }
 func (mpm *MeshPhongMaterial) SetDisplacementMap(v *Texture) {
-	mpm.Set("displacementMap", v.Value)
+	mpm.Set("displacementMap", v.JSValue())
 }
 func (mpm *MeshPhongMaterial) DisplacementScale() float64 {
 	return mpm.Get("displacementScale").Float()
@@ -182,7 +182,7 @@ func (mpm *MeshPhongMaterial) Emissive() *Color {
 	return &Color{Value: mpm.Get("emissive")}
 }
 func (mpm *MeshPhongMaterial) SetEmissive(v *Color) {
-	mpm.Set("emissive", v.Value)
+	mpm.Set("emissive", v.JSValue())
 }
 func (mpm *MeshPhongMaterial) EmissiveIntensity() float64 {
 	return mpm.Get("emissiveIntensity").Float()
@@ -194,13 +194,13 @@ func (mpm *MeshPhongMaterial) EmissiveMap() *Texture {
 	return &Texture{Value: mpm.Get("emissiveMap")}
 }
 func (mpm *MeshPhongMaterial) SetEmissiveMap(v *Texture) {
-	mpm.Set("emissiveMap", v.Value)
+	mpm.Set("emissiveMap", v.JSValue())
 }
 func (mpm *MeshPhongMaterial) EnvMap() *Texture {
 	return &Texture{Value: mpm.Get("envMap")}
 }
 func (mpm *MeshPhongMaterial) SetEnvMap(v *Texture) {
-	mpm.Set("envMap", v.Value)
+	mpm.Set("envMap", v.JSValue())
 }
 func (mpm *MeshPhongMaterial) FlatShading() bool {
 	return mpm.Get("flatShading").Bool()
@@ -230,7 +230,7 @@ func (mpm *MeshPhongMaterial) LightMap() *Texture {
 	return &Texture{Value: mpm.Get("lightMap")}
 }
 func (mpm *MeshPhongMaterial) SetLightMap(v *Texture) {
-	mpm.Set("lightMap", v.Value)
+	mpm.Set("lightMap", v.JSValue())
 }
 func (mpm *MeshPhongMaterial) LightMapIntensity() float64 {
 	return mpm.Get("lightMapIntensity").Float()
@@ -248,7 +248,7 @@ func (mpm *MeshPhongMaterial) Map() *Texture {
 	return &Texture{Value: mpm.Get("map")}
 }
 func (mpm *MeshPhongMaterial) SetMap(v *Texture) {
-	mpm.Set("map", v.Value)
+	mpm.Set("map", v.JSValue())
 }
 func (mpm *MeshPhongMaterial) Metal() bool {
 	return mpm.Get("metal").Bool()
@@ -284,7 +284,7 @@ func (mpm *MeshPhongMaterial) NormalMap() *Texture {
 	return &Texture{Value: mpm.Get("normalMap")}
 }
 func (mpm *MeshPhongMaterial) SetNormalMap(v *Texture) {
-	mpm.Set("normalMap", v.Value)
+	mpm.Set("normalMap", v.JSValue())
 }
 func (mpm *MeshPhongMaterial) NormalMapType() NormalMapTypes {
 	return NormalMapTypes(mpm.Get("normalMapType"))
@@ -296,7 +296,7 @@ func (mpm *MeshPhongMaterial) NormalScale() *Vector2 {
 	return &Vector2{Value: mpm.Get("normalScale")}
 }
 func (mpm *MeshPhongMaterial) SetNormalScale(v *Vector2) {
-	mpm.Set("normalScale", v.Value)
+	mpm.Set("normalScale", v.JSValue())
 }
 func (mpm *MeshPhongMaterial) Opacity() float64 {
 	return mpm.Get("opacity").Float()
@@ -374,13 +374,13 @@ func (mpm *MeshPhongMaterial) Specular() *Color {
 	return &Color{Value: mpm.Get("specular")}
 }
 func (mpm *MeshPhongMaterial) SetSpecular(v *Color) {
-	mpm.Set("specular", v.Value)
+	mpm.Set("specular", v.JSValue())
 }
 func (mpm *MeshPhongMaterial) SpecularMap() *Texture {
 	return &Texture{Value: mpm.Get("specularMap")}
 }
 func (mpm *MeshPhongMaterial) SetSpecularMap(v *Texture) {
-	mpm.Set("specularMap", v.Value)
+	mpm.Set("specularMap", v.JSValue())
 }
 func (mpm *MeshPhongMaterial) Transparent() bool {
 	return mpm.Get("transparent").Bool()
@@ -467,7 +467,7 @@ func (mpm *MeshPhongMaterial) HasEventListener(typ string, listener js.Value) bo
 	return mpm.Call("hasEventListener", typ, listener).Bool()
 }
 func (mpm *MeshPhongMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	mpm.Call("onBeforeCompile", shader, renderer)
+	mpm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (mpm *MeshPhongMaterial) RemoveEventListener(typ string, listener js.Value) {
 	mpm.Call("removeEventListener", typ, listener)

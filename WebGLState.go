@@ -68,7 +68,7 @@ type WebGLState struct {
 }
 
 func NewWebGLState(gl js.Value, extensions *WebGLExtensions, utils js.Value, capabilities *WebGLCapabilities) *WebGLState {
-	return &WebGLState{Value: get("WebGLState").New(gl, extensions, utils, capabilities)}
+	return &WebGLState{Value: get("WebGLState").New(gl, extensions.JSValue(), utils, capabilities.JSValue())}
 }
 func (wgls *WebGLState) JSValue() js.Value {
 	return wgls.Value
@@ -113,7 +113,7 @@ func (wgls *WebGLState) Reset() {
 	wgls.Call("reset")
 }
 func (wgls *WebGLState) Scissor(scissor *Vector4) {
-	wgls.Call("scissor", scissor)
+	wgls.Call("scissor", scissor.JSValue())
 }
 func (wgls *WebGLState) SetBlending(blending Blending, blendEquation BlendingEquation, blendSrc js.Value, blendDst BlendingDstFactor, blendEquationAlpha BlendingEquation, blendSrcAlpha js.Value, blendDstAlpha BlendingDstFactor, premultiplyAlpha bool) {
 	wgls.Call("setBlending", blending, blendEquation, blendSrc, blendDst, blendEquationAlpha, blendSrcAlpha, blendDstAlpha, premultiplyAlpha)
@@ -149,7 +149,7 @@ func (wgls *WebGLState) UseProgram(program js.Value) bool {
 	return wgls.Call("useProgram", program).Bool()
 }
 func (wgls *WebGLState) Viewport(viewport *Vector4) {
-	wgls.Call("viewport", viewport)
+	wgls.Call("viewport", viewport.JSValue())
 }
 
 // WebGLStencilBuffer extend: []

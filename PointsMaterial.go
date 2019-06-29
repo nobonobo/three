@@ -281,7 +281,7 @@ func (mm *MultiMaterial) HasEventListener(typ string, listener js.Value) bool {
 	return mm.Call("hasEventListener", typ, listener).Bool()
 }
 func (mm *MultiMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	mm.Call("onBeforeCompile", shader, renderer)
+	mm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (mm *MultiMaterial) RemoveEventListener(typ string, listener js.Value) {
 	mm.Call("removeEventListener", typ, listener)
@@ -377,7 +377,7 @@ func (pm *PointsMaterial) Color() *Color {
 	return &Color{Value: pm.Get("color")}
 }
 func (pm *PointsMaterial) SetColor(v *Color) {
-	pm.Set("color", v.Value)
+	pm.Set("color", v.JSValue())
 }
 func (pm *PointsMaterial) ColorWrite() bool {
 	return pm.Get("colorWrite").Bool()
@@ -443,7 +443,7 @@ func (pm *PointsMaterial) Map() *Texture {
 	return &Texture{Value: pm.Get("map")}
 }
 func (pm *PointsMaterial) SetMap(v *Texture) {
-	pm.Set("map", v.Value)
+	pm.Set("map", v.JSValue())
 }
 func (pm *PointsMaterial) Name() string {
 	return pm.Get("name").String()
@@ -578,7 +578,7 @@ func (pm *PointsMaterial) HasEventListener(typ string, listener js.Value) bool {
 	return pm.Call("hasEventListener", typ, listener).Bool()
 }
 func (pm *PointsMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	pm.Call("onBeforeCompile", shader, renderer)
+	pm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (pm *PointsMaterial) RemoveEventListener(typ string, listener js.Value) {
 	pm.Call("removeEventListener", typ, listener)

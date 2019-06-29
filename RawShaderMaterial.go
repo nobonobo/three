@@ -356,7 +356,7 @@ func (rsm *RawShaderMaterial) HasEventListener(typ string, listener js.Value) bo
 	return rsm.Call("hasEventListener", typ, listener).Bool()
 }
 func (rsm *RawShaderMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	rsm.Call("onBeforeCompile", shader, renderer)
+	rsm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (rsm *RawShaderMaterial) RemoveEventListener(typ string, listener js.Value) {
 	rsm.Call("removeEventListener", typ, listener)

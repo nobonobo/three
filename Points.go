@@ -65,7 +65,7 @@ func (pp *Points) Layers() *Layers {
 	return &Layers{Value: pp.Get("layers")}
 }
 func (pp *Points) SetLayers(v *Layers) {
-	pp.Set("layers", v.Value)
+	pp.Set("layers", v.JSValue())
 }
 func (pp *Points) Material() Material {
 	return &MaterialImpl{Value: pp.Get("material")}
@@ -77,7 +77,7 @@ func (pp *Points) Matrix() *Matrix4 {
 	return &Matrix4{Value: pp.Get("matrix")}
 }
 func (pp *Points) SetMatrix(v *Matrix4) {
-	pp.Set("matrix", v.Value)
+	pp.Set("matrix", v.JSValue())
 }
 func (pp *Points) MatrixAutoUpdate() bool {
 	return pp.Get("matrixAutoUpdate").Bool()
@@ -89,7 +89,7 @@ func (pp *Points) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: pp.Get("matrixWorld")}
 }
 func (pp *Points) SetMatrixWorld(v *Matrix4) {
-	pp.Set("matrixWorld", v.Value)
+	pp.Set("matrixWorld", v.JSValue())
 }
 func (pp *Points) MatrixWorldNeedsUpdate() bool {
 	return pp.Get("matrixWorldNeedsUpdate").Bool()
@@ -101,7 +101,7 @@ func (pp *Points) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: pp.Get("modelViewMatrix")}
 }
 func (pp *Points) SetModelViewMatrix(v *Matrix4) {
-	pp.Set("modelViewMatrix", v.Value)
+	pp.Set("modelViewMatrix", v.JSValue())
 }
 func (pp *Points) Name() string {
 	return pp.Get("name").String()
@@ -113,7 +113,7 @@ func (pp *Points) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: pp.Get("normalMatrix")}
 }
 func (pp *Points) SetNormalMatrix(v *Matrix3) {
-	pp.Set("normalMatrix", v.Value)
+	pp.Set("normalMatrix", v.JSValue())
 }
 func (pp *Points) OnAfterRender() js.Value {
 	return pp.Get("onAfterRender")
@@ -131,19 +131,19 @@ func (pp *Points) Parent() *Object3D {
 	return &Object3D{Value: pp.Get("parent")}
 }
 func (pp *Points) SetParent(v *Object3D) {
-	pp.Set("parent", v.Value)
+	pp.Set("parent", v.JSValue())
 }
 func (pp *Points) Position() *Vector3 {
 	return &Vector3{Value: pp.Get("position")}
 }
 func (pp *Points) SetPosition(v *Vector3) {
-	pp.Set("position", v.Value)
+	pp.Set("position", v.JSValue())
 }
 func (pp *Points) Quaternion() *Quaternion {
 	return &Quaternion{Value: pp.Get("quaternion")}
 }
 func (pp *Points) SetQuaternion(v *Quaternion) {
-	pp.Set("quaternion", v.Value)
+	pp.Set("quaternion", v.JSValue())
 }
 func (pp *Points) ReceiveShadow() bool {
 	return pp.Get("receiveShadow").Bool()
@@ -161,13 +161,13 @@ func (pp *Points) Rotation() *Euler {
 	return &Euler{Value: pp.Get("rotation")}
 }
 func (pp *Points) SetRotation(v *Euler) {
-	pp.Set("rotation", v.Value)
+	pp.Set("rotation", v.JSValue())
 }
 func (pp *Points) Scale() *Vector3 {
 	return &Vector3{Value: pp.Get("scale")}
 }
 func (pp *Points) SetScale(v *Vector3) {
-	pp.Set("scale", v.Value)
+	pp.Set("scale", v.JSValue())
 }
 func (pp *Points) Type() string {
 	return pp.Get("type").String()
@@ -179,7 +179,7 @@ func (pp *Points) Up() *Vector3 {
 	return &Vector3{Value: pp.Get("up")}
 }
 func (pp *Points) SetUp(v *Vector3) {
-	pp.Set("up", v.Value)
+	pp.Set("up", v.JSValue())
 }
 func (pp *Points) UserData() js.Value {
 	return pp.Get("userData")
@@ -209,7 +209,7 @@ func (pp *Points) DefaultUp() *Vector3 {
 	return &Vector3{Value: pp.Get("DefaultUp")}
 }
 func (pp *Points) SetDefaultUp(v *Vector3) {
-	pp.Set("DefaultUp", v.Value)
+	pp.Set("DefaultUp", v.JSValue())
 }
 func (pp *Points) Add(object js.Value) *Points {
 	return &Points{Value: pp.Call("add", object)}
@@ -218,7 +218,7 @@ func (pp *Points) AddEventListener(typ string, listener js.Value) {
 	pp.Call("addEventListener", typ, listener)
 }
 func (pp *Points) ApplyMatrix(matrix *Matrix4) {
-	pp.Call("applyMatrix", matrix)
+	pp.Call("applyMatrix", matrix.JSValue())
 }
 func (pp *Points) ApplyQuaternion(quaternion *Quaternion) *Points {
 	return &Points{Value: pp.Call("applyQuaternion", quaternion)}
@@ -263,7 +263,7 @@ func (pp *Points) LookAt(vector *Vector3, y float64, z float64) {
 	pp.Call("lookAt", vector, y, z)
 }
 func (pp *Points) Raycast(raycaster *Raycaster, intersects js.Value) {
-	pp.Call("raycast", raycaster, intersects)
+	pp.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (pp *Points) Remove(object js.Value) *Points {
 	return &Points{Value: pp.Call("remove", object)}
@@ -287,16 +287,16 @@ func (pp *Points) RotateZ(angle float64) *Points {
 	return &Points{Value: pp.Call("rotateZ", angle)}
 }
 func (pp *Points) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	pp.Call("setRotationFromAxisAngle", axis, angle)
+	pp.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (pp *Points) SetRotationFromEuler(euler *Euler) {
-	pp.Call("setRotationFromEuler", euler)
+	pp.Call("setRotationFromEuler", euler.JSValue())
 }
 func (pp *Points) SetRotationFromMatrix(m *Matrix4) {
-	pp.Call("setRotationFromMatrix", m)
+	pp.Call("setRotationFromMatrix", m.JSValue())
 }
 func (pp *Points) SetRotationFromQuaternion(q *Quaternion) {
-	pp.Call("setRotationFromQuaternion", q)
+	pp.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (pp *Points) ToJSON(meta js.Value) js.Value {
 	return pp.Call("toJSON", meta)

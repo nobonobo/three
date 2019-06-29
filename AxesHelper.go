@@ -71,7 +71,7 @@ func (ah *AxesHelper) Layers() *Layers {
 	return &Layers{Value: ah.Get("layers")}
 }
 func (ah *AxesHelper) SetLayers(v *Layers) {
-	ah.Set("layers", v.Value)
+	ah.Set("layers", v.JSValue())
 }
 func (ah *AxesHelper) Material() Material {
 	return &MaterialImpl{Value: ah.Get("material")}
@@ -83,7 +83,7 @@ func (ah *AxesHelper) Matrix() *Matrix4 {
 	return &Matrix4{Value: ah.Get("matrix")}
 }
 func (ah *AxesHelper) SetMatrix(v *Matrix4) {
-	ah.Set("matrix", v.Value)
+	ah.Set("matrix", v.JSValue())
 }
 func (ah *AxesHelper) MatrixAutoUpdate() bool {
 	return ah.Get("matrixAutoUpdate").Bool()
@@ -95,7 +95,7 @@ func (ah *AxesHelper) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: ah.Get("matrixWorld")}
 }
 func (ah *AxesHelper) SetMatrixWorld(v *Matrix4) {
-	ah.Set("matrixWorld", v.Value)
+	ah.Set("matrixWorld", v.JSValue())
 }
 func (ah *AxesHelper) MatrixWorldNeedsUpdate() bool {
 	return ah.Get("matrixWorldNeedsUpdate").Bool()
@@ -107,7 +107,7 @@ func (ah *AxesHelper) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: ah.Get("modelViewMatrix")}
 }
 func (ah *AxesHelper) SetModelViewMatrix(v *Matrix4) {
-	ah.Set("modelViewMatrix", v.Value)
+	ah.Set("modelViewMatrix", v.JSValue())
 }
 func (ah *AxesHelper) Name() string {
 	return ah.Get("name").String()
@@ -119,7 +119,7 @@ func (ah *AxesHelper) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: ah.Get("normalMatrix")}
 }
 func (ah *AxesHelper) SetNormalMatrix(v *Matrix3) {
-	ah.Set("normalMatrix", v.Value)
+	ah.Set("normalMatrix", v.JSValue())
 }
 func (ah *AxesHelper) OnAfterRender() js.Value {
 	return ah.Get("onAfterRender")
@@ -137,19 +137,19 @@ func (ah *AxesHelper) Parent() *Object3D {
 	return &Object3D{Value: ah.Get("parent")}
 }
 func (ah *AxesHelper) SetParent(v *Object3D) {
-	ah.Set("parent", v.Value)
+	ah.Set("parent", v.JSValue())
 }
 func (ah *AxesHelper) Position() *Vector3 {
 	return &Vector3{Value: ah.Get("position")}
 }
 func (ah *AxesHelper) SetPosition(v *Vector3) {
-	ah.Set("position", v.Value)
+	ah.Set("position", v.JSValue())
 }
 func (ah *AxesHelper) Quaternion() *Quaternion {
 	return &Quaternion{Value: ah.Get("quaternion")}
 }
 func (ah *AxesHelper) SetQuaternion(v *Quaternion) {
-	ah.Set("quaternion", v.Value)
+	ah.Set("quaternion", v.JSValue())
 }
 func (ah *AxesHelper) ReceiveShadow() bool {
 	return ah.Get("receiveShadow").Bool()
@@ -167,13 +167,13 @@ func (ah *AxesHelper) Rotation() *Euler {
 	return &Euler{Value: ah.Get("rotation")}
 }
 func (ah *AxesHelper) SetRotation(v *Euler) {
-	ah.Set("rotation", v.Value)
+	ah.Set("rotation", v.JSValue())
 }
 func (ah *AxesHelper) Scale() *Vector3 {
 	return &Vector3{Value: ah.Get("scale")}
 }
 func (ah *AxesHelper) SetScale(v *Vector3) {
-	ah.Set("scale", v.Value)
+	ah.Set("scale", v.JSValue())
 }
 func (ah *AxesHelper) Type() string {
 	return ah.Get("type").String()
@@ -185,7 +185,7 @@ func (ah *AxesHelper) Up() *Vector3 {
 	return &Vector3{Value: ah.Get("up")}
 }
 func (ah *AxesHelper) SetUp(v *Vector3) {
-	ah.Set("up", v.Value)
+	ah.Set("up", v.JSValue())
 }
 func (ah *AxesHelper) UserData() js.Value {
 	return ah.Get("userData")
@@ -215,7 +215,7 @@ func (ah *AxesHelper) DefaultUp() *Vector3 {
 	return &Vector3{Value: ah.Get("DefaultUp")}
 }
 func (ah *AxesHelper) SetDefaultUp(v *Vector3) {
-	ah.Set("DefaultUp", v.Value)
+	ah.Set("DefaultUp", v.JSValue())
 }
 func (ah *AxesHelper) Add(object js.Value) *AxesHelper {
 	return &AxesHelper{Value: ah.Call("add", object)}
@@ -224,7 +224,7 @@ func (ah *AxesHelper) AddEventListener(typ string, listener js.Value) {
 	ah.Call("addEventListener", typ, listener)
 }
 func (ah *AxesHelper) ApplyMatrix(matrix *Matrix4) {
-	ah.Call("applyMatrix", matrix)
+	ah.Call("applyMatrix", matrix.JSValue())
 }
 func (ah *AxesHelper) ApplyQuaternion(quaternion *Quaternion) *AxesHelper {
 	return &AxesHelper{Value: ah.Call("applyQuaternion", quaternion)}
@@ -272,7 +272,7 @@ func (ah *AxesHelper) LookAt(vector *Vector3, y float64, z float64) {
 	ah.Call("lookAt", vector, y, z)
 }
 func (ah *AxesHelper) Raycast(raycaster *Raycaster, intersects js.Value) {
-	ah.Call("raycast", raycaster, intersects)
+	ah.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (ah *AxesHelper) Remove(object js.Value) *AxesHelper {
 	return &AxesHelper{Value: ah.Call("remove", object)}
@@ -296,16 +296,16 @@ func (ah *AxesHelper) RotateZ(angle float64) *AxesHelper {
 	return &AxesHelper{Value: ah.Call("rotateZ", angle)}
 }
 func (ah *AxesHelper) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	ah.Call("setRotationFromAxisAngle", axis, angle)
+	ah.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (ah *AxesHelper) SetRotationFromEuler(euler *Euler) {
-	ah.Call("setRotationFromEuler", euler)
+	ah.Call("setRotationFromEuler", euler.JSValue())
 }
 func (ah *AxesHelper) SetRotationFromMatrix(m *Matrix4) {
-	ah.Call("setRotationFromMatrix", m)
+	ah.Call("setRotationFromMatrix", m.JSValue())
 }
 func (ah *AxesHelper) SetRotationFromQuaternion(q *Quaternion) {
-	ah.Call("setRotationFromQuaternion", q)
+	ah.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (ah *AxesHelper) ToJSON(meta js.Value) js.Value {
 	return ah.Call("toJSON", meta)

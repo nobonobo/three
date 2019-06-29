@@ -74,7 +74,7 @@ func (mnm *MeshNormalMaterial) BumpMap() *Texture {
 	return &Texture{Value: mnm.Get("bumpMap")}
 }
 func (mnm *MeshNormalMaterial) SetBumpMap(v *Texture) {
-	mnm.Set("bumpMap", v.Value)
+	mnm.Set("bumpMap", v.JSValue())
 }
 func (mnm *MeshNormalMaterial) BumpScale() int {
 	return mnm.Get("bumpScale").Int()
@@ -134,7 +134,7 @@ func (mnm *MeshNormalMaterial) DisplacementMap() *Texture {
 	return &Texture{Value: mnm.Get("displacementMap")}
 }
 func (mnm *MeshNormalMaterial) SetDisplacementMap(v *Texture) {
-	mnm.Set("displacementMap", v.Value)
+	mnm.Set("displacementMap", v.JSValue())
 }
 func (mnm *MeshNormalMaterial) DisplacementScale() int {
 	return mnm.Get("displacementScale").Int()
@@ -206,7 +206,7 @@ func (mnm *MeshNormalMaterial) NormalMap() *Texture {
 	return &Texture{Value: mnm.Get("normalMap")}
 }
 func (mnm *MeshNormalMaterial) SetNormalMap(v *Texture) {
-	mnm.Set("normalMap", v.Value)
+	mnm.Set("normalMap", v.JSValue())
 }
 func (mnm *MeshNormalMaterial) NormalMapType() NormalMapTypes {
 	return NormalMapTypes(mnm.Get("normalMapType"))
@@ -218,7 +218,7 @@ func (mnm *MeshNormalMaterial) NormalScale() *Vector2 {
 	return &Vector2{Value: mnm.Get("normalScale")}
 }
 func (mnm *MeshNormalMaterial) SetNormalScale(v *Vector2) {
-	mnm.Set("normalScale", v.Value)
+	mnm.Set("normalScale", v.JSValue())
 }
 func (mnm *MeshNormalMaterial) Opacity() float64 {
 	return mnm.Get("opacity").Float()
@@ -347,7 +347,7 @@ func (mnm *MeshNormalMaterial) HasEventListener(typ string, listener js.Value) b
 	return mnm.Call("hasEventListener", typ, listener).Bool()
 }
 func (mnm *MeshNormalMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	mnm.Call("onBeforeCompile", shader, renderer)
+	mnm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (mnm *MeshNormalMaterial) RemoveEventListener(typ string, listener js.Value) {
 	mnm.Call("removeEventListener", typ, listener)

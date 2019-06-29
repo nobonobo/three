@@ -29,13 +29,13 @@ func (lbg *LatheBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: lbg.Get("boundingBox")}
 }
 func (lbg *LatheBufferGeometry) SetBoundingBox(v *Box3) {
-	lbg.Set("boundingBox", v.Value)
+	lbg.Set("boundingBox", v.JSValue())
 }
 func (lbg *LatheBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: lbg.Get("boundingSphere")}
 }
 func (lbg *LatheBufferGeometry) SetBoundingSphere(v *Sphere) {
-	lbg.Set("boundingSphere", v.Value)
+	lbg.Set("boundingSphere", v.JSValue())
 }
 func (lbg *LatheBufferGeometry) DrawRange() js.Value {
 	return lbg.Get("drawRange")
@@ -65,7 +65,7 @@ func (lbg *LatheBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: lbg.Get("index")}
 }
 func (lbg *LatheBufferGeometry) SetIndex(v *BufferAttribute) {
-	lbg.Set("index", v.Value)
+	lbg.Set("index", v.JSValue())
 }
 func (lbg *LatheBufferGeometry) MorphAttributes() js.Value {
 	return lbg.Get("morphAttributes")
@@ -182,7 +182,7 @@ func (lbg *LatheBufferGeometry) HasEventListener(typ string, listener js.Value) 
 	return lbg.Call("hasEventListener", typ, listener).Bool()
 }
 func (lbg *LatheBufferGeometry) LookAt(v *Vector3) {
-	lbg.Call("lookAt", v)
+	lbg.Call("lookAt", v.JSValue())
 }
 func (lbg *LatheBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
 	return &BufferGeometry{Value: lbg.Call("merge", geometry, offset)}
@@ -230,7 +230,7 @@ func (lbg *LatheBufferGeometry) Translate(x float64, y float64, z float64) *Buff
 	return &BufferGeometry{Value: lbg.Call("translate", x, y, z)}
 }
 func (lbg *LatheBufferGeometry) UpdateFromObject(object *Object3D) {
-	lbg.Call("updateFromObject", object)
+	lbg.Call("updateFromObject", object.JSValue())
 }
 
 // LatheGeometry extend: [Geometry]
@@ -248,7 +248,7 @@ func (lg *LatheGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: lg.Get("animation")}
 }
 func (lg *LatheGeometry) SetAnimation(v *AnimationClip) {
-	lg.Set("animation", v.Value)
+	lg.Set("animation", v.JSValue())
 }
 func (lg *LatheGeometry) Animations() js.Value {
 	return lg.Get("animations")
@@ -266,13 +266,13 @@ func (lg *LatheGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: lg.Get("boundingBox")}
 }
 func (lg *LatheGeometry) SetBoundingBox(v *Box3) {
-	lg.Set("boundingBox", v.Value)
+	lg.Set("boundingBox", v.JSValue())
 }
 func (lg *LatheGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: lg.Get("boundingSphere")}
 }
 func (lg *LatheGeometry) SetBoundingSphere(v *Sphere) {
-	lg.Set("boundingSphere", v.Value)
+	lg.Set("boundingSphere", v.JSValue())
 }
 func (lg *LatheGeometry) Colors() js.Value {
 	return lg.Get("colors")
@@ -446,13 +446,13 @@ func (lg *LatheGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return lg.Call("hasEventListener", typ, listener).Bool()
 }
 func (lg *LatheGeometry) LookAt(vector *Vector3) {
-	lg.Call("lookAt", vector)
+	lg.Call("lookAt", vector.JSValue())
 }
 func (lg *LatheGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
 	lg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
-func (lg *LatheGeometry) MergeMesh(mesh *Mesh) {
-	lg.Call("mergeMesh", mesh)
+func (lg *LatheGeometry) MergeMesh(mesh Mesh) {
+	lg.Call("mergeMesh", mesh.JSValue())
 }
 func (lg *LatheGeometry) MergeVertices() float64 {
 	return lg.Call("mergeVertices").Float()

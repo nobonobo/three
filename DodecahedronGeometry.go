@@ -29,13 +29,13 @@ func (dbg *DodecahedronBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: dbg.Get("boundingBox")}
 }
 func (dbg *DodecahedronBufferGeometry) SetBoundingBox(v *Box3) {
-	dbg.Set("boundingBox", v.Value)
+	dbg.Set("boundingBox", v.JSValue())
 }
 func (dbg *DodecahedronBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: dbg.Get("boundingSphere")}
 }
 func (dbg *DodecahedronBufferGeometry) SetBoundingSphere(v *Sphere) {
-	dbg.Set("boundingSphere", v.Value)
+	dbg.Set("boundingSphere", v.JSValue())
 }
 func (dbg *DodecahedronBufferGeometry) DrawRange() js.Value {
 	return dbg.Get("drawRange")
@@ -65,7 +65,7 @@ func (dbg *DodecahedronBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: dbg.Get("index")}
 }
 func (dbg *DodecahedronBufferGeometry) SetIndex(v *BufferAttribute) {
-	dbg.Set("index", v.Value)
+	dbg.Set("index", v.JSValue())
 }
 func (dbg *DodecahedronBufferGeometry) MorphAttributes() js.Value {
 	return dbg.Get("morphAttributes")
@@ -182,7 +182,7 @@ func (dbg *DodecahedronBufferGeometry) HasEventListener(typ string, listener js.
 	return dbg.Call("hasEventListener", typ, listener).Bool()
 }
 func (dbg *DodecahedronBufferGeometry) LookAt(v *Vector3) {
-	dbg.Call("lookAt", v)
+	dbg.Call("lookAt", v.JSValue())
 }
 func (dbg *DodecahedronBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
 	return &BufferGeometry{Value: dbg.Call("merge", geometry, offset)}
@@ -230,7 +230,7 @@ func (dbg *DodecahedronBufferGeometry) Translate(x float64, y float64, z float64
 	return &BufferGeometry{Value: dbg.Call("translate", x, y, z)}
 }
 func (dbg *DodecahedronBufferGeometry) UpdateFromObject(object *Object3D) {
-	dbg.Call("updateFromObject", object)
+	dbg.Call("updateFromObject", object.JSValue())
 }
 
 // DodecahedronGeometry extend: [Geometry]
@@ -248,7 +248,7 @@ func (dg *DodecahedronGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: dg.Get("animation")}
 }
 func (dg *DodecahedronGeometry) SetAnimation(v *AnimationClip) {
-	dg.Set("animation", v.Value)
+	dg.Set("animation", v.JSValue())
 }
 func (dg *DodecahedronGeometry) Animations() js.Value {
 	return dg.Get("animations")
@@ -266,13 +266,13 @@ func (dg *DodecahedronGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: dg.Get("boundingBox")}
 }
 func (dg *DodecahedronGeometry) SetBoundingBox(v *Box3) {
-	dg.Set("boundingBox", v.Value)
+	dg.Set("boundingBox", v.JSValue())
 }
 func (dg *DodecahedronGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: dg.Get("boundingSphere")}
 }
 func (dg *DodecahedronGeometry) SetBoundingSphere(v *Sphere) {
-	dg.Set("boundingSphere", v.Value)
+	dg.Set("boundingSphere", v.JSValue())
 }
 func (dg *DodecahedronGeometry) Colors() js.Value {
 	return dg.Get("colors")
@@ -446,13 +446,13 @@ func (dg *DodecahedronGeometry) HasEventListener(typ string, listener js.Value) 
 	return dg.Call("hasEventListener", typ, listener).Bool()
 }
 func (dg *DodecahedronGeometry) LookAt(vector *Vector3) {
-	dg.Call("lookAt", vector)
+	dg.Call("lookAt", vector.JSValue())
 }
 func (dg *DodecahedronGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
 	dg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
-func (dg *DodecahedronGeometry) MergeMesh(mesh *Mesh) {
-	dg.Call("mergeMesh", mesh)
+func (dg *DodecahedronGeometry) MergeMesh(mesh Mesh) {
+	dg.Call("mergeMesh", mesh.JSValue())
 }
 func (dg *DodecahedronGeometry) MergeVertices() float64 {
 	return dg.Call("mergeVertices").Float()

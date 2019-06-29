@@ -84,7 +84,7 @@ func (ls *LineSegments) Layers() *Layers {
 	return &Layers{Value: ls.Get("layers")}
 }
 func (ls *LineSegments) SetLayers(v *Layers) {
-	ls.Set("layers", v.Value)
+	ls.Set("layers", v.JSValue())
 }
 func (ls *LineSegments) Material() Material {
 	return &MaterialImpl{Value: ls.Get("material")}
@@ -96,7 +96,7 @@ func (ls *LineSegments) Matrix() *Matrix4 {
 	return &Matrix4{Value: ls.Get("matrix")}
 }
 func (ls *LineSegments) SetMatrix(v *Matrix4) {
-	ls.Set("matrix", v.Value)
+	ls.Set("matrix", v.JSValue())
 }
 func (ls *LineSegments) MatrixAutoUpdate() bool {
 	return ls.Get("matrixAutoUpdate").Bool()
@@ -108,7 +108,7 @@ func (ls *LineSegments) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: ls.Get("matrixWorld")}
 }
 func (ls *LineSegments) SetMatrixWorld(v *Matrix4) {
-	ls.Set("matrixWorld", v.Value)
+	ls.Set("matrixWorld", v.JSValue())
 }
 func (ls *LineSegments) MatrixWorldNeedsUpdate() bool {
 	return ls.Get("matrixWorldNeedsUpdate").Bool()
@@ -120,7 +120,7 @@ func (ls *LineSegments) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: ls.Get("modelViewMatrix")}
 }
 func (ls *LineSegments) SetModelViewMatrix(v *Matrix4) {
-	ls.Set("modelViewMatrix", v.Value)
+	ls.Set("modelViewMatrix", v.JSValue())
 }
 func (ls *LineSegments) Name() string {
 	return ls.Get("name").String()
@@ -132,7 +132,7 @@ func (ls *LineSegments) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: ls.Get("normalMatrix")}
 }
 func (ls *LineSegments) SetNormalMatrix(v *Matrix3) {
-	ls.Set("normalMatrix", v.Value)
+	ls.Set("normalMatrix", v.JSValue())
 }
 func (ls *LineSegments) OnAfterRender() js.Value {
 	return ls.Get("onAfterRender")
@@ -150,19 +150,19 @@ func (ls *LineSegments) Parent() *Object3D {
 	return &Object3D{Value: ls.Get("parent")}
 }
 func (ls *LineSegments) SetParent(v *Object3D) {
-	ls.Set("parent", v.Value)
+	ls.Set("parent", v.JSValue())
 }
 func (ls *LineSegments) Position() *Vector3 {
 	return &Vector3{Value: ls.Get("position")}
 }
 func (ls *LineSegments) SetPosition(v *Vector3) {
-	ls.Set("position", v.Value)
+	ls.Set("position", v.JSValue())
 }
 func (ls *LineSegments) Quaternion() *Quaternion {
 	return &Quaternion{Value: ls.Get("quaternion")}
 }
 func (ls *LineSegments) SetQuaternion(v *Quaternion) {
-	ls.Set("quaternion", v.Value)
+	ls.Set("quaternion", v.JSValue())
 }
 func (ls *LineSegments) ReceiveShadow() bool {
 	return ls.Get("receiveShadow").Bool()
@@ -180,13 +180,13 @@ func (ls *LineSegments) Rotation() *Euler {
 	return &Euler{Value: ls.Get("rotation")}
 }
 func (ls *LineSegments) SetRotation(v *Euler) {
-	ls.Set("rotation", v.Value)
+	ls.Set("rotation", v.JSValue())
 }
 func (ls *LineSegments) Scale() *Vector3 {
 	return &Vector3{Value: ls.Get("scale")}
 }
 func (ls *LineSegments) SetScale(v *Vector3) {
-	ls.Set("scale", v.Value)
+	ls.Set("scale", v.JSValue())
 }
 func (ls *LineSegments) Type() string {
 	return ls.Get("type").String()
@@ -198,7 +198,7 @@ func (ls *LineSegments) Up() *Vector3 {
 	return &Vector3{Value: ls.Get("up")}
 }
 func (ls *LineSegments) SetUp(v *Vector3) {
-	ls.Set("up", v.Value)
+	ls.Set("up", v.JSValue())
 }
 func (ls *LineSegments) UserData() js.Value {
 	return ls.Get("userData")
@@ -228,7 +228,7 @@ func (ls *LineSegments) DefaultUp() *Vector3 {
 	return &Vector3{Value: ls.Get("DefaultUp")}
 }
 func (ls *LineSegments) SetDefaultUp(v *Vector3) {
-	ls.Set("DefaultUp", v.Value)
+	ls.Set("DefaultUp", v.JSValue())
 }
 func (ls *LineSegments) Add(object js.Value) *LineSegments {
 	return &LineSegments{Value: ls.Call("add", object)}
@@ -237,7 +237,7 @@ func (ls *LineSegments) AddEventListener(typ string, listener js.Value) {
 	ls.Call("addEventListener", typ, listener)
 }
 func (ls *LineSegments) ApplyMatrix(matrix *Matrix4) {
-	ls.Call("applyMatrix", matrix)
+	ls.Call("applyMatrix", matrix.JSValue())
 }
 func (ls *LineSegments) ApplyQuaternion(quaternion *Quaternion) *LineSegments {
 	return &LineSegments{Value: ls.Call("applyQuaternion", quaternion)}
@@ -285,7 +285,7 @@ func (ls *LineSegments) LookAt(vector *Vector3, y float64, z float64) {
 	ls.Call("lookAt", vector, y, z)
 }
 func (ls *LineSegments) Raycast(raycaster *Raycaster, intersects js.Value) {
-	ls.Call("raycast", raycaster, intersects)
+	ls.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (ls *LineSegments) Remove(object js.Value) *LineSegments {
 	return &LineSegments{Value: ls.Call("remove", object)}
@@ -309,16 +309,16 @@ func (ls *LineSegments) RotateZ(angle float64) *LineSegments {
 	return &LineSegments{Value: ls.Call("rotateZ", angle)}
 }
 func (ls *LineSegments) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	ls.Call("setRotationFromAxisAngle", axis, angle)
+	ls.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (ls *LineSegments) SetRotationFromEuler(euler *Euler) {
-	ls.Call("setRotationFromEuler", euler)
+	ls.Call("setRotationFromEuler", euler.JSValue())
 }
 func (ls *LineSegments) SetRotationFromMatrix(m *Matrix4) {
-	ls.Call("setRotationFromMatrix", m)
+	ls.Call("setRotationFromMatrix", m.JSValue())
 }
 func (ls *LineSegments) SetRotationFromQuaternion(q *Quaternion) {
-	ls.Call("setRotationFromQuaternion", q)
+	ls.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (ls *LineSegments) ToJSON(meta js.Value) js.Value {
 	return ls.Call("toJSON", meta)

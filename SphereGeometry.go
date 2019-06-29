@@ -29,13 +29,13 @@ func (sbg *SphereBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: sbg.Get("boundingBox")}
 }
 func (sbg *SphereBufferGeometry) SetBoundingBox(v *Box3) {
-	sbg.Set("boundingBox", v.Value)
+	sbg.Set("boundingBox", v.JSValue())
 }
 func (sbg *SphereBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: sbg.Get("boundingSphere")}
 }
 func (sbg *SphereBufferGeometry) SetBoundingSphere(v *Sphere) {
-	sbg.Set("boundingSphere", v.Value)
+	sbg.Set("boundingSphere", v.JSValue())
 }
 func (sbg *SphereBufferGeometry) DrawRange() js.Value {
 	return sbg.Get("drawRange")
@@ -65,7 +65,7 @@ func (sbg *SphereBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: sbg.Get("index")}
 }
 func (sbg *SphereBufferGeometry) SetIndex(v *BufferAttribute) {
-	sbg.Set("index", v.Value)
+	sbg.Set("index", v.JSValue())
 }
 func (sbg *SphereBufferGeometry) MorphAttributes() js.Value {
 	return sbg.Get("morphAttributes")
@@ -182,7 +182,7 @@ func (sbg *SphereBufferGeometry) HasEventListener(typ string, listener js.Value)
 	return sbg.Call("hasEventListener", typ, listener).Bool()
 }
 func (sbg *SphereBufferGeometry) LookAt(v *Vector3) {
-	sbg.Call("lookAt", v)
+	sbg.Call("lookAt", v.JSValue())
 }
 func (sbg *SphereBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
 	return &BufferGeometry{Value: sbg.Call("merge", geometry, offset)}
@@ -230,7 +230,7 @@ func (sbg *SphereBufferGeometry) Translate(x float64, y float64, z float64) *Buf
 	return &BufferGeometry{Value: sbg.Call("translate", x, y, z)}
 }
 func (sbg *SphereBufferGeometry) UpdateFromObject(object *Object3D) {
-	sbg.Call("updateFromObject", object)
+	sbg.Call("updateFromObject", object.JSValue())
 }
 
 // SphereGeometry extend: [Geometry]
@@ -248,7 +248,7 @@ func (sg *SphereGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: sg.Get("animation")}
 }
 func (sg *SphereGeometry) SetAnimation(v *AnimationClip) {
-	sg.Set("animation", v.Value)
+	sg.Set("animation", v.JSValue())
 }
 func (sg *SphereGeometry) Animations() js.Value {
 	return sg.Get("animations")
@@ -266,13 +266,13 @@ func (sg *SphereGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: sg.Get("boundingBox")}
 }
 func (sg *SphereGeometry) SetBoundingBox(v *Box3) {
-	sg.Set("boundingBox", v.Value)
+	sg.Set("boundingBox", v.JSValue())
 }
 func (sg *SphereGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: sg.Get("boundingSphere")}
 }
 func (sg *SphereGeometry) SetBoundingSphere(v *Sphere) {
-	sg.Set("boundingSphere", v.Value)
+	sg.Set("boundingSphere", v.JSValue())
 }
 func (sg *SphereGeometry) Colors() js.Value {
 	return sg.Get("colors")
@@ -446,13 +446,13 @@ func (sg *SphereGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return sg.Call("hasEventListener", typ, listener).Bool()
 }
 func (sg *SphereGeometry) LookAt(vector *Vector3) {
-	sg.Call("lookAt", vector)
+	sg.Call("lookAt", vector.JSValue())
 }
 func (sg *SphereGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
 	sg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
-func (sg *SphereGeometry) MergeMesh(mesh *Mesh) {
-	sg.Call("mergeMesh", mesh)
+func (sg *SphereGeometry) MergeMesh(mesh Mesh) {
+	sg.Call("mergeMesh", mesh.JSValue())
 }
 func (sg *SphereGeometry) MergeVertices() float64 {
 	return sg.Call("mergeVertices").Float()

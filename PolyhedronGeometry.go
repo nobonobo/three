@@ -29,13 +29,13 @@ func (pbg *PolyhedronBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: pbg.Get("boundingBox")}
 }
 func (pbg *PolyhedronBufferGeometry) SetBoundingBox(v *Box3) {
-	pbg.Set("boundingBox", v.Value)
+	pbg.Set("boundingBox", v.JSValue())
 }
 func (pbg *PolyhedronBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: pbg.Get("boundingSphere")}
 }
 func (pbg *PolyhedronBufferGeometry) SetBoundingSphere(v *Sphere) {
-	pbg.Set("boundingSphere", v.Value)
+	pbg.Set("boundingSphere", v.JSValue())
 }
 func (pbg *PolyhedronBufferGeometry) DrawRange() js.Value {
 	return pbg.Get("drawRange")
@@ -65,7 +65,7 @@ func (pbg *PolyhedronBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: pbg.Get("index")}
 }
 func (pbg *PolyhedronBufferGeometry) SetIndex(v *BufferAttribute) {
-	pbg.Set("index", v.Value)
+	pbg.Set("index", v.JSValue())
 }
 func (pbg *PolyhedronBufferGeometry) MorphAttributes() js.Value {
 	return pbg.Get("morphAttributes")
@@ -182,7 +182,7 @@ func (pbg *PolyhedronBufferGeometry) HasEventListener(typ string, listener js.Va
 	return pbg.Call("hasEventListener", typ, listener).Bool()
 }
 func (pbg *PolyhedronBufferGeometry) LookAt(v *Vector3) {
-	pbg.Call("lookAt", v)
+	pbg.Call("lookAt", v.JSValue())
 }
 func (pbg *PolyhedronBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
 	return &BufferGeometry{Value: pbg.Call("merge", geometry, offset)}
@@ -230,7 +230,7 @@ func (pbg *PolyhedronBufferGeometry) Translate(x float64, y float64, z float64) 
 	return &BufferGeometry{Value: pbg.Call("translate", x, y, z)}
 }
 func (pbg *PolyhedronBufferGeometry) UpdateFromObject(object *Object3D) {
-	pbg.Call("updateFromObject", object)
+	pbg.Call("updateFromObject", object.JSValue())
 }
 
 // PolyhedronGeometry extend: [Geometry]
@@ -248,7 +248,7 @@ func (pg *PolyhedronGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: pg.Get("animation")}
 }
 func (pg *PolyhedronGeometry) SetAnimation(v *AnimationClip) {
-	pg.Set("animation", v.Value)
+	pg.Set("animation", v.JSValue())
 }
 func (pg *PolyhedronGeometry) Animations() js.Value {
 	return pg.Get("animations")
@@ -266,13 +266,13 @@ func (pg *PolyhedronGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: pg.Get("boundingBox")}
 }
 func (pg *PolyhedronGeometry) SetBoundingBox(v *Box3) {
-	pg.Set("boundingBox", v.Value)
+	pg.Set("boundingBox", v.JSValue())
 }
 func (pg *PolyhedronGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: pg.Get("boundingSphere")}
 }
 func (pg *PolyhedronGeometry) SetBoundingSphere(v *Sphere) {
-	pg.Set("boundingSphere", v.Value)
+	pg.Set("boundingSphere", v.JSValue())
 }
 func (pg *PolyhedronGeometry) Colors() js.Value {
 	return pg.Get("colors")
@@ -446,13 +446,13 @@ func (pg *PolyhedronGeometry) HasEventListener(typ string, listener js.Value) bo
 	return pg.Call("hasEventListener", typ, listener).Bool()
 }
 func (pg *PolyhedronGeometry) LookAt(vector *Vector3) {
-	pg.Call("lookAt", vector)
+	pg.Call("lookAt", vector.JSValue())
 }
 func (pg *PolyhedronGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
 	pg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
-func (pg *PolyhedronGeometry) MergeMesh(mesh *Mesh) {
-	pg.Call("mergeMesh", mesh)
+func (pg *PolyhedronGeometry) MergeMesh(mesh Mesh) {
+	pg.Call("mergeMesh", mesh.JSValue())
 }
 func (pg *PolyhedronGeometry) MergeVertices() float64 {
 	return pg.Call("mergeVertices").Float()

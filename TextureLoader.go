@@ -14,7 +14,7 @@ type TextureLoader struct {
 }
 
 func NewTextureLoader(manager *LoadingManager) *TextureLoader {
-	return &TextureLoader{Value: get("TextureLoader").New(manager)}
+	return &TextureLoader{Value: get("TextureLoader").New(manager.JSValue())}
 }
 func (tl *TextureLoader) JSValue() js.Value {
 	return tl.Value
@@ -29,7 +29,7 @@ func (tl *TextureLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: tl.Get("manager")}
 }
 func (tl *TextureLoader) SetManager(v *LoadingManager) {
-	tl.Set("manager", v.Value)
+	tl.Set("manager", v.JSValue())
 }
 func (tl *TextureLoader) Path() string {
 	return tl.Get("path").String()

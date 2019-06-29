@@ -14,7 +14,7 @@ type WebGLProgram struct {
 }
 
 func NewWebGLProgram(renderer *WebGLRenderer, extensions *WebGLExtensions, code string, material *ShaderMaterial, shader *WebGLShader, parameters WebGLRendererParameters, capabilities *WebGLCapabilities, textures *WebGLTextures) *WebGLProgram {
-	return &WebGLProgram{Value: get("WebGLProgram").New(renderer, extensions, code, material, shader, parameters, capabilities, textures)}
+	return &WebGLProgram{Value: get("WebGLProgram").New(renderer.JSValue(), extensions.JSValue(), code, material.JSValue(), shader.JSValue(), parameters, capabilities.JSValue(), textures.JSValue())}
 }
 func (wglp *WebGLProgram) JSValue() js.Value {
 	return wglp.Value
@@ -35,7 +35,7 @@ func (wglp *WebGLProgram) FragmentShader() *WebGLShader {
 	return &WebGLShader{Value: wglp.Get("fragmentShader")}
 }
 func (wglp *WebGLProgram) SetFragmentShader(v *WebGLShader) {
-	wglp.Set("fragmentShader", v.Value)
+	wglp.Set("fragmentShader", v.JSValue())
 }
 func (wglp *WebGLProgram) Id() int {
 	return wglp.Get("id").Int()
@@ -65,7 +65,7 @@ func (wglp *WebGLProgram) VertexShader() *WebGLShader {
 	return &WebGLShader{Value: wglp.Get("vertexShader")}
 }
 func (wglp *WebGLProgram) SetVertexShader(v *WebGLShader) {
-	wglp.Set("vertexShader", v.Value)
+	wglp.Set("vertexShader", v.JSValue())
 }
 func (wglp *WebGLProgram) Destroy() {
 	wglp.Call("destroy")

@@ -29,7 +29,7 @@ func (sls *SpotLightShadow) Camera() *PerspectiveCamera {
 	return &PerspectiveCamera{Value: sls.Get("camera")}
 }
 func (sls *SpotLightShadow) SetCamera(v *PerspectiveCamera) {
-	sls.Set("camera", v.Value)
+	sls.Set("camera", v.JSValue())
 }
 func (sls *SpotLightShadow) Map() js.Value {
 	return sls.Get("map")
@@ -41,13 +41,13 @@ func (sls *SpotLightShadow) MapSize() *Vector2 {
 	return &Vector2{Value: sls.Get("mapSize")}
 }
 func (sls *SpotLightShadow) SetMapSize(v *Vector2) {
-	sls.Set("mapSize", v.Value)
+	sls.Set("mapSize", v.JSValue())
 }
 func (sls *SpotLightShadow) Matrix() *Matrix4 {
 	return &Matrix4{Value: sls.Get("matrix")}
 }
 func (sls *SpotLightShadow) SetMatrix(v *Matrix4) {
-	sls.Set("matrix", v.Value)
+	sls.Set("matrix", v.JSValue())
 }
 func (sls *SpotLightShadow) Radius() float64 {
 	return sls.Get("radius").Float()
@@ -65,5 +65,5 @@ func (sls *SpotLightShadow) ToJSON() js.Value {
 	return sls.Call("toJSON")
 }
 func (sls *SpotLightShadow) Update(light *Light) {
-	sls.Call("update", light)
+	sls.Call("update", light.JSValue())
 }

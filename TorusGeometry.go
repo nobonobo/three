@@ -29,13 +29,13 @@ func (tbg *TorusBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: tbg.Get("boundingBox")}
 }
 func (tbg *TorusBufferGeometry) SetBoundingBox(v *Box3) {
-	tbg.Set("boundingBox", v.Value)
+	tbg.Set("boundingBox", v.JSValue())
 }
 func (tbg *TorusBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: tbg.Get("boundingSphere")}
 }
 func (tbg *TorusBufferGeometry) SetBoundingSphere(v *Sphere) {
-	tbg.Set("boundingSphere", v.Value)
+	tbg.Set("boundingSphere", v.JSValue())
 }
 func (tbg *TorusBufferGeometry) DrawRange() js.Value {
 	return tbg.Get("drawRange")
@@ -65,7 +65,7 @@ func (tbg *TorusBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: tbg.Get("index")}
 }
 func (tbg *TorusBufferGeometry) SetIndex(v *BufferAttribute) {
-	tbg.Set("index", v.Value)
+	tbg.Set("index", v.JSValue())
 }
 func (tbg *TorusBufferGeometry) MorphAttributes() js.Value {
 	return tbg.Get("morphAttributes")
@@ -182,7 +182,7 @@ func (tbg *TorusBufferGeometry) HasEventListener(typ string, listener js.Value) 
 	return tbg.Call("hasEventListener", typ, listener).Bool()
 }
 func (tbg *TorusBufferGeometry) LookAt(v *Vector3) {
-	tbg.Call("lookAt", v)
+	tbg.Call("lookAt", v.JSValue())
 }
 func (tbg *TorusBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
 	return &BufferGeometry{Value: tbg.Call("merge", geometry, offset)}
@@ -230,7 +230,7 @@ func (tbg *TorusBufferGeometry) Translate(x float64, y float64, z float64) *Buff
 	return &BufferGeometry{Value: tbg.Call("translate", x, y, z)}
 }
 func (tbg *TorusBufferGeometry) UpdateFromObject(object *Object3D) {
-	tbg.Call("updateFromObject", object)
+	tbg.Call("updateFromObject", object.JSValue())
 }
 
 // TorusGeometry extend: [Geometry]
@@ -248,7 +248,7 @@ func (tg *TorusGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: tg.Get("animation")}
 }
 func (tg *TorusGeometry) SetAnimation(v *AnimationClip) {
-	tg.Set("animation", v.Value)
+	tg.Set("animation", v.JSValue())
 }
 func (tg *TorusGeometry) Animations() js.Value {
 	return tg.Get("animations")
@@ -266,13 +266,13 @@ func (tg *TorusGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: tg.Get("boundingBox")}
 }
 func (tg *TorusGeometry) SetBoundingBox(v *Box3) {
-	tg.Set("boundingBox", v.Value)
+	tg.Set("boundingBox", v.JSValue())
 }
 func (tg *TorusGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: tg.Get("boundingSphere")}
 }
 func (tg *TorusGeometry) SetBoundingSphere(v *Sphere) {
-	tg.Set("boundingSphere", v.Value)
+	tg.Set("boundingSphere", v.JSValue())
 }
 func (tg *TorusGeometry) Colors() js.Value {
 	return tg.Get("colors")
@@ -446,13 +446,13 @@ func (tg *TorusGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return tg.Call("hasEventListener", typ, listener).Bool()
 }
 func (tg *TorusGeometry) LookAt(vector *Vector3) {
-	tg.Call("lookAt", vector)
+	tg.Call("lookAt", vector.JSValue())
 }
 func (tg *TorusGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
 	tg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
-func (tg *TorusGeometry) MergeMesh(mesh *Mesh) {
-	tg.Call("mergeMesh", mesh)
+func (tg *TorusGeometry) MergeMesh(mesh Mesh) {
+	tg.Call("mergeMesh", mesh.JSValue())
 }
 func (tg *TorusGeometry) MergeVertices() float64 {
 	return tg.Call("mergeVertices").Float()

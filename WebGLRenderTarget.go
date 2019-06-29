@@ -38,7 +38,7 @@ func (wglrt *WebGLRenderTarget) DepthTexture() *Texture {
 	return &Texture{Value: wglrt.Get("depthTexture")}
 }
 func (wglrt *WebGLRenderTarget) SetDepthTexture(v *Texture) {
-	wglrt.Set("depthTexture", v.Value)
+	wglrt.Set("depthTexture", v.JSValue())
 }
 func (wglrt *WebGLRenderTarget) Format() js.Value {
 	return wglrt.Get("format")
@@ -86,7 +86,7 @@ func (wglrt *WebGLRenderTarget) Scissor() *Vector4 {
 	return &Vector4{Value: wglrt.Get("scissor")}
 }
 func (wglrt *WebGLRenderTarget) SetScissor(v *Vector4) {
-	wglrt.Set("scissor", v.Value)
+	wglrt.Set("scissor", v.JSValue())
 }
 func (wglrt *WebGLRenderTarget) ScissorTest() bool {
 	return wglrt.Get("scissorTest").Bool()
@@ -104,7 +104,7 @@ func (wglrt *WebGLRenderTarget) Texture() *Texture {
 	return &Texture{Value: wglrt.Get("texture")}
 }
 func (wglrt *WebGLRenderTarget) SetTexture(v *Texture) {
-	wglrt.Set("texture", v.Value)
+	wglrt.Set("texture", v.JSValue())
 }
 func (wglrt *WebGLRenderTarget) Type() js.Value {
 	return wglrt.Get("type")
@@ -122,7 +122,7 @@ func (wglrt *WebGLRenderTarget) Viewport() *Vector4 {
 	return &Vector4{Value: wglrt.Get("viewport")}
 }
 func (wglrt *WebGLRenderTarget) SetViewport(v *Vector4) {
-	wglrt.Set("viewport", v.Value)
+	wglrt.Set("viewport", v.JSValue())
 }
 func (wglrt *WebGLRenderTarget) Width() float64 {
 	return wglrt.Get("width").Float()

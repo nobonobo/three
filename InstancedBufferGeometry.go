@@ -29,13 +29,13 @@ func (ibg *InstancedBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: ibg.Get("boundingBox")}
 }
 func (ibg *InstancedBufferGeometry) SetBoundingBox(v *Box3) {
-	ibg.Set("boundingBox", v.Value)
+	ibg.Set("boundingBox", v.JSValue())
 }
 func (ibg *InstancedBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: ibg.Get("boundingSphere")}
 }
 func (ibg *InstancedBufferGeometry) SetBoundingSphere(v *Sphere) {
-	ibg.Set("boundingSphere", v.Value)
+	ibg.Set("boundingSphere", v.JSValue())
 }
 func (ibg *InstancedBufferGeometry) DrawRange() js.Value {
 	return ibg.Get("drawRange")
@@ -65,7 +65,7 @@ func (ibg *InstancedBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: ibg.Get("index")}
 }
 func (ibg *InstancedBufferGeometry) SetIndex(v *BufferAttribute) {
-	ibg.Set("index", v.Value)
+	ibg.Set("index", v.JSValue())
 }
 func (ibg *InstancedBufferGeometry) MaxInstancedCount() int {
 	return ibg.Get("maxInstancedCount").Int()
@@ -182,7 +182,7 @@ func (ibg *InstancedBufferGeometry) HasEventListener(typ string, listener js.Val
 	return ibg.Call("hasEventListener", typ, listener).Bool()
 }
 func (ibg *InstancedBufferGeometry) LookAt(v *Vector3) {
-	ibg.Call("lookAt", v)
+	ibg.Call("lookAt", v.JSValue())
 }
 func (ibg *InstancedBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
 	return &BufferGeometry{Value: ibg.Call("merge", geometry, offset)}
@@ -230,5 +230,5 @@ func (ibg *InstancedBufferGeometry) Translate(x float64, y float64, z float64) *
 	return &BufferGeometry{Value: ibg.Call("translate", x, y, z)}
 }
 func (ibg *InstancedBufferGeometry) UpdateFromObject(object *Object3D) {
-	ibg.Call("updateFromObject", object)
+	ibg.Call("updateFromObject", object.JSValue())
 }

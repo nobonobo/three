@@ -14,7 +14,7 @@ type ImageBitmapLoader struct {
 }
 
 func NewImageBitmapLoader(manager *LoadingManager) *ImageBitmapLoader {
-	return &ImageBitmapLoader{Value: get("ImageBitmapLoader").New(manager)}
+	return &ImageBitmapLoader{Value: get("ImageBitmapLoader").New(manager.JSValue())}
 }
 func (ibl *ImageBitmapLoader) JSValue() js.Value {
 	return ibl.Value
@@ -23,7 +23,7 @@ func (ibl *ImageBitmapLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: ibl.Get("manager")}
 }
 func (ibl *ImageBitmapLoader) SetManager(v *LoadingManager) {
-	ibl.Set("manager", v.Value)
+	ibl.Set("manager", v.JSValue())
 }
 func (ibl *ImageBitmapLoader) Load(url string, onLoad js.Value, onProgress js.Value, onError js.Value) js.Value {
 	return ibl.Call("load", url, onLoad, onProgress, onError)

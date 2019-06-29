@@ -29,7 +29,7 @@ func (dt *DepthTexture) Center() *Vector2 {
 	return &Vector2{Value: dt.Get("center")}
 }
 func (dt *DepthTexture) SetCenter(v *Vector2) {
-	dt.Set("center", v.Value)
+	dt.Set("center", v.JSValue())
 }
 func (dt *DepthTexture) Encoding() TextureEncoding {
 	return TextureEncoding(dt.Get("encoding"))
@@ -107,7 +107,7 @@ func (dt *DepthTexture) Offset() *Vector2 {
 	return &Vector2{Value: dt.Get("offset")}
 }
 func (dt *DepthTexture) SetOffset(v *Vector2) {
-	dt.Set("offset", v.Value)
+	dt.Set("offset", v.JSValue())
 }
 func (dt *DepthTexture) OnUpdate() js.Value {
 	return dt.Get("onUpdate")
@@ -125,7 +125,7 @@ func (dt *DepthTexture) Repeat() *Vector2 {
 	return &Vector2{Value: dt.Get("repeat")}
 }
 func (dt *DepthTexture) SetRepeat(v *Vector2) {
-	dt.Set("repeat", v.Value)
+	dt.Set("repeat", v.JSValue())
 }
 func (dt *DepthTexture) Rotation() float64 {
 	return dt.Get("rotation").Float()

@@ -26,7 +26,7 @@ func (msm *MeshStandardMaterial) AlphaMap() *Texture {
 	return &Texture{Value: msm.Get("alphaMap")}
 }
 func (msm *MeshStandardMaterial) SetAlphaMap(v *Texture) {
-	msm.Set("alphaMap", v.Value)
+	msm.Set("alphaMap", v.JSValue())
 }
 func (msm *MeshStandardMaterial) AlphaTest() float64 {
 	return msm.Get("alphaTest").Float()
@@ -38,7 +38,7 @@ func (msm *MeshStandardMaterial) AoMap() *Texture {
 	return &Texture{Value: msm.Get("aoMap")}
 }
 func (msm *MeshStandardMaterial) SetAoMap(v *Texture) {
-	msm.Set("aoMap", v.Value)
+	msm.Set("aoMap", v.JSValue())
 }
 func (msm *MeshStandardMaterial) AoMapIntensity() float64 {
 	return msm.Get("aoMapIntensity").Float()
@@ -92,7 +92,7 @@ func (msm *MeshStandardMaterial) BumpMap() *Texture {
 	return &Texture{Value: msm.Get("bumpMap")}
 }
 func (msm *MeshStandardMaterial) SetBumpMap(v *Texture) {
-	msm.Set("bumpMap", v.Value)
+	msm.Set("bumpMap", v.JSValue())
 }
 func (msm *MeshStandardMaterial) BumpScale() float64 {
 	return msm.Get("bumpScale").Float()
@@ -122,7 +122,7 @@ func (msm *MeshStandardMaterial) Color() *Color {
 	return &Color{Value: msm.Get("color")}
 }
 func (msm *MeshStandardMaterial) SetColor(v *Color) {
-	msm.Set("color", v.Value)
+	msm.Set("color", v.JSValue())
 }
 func (msm *MeshStandardMaterial) ColorWrite() bool {
 	return msm.Get("colorWrite").Bool()
@@ -164,7 +164,7 @@ func (msm *MeshStandardMaterial) DisplacementMap() *Texture {
 	return &Texture{Value: msm.Get("displacementMap")}
 }
 func (msm *MeshStandardMaterial) SetDisplacementMap(v *Texture) {
-	msm.Set("displacementMap", v.Value)
+	msm.Set("displacementMap", v.JSValue())
 }
 func (msm *MeshStandardMaterial) DisplacementScale() float64 {
 	return msm.Get("displacementScale").Float()
@@ -182,7 +182,7 @@ func (msm *MeshStandardMaterial) Emissive() *Color {
 	return &Color{Value: msm.Get("emissive")}
 }
 func (msm *MeshStandardMaterial) SetEmissive(v *Color) {
-	msm.Set("emissive", v.Value)
+	msm.Set("emissive", v.JSValue())
 }
 func (msm *MeshStandardMaterial) EmissiveIntensity() float64 {
 	return msm.Get("emissiveIntensity").Float()
@@ -194,13 +194,13 @@ func (msm *MeshStandardMaterial) EmissiveMap() *Texture {
 	return &Texture{Value: msm.Get("emissiveMap")}
 }
 func (msm *MeshStandardMaterial) SetEmissiveMap(v *Texture) {
-	msm.Set("emissiveMap", v.Value)
+	msm.Set("emissiveMap", v.JSValue())
 }
 func (msm *MeshStandardMaterial) EnvMap() *Texture {
 	return &Texture{Value: msm.Get("envMap")}
 }
 func (msm *MeshStandardMaterial) SetEnvMap(v *Texture) {
-	msm.Set("envMap", v.Value)
+	msm.Set("envMap", v.JSValue())
 }
 func (msm *MeshStandardMaterial) EnvMapIntensity() float64 {
 	return msm.Get("envMapIntensity").Float()
@@ -236,7 +236,7 @@ func (msm *MeshStandardMaterial) LightMap() *Texture {
 	return &Texture{Value: msm.Get("lightMap")}
 }
 func (msm *MeshStandardMaterial) SetLightMap(v *Texture) {
-	msm.Set("lightMap", v.Value)
+	msm.Set("lightMap", v.JSValue())
 }
 func (msm *MeshStandardMaterial) LightMapIntensity() float64 {
 	return msm.Get("lightMapIntensity").Float()
@@ -254,7 +254,7 @@ func (msm *MeshStandardMaterial) Map() *Texture {
 	return &Texture{Value: msm.Get("map")}
 }
 func (msm *MeshStandardMaterial) SetMap(v *Texture) {
-	msm.Set("map", v.Value)
+	msm.Set("map", v.JSValue())
 }
 func (msm *MeshStandardMaterial) Metalness() float64 {
 	return msm.Get("metalness").Float()
@@ -266,7 +266,7 @@ func (msm *MeshStandardMaterial) MetalnessMap() *Texture {
 	return &Texture{Value: msm.Get("metalnessMap")}
 }
 func (msm *MeshStandardMaterial) SetMetalnessMap(v *Texture) {
-	msm.Set("metalnessMap", v.Value)
+	msm.Set("metalnessMap", v.JSValue())
 }
 func (msm *MeshStandardMaterial) MorphNormals() bool {
 	return msm.Get("morphNormals").Bool()
@@ -296,7 +296,7 @@ func (msm *MeshStandardMaterial) NormalMap() *Texture {
 	return &Texture{Value: msm.Get("normalMap")}
 }
 func (msm *MeshStandardMaterial) SetNormalMap(v *Texture) {
-	msm.Set("normalMap", v.Value)
+	msm.Set("normalMap", v.JSValue())
 }
 func (msm *MeshStandardMaterial) NormalMapType() NormalMapTypes {
 	return NormalMapTypes(msm.Get("normalMapType"))
@@ -368,7 +368,7 @@ func (msm *MeshStandardMaterial) RoughnessMap() *Texture {
 	return &Texture{Value: msm.Get("roughnessMap")}
 }
 func (msm *MeshStandardMaterial) SetRoughnessMap(v *Texture) {
-	msm.Set("roughnessMap", v.Value)
+	msm.Set("roughnessMap", v.JSValue())
 }
 func (msm *MeshStandardMaterial) Side() Side {
 	return Side(msm.Get("side"))
@@ -455,7 +455,7 @@ func (msm *MeshStandardMaterial) HasEventListener(typ string, listener js.Value)
 	return msm.Call("hasEventListener", typ, listener).Bool()
 }
 func (msm *MeshStandardMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	msm.Call("onBeforeCompile", shader, renderer)
+	msm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (msm *MeshStandardMaterial) RemoveEventListener(typ string, listener js.Value) {
 	msm.Call("removeEventListener", typ, listener)

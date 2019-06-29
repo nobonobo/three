@@ -14,7 +14,7 @@ type CubicBezierCurve struct {
 }
 
 func NewCubicBezierCurve(v0 *Vector2, v1 *Vector2, v2 *Vector2, v3 *Vector2) *CubicBezierCurve {
-	return &CubicBezierCurve{Value: get("CubicBezierCurve").New(v0, v1, v2, v3)}
+	return &CubicBezierCurve{Value: get("CubicBezierCurve").New(v0.JSValue(), v1.JSValue(), v2.JSValue(), v3.JSValue())}
 }
 func (cbc *CubicBezierCurve) JSValue() js.Value {
 	return cbc.Value
@@ -29,25 +29,25 @@ func (cbc *CubicBezierCurve) V0() *Vector2 {
 	return &Vector2{Value: cbc.Get("v0")}
 }
 func (cbc *CubicBezierCurve) SetV0(v *Vector2) {
-	cbc.Set("v0", v.Value)
+	cbc.Set("v0", v.JSValue())
 }
 func (cbc *CubicBezierCurve) V1() *Vector2 {
 	return &Vector2{Value: cbc.Get("v1")}
 }
 func (cbc *CubicBezierCurve) SetV1(v *Vector2) {
-	cbc.Set("v1", v.Value)
+	cbc.Set("v1", v.JSValue())
 }
 func (cbc *CubicBezierCurve) V2() *Vector2 {
 	return &Vector2{Value: cbc.Get("v2")}
 }
 func (cbc *CubicBezierCurve) SetV2(v *Vector2) {
-	cbc.Set("v2", v.Value)
+	cbc.Set("v2", v.JSValue())
 }
 func (cbc *CubicBezierCurve) V3() *Vector2 {
 	return &Vector2{Value: cbc.Get("v3")}
 }
 func (cbc *CubicBezierCurve) SetV3(v *Vector2) {
-	cbc.Set("v3", v.Value)
+	cbc.Set("v3", v.JSValue())
 }
 func (cbc *CubicBezierCurve) GetLength() float64 {
 	return cbc.Call("getLength").Float()

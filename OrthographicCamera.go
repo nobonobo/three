@@ -77,7 +77,7 @@ func (oc *OrthographicCamera) Layers() *Layers {
 	return &Layers{Value: oc.Get("layers")}
 }
 func (oc *OrthographicCamera) SetLayers(v *Layers) {
-	oc.Set("layers", v.Value)
+	oc.Set("layers", v.JSValue())
 }
 func (oc *OrthographicCamera) Left() float64 {
 	return oc.Get("left").Float()
@@ -89,7 +89,7 @@ func (oc *OrthographicCamera) Matrix() *Matrix4 {
 	return &Matrix4{Value: oc.Get("matrix")}
 }
 func (oc *OrthographicCamera) SetMatrix(v *Matrix4) {
-	oc.Set("matrix", v.Value)
+	oc.Set("matrix", v.JSValue())
 }
 func (oc *OrthographicCamera) MatrixAutoUpdate() bool {
 	return oc.Get("matrixAutoUpdate").Bool()
@@ -101,13 +101,13 @@ func (oc *OrthographicCamera) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: oc.Get("matrixWorld")}
 }
 func (oc *OrthographicCamera) SetMatrixWorld(v *Matrix4) {
-	oc.Set("matrixWorld", v.Value)
+	oc.Set("matrixWorld", v.JSValue())
 }
 func (oc *OrthographicCamera) MatrixWorldInverse() *Matrix4 {
 	return &Matrix4{Value: oc.Get("matrixWorldInverse")}
 }
 func (oc *OrthographicCamera) SetMatrixWorldInverse(v *Matrix4) {
-	oc.Set("matrixWorldInverse", v.Value)
+	oc.Set("matrixWorldInverse", v.JSValue())
 }
 func (oc *OrthographicCamera) MatrixWorldNeedsUpdate() bool {
 	return oc.Get("matrixWorldNeedsUpdate").Bool()
@@ -119,7 +119,7 @@ func (oc *OrthographicCamera) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: oc.Get("modelViewMatrix")}
 }
 func (oc *OrthographicCamera) SetModelViewMatrix(v *Matrix4) {
-	oc.Set("modelViewMatrix", v.Value)
+	oc.Set("modelViewMatrix", v.JSValue())
 }
 func (oc *OrthographicCamera) Name() string {
 	return oc.Get("name").String()
@@ -137,7 +137,7 @@ func (oc *OrthographicCamera) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: oc.Get("normalMatrix")}
 }
 func (oc *OrthographicCamera) SetNormalMatrix(v *Matrix3) {
-	oc.Set("normalMatrix", v.Value)
+	oc.Set("normalMatrix", v.JSValue())
 }
 func (oc *OrthographicCamera) OnAfterRender() js.Value {
 	return oc.Get("onAfterRender")
@@ -155,25 +155,25 @@ func (oc *OrthographicCamera) Parent() *Object3D {
 	return &Object3D{Value: oc.Get("parent")}
 }
 func (oc *OrthographicCamera) SetParent(v *Object3D) {
-	oc.Set("parent", v.Value)
+	oc.Set("parent", v.JSValue())
 }
 func (oc *OrthographicCamera) Position() *Vector3 {
 	return &Vector3{Value: oc.Get("position")}
 }
 func (oc *OrthographicCamera) SetPosition(v *Vector3) {
-	oc.Set("position", v.Value)
+	oc.Set("position", v.JSValue())
 }
 func (oc *OrthographicCamera) ProjectionMatrix() *Matrix4 {
 	return &Matrix4{Value: oc.Get("projectionMatrix")}
 }
 func (oc *OrthographicCamera) SetProjectionMatrix(v *Matrix4) {
-	oc.Set("projectionMatrix", v.Value)
+	oc.Set("projectionMatrix", v.JSValue())
 }
 func (oc *OrthographicCamera) Quaternion() *Quaternion {
 	return &Quaternion{Value: oc.Get("quaternion")}
 }
 func (oc *OrthographicCamera) SetQuaternion(v *Quaternion) {
-	oc.Set("quaternion", v.Value)
+	oc.Set("quaternion", v.JSValue())
 }
 func (oc *OrthographicCamera) ReceiveShadow() bool {
 	return oc.Get("receiveShadow").Bool()
@@ -197,13 +197,13 @@ func (oc *OrthographicCamera) Rotation() *Euler {
 	return &Euler{Value: oc.Get("rotation")}
 }
 func (oc *OrthographicCamera) SetRotation(v *Euler) {
-	oc.Set("rotation", v.Value)
+	oc.Set("rotation", v.JSValue())
 }
 func (oc *OrthographicCamera) Scale() *Vector3 {
 	return &Vector3{Value: oc.Get("scale")}
 }
 func (oc *OrthographicCamera) SetScale(v *Vector3) {
-	oc.Set("scale", v.Value)
+	oc.Set("scale", v.JSValue())
 }
 func (oc *OrthographicCamera) Top() float64 {
 	return oc.Get("top").Float()
@@ -221,7 +221,7 @@ func (oc *OrthographicCamera) Up() *Vector3 {
 	return &Vector3{Value: oc.Get("up")}
 }
 func (oc *OrthographicCamera) SetUp(v *Vector3) {
-	oc.Set("up", v.Value)
+	oc.Set("up", v.JSValue())
 }
 func (oc *OrthographicCamera) UserData() js.Value {
 	return oc.Get("userData")
@@ -263,7 +263,7 @@ func (oc *OrthographicCamera) DefaultUp() *Vector3 {
 	return &Vector3{Value: oc.Get("DefaultUp")}
 }
 func (oc *OrthographicCamera) SetDefaultUp(v *Vector3) {
-	oc.Set("DefaultUp", v.Value)
+	oc.Set("DefaultUp", v.JSValue())
 }
 func (oc *OrthographicCamera) Add(object js.Value) *OrthographicCamera {
 	return &OrthographicCamera{Value: oc.Call("add", object)}
@@ -272,7 +272,7 @@ func (oc *OrthographicCamera) AddEventListener(typ string, listener js.Value) {
 	oc.Call("addEventListener", typ, listener)
 }
 func (oc *OrthographicCamera) ApplyMatrix(matrix *Matrix4) {
-	oc.Call("applyMatrix", matrix)
+	oc.Call("applyMatrix", matrix.JSValue())
 }
 func (oc *OrthographicCamera) ApplyQuaternion(quaternion *Quaternion) *OrthographicCamera {
 	return &OrthographicCamera{Value: oc.Call("applyQuaternion", quaternion)}
@@ -320,7 +320,7 @@ func (oc *OrthographicCamera) LookAt(vector *Vector3, y float64, z float64) {
 	oc.Call("lookAt", vector, y, z)
 }
 func (oc *OrthographicCamera) Raycast(raycaster *Raycaster, intersects js.Value) {
-	oc.Call("raycast", raycaster, intersects)
+	oc.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (oc *OrthographicCamera) Remove(object js.Value) *OrthographicCamera {
 	return &OrthographicCamera{Value: oc.Call("remove", object)}
@@ -344,16 +344,16 @@ func (oc *OrthographicCamera) RotateZ(angle float64) *OrthographicCamera {
 	return &OrthographicCamera{Value: oc.Call("rotateZ", angle)}
 }
 func (oc *OrthographicCamera) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	oc.Call("setRotationFromAxisAngle", axis, angle)
+	oc.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (oc *OrthographicCamera) SetRotationFromEuler(euler *Euler) {
-	oc.Call("setRotationFromEuler", euler)
+	oc.Call("setRotationFromEuler", euler.JSValue())
 }
 func (oc *OrthographicCamera) SetRotationFromMatrix(m *Matrix4) {
-	oc.Call("setRotationFromMatrix", m)
+	oc.Call("setRotationFromMatrix", m.JSValue())
 }
 func (oc *OrthographicCamera) SetRotationFromQuaternion(q *Quaternion) {
-	oc.Call("setRotationFromQuaternion", q)
+	oc.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (oc *OrthographicCamera) SetViewOffset(fullWidth float64, fullHeight float64, offsetX float64, offsetY float64, width float64, height float64) {
 	oc.Call("setViewOffset", fullWidth, fullHeight, offsetX, offsetY, width, height)

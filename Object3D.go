@@ -60,13 +60,13 @@ func (od *Object3D) Layers() *Layers {
 	return &Layers{Value: od.Get("layers")}
 }
 func (od *Object3D) SetLayers(v *Layers) {
-	od.Set("layers", v.Value)
+	od.Set("layers", v.JSValue())
 }
 func (od *Object3D) Matrix() *Matrix4 {
 	return &Matrix4{Value: od.Get("matrix")}
 }
 func (od *Object3D) SetMatrix(v *Matrix4) {
-	od.Set("matrix", v.Value)
+	od.Set("matrix", v.JSValue())
 }
 func (od *Object3D) MatrixAutoUpdate() bool {
 	return od.Get("matrixAutoUpdate").Bool()
@@ -78,7 +78,7 @@ func (od *Object3D) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: od.Get("matrixWorld")}
 }
 func (od *Object3D) SetMatrixWorld(v *Matrix4) {
-	od.Set("matrixWorld", v.Value)
+	od.Set("matrixWorld", v.JSValue())
 }
 func (od *Object3D) MatrixWorldNeedsUpdate() bool {
 	return od.Get("matrixWorldNeedsUpdate").Bool()
@@ -90,7 +90,7 @@ func (od *Object3D) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: od.Get("modelViewMatrix")}
 }
 func (od *Object3D) SetModelViewMatrix(v *Matrix4) {
-	od.Set("modelViewMatrix", v.Value)
+	od.Set("modelViewMatrix", v.JSValue())
 }
 func (od *Object3D) Name() string {
 	return od.Get("name").String()
@@ -102,7 +102,7 @@ func (od *Object3D) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: od.Get("normalMatrix")}
 }
 func (od *Object3D) SetNormalMatrix(v *Matrix3) {
-	od.Set("normalMatrix", v.Value)
+	od.Set("normalMatrix", v.JSValue())
 }
 func (od *Object3D) OnAfterRender() js.Value {
 	return od.Get("onAfterRender")
@@ -120,19 +120,19 @@ func (od *Object3D) Parent() *Object3D {
 	return &Object3D{Value: od.Get("parent")}
 }
 func (od *Object3D) SetParent(v *Object3D) {
-	od.Set("parent", v.Value)
+	od.Set("parent", v.JSValue())
 }
 func (od *Object3D) Position() *Vector3 {
 	return &Vector3{Value: od.Get("position")}
 }
 func (od *Object3D) SetPosition(v *Vector3) {
-	od.Set("position", v.Value)
+	od.Set("position", v.JSValue())
 }
 func (od *Object3D) Quaternion() *Quaternion {
 	return &Quaternion{Value: od.Get("quaternion")}
 }
 func (od *Object3D) SetQuaternion(v *Quaternion) {
-	od.Set("quaternion", v.Value)
+	od.Set("quaternion", v.JSValue())
 }
 func (od *Object3D) ReceiveShadow() bool {
 	return od.Get("receiveShadow").Bool()
@@ -150,13 +150,13 @@ func (od *Object3D) Rotation() *Euler {
 	return &Euler{Value: od.Get("rotation")}
 }
 func (od *Object3D) SetRotation(v *Euler) {
-	od.Set("rotation", v.Value)
+	od.Set("rotation", v.JSValue())
 }
 func (od *Object3D) Scale() *Vector3 {
 	return &Vector3{Value: od.Get("scale")}
 }
 func (od *Object3D) SetScale(v *Vector3) {
-	od.Set("scale", v.Value)
+	od.Set("scale", v.JSValue())
 }
 func (od *Object3D) Type() string {
 	return od.Get("type").String()
@@ -168,7 +168,7 @@ func (od *Object3D) Up() *Vector3 {
 	return &Vector3{Value: od.Get("up")}
 }
 func (od *Object3D) SetUp(v *Vector3) {
-	od.Set("up", v.Value)
+	od.Set("up", v.JSValue())
 }
 func (od *Object3D) UserData() js.Value {
 	return od.Get("userData")
@@ -198,7 +198,7 @@ func (od *Object3D) DefaultUp() *Vector3 {
 	return &Vector3{Value: od.Get("DefaultUp")}
 }
 func (od *Object3D) SetDefaultUp(v *Vector3) {
-	od.Set("DefaultUp", v.Value)
+	od.Set("DefaultUp", v.JSValue())
 }
 func (od *Object3D) Add(object js.Value) *Object3D {
 	return &Object3D{Value: od.Call("add", object)}
@@ -207,7 +207,7 @@ func (od *Object3D) AddEventListener(typ string, listener js.Value) {
 	od.Call("addEventListener", typ, listener)
 }
 func (od *Object3D) ApplyMatrix(matrix *Matrix4) {
-	od.Call("applyMatrix", matrix)
+	od.Call("applyMatrix", matrix.JSValue())
 }
 func (od *Object3D) ApplyQuaternion(quaternion *Quaternion) *Object3D {
 	return &Object3D{Value: od.Call("applyQuaternion", quaternion)}
@@ -252,7 +252,7 @@ func (od *Object3D) LookAt(vector *Vector3, y float64, z float64) {
 	od.Call("lookAt", vector, y, z)
 }
 func (od *Object3D) Raycast(raycaster *Raycaster, intersects js.Value) {
-	od.Call("raycast", raycaster, intersects)
+	od.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (od *Object3D) Remove(object js.Value) *Object3D {
 	return &Object3D{Value: od.Call("remove", object)}
@@ -276,16 +276,16 @@ func (od *Object3D) RotateZ(angle float64) *Object3D {
 	return &Object3D{Value: od.Call("rotateZ", angle)}
 }
 func (od *Object3D) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	od.Call("setRotationFromAxisAngle", axis, angle)
+	od.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (od *Object3D) SetRotationFromEuler(euler *Euler) {
-	od.Call("setRotationFromEuler", euler)
+	od.Call("setRotationFromEuler", euler.JSValue())
 }
 func (od *Object3D) SetRotationFromMatrix(m *Matrix4) {
-	od.Call("setRotationFromMatrix", m)
+	od.Call("setRotationFromMatrix", m.JSValue())
 }
 func (od *Object3D) SetRotationFromQuaternion(q *Quaternion) {
-	od.Call("setRotationFromQuaternion", q)
+	od.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (od *Object3D) ToJSON(meta js.Value) js.Value {
 	return od.Call("toJSON", meta)

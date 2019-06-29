@@ -101,13 +101,13 @@ func (pc *PerspectiveCamera) Layers() *Layers {
 	return &Layers{Value: pc.Get("layers")}
 }
 func (pc *PerspectiveCamera) SetLayers(v *Layers) {
-	pc.Set("layers", v.Value)
+	pc.Set("layers", v.JSValue())
 }
 func (pc *PerspectiveCamera) Matrix() *Matrix4 {
 	return &Matrix4{Value: pc.Get("matrix")}
 }
 func (pc *PerspectiveCamera) SetMatrix(v *Matrix4) {
-	pc.Set("matrix", v.Value)
+	pc.Set("matrix", v.JSValue())
 }
 func (pc *PerspectiveCamera) MatrixAutoUpdate() bool {
 	return pc.Get("matrixAutoUpdate").Bool()
@@ -119,13 +119,13 @@ func (pc *PerspectiveCamera) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: pc.Get("matrixWorld")}
 }
 func (pc *PerspectiveCamera) SetMatrixWorld(v *Matrix4) {
-	pc.Set("matrixWorld", v.Value)
+	pc.Set("matrixWorld", v.JSValue())
 }
 func (pc *PerspectiveCamera) MatrixWorldInverse() *Matrix4 {
 	return &Matrix4{Value: pc.Get("matrixWorldInverse")}
 }
 func (pc *PerspectiveCamera) SetMatrixWorldInverse(v *Matrix4) {
-	pc.Set("matrixWorldInverse", v.Value)
+	pc.Set("matrixWorldInverse", v.JSValue())
 }
 func (pc *PerspectiveCamera) MatrixWorldNeedsUpdate() bool {
 	return pc.Get("matrixWorldNeedsUpdate").Bool()
@@ -137,7 +137,7 @@ func (pc *PerspectiveCamera) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: pc.Get("modelViewMatrix")}
 }
 func (pc *PerspectiveCamera) SetModelViewMatrix(v *Matrix4) {
-	pc.Set("modelViewMatrix", v.Value)
+	pc.Set("modelViewMatrix", v.JSValue())
 }
 func (pc *PerspectiveCamera) Name() string {
 	return pc.Get("name").String()
@@ -155,7 +155,7 @@ func (pc *PerspectiveCamera) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: pc.Get("normalMatrix")}
 }
 func (pc *PerspectiveCamera) SetNormalMatrix(v *Matrix3) {
-	pc.Set("normalMatrix", v.Value)
+	pc.Set("normalMatrix", v.JSValue())
 }
 func (pc *PerspectiveCamera) OnAfterRender() js.Value {
 	return pc.Get("onAfterRender")
@@ -173,25 +173,25 @@ func (pc *PerspectiveCamera) Parent() *Object3D {
 	return &Object3D{Value: pc.Get("parent")}
 }
 func (pc *PerspectiveCamera) SetParent(v *Object3D) {
-	pc.Set("parent", v.Value)
+	pc.Set("parent", v.JSValue())
 }
 func (pc *PerspectiveCamera) Position() *Vector3 {
 	return &Vector3{Value: pc.Get("position")}
 }
 func (pc *PerspectiveCamera) SetPosition(v *Vector3) {
-	pc.Set("position", v.Value)
+	pc.Set("position", v.JSValue())
 }
 func (pc *PerspectiveCamera) ProjectionMatrix() *Matrix4 {
 	return &Matrix4{Value: pc.Get("projectionMatrix")}
 }
 func (pc *PerspectiveCamera) SetProjectionMatrix(v *Matrix4) {
-	pc.Set("projectionMatrix", v.Value)
+	pc.Set("projectionMatrix", v.JSValue())
 }
 func (pc *PerspectiveCamera) Quaternion() *Quaternion {
 	return &Quaternion{Value: pc.Get("quaternion")}
 }
 func (pc *PerspectiveCamera) SetQuaternion(v *Quaternion) {
-	pc.Set("quaternion", v.Value)
+	pc.Set("quaternion", v.JSValue())
 }
 func (pc *PerspectiveCamera) ReceiveShadow() bool {
 	return pc.Get("receiveShadow").Bool()
@@ -209,13 +209,13 @@ func (pc *PerspectiveCamera) Rotation() *Euler {
 	return &Euler{Value: pc.Get("rotation")}
 }
 func (pc *PerspectiveCamera) SetRotation(v *Euler) {
-	pc.Set("rotation", v.Value)
+	pc.Set("rotation", v.JSValue())
 }
 func (pc *PerspectiveCamera) Scale() *Vector3 {
 	return &Vector3{Value: pc.Get("scale")}
 }
 func (pc *PerspectiveCamera) SetScale(v *Vector3) {
-	pc.Set("scale", v.Value)
+	pc.Set("scale", v.JSValue())
 }
 func (pc *PerspectiveCamera) Type() string {
 	return pc.Get("type").String()
@@ -227,7 +227,7 @@ func (pc *PerspectiveCamera) Up() *Vector3 {
 	return &Vector3{Value: pc.Get("up")}
 }
 func (pc *PerspectiveCamera) SetUp(v *Vector3) {
-	pc.Set("up", v.Value)
+	pc.Set("up", v.JSValue())
 }
 func (pc *PerspectiveCamera) UserData() js.Value {
 	return pc.Get("userData")
@@ -269,7 +269,7 @@ func (pc *PerspectiveCamera) DefaultUp() *Vector3 {
 	return &Vector3{Value: pc.Get("DefaultUp")}
 }
 func (pc *PerspectiveCamera) SetDefaultUp(v *Vector3) {
-	pc.Set("DefaultUp", v.Value)
+	pc.Set("DefaultUp", v.JSValue())
 }
 func (pc *PerspectiveCamera) Add(object js.Value) Camera {
 	return &PerspectiveCamera{Value: pc.Call("add", object)}
@@ -278,7 +278,7 @@ func (pc *PerspectiveCamera) AddEventListener(typ string, listener js.Value) {
 	pc.Call("addEventListener", typ, listener)
 }
 func (pc *PerspectiveCamera) ApplyMatrix(matrix *Matrix4) {
-	pc.Call("applyMatrix", matrix)
+	pc.Call("applyMatrix", matrix.JSValue())
 }
 func (pc *PerspectiveCamera) ApplyQuaternion(quaternion *Quaternion) Camera {
 	return &PerspectiveCamera{Value: pc.Call("applyQuaternion", quaternion)}
@@ -338,7 +338,7 @@ func (pc *PerspectiveCamera) LookAt(vector *Vector3, y float64, z float64) {
 	pc.Call("lookAt", vector, y, z)
 }
 func (pc *PerspectiveCamera) Raycast(raycaster *Raycaster, intersects js.Value) {
-	pc.Call("raycast", raycaster, intersects)
+	pc.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (pc *PerspectiveCamera) Remove(object js.Value) Camera {
 	return &PerspectiveCamera{Value: pc.Call("remove", object)}
@@ -368,16 +368,16 @@ func (pc *PerspectiveCamera) SetLens(focalLength float64, frameHeight float64) {
 	pc.Call("setLens", focalLength, frameHeight)
 }
 func (pc *PerspectiveCamera) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	pc.Call("setRotationFromAxisAngle", axis, angle)
+	pc.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (pc *PerspectiveCamera) SetRotationFromEuler(euler *Euler) {
-	pc.Call("setRotationFromEuler", euler)
+	pc.Call("setRotationFromEuler", euler.JSValue())
 }
 func (pc *PerspectiveCamera) SetRotationFromMatrix(m *Matrix4) {
-	pc.Call("setRotationFromMatrix", m)
+	pc.Call("setRotationFromMatrix", m.JSValue())
 }
 func (pc *PerspectiveCamera) SetRotationFromQuaternion(q *Quaternion) {
-	pc.Call("setRotationFromQuaternion", q)
+	pc.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (pc *PerspectiveCamera) SetViewOffset(fullWidth float64, fullHeight float64, x float64, y float64, width float64, height float64) {
 	pc.Call("setViewOffset", fullWidth, fullHeight, x, y, width, height)

@@ -14,7 +14,7 @@ type LineCurve struct {
 }
 
 func NewLineCurve(v1 *Vector2, v2 *Vector2) *LineCurve {
-	return &LineCurve{Value: get("LineCurve").New(v1, v2)}
+	return &LineCurve{Value: get("LineCurve").New(v1.JSValue(), v2.JSValue())}
 }
 func (lc *LineCurve) JSValue() js.Value {
 	return lc.Value
@@ -29,13 +29,13 @@ func (lc *LineCurve) V1() *Vector2 {
 	return &Vector2{Value: lc.Get("v1")}
 }
 func (lc *LineCurve) SetV1(v *Vector2) {
-	lc.Set("v1", v.Value)
+	lc.Set("v1", v.JSValue())
 }
 func (lc *LineCurve) V2() *Vector2 {
 	return &Vector2{Value: lc.Get("v2")}
 }
 func (lc *LineCurve) SetV2(v *Vector2) {
-	lc.Set("v2", v.Value)
+	lc.Set("v2", v.JSValue())
 }
 func (lc *LineCurve) GetLength() float64 {
 	return lc.Call("getLength").Float()

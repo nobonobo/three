@@ -36,7 +36,7 @@ func (tt *Texture) Center() *Vector2 {
 	return &Vector2{Value: tt.Get("center")}
 }
 func (tt *Texture) SetCenter(v *Vector2) {
-	tt.Set("center", v.Value)
+	tt.Set("center", v.JSValue())
 }
 func (tt *Texture) Encoding() TextureEncoding {
 	return TextureEncoding(tt.Get("encoding"))
@@ -114,7 +114,7 @@ func (tt *Texture) Offset() *Vector2 {
 	return &Vector2{Value: tt.Get("offset")}
 }
 func (tt *Texture) SetOffset(v *Vector2) {
-	tt.Set("offset", v.Value)
+	tt.Set("offset", v.JSValue())
 }
 func (tt *Texture) OnUpdate() js.Value {
 	return tt.Get("onUpdate")
@@ -132,7 +132,7 @@ func (tt *Texture) Repeat() *Vector2 {
 	return &Vector2{Value: tt.Get("repeat")}
 }
 func (tt *Texture) SetRepeat(v *Vector2) {
-	tt.Set("repeat", v.Value)
+	tt.Set("repeat", v.JSValue())
 }
 func (tt *Texture) Rotation() float64 {
 	return tt.Get("rotation").Float()

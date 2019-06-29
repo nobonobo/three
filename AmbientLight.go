@@ -35,7 +35,7 @@ func (al *AmbientLight) Color() *Color {
 	return &Color{Value: al.Get("color")}
 }
 func (al *AmbientLight) SetColor(v *Color) {
-	al.Set("color", v.Value)
+	al.Set("color", v.JSValue())
 }
 func (al *AmbientLight) FrustumCulled() bool {
 	return al.Get("frustumCulled").Bool()
@@ -71,13 +71,13 @@ func (al *AmbientLight) Layers() *Layers {
 	return &Layers{Value: al.Get("layers")}
 }
 func (al *AmbientLight) SetLayers(v *Layers) {
-	al.Set("layers", v.Value)
+	al.Set("layers", v.JSValue())
 }
 func (al *AmbientLight) Matrix() *Matrix4 {
 	return &Matrix4{Value: al.Get("matrix")}
 }
 func (al *AmbientLight) SetMatrix(v *Matrix4) {
-	al.Set("matrix", v.Value)
+	al.Set("matrix", v.JSValue())
 }
 func (al *AmbientLight) MatrixAutoUpdate() bool {
 	return al.Get("matrixAutoUpdate").Bool()
@@ -89,7 +89,7 @@ func (al *AmbientLight) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: al.Get("matrixWorld")}
 }
 func (al *AmbientLight) SetMatrixWorld(v *Matrix4) {
-	al.Set("matrixWorld", v.Value)
+	al.Set("matrixWorld", v.JSValue())
 }
 func (al *AmbientLight) MatrixWorldNeedsUpdate() bool {
 	return al.Get("matrixWorldNeedsUpdate").Bool()
@@ -101,7 +101,7 @@ func (al *AmbientLight) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: al.Get("modelViewMatrix")}
 }
 func (al *AmbientLight) SetModelViewMatrix(v *Matrix4) {
-	al.Set("modelViewMatrix", v.Value)
+	al.Set("modelViewMatrix", v.JSValue())
 }
 func (al *AmbientLight) Name() string {
 	return al.Get("name").String()
@@ -113,7 +113,7 @@ func (al *AmbientLight) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: al.Get("normalMatrix")}
 }
 func (al *AmbientLight) SetNormalMatrix(v *Matrix3) {
-	al.Set("normalMatrix", v.Value)
+	al.Set("normalMatrix", v.JSValue())
 }
 func (al *AmbientLight) OnAfterRender() js.Value {
 	return al.Get("onAfterRender")
@@ -131,19 +131,19 @@ func (al *AmbientLight) Parent() *Object3D {
 	return &Object3D{Value: al.Get("parent")}
 }
 func (al *AmbientLight) SetParent(v *Object3D) {
-	al.Set("parent", v.Value)
+	al.Set("parent", v.JSValue())
 }
 func (al *AmbientLight) Position() *Vector3 {
 	return &Vector3{Value: al.Get("position")}
 }
 func (al *AmbientLight) SetPosition(v *Vector3) {
-	al.Set("position", v.Value)
+	al.Set("position", v.JSValue())
 }
 func (al *AmbientLight) Quaternion() *Quaternion {
 	return &Quaternion{Value: al.Get("quaternion")}
 }
 func (al *AmbientLight) SetQuaternion(v *Quaternion) {
-	al.Set("quaternion", v.Value)
+	al.Set("quaternion", v.JSValue())
 }
 func (al *AmbientLight) ReceiveShadow() bool {
 	return al.Get("receiveShadow").Bool()
@@ -161,19 +161,19 @@ func (al *AmbientLight) Rotation() *Euler {
 	return &Euler{Value: al.Get("rotation")}
 }
 func (al *AmbientLight) SetRotation(v *Euler) {
-	al.Set("rotation", v.Value)
+	al.Set("rotation", v.JSValue())
 }
 func (al *AmbientLight) Scale() *Vector3 {
 	return &Vector3{Value: al.Get("scale")}
 }
 func (al *AmbientLight) SetScale(v *Vector3) {
-	al.Set("scale", v.Value)
+	al.Set("scale", v.JSValue())
 }
 func (al *AmbientLight) Shadow() *LightShadow {
 	return &LightShadow{Value: al.Get("shadow")}
 }
 func (al *AmbientLight) SetShadow(v *LightShadow) {
-	al.Set("shadow", v.Value)
+	al.Set("shadow", v.JSValue())
 }
 func (al *AmbientLight) ShadowBias() js.Value {
 	return al.Get("shadowBias")
@@ -245,7 +245,7 @@ func (al *AmbientLight) Up() *Vector3 {
 	return &Vector3{Value: al.Get("up")}
 }
 func (al *AmbientLight) SetUp(v *Vector3) {
-	al.Set("up", v.Value)
+	al.Set("up", v.JSValue())
 }
 func (al *AmbientLight) UserData() js.Value {
 	return al.Get("userData")
@@ -275,7 +275,7 @@ func (al *AmbientLight) DefaultUp() *Vector3 {
 	return &Vector3{Value: al.Get("DefaultUp")}
 }
 func (al *AmbientLight) SetDefaultUp(v *Vector3) {
-	al.Set("DefaultUp", v.Value)
+	al.Set("DefaultUp", v.JSValue())
 }
 func (al *AmbientLight) Add(object js.Value) *AmbientLight {
 	return &AmbientLight{Value: al.Call("add", object)}
@@ -284,7 +284,7 @@ func (al *AmbientLight) AddEventListener(typ string, listener js.Value) {
 	al.Call("addEventListener", typ, listener)
 }
 func (al *AmbientLight) ApplyMatrix(matrix *Matrix4) {
-	al.Call("applyMatrix", matrix)
+	al.Call("applyMatrix", matrix.JSValue())
 }
 func (al *AmbientLight) ApplyQuaternion(quaternion *Quaternion) *AmbientLight {
 	return &AmbientLight{Value: al.Call("applyQuaternion", quaternion)}
@@ -329,7 +329,7 @@ func (al *AmbientLight) LookAt(vector *Vector3, y float64, z float64) {
 	al.Call("lookAt", vector, y, z)
 }
 func (al *AmbientLight) Raycast(raycaster *Raycaster, intersects js.Value) {
-	al.Call("raycast", raycaster, intersects)
+	al.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (al *AmbientLight) Remove(object js.Value) *AmbientLight {
 	return &AmbientLight{Value: al.Call("remove", object)}
@@ -353,16 +353,16 @@ func (al *AmbientLight) RotateZ(angle float64) *AmbientLight {
 	return &AmbientLight{Value: al.Call("rotateZ", angle)}
 }
 func (al *AmbientLight) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	al.Call("setRotationFromAxisAngle", axis, angle)
+	al.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (al *AmbientLight) SetRotationFromEuler(euler *Euler) {
-	al.Call("setRotationFromEuler", euler)
+	al.Call("setRotationFromEuler", euler.JSValue())
 }
 func (al *AmbientLight) SetRotationFromMatrix(m *Matrix4) {
-	al.Call("setRotationFromMatrix", m)
+	al.Call("setRotationFromMatrix", m.JSValue())
 }
 func (al *AmbientLight) SetRotationFromQuaternion(q *Quaternion) {
-	al.Call("setRotationFromQuaternion", q)
+	al.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (al *AmbientLight) ToJSON(meta js.Value) js.Value {
 	return al.Call("toJSON", meta)

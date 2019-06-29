@@ -23,13 +23,13 @@ func (dg *DirectGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: dg.Get("boundingBox")}
 }
 func (dg *DirectGeometry) SetBoundingBox(v *Box3) {
-	dg.Set("boundingBox", v.Value)
+	dg.Set("boundingBox", v.JSValue())
 }
 func (dg *DirectGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: dg.Get("boundingSphere")}
 }
 func (dg *DirectGeometry) SetBoundingSphere(v *Sphere) {
-	dg.Set("boundingSphere", v.Value)
+	dg.Set("boundingSphere", v.JSValue())
 }
 func (dg *DirectGeometry) Colors() js.Value {
 	return dg.Get("colors")

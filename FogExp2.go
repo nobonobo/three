@@ -23,7 +23,7 @@ func (fe *FogExp2) Color() *Color {
 	return &Color{Value: fe.Get("color")}
 }
 func (fe *FogExp2) SetColor(v *Color) {
-	fe.Set("color", v.Value)
+	fe.Set("color", v.JSValue())
 }
 func (fe *FogExp2) Density() float64 {
 	return fe.Get("density").Float()

@@ -14,7 +14,7 @@ type QuadraticBezierCurve3 struct {
 }
 
 func NewQuadraticBezierCurve3(v0 *Vector3, v1 *Vector3, v2 *Vector3) *QuadraticBezierCurve3 {
-	return &QuadraticBezierCurve3{Value: get("QuadraticBezierCurve3").New(v0, v1, v2)}
+	return &QuadraticBezierCurve3{Value: get("QuadraticBezierCurve3").New(v0.JSValue(), v1.JSValue(), v2.JSValue())}
 }
 func (qbc *QuadraticBezierCurve3) JSValue() js.Value {
 	return qbc.Value
@@ -29,19 +29,19 @@ func (qbc *QuadraticBezierCurve3) V0() *Vector3 {
 	return &Vector3{Value: qbc.Get("v0")}
 }
 func (qbc *QuadraticBezierCurve3) SetV0(v *Vector3) {
-	qbc.Set("v0", v.Value)
+	qbc.Set("v0", v.JSValue())
 }
 func (qbc *QuadraticBezierCurve3) V1() *Vector3 {
 	return &Vector3{Value: qbc.Get("v1")}
 }
 func (qbc *QuadraticBezierCurve3) SetV1(v *Vector3) {
-	qbc.Set("v1", v.Value)
+	qbc.Set("v1", v.JSValue())
 }
 func (qbc *QuadraticBezierCurve3) V2() *Vector3 {
 	return &Vector3{Value: qbc.Get("v2")}
 }
 func (qbc *QuadraticBezierCurve3) SetV2(v *Vector3) {
-	qbc.Set("v2", v.Value)
+	qbc.Set("v2", v.JSValue())
 }
 func (qbc *QuadraticBezierCurve3) GetLength() float64 {
 	return qbc.Call("getLength").Float()

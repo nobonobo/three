@@ -14,7 +14,7 @@ type PointLightHelper struct {
 }
 
 func NewPointLightHelper(light *PointLight, sphereSize float64, color *Color) *PointLightHelper {
-	return &PointLightHelper{Value: get("PointLightHelper").New(light, sphereSize, color)}
+	return &PointLightHelper{Value: get("PointLightHelper").New(light.JSValue(), sphereSize, color)}
 }
 func (plh *PointLightHelper) JSValue() js.Value {
 	return plh.Value
@@ -35,7 +35,7 @@ func (plh *PointLightHelper) Color() *Color {
 	return &Color{Value: plh.Get("color")}
 }
 func (plh *PointLightHelper) SetColor(v *Color) {
-	plh.Set("color", v.Value)
+	plh.Set("color", v.JSValue())
 }
 func (plh *PointLightHelper) FrustumCulled() bool {
 	return plh.Get("frustumCulled").Bool()
@@ -59,19 +59,19 @@ func (plh *PointLightHelper) Layers() *Layers {
 	return &Layers{Value: plh.Get("layers")}
 }
 func (plh *PointLightHelper) SetLayers(v *Layers) {
-	plh.Set("layers", v.Value)
+	plh.Set("layers", v.JSValue())
 }
 func (plh *PointLightHelper) Light() *PointLight {
 	return &PointLight{Value: plh.Get("light")}
 }
 func (plh *PointLightHelper) SetLight(v *PointLight) {
-	plh.Set("light", v.Value)
+	plh.Set("light", v.JSValue())
 }
 func (plh *PointLightHelper) Matrix() *Matrix4 {
 	return &Matrix4{Value: plh.Get("matrix")}
 }
 func (plh *PointLightHelper) SetMatrix(v *Matrix4) {
-	plh.Set("matrix", v.Value)
+	plh.Set("matrix", v.JSValue())
 }
 func (plh *PointLightHelper) MatrixAutoUpdate() bool {
 	return plh.Get("matrixAutoUpdate").Bool()
@@ -83,7 +83,7 @@ func (plh *PointLightHelper) MatrixWorld() *Matrix4 {
 	return &Matrix4{Value: plh.Get("matrixWorld")}
 }
 func (plh *PointLightHelper) SetMatrixWorld(v *Matrix4) {
-	plh.Set("matrixWorld", v.Value)
+	plh.Set("matrixWorld", v.JSValue())
 }
 func (plh *PointLightHelper) MatrixWorldNeedsUpdate() bool {
 	return plh.Get("matrixWorldNeedsUpdate").Bool()
@@ -95,7 +95,7 @@ func (plh *PointLightHelper) ModelViewMatrix() *Matrix4 {
 	return &Matrix4{Value: plh.Get("modelViewMatrix")}
 }
 func (plh *PointLightHelper) SetModelViewMatrix(v *Matrix4) {
-	plh.Set("modelViewMatrix", v.Value)
+	plh.Set("modelViewMatrix", v.JSValue())
 }
 func (plh *PointLightHelper) Name() string {
 	return plh.Get("name").String()
@@ -107,7 +107,7 @@ func (plh *PointLightHelper) NormalMatrix() *Matrix3 {
 	return &Matrix3{Value: plh.Get("normalMatrix")}
 }
 func (plh *PointLightHelper) SetNormalMatrix(v *Matrix3) {
-	plh.Set("normalMatrix", v.Value)
+	plh.Set("normalMatrix", v.JSValue())
 }
 func (plh *PointLightHelper) OnAfterRender() js.Value {
 	return plh.Get("onAfterRender")
@@ -125,19 +125,19 @@ func (plh *PointLightHelper) Parent() *Object3D {
 	return &Object3D{Value: plh.Get("parent")}
 }
 func (plh *PointLightHelper) SetParent(v *Object3D) {
-	plh.Set("parent", v.Value)
+	plh.Set("parent", v.JSValue())
 }
 func (plh *PointLightHelper) Position() *Vector3 {
 	return &Vector3{Value: plh.Get("position")}
 }
 func (plh *PointLightHelper) SetPosition(v *Vector3) {
-	plh.Set("position", v.Value)
+	plh.Set("position", v.JSValue())
 }
 func (plh *PointLightHelper) Quaternion() *Quaternion {
 	return &Quaternion{Value: plh.Get("quaternion")}
 }
 func (plh *PointLightHelper) SetQuaternion(v *Quaternion) {
-	plh.Set("quaternion", v.Value)
+	plh.Set("quaternion", v.JSValue())
 }
 func (plh *PointLightHelper) ReceiveShadow() bool {
 	return plh.Get("receiveShadow").Bool()
@@ -155,13 +155,13 @@ func (plh *PointLightHelper) Rotation() *Euler {
 	return &Euler{Value: plh.Get("rotation")}
 }
 func (plh *PointLightHelper) SetRotation(v *Euler) {
-	plh.Set("rotation", v.Value)
+	plh.Set("rotation", v.JSValue())
 }
 func (plh *PointLightHelper) Scale() *Vector3 {
 	return &Vector3{Value: plh.Get("scale")}
 }
 func (plh *PointLightHelper) SetScale(v *Vector3) {
-	plh.Set("scale", v.Value)
+	plh.Set("scale", v.JSValue())
 }
 func (plh *PointLightHelper) Type() string {
 	return plh.Get("type").String()
@@ -173,7 +173,7 @@ func (plh *PointLightHelper) Up() *Vector3 {
 	return &Vector3{Value: plh.Get("up")}
 }
 func (plh *PointLightHelper) SetUp(v *Vector3) {
-	plh.Set("up", v.Value)
+	plh.Set("up", v.JSValue())
 }
 func (plh *PointLightHelper) UserData() js.Value {
 	return plh.Get("userData")
@@ -203,7 +203,7 @@ func (plh *PointLightHelper) DefaultUp() *Vector3 {
 	return &Vector3{Value: plh.Get("DefaultUp")}
 }
 func (plh *PointLightHelper) SetDefaultUp(v *Vector3) {
-	plh.Set("DefaultUp", v.Value)
+	plh.Set("DefaultUp", v.JSValue())
 }
 func (plh *PointLightHelper) Add(object js.Value) *PointLightHelper {
 	return &PointLightHelper{Value: plh.Call("add", object)}
@@ -212,7 +212,7 @@ func (plh *PointLightHelper) AddEventListener(typ string, listener js.Value) {
 	plh.Call("addEventListener", typ, listener)
 }
 func (plh *PointLightHelper) ApplyMatrix(matrix *Matrix4) {
-	plh.Call("applyMatrix", matrix)
+	plh.Call("applyMatrix", matrix.JSValue())
 }
 func (plh *PointLightHelper) ApplyQuaternion(quaternion *Quaternion) *PointLightHelper {
 	return &PointLightHelper{Value: plh.Call("applyQuaternion", quaternion)}
@@ -260,7 +260,7 @@ func (plh *PointLightHelper) LookAt(vector *Vector3, y float64, z float64) {
 	plh.Call("lookAt", vector, y, z)
 }
 func (plh *PointLightHelper) Raycast(raycaster *Raycaster, intersects js.Value) {
-	plh.Call("raycast", raycaster, intersects)
+	plh.Call("raycast", raycaster.JSValue(), intersects)
 }
 func (plh *PointLightHelper) Remove(object js.Value) *PointLightHelper {
 	return &PointLightHelper{Value: plh.Call("remove", object)}
@@ -284,16 +284,16 @@ func (plh *PointLightHelper) RotateZ(angle float64) *PointLightHelper {
 	return &PointLightHelper{Value: plh.Call("rotateZ", angle)}
 }
 func (plh *PointLightHelper) SetRotationFromAxisAngle(axis *Vector3, angle float64) {
-	plh.Call("setRotationFromAxisAngle", axis, angle)
+	plh.Call("setRotationFromAxisAngle", axis.JSValue(), angle)
 }
 func (plh *PointLightHelper) SetRotationFromEuler(euler *Euler) {
-	plh.Call("setRotationFromEuler", euler)
+	plh.Call("setRotationFromEuler", euler.JSValue())
 }
 func (plh *PointLightHelper) SetRotationFromMatrix(m *Matrix4) {
-	plh.Call("setRotationFromMatrix", m)
+	plh.Call("setRotationFromMatrix", m.JSValue())
 }
 func (plh *PointLightHelper) SetRotationFromQuaternion(q *Quaternion) {
-	plh.Call("setRotationFromQuaternion", q)
+	plh.Call("setRotationFromQuaternion", q.JSValue())
 }
 func (plh *PointLightHelper) ToJSON(meta js.Value) js.Value {
 	return plh.Call("toJSON", meta)

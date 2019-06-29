@@ -92,7 +92,7 @@ func (sm *SpriteMaterial) Color() *Color {
 	return &Color{Value: sm.Get("color")}
 }
 func (sm *SpriteMaterial) SetColor(v *Color) {
-	sm.Set("color", v.Value)
+	sm.Set("color", v.JSValue())
 }
 func (sm *SpriteMaterial) ColorWrite() bool {
 	return sm.Get("colorWrite").Bool()
@@ -164,7 +164,7 @@ func (sm *SpriteMaterial) Map() *Texture {
 	return &Texture{Value: sm.Get("map")}
 }
 func (sm *SpriteMaterial) SetMap(v *Texture) {
-	sm.Set("map", v.Value)
+	sm.Set("map", v.JSValue())
 }
 func (sm *SpriteMaterial) Name() string {
 	return sm.Get("name").String()
@@ -293,7 +293,7 @@ func (sm *SpriteMaterial) HasEventListener(typ string, listener js.Value) bool {
 	return sm.Call("hasEventListener", typ, listener).Bool()
 }
 func (sm *SpriteMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	sm.Call("onBeforeCompile", shader, renderer)
+	sm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (sm *SpriteMaterial) RemoveEventListener(typ string, listener js.Value) {
 	sm.Call("removeEventListener", typ, listener)

@@ -17,13 +17,13 @@ type Face3 struct {
 }
 
 func NewFace3(a float64, b float64, c float64, normal *Vector3, color *Color, materialIndex int) *Face3 {
-	return &Face3{Value: get("Face3").New(a, b, c, normal, color, materialIndex)}
+	return &Face3{Value: get("Face3").New(a, b, c, normal.JSValue(), color.JSValue(), materialIndex)}
 }
 func NewFace32(a float64, b float64, c float64, normal *Vector3, vertexColors js.Value, materialIndex int) *Face3 {
-	return &Face3{Value: get("Face3").New(a, b, c, normal, vertexColors, materialIndex)}
+	return &Face3{Value: get("Face3").New(a, b, c, normal.JSValue(), vertexColors, materialIndex)}
 }
 func NewFace33(a float64, b float64, c float64, vertexNormals js.Value, color *Color, materialIndex int) *Face3 {
-	return &Face3{Value: get("Face3").New(a, b, c, vertexNormals, color, materialIndex)}
+	return &Face3{Value: get("Face3").New(a, b, c, vertexNormals, color.JSValue(), materialIndex)}
 }
 func NewFace34(a float64, b float64, c float64, vertexNormals js.Value, vertexColors js.Value, materialIndex int) *Face3 {
 	return &Face3{Value: get("Face3").New(a, b, c, vertexNormals, vertexColors, materialIndex)}
@@ -53,7 +53,7 @@ func (ff *Face3) Color() *Color {
 	return &Color{Value: ff.Get("color")}
 }
 func (ff *Face3) SetColor(v *Color) {
-	ff.Set("color", v.Value)
+	ff.Set("color", v.JSValue())
 }
 func (ff *Face3) MaterialIndex() int {
 	return ff.Get("materialIndex").Int()
@@ -65,7 +65,7 @@ func (ff *Face3) Normal() *Vector3 {
 	return &Vector3{Value: ff.Get("normal")}
 }
 func (ff *Face3) SetNormal(v *Vector3) {
-	ff.Set("normal", v.Value)
+	ff.Set("normal", v.JSValue())
 }
 func (ff *Face3) VertexColors() js.Value {
 	return ff.Get("vertexColors")

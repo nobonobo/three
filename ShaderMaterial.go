@@ -359,7 +359,7 @@ func (sm *ShaderMaterial) HasEventListener(typ string, listener js.Value) bool {
 	return sm.Call("hasEventListener", typ, listener).Bool()
 }
 func (sm *ShaderMaterial) OnBeforeCompile(shader js.Value, renderer *WebGLRenderer) {
-	sm.Call("onBeforeCompile", shader, renderer)
+	sm.Call("onBeforeCompile", shader, renderer.JSValue())
 }
 func (sm *ShaderMaterial) RemoveEventListener(typ string, listener js.Value) {
 	sm.Call("removeEventListener", typ, listener)

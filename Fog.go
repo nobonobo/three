@@ -28,7 +28,7 @@ func (ff *Fog) Color() *Color {
 	return &Color{Value: ff.Get("color")}
 }
 func (ff *Fog) SetColor(v *Color) {
-	ff.Set("color", v.Value)
+	ff.Set("color", v.JSValue())
 }
 func (ff *Fog) Far() float64 {
 	return ff.Get("far").Float()

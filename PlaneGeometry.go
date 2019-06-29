@@ -29,13 +29,13 @@ func (pbg *PlaneBufferGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: pbg.Get("boundingBox")}
 }
 func (pbg *PlaneBufferGeometry) SetBoundingBox(v *Box3) {
-	pbg.Set("boundingBox", v.Value)
+	pbg.Set("boundingBox", v.JSValue())
 }
 func (pbg *PlaneBufferGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: pbg.Get("boundingSphere")}
 }
 func (pbg *PlaneBufferGeometry) SetBoundingSphere(v *Sphere) {
-	pbg.Set("boundingSphere", v.Value)
+	pbg.Set("boundingSphere", v.JSValue())
 }
 func (pbg *PlaneBufferGeometry) DrawRange() js.Value {
 	return pbg.Get("drawRange")
@@ -65,7 +65,7 @@ func (pbg *PlaneBufferGeometry) Index() *BufferAttribute {
 	return &BufferAttribute{Value: pbg.Get("index")}
 }
 func (pbg *PlaneBufferGeometry) SetIndex(v *BufferAttribute) {
-	pbg.Set("index", v.Value)
+	pbg.Set("index", v.JSValue())
 }
 func (pbg *PlaneBufferGeometry) MorphAttributes() js.Value {
 	return pbg.Get("morphAttributes")
@@ -182,7 +182,7 @@ func (pbg *PlaneBufferGeometry) HasEventListener(typ string, listener js.Value) 
 	return pbg.Call("hasEventListener", typ, listener).Bool()
 }
 func (pbg *PlaneBufferGeometry) LookAt(v *Vector3) {
-	pbg.Call("lookAt", v)
+	pbg.Call("lookAt", v.JSValue())
 }
 func (pbg *PlaneBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
 	return &BufferGeometry{Value: pbg.Call("merge", geometry, offset)}
@@ -230,7 +230,7 @@ func (pbg *PlaneBufferGeometry) Translate(x float64, y float64, z float64) *Buff
 	return &BufferGeometry{Value: pbg.Call("translate", x, y, z)}
 }
 func (pbg *PlaneBufferGeometry) UpdateFromObject(object *Object3D) {
-	pbg.Call("updateFromObject", object)
+	pbg.Call("updateFromObject", object.JSValue())
 }
 
 // PlaneGeometry extend: [Geometry]
@@ -248,7 +248,7 @@ func (pg *PlaneGeometry) Animation() *AnimationClip {
 	return &AnimationClip{Value: pg.Get("animation")}
 }
 func (pg *PlaneGeometry) SetAnimation(v *AnimationClip) {
-	pg.Set("animation", v.Value)
+	pg.Set("animation", v.JSValue())
 }
 func (pg *PlaneGeometry) Animations() js.Value {
 	return pg.Get("animations")
@@ -266,13 +266,13 @@ func (pg *PlaneGeometry) BoundingBox() *Box3 {
 	return &Box3{Value: pg.Get("boundingBox")}
 }
 func (pg *PlaneGeometry) SetBoundingBox(v *Box3) {
-	pg.Set("boundingBox", v.Value)
+	pg.Set("boundingBox", v.JSValue())
 }
 func (pg *PlaneGeometry) BoundingSphere() *Sphere {
 	return &Sphere{Value: pg.Get("boundingSphere")}
 }
 func (pg *PlaneGeometry) SetBoundingSphere(v *Sphere) {
-	pg.Set("boundingSphere", v.Value)
+	pg.Set("boundingSphere", v.JSValue())
 }
 func (pg *PlaneGeometry) Colors() js.Value {
 	return pg.Get("colors")
@@ -446,13 +446,13 @@ func (pg *PlaneGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return pg.Call("hasEventListener", typ, listener).Bool()
 }
 func (pg *PlaneGeometry) LookAt(vector *Vector3) {
-	pg.Call("lookAt", vector)
+	pg.Call("lookAt", vector.JSValue())
 }
 func (pg *PlaneGeometry) Merge(geometry Geometry, matrix Matrix, materialIndexOffset int) {
 	pg.Call("merge", geometry.JSValue(), matrix, materialIndexOffset)
 }
-func (pg *PlaneGeometry) MergeMesh(mesh *Mesh) {
-	pg.Call("mergeMesh", mesh)
+func (pg *PlaneGeometry) MergeMesh(mesh Mesh) {
+	pg.Call("mergeMesh", mesh.JSValue())
 }
 func (pg *PlaneGeometry) MergeVertices() float64 {
 	return pg.Call("mergeVertices").Float()

@@ -14,7 +14,7 @@ type BufferGeometryLoader struct {
 }
 
 func NewBufferGeometryLoader(manager *LoadingManager) *BufferGeometryLoader {
-	return &BufferGeometryLoader{Value: get("BufferGeometryLoader").New(manager)}
+	return &BufferGeometryLoader{Value: get("BufferGeometryLoader").New(manager.JSValue())}
 }
 func (bgl *BufferGeometryLoader) JSValue() js.Value {
 	return bgl.Value
@@ -23,7 +23,7 @@ func (bgl *BufferGeometryLoader) Manager() *LoadingManager {
 	return &LoadingManager{Value: bgl.Get("manager")}
 }
 func (bgl *BufferGeometryLoader) SetManager(v *LoadingManager) {
-	bgl.Set("manager", v.Value)
+	bgl.Set("manager", v.JSValue())
 }
 func (bgl *BufferGeometryLoader) Load(url string, onLoad js.Value, onProgress js.Value, onError js.Value) {
 	bgl.Call("load", url, onLoad, onProgress, onError)

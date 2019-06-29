@@ -29,7 +29,7 @@ func (ct *CubeTexture) Center() *Vector2 {
 	return &Vector2{Value: ct.Get("center")}
 }
 func (ct *CubeTexture) SetCenter(v *Vector2) {
-	ct.Set("center", v.Value)
+	ct.Set("center", v.JSValue())
 }
 func (ct *CubeTexture) Encoding() TextureEncoding {
 	return TextureEncoding(ct.Get("encoding"))
@@ -113,7 +113,7 @@ func (ct *CubeTexture) Offset() *Vector2 {
 	return &Vector2{Value: ct.Get("offset")}
 }
 func (ct *CubeTexture) SetOffset(v *Vector2) {
-	ct.Set("offset", v.Value)
+	ct.Set("offset", v.JSValue())
 }
 func (ct *CubeTexture) OnUpdate() js.Value {
 	return ct.Get("onUpdate")
@@ -131,7 +131,7 @@ func (ct *CubeTexture) Repeat() *Vector2 {
 	return &Vector2{Value: ct.Get("repeat")}
 }
 func (ct *CubeTexture) SetRepeat(v *Vector2) {
-	ct.Set("repeat", v.Value)
+	ct.Set("repeat", v.JSValue())
 }
 func (ct *CubeTexture) Rotation() float64 {
 	return ct.Get("rotation").Float()
