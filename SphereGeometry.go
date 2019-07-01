@@ -115,8 +115,8 @@ func (sbg *SphereBufferGeometry) MaxIndex() int {
 func (sbg *SphereBufferGeometry) SetMaxIndex(v int) {
 	sbg.Set("MaxIndex", v)
 }
-func (sbg *SphereBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) *BufferGeometry {
-	return &BufferGeometry{Value: sbg.Call("addAttribute", name, attribute)}
+func (sbg *SphereBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) BufferGeometry {
+	return &BufferGeometryImpl{Value: sbg.Call("addAttribute", name, attribute)}
 }
 func (sbg *SphereBufferGeometry) AddAttribute2(name js.Value, array js.Value, itemSize js.Value) js.Value {
 	return sbg.Call("addAttribute", name, array, itemSize)
@@ -133,11 +133,11 @@ func (sbg *SphereBufferGeometry) AddGroup(start int, count int, materialIndex in
 func (sbg *SphereBufferGeometry) AddIndex(index js.Value) {
 	sbg.Call("addIndex", index)
 }
-func (sbg *SphereBufferGeometry) ApplyMatrix(matrix *Matrix4) *BufferGeometry {
-	return &BufferGeometry{Value: sbg.Call("applyMatrix", matrix)}
+func (sbg *SphereBufferGeometry) ApplyMatrix(matrix *Matrix4) BufferGeometry {
+	return &BufferGeometryImpl{Value: sbg.Call("applyMatrix", matrix)}
 }
-func (sbg *SphereBufferGeometry) Center() *BufferGeometry {
-	return &BufferGeometry{Value: sbg.Call("center")}
+func (sbg *SphereBufferGeometry) Center() BufferGeometry {
+	return &BufferGeometryImpl{Value: sbg.Call("center")}
 }
 func (sbg *SphereBufferGeometry) ClearDrawCalls() {
 	sbg.Call("clearDrawCalls")
@@ -145,7 +145,7 @@ func (sbg *SphereBufferGeometry) ClearDrawCalls() {
 func (sbg *SphereBufferGeometry) ClearGroups() {
 	sbg.Call("clearGroups")
 }
-func (sbg *SphereBufferGeometry) Clone() *SphereBufferGeometry {
+func (sbg *SphereBufferGeometry) Clone() BufferGeometry {
 	return &SphereBufferGeometry{Value: sbg.Call("clone")}
 }
 func (sbg *SphereBufferGeometry) ComputeBoundingBox() {
@@ -157,8 +157,8 @@ func (sbg *SphereBufferGeometry) ComputeBoundingSphere() {
 func (sbg *SphereBufferGeometry) ComputeVertexNormals() {
 	sbg.Call("computeVertexNormals")
 }
-func (sbg *SphereBufferGeometry) Copy(source *BufferGeometry) *SphereBufferGeometry {
-	return &SphereBufferGeometry{Value: sbg.Call("copy", source)}
+func (sbg *SphereBufferGeometry) Copy(source BufferGeometry) BufferGeometry {
+	return &SphereBufferGeometry{Value: sbg.Call("copy", source.JSValue())}
 }
 func (sbg *SphereBufferGeometry) DispatchEvent(event js.Value) {
 	sbg.Call("dispatchEvent", event)
@@ -166,11 +166,11 @@ func (sbg *SphereBufferGeometry) DispatchEvent(event js.Value) {
 func (sbg *SphereBufferGeometry) Dispose() {
 	sbg.Call("dispose")
 }
-func (sbg *SphereBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
-	return &BufferGeometry{Value: sbg.Call("fromDirectGeometry", geometry)}
+func (sbg *SphereBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) BufferGeometry {
+	return &BufferGeometryImpl{Value: sbg.Call("fromDirectGeometry", geometry)}
 }
-func (sbg *SphereBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: sbg.Call("fromGeometry", geometry.JSValue(), settings)}
+func (sbg *SphereBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: sbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (sbg *SphereBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: sbg.Call("getAttribute", name)}
@@ -184,38 +184,38 @@ func (sbg *SphereBufferGeometry) HasEventListener(typ string, listener js.Value)
 func (sbg *SphereBufferGeometry) LookAt(v *Vector3) {
 	sbg.Call("lookAt", v.JSValue())
 }
-func (sbg *SphereBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
-	return &BufferGeometry{Value: sbg.Call("merge", geometry, offset)}
+func (sbg *SphereBufferGeometry) Merge(geometry BufferGeometry, offset int) BufferGeometry {
+	return &BufferGeometryImpl{Value: sbg.Call("merge", geometry.JSValue(), offset)}
 }
 func (sbg *SphereBufferGeometry) NormalizeNormals() {
 	sbg.Call("normalizeNormals")
 }
-func (sbg *SphereBufferGeometry) RemoveAttribute(name string) *BufferGeometry {
-	return &BufferGeometry{Value: sbg.Call("removeAttribute", name)}
+func (sbg *SphereBufferGeometry) RemoveAttribute(name string) BufferGeometry {
+	return &BufferGeometryImpl{Value: sbg.Call("removeAttribute", name)}
 }
 func (sbg *SphereBufferGeometry) RemoveEventListener(typ string, listener js.Value) {
 	sbg.Call("removeEventListener", typ, listener)
 }
-func (sbg *SphereBufferGeometry) RotateX(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: sbg.Call("rotateX", angle)}
+func (sbg *SphereBufferGeometry) RotateX(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: sbg.Call("rotateX", angle)}
 }
-func (sbg *SphereBufferGeometry) RotateY(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: sbg.Call("rotateY", angle)}
+func (sbg *SphereBufferGeometry) RotateY(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: sbg.Call("rotateY", angle)}
 }
-func (sbg *SphereBufferGeometry) RotateZ(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: sbg.Call("rotateZ", angle)}
+func (sbg *SphereBufferGeometry) RotateZ(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: sbg.Call("rotateZ", angle)}
 }
-func (sbg *SphereBufferGeometry) Scale(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: sbg.Call("scale", x, y, z)}
+func (sbg *SphereBufferGeometry) Scale(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: sbg.Call("scale", x, y, z)}
 }
 func (sbg *SphereBufferGeometry) SetDrawRange2(start int, count int) {
 	sbg.Call("setDrawRange", start, count)
 }
-func (sbg *SphereBufferGeometry) SetFromObject(object *Object3D) *BufferGeometry {
-	return &BufferGeometry{Value: sbg.Call("setFromObject", object)}
+func (sbg *SphereBufferGeometry) SetFromObject(object *Object3D) BufferGeometry {
+	return &BufferGeometryImpl{Value: sbg.Call("setFromObject", object)}
 }
-func (sbg *SphereBufferGeometry) SetFromPoints(points js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: sbg.Call("setFromPoints", points)}
+func (sbg *SphereBufferGeometry) SetFromPoints(points js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: sbg.Call("setFromPoints", points)}
 }
 func (sbg *SphereBufferGeometry) SetIndex2(index *BufferAttribute) {
 	sbg.Call("setIndex", index)
@@ -223,11 +223,11 @@ func (sbg *SphereBufferGeometry) SetIndex2(index *BufferAttribute) {
 func (sbg *SphereBufferGeometry) ToJSON() js.Value {
 	return sbg.Call("toJSON")
 }
-func (sbg *SphereBufferGeometry) ToNonIndexed() *BufferGeometry {
-	return &BufferGeometry{Value: sbg.Call("toNonIndexed")}
+func (sbg *SphereBufferGeometry) ToNonIndexed() BufferGeometry {
+	return &BufferGeometryImpl{Value: sbg.Call("toNonIndexed")}
 }
-func (sbg *SphereBufferGeometry) Translate(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: sbg.Call("translate", x, y, z)}
+func (sbg *SphereBufferGeometry) Translate(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: sbg.Call("translate", x, y, z)}
 }
 func (sbg *SphereBufferGeometry) UpdateFromObject(object *Object3D) {
 	sbg.Call("updateFromObject", object.JSValue())
@@ -439,8 +439,8 @@ func (sg *SphereGeometry) DispatchEvent(event js.Value) {
 func (sg *SphereGeometry) Dispose() {
 	sg.Call("dispose")
 }
-func (sg *SphereGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
-	return &GeometryImpl{Value: sg.Call("fromBufferGeometry", geometry)}
+func (sg *SphereGeometry) FromBufferGeometry(geometry BufferGeometry) Geometry {
+	return &GeometryImpl{Value: sg.Call("fromBufferGeometry", geometry.JSValue())}
 }
 func (sg *SphereGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return sg.Call("hasEventListener", typ, listener).Bool()

@@ -115,8 +115,8 @@ func (pbg *ParametricBufferGeometry) MaxIndex() int {
 func (pbg *ParametricBufferGeometry) SetMaxIndex(v int) {
 	pbg.Set("MaxIndex", v)
 }
-func (pbg *ParametricBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("addAttribute", name, attribute)}
+func (pbg *ParametricBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("addAttribute", name, attribute)}
 }
 func (pbg *ParametricBufferGeometry) AddAttribute2(name js.Value, array js.Value, itemSize js.Value) js.Value {
 	return pbg.Call("addAttribute", name, array, itemSize)
@@ -133,11 +133,11 @@ func (pbg *ParametricBufferGeometry) AddGroup(start int, count int, materialInde
 func (pbg *ParametricBufferGeometry) AddIndex(index js.Value) {
 	pbg.Call("addIndex", index)
 }
-func (pbg *ParametricBufferGeometry) ApplyMatrix(matrix *Matrix4) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("applyMatrix", matrix)}
+func (pbg *ParametricBufferGeometry) ApplyMatrix(matrix *Matrix4) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("applyMatrix", matrix)}
 }
-func (pbg *ParametricBufferGeometry) Center() *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("center")}
+func (pbg *ParametricBufferGeometry) Center() BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("center")}
 }
 func (pbg *ParametricBufferGeometry) ClearDrawCalls() {
 	pbg.Call("clearDrawCalls")
@@ -145,7 +145,7 @@ func (pbg *ParametricBufferGeometry) ClearDrawCalls() {
 func (pbg *ParametricBufferGeometry) ClearGroups() {
 	pbg.Call("clearGroups")
 }
-func (pbg *ParametricBufferGeometry) Clone() *ParametricBufferGeometry {
+func (pbg *ParametricBufferGeometry) Clone() BufferGeometry {
 	return &ParametricBufferGeometry{Value: pbg.Call("clone")}
 }
 func (pbg *ParametricBufferGeometry) ComputeBoundingBox() {
@@ -157,8 +157,8 @@ func (pbg *ParametricBufferGeometry) ComputeBoundingSphere() {
 func (pbg *ParametricBufferGeometry) ComputeVertexNormals() {
 	pbg.Call("computeVertexNormals")
 }
-func (pbg *ParametricBufferGeometry) Copy(source *BufferGeometry) *ParametricBufferGeometry {
-	return &ParametricBufferGeometry{Value: pbg.Call("copy", source)}
+func (pbg *ParametricBufferGeometry) Copy(source BufferGeometry) BufferGeometry {
+	return &ParametricBufferGeometry{Value: pbg.Call("copy", source.JSValue())}
 }
 func (pbg *ParametricBufferGeometry) DispatchEvent(event js.Value) {
 	pbg.Call("dispatchEvent", event)
@@ -166,11 +166,11 @@ func (pbg *ParametricBufferGeometry) DispatchEvent(event js.Value) {
 func (pbg *ParametricBufferGeometry) Dispose() {
 	pbg.Call("dispose")
 }
-func (pbg *ParametricBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("fromDirectGeometry", geometry)}
+func (pbg *ParametricBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("fromDirectGeometry", geometry)}
 }
-func (pbg *ParametricBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("fromGeometry", geometry.JSValue(), settings)}
+func (pbg *ParametricBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (pbg *ParametricBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: pbg.Call("getAttribute", name)}
@@ -184,38 +184,38 @@ func (pbg *ParametricBufferGeometry) HasEventListener(typ string, listener js.Va
 func (pbg *ParametricBufferGeometry) LookAt(v *Vector3) {
 	pbg.Call("lookAt", v.JSValue())
 }
-func (pbg *ParametricBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("merge", geometry, offset)}
+func (pbg *ParametricBufferGeometry) Merge(geometry BufferGeometry, offset int) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("merge", geometry.JSValue(), offset)}
 }
 func (pbg *ParametricBufferGeometry) NormalizeNormals() {
 	pbg.Call("normalizeNormals")
 }
-func (pbg *ParametricBufferGeometry) RemoveAttribute(name string) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("removeAttribute", name)}
+func (pbg *ParametricBufferGeometry) RemoveAttribute(name string) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("removeAttribute", name)}
 }
 func (pbg *ParametricBufferGeometry) RemoveEventListener(typ string, listener js.Value) {
 	pbg.Call("removeEventListener", typ, listener)
 }
-func (pbg *ParametricBufferGeometry) RotateX(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("rotateX", angle)}
+func (pbg *ParametricBufferGeometry) RotateX(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("rotateX", angle)}
 }
-func (pbg *ParametricBufferGeometry) RotateY(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("rotateY", angle)}
+func (pbg *ParametricBufferGeometry) RotateY(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("rotateY", angle)}
 }
-func (pbg *ParametricBufferGeometry) RotateZ(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("rotateZ", angle)}
+func (pbg *ParametricBufferGeometry) RotateZ(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("rotateZ", angle)}
 }
-func (pbg *ParametricBufferGeometry) Scale(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("scale", x, y, z)}
+func (pbg *ParametricBufferGeometry) Scale(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("scale", x, y, z)}
 }
 func (pbg *ParametricBufferGeometry) SetDrawRange2(start int, count int) {
 	pbg.Call("setDrawRange", start, count)
 }
-func (pbg *ParametricBufferGeometry) SetFromObject(object *Object3D) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("setFromObject", object)}
+func (pbg *ParametricBufferGeometry) SetFromObject(object *Object3D) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("setFromObject", object)}
 }
-func (pbg *ParametricBufferGeometry) SetFromPoints(points js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("setFromPoints", points)}
+func (pbg *ParametricBufferGeometry) SetFromPoints(points js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("setFromPoints", points)}
 }
 func (pbg *ParametricBufferGeometry) SetIndex2(index *BufferAttribute) {
 	pbg.Call("setIndex", index)
@@ -223,11 +223,11 @@ func (pbg *ParametricBufferGeometry) SetIndex2(index *BufferAttribute) {
 func (pbg *ParametricBufferGeometry) ToJSON() js.Value {
 	return pbg.Call("toJSON")
 }
-func (pbg *ParametricBufferGeometry) ToNonIndexed() *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("toNonIndexed")}
+func (pbg *ParametricBufferGeometry) ToNonIndexed() BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("toNonIndexed")}
 }
-func (pbg *ParametricBufferGeometry) Translate(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("translate", x, y, z)}
+func (pbg *ParametricBufferGeometry) Translate(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("translate", x, y, z)}
 }
 func (pbg *ParametricBufferGeometry) UpdateFromObject(object *Object3D) {
 	pbg.Call("updateFromObject", object.JSValue())
@@ -439,8 +439,8 @@ func (pg *ParametricGeometry) DispatchEvent(event js.Value) {
 func (pg *ParametricGeometry) Dispose() {
 	pg.Call("dispose")
 }
-func (pg *ParametricGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
-	return &GeometryImpl{Value: pg.Call("fromBufferGeometry", geometry)}
+func (pg *ParametricGeometry) FromBufferGeometry(geometry BufferGeometry) Geometry {
+	return &GeometryImpl{Value: pg.Call("fromBufferGeometry", geometry.JSValue())}
 }
 func (pg *ParametricGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return pg.Call("hasEventListener", typ, listener).Bool()

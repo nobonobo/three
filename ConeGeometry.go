@@ -109,8 +109,8 @@ func (cbg *ConeBufferGeometry) MaxIndex() int {
 func (cbg *ConeBufferGeometry) SetMaxIndex(v int) {
 	cbg.Set("MaxIndex", v)
 }
-func (cbg *ConeBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("addAttribute", name, attribute)}
+func (cbg *ConeBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("addAttribute", name, attribute)}
 }
 func (cbg *ConeBufferGeometry) AddAttribute2(name js.Value, array js.Value, itemSize js.Value) js.Value {
 	return cbg.Call("addAttribute", name, array, itemSize)
@@ -127,11 +127,11 @@ func (cbg *ConeBufferGeometry) AddGroup(start int, count int, materialIndex int)
 func (cbg *ConeBufferGeometry) AddIndex(index js.Value) {
 	cbg.Call("addIndex", index)
 }
-func (cbg *ConeBufferGeometry) ApplyMatrix(matrix *Matrix4) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("applyMatrix", matrix)}
+func (cbg *ConeBufferGeometry) ApplyMatrix(matrix *Matrix4) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("applyMatrix", matrix)}
 }
-func (cbg *ConeBufferGeometry) Center() *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("center")}
+func (cbg *ConeBufferGeometry) Center() BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("center")}
 }
 func (cbg *ConeBufferGeometry) ClearDrawCalls() {
 	cbg.Call("clearDrawCalls")
@@ -139,7 +139,7 @@ func (cbg *ConeBufferGeometry) ClearDrawCalls() {
 func (cbg *ConeBufferGeometry) ClearGroups() {
 	cbg.Call("clearGroups")
 }
-func (cbg *ConeBufferGeometry) Clone() *ConeBufferGeometry {
+func (cbg *ConeBufferGeometry) Clone() BufferGeometry {
 	return &ConeBufferGeometry{Value: cbg.Call("clone")}
 }
 func (cbg *ConeBufferGeometry) ComputeBoundingBox() {
@@ -151,8 +151,8 @@ func (cbg *ConeBufferGeometry) ComputeBoundingSphere() {
 func (cbg *ConeBufferGeometry) ComputeVertexNormals() {
 	cbg.Call("computeVertexNormals")
 }
-func (cbg *ConeBufferGeometry) Copy(source *BufferGeometry) *ConeBufferGeometry {
-	return &ConeBufferGeometry{Value: cbg.Call("copy", source)}
+func (cbg *ConeBufferGeometry) Copy(source BufferGeometry) BufferGeometry {
+	return &ConeBufferGeometry{Value: cbg.Call("copy", source.JSValue())}
 }
 func (cbg *ConeBufferGeometry) DispatchEvent(event js.Value) {
 	cbg.Call("dispatchEvent", event)
@@ -160,11 +160,11 @@ func (cbg *ConeBufferGeometry) DispatchEvent(event js.Value) {
 func (cbg *ConeBufferGeometry) Dispose() {
 	cbg.Call("dispose")
 }
-func (cbg *ConeBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("fromDirectGeometry", geometry)}
+func (cbg *ConeBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("fromDirectGeometry", geometry)}
 }
-func (cbg *ConeBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("fromGeometry", geometry.JSValue(), settings)}
+func (cbg *ConeBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (cbg *ConeBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: cbg.Call("getAttribute", name)}
@@ -178,38 +178,38 @@ func (cbg *ConeBufferGeometry) HasEventListener(typ string, listener js.Value) b
 func (cbg *ConeBufferGeometry) LookAt(v *Vector3) {
 	cbg.Call("lookAt", v.JSValue())
 }
-func (cbg *ConeBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("merge", geometry, offset)}
+func (cbg *ConeBufferGeometry) Merge(geometry BufferGeometry, offset int) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("merge", geometry.JSValue(), offset)}
 }
 func (cbg *ConeBufferGeometry) NormalizeNormals() {
 	cbg.Call("normalizeNormals")
 }
-func (cbg *ConeBufferGeometry) RemoveAttribute(name string) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("removeAttribute", name)}
+func (cbg *ConeBufferGeometry) RemoveAttribute(name string) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("removeAttribute", name)}
 }
 func (cbg *ConeBufferGeometry) RemoveEventListener(typ string, listener js.Value) {
 	cbg.Call("removeEventListener", typ, listener)
 }
-func (cbg *ConeBufferGeometry) RotateX(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("rotateX", angle)}
+func (cbg *ConeBufferGeometry) RotateX(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("rotateX", angle)}
 }
-func (cbg *ConeBufferGeometry) RotateY(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("rotateY", angle)}
+func (cbg *ConeBufferGeometry) RotateY(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("rotateY", angle)}
 }
-func (cbg *ConeBufferGeometry) RotateZ(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("rotateZ", angle)}
+func (cbg *ConeBufferGeometry) RotateZ(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("rotateZ", angle)}
 }
-func (cbg *ConeBufferGeometry) Scale(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("scale", x, y, z)}
+func (cbg *ConeBufferGeometry) Scale(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("scale", x, y, z)}
 }
 func (cbg *ConeBufferGeometry) SetDrawRange2(start int, count int) {
 	cbg.Call("setDrawRange", start, count)
 }
-func (cbg *ConeBufferGeometry) SetFromObject(object *Object3D) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("setFromObject", object)}
+func (cbg *ConeBufferGeometry) SetFromObject(object *Object3D) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("setFromObject", object)}
 }
-func (cbg *ConeBufferGeometry) SetFromPoints(points js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("setFromPoints", points)}
+func (cbg *ConeBufferGeometry) SetFromPoints(points js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("setFromPoints", points)}
 }
 func (cbg *ConeBufferGeometry) SetIndex2(index *BufferAttribute) {
 	cbg.Call("setIndex", index)
@@ -217,11 +217,11 @@ func (cbg *ConeBufferGeometry) SetIndex2(index *BufferAttribute) {
 func (cbg *ConeBufferGeometry) ToJSON() js.Value {
 	return cbg.Call("toJSON")
 }
-func (cbg *ConeBufferGeometry) ToNonIndexed() *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("toNonIndexed")}
+func (cbg *ConeBufferGeometry) ToNonIndexed() BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("toNonIndexed")}
 }
-func (cbg *ConeBufferGeometry) Translate(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("translate", x, y, z)}
+func (cbg *ConeBufferGeometry) Translate(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("translate", x, y, z)}
 }
 func (cbg *ConeBufferGeometry) UpdateFromObject(object *Object3D) {
 	cbg.Call("updateFromObject", object.JSValue())
@@ -433,8 +433,8 @@ func (cg *ConeGeometry) DispatchEvent(event js.Value) {
 func (cg *ConeGeometry) Dispose() {
 	cg.Call("dispose")
 }
-func (cg *ConeGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
-	return &GeometryImpl{Value: cg.Call("fromBufferGeometry", geometry)}
+func (cg *ConeGeometry) FromBufferGeometry(geometry BufferGeometry) Geometry {
+	return &GeometryImpl{Value: cg.Call("fromBufferGeometry", geometry.JSValue())}
 }
 func (cg *ConeGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return cg.Call("hasEventListener", typ, listener).Bool()

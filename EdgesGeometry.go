@@ -13,8 +13,8 @@ type EdgesGeometry struct {
 	js.Value
 }
 
-func NewEdgesGeometry(geometry *BufferGeometry, thresholdAngle float64) *EdgesGeometry {
-	return &EdgesGeometry{Value: get("EdgesGeometry").New(geometry, thresholdAngle)}
+func NewEdgesGeometry(geometry BufferGeometry, thresholdAngle float64) *EdgesGeometry {
+	return &EdgesGeometry{Value: get("EdgesGeometry").New(geometry.JSValue(), thresholdAngle)}
 }
 func (eg *EdgesGeometry) JSValue() js.Value {
 	return eg.Value
@@ -109,8 +109,8 @@ func (eg *EdgesGeometry) MaxIndex() int {
 func (eg *EdgesGeometry) SetMaxIndex(v int) {
 	eg.Set("MaxIndex", v)
 }
-func (eg *EdgesGeometry) AddAttribute(name string, attribute *BufferAttribute) *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("addAttribute", name, attribute)}
+func (eg *EdgesGeometry) AddAttribute(name string, attribute *BufferAttribute) BufferGeometry {
+	return &BufferGeometryImpl{Value: eg.Call("addAttribute", name, attribute)}
 }
 func (eg *EdgesGeometry) AddAttribute2(name js.Value, array js.Value, itemSize js.Value) js.Value {
 	return eg.Call("addAttribute", name, array, itemSize)
@@ -127,11 +127,11 @@ func (eg *EdgesGeometry) AddGroup(start int, count int, materialIndex int) {
 func (eg *EdgesGeometry) AddIndex(index js.Value) {
 	eg.Call("addIndex", index)
 }
-func (eg *EdgesGeometry) ApplyMatrix(matrix *Matrix4) *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("applyMatrix", matrix)}
+func (eg *EdgesGeometry) ApplyMatrix(matrix *Matrix4) BufferGeometry {
+	return &BufferGeometryImpl{Value: eg.Call("applyMatrix", matrix)}
 }
-func (eg *EdgesGeometry) Center() *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("center")}
+func (eg *EdgesGeometry) Center() BufferGeometry {
+	return &BufferGeometryImpl{Value: eg.Call("center")}
 }
 func (eg *EdgesGeometry) ClearDrawCalls() {
 	eg.Call("clearDrawCalls")
@@ -151,8 +151,8 @@ func (eg *EdgesGeometry) ComputeBoundingSphere() {
 func (eg *EdgesGeometry) ComputeVertexNormals() {
 	eg.Call("computeVertexNormals")
 }
-func (eg *EdgesGeometry) Copy(source *BufferGeometry) *EdgesGeometry {
-	return &EdgesGeometry{Value: eg.Call("copy", source)}
+func (eg *EdgesGeometry) Copy(source BufferGeometry) *EdgesGeometry {
+	return &EdgesGeometry{Value: eg.Call("copy", source.JSValue())}
 }
 func (eg *EdgesGeometry) DispatchEvent(event js.Value) {
 	eg.Call("dispatchEvent", event)
@@ -160,11 +160,11 @@ func (eg *EdgesGeometry) DispatchEvent(event js.Value) {
 func (eg *EdgesGeometry) Dispose() {
 	eg.Call("dispose")
 }
-func (eg *EdgesGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("fromDirectGeometry", geometry)}
+func (eg *EdgesGeometry) FromDirectGeometry(geometry *DirectGeometry) BufferGeometry {
+	return &BufferGeometryImpl{Value: eg.Call("fromDirectGeometry", geometry)}
 }
-func (eg *EdgesGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("fromGeometry", geometry.JSValue(), settings)}
+func (eg *EdgesGeometry) FromGeometry(geometry Geometry, settings js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: eg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (eg *EdgesGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: eg.Call("getAttribute", name)}
@@ -178,38 +178,38 @@ func (eg *EdgesGeometry) HasEventListener(typ string, listener js.Value) bool {
 func (eg *EdgesGeometry) LookAt(v *Vector3) {
 	eg.Call("lookAt", v.JSValue())
 }
-func (eg *EdgesGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("merge", geometry, offset)}
+func (eg *EdgesGeometry) Merge(geometry BufferGeometry, offset int) BufferGeometry {
+	return &BufferGeometryImpl{Value: eg.Call("merge", geometry.JSValue(), offset)}
 }
 func (eg *EdgesGeometry) NormalizeNormals() {
 	eg.Call("normalizeNormals")
 }
-func (eg *EdgesGeometry) RemoveAttribute(name string) *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("removeAttribute", name)}
+func (eg *EdgesGeometry) RemoveAttribute(name string) BufferGeometry {
+	return &BufferGeometryImpl{Value: eg.Call("removeAttribute", name)}
 }
 func (eg *EdgesGeometry) RemoveEventListener(typ string, listener js.Value) {
 	eg.Call("removeEventListener", typ, listener)
 }
-func (eg *EdgesGeometry) RotateX(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("rotateX", angle)}
+func (eg *EdgesGeometry) RotateX(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: eg.Call("rotateX", angle)}
 }
-func (eg *EdgesGeometry) RotateY(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("rotateY", angle)}
+func (eg *EdgesGeometry) RotateY(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: eg.Call("rotateY", angle)}
 }
-func (eg *EdgesGeometry) RotateZ(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("rotateZ", angle)}
+func (eg *EdgesGeometry) RotateZ(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: eg.Call("rotateZ", angle)}
 }
-func (eg *EdgesGeometry) Scale(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("scale", x, y, z)}
+func (eg *EdgesGeometry) Scale(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: eg.Call("scale", x, y, z)}
 }
 func (eg *EdgesGeometry) SetDrawRange2(start int, count int) {
 	eg.Call("setDrawRange", start, count)
 }
-func (eg *EdgesGeometry) SetFromObject(object *Object3D) *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("setFromObject", object)}
+func (eg *EdgesGeometry) SetFromObject(object *Object3D) BufferGeometry {
+	return &BufferGeometryImpl{Value: eg.Call("setFromObject", object)}
 }
-func (eg *EdgesGeometry) SetFromPoints(points js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("setFromPoints", points)}
+func (eg *EdgesGeometry) SetFromPoints(points js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: eg.Call("setFromPoints", points)}
 }
 func (eg *EdgesGeometry) SetIndex2(index *BufferAttribute) {
 	eg.Call("setIndex", index)
@@ -217,11 +217,11 @@ func (eg *EdgesGeometry) SetIndex2(index *BufferAttribute) {
 func (eg *EdgesGeometry) ToJSON() js.Value {
 	return eg.Call("toJSON")
 }
-func (eg *EdgesGeometry) ToNonIndexed() *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("toNonIndexed")}
+func (eg *EdgesGeometry) ToNonIndexed() BufferGeometry {
+	return &BufferGeometryImpl{Value: eg.Call("toNonIndexed")}
 }
-func (eg *EdgesGeometry) Translate(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: eg.Call("translate", x, y, z)}
+func (eg *EdgesGeometry) Translate(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: eg.Call("translate", x, y, z)}
 }
 func (eg *EdgesGeometry) UpdateFromObject(object *Object3D) {
 	eg.Call("updateFromObject", object.JSValue())

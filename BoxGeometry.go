@@ -115,8 +115,8 @@ func (bbg *BoxBufferGeometry) MaxIndex() int {
 func (bbg *BoxBufferGeometry) SetMaxIndex(v int) {
 	bbg.Set("MaxIndex", v)
 }
-func (bbg *BoxBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) *BufferGeometry {
-	return &BufferGeometry{Value: bbg.Call("addAttribute", name, attribute)}
+func (bbg *BoxBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) BufferGeometry {
+	return &BufferGeometryImpl{Value: bbg.Call("addAttribute", name, attribute)}
 }
 func (bbg *BoxBufferGeometry) AddAttribute2(name js.Value, array js.Value, itemSize js.Value) js.Value {
 	return bbg.Call("addAttribute", name, array, itemSize)
@@ -133,11 +133,11 @@ func (bbg *BoxBufferGeometry) AddGroup(start int, count int, materialIndex int) 
 func (bbg *BoxBufferGeometry) AddIndex(index js.Value) {
 	bbg.Call("addIndex", index)
 }
-func (bbg *BoxBufferGeometry) ApplyMatrix(matrix *Matrix4) *BufferGeometry {
-	return &BufferGeometry{Value: bbg.Call("applyMatrix", matrix)}
+func (bbg *BoxBufferGeometry) ApplyMatrix(matrix *Matrix4) BufferGeometry {
+	return &BufferGeometryImpl{Value: bbg.Call("applyMatrix", matrix)}
 }
-func (bbg *BoxBufferGeometry) Center() *BufferGeometry {
-	return &BufferGeometry{Value: bbg.Call("center")}
+func (bbg *BoxBufferGeometry) Center() BufferGeometry {
+	return &BufferGeometryImpl{Value: bbg.Call("center")}
 }
 func (bbg *BoxBufferGeometry) ClearDrawCalls() {
 	bbg.Call("clearDrawCalls")
@@ -145,7 +145,7 @@ func (bbg *BoxBufferGeometry) ClearDrawCalls() {
 func (bbg *BoxBufferGeometry) ClearGroups() {
 	bbg.Call("clearGroups")
 }
-func (bbg *BoxBufferGeometry) Clone() *BoxBufferGeometry {
+func (bbg *BoxBufferGeometry) Clone() BufferGeometry {
 	return &BoxBufferGeometry{Value: bbg.Call("clone")}
 }
 func (bbg *BoxBufferGeometry) ComputeBoundingBox() {
@@ -157,8 +157,8 @@ func (bbg *BoxBufferGeometry) ComputeBoundingSphere() {
 func (bbg *BoxBufferGeometry) ComputeVertexNormals() {
 	bbg.Call("computeVertexNormals")
 }
-func (bbg *BoxBufferGeometry) Copy(source *BufferGeometry) *BoxBufferGeometry {
-	return &BoxBufferGeometry{Value: bbg.Call("copy", source)}
+func (bbg *BoxBufferGeometry) Copy(source BufferGeometry) BufferGeometry {
+	return &BoxBufferGeometry{Value: bbg.Call("copy", source.JSValue())}
 }
 func (bbg *BoxBufferGeometry) DispatchEvent(event js.Value) {
 	bbg.Call("dispatchEvent", event)
@@ -166,11 +166,11 @@ func (bbg *BoxBufferGeometry) DispatchEvent(event js.Value) {
 func (bbg *BoxBufferGeometry) Dispose() {
 	bbg.Call("dispose")
 }
-func (bbg *BoxBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
-	return &BufferGeometry{Value: bbg.Call("fromDirectGeometry", geometry)}
+func (bbg *BoxBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) BufferGeometry {
+	return &BufferGeometryImpl{Value: bbg.Call("fromDirectGeometry", geometry)}
 }
-func (bbg *BoxBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: bbg.Call("fromGeometry", geometry.JSValue(), settings)}
+func (bbg *BoxBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: bbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (bbg *BoxBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: bbg.Call("getAttribute", name)}
@@ -184,38 +184,38 @@ func (bbg *BoxBufferGeometry) HasEventListener(typ string, listener js.Value) bo
 func (bbg *BoxBufferGeometry) LookAt(v *Vector3) {
 	bbg.Call("lookAt", v.JSValue())
 }
-func (bbg *BoxBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
-	return &BufferGeometry{Value: bbg.Call("merge", geometry, offset)}
+func (bbg *BoxBufferGeometry) Merge(geometry BufferGeometry, offset int) BufferGeometry {
+	return &BufferGeometryImpl{Value: bbg.Call("merge", geometry.JSValue(), offset)}
 }
 func (bbg *BoxBufferGeometry) NormalizeNormals() {
 	bbg.Call("normalizeNormals")
 }
-func (bbg *BoxBufferGeometry) RemoveAttribute(name string) *BufferGeometry {
-	return &BufferGeometry{Value: bbg.Call("removeAttribute", name)}
+func (bbg *BoxBufferGeometry) RemoveAttribute(name string) BufferGeometry {
+	return &BufferGeometryImpl{Value: bbg.Call("removeAttribute", name)}
 }
 func (bbg *BoxBufferGeometry) RemoveEventListener(typ string, listener js.Value) {
 	bbg.Call("removeEventListener", typ, listener)
 }
-func (bbg *BoxBufferGeometry) RotateX(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: bbg.Call("rotateX", angle)}
+func (bbg *BoxBufferGeometry) RotateX(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: bbg.Call("rotateX", angle)}
 }
-func (bbg *BoxBufferGeometry) RotateY(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: bbg.Call("rotateY", angle)}
+func (bbg *BoxBufferGeometry) RotateY(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: bbg.Call("rotateY", angle)}
 }
-func (bbg *BoxBufferGeometry) RotateZ(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: bbg.Call("rotateZ", angle)}
+func (bbg *BoxBufferGeometry) RotateZ(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: bbg.Call("rotateZ", angle)}
 }
-func (bbg *BoxBufferGeometry) Scale(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: bbg.Call("scale", x, y, z)}
+func (bbg *BoxBufferGeometry) Scale(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: bbg.Call("scale", x, y, z)}
 }
 func (bbg *BoxBufferGeometry) SetDrawRange2(start int, count int) {
 	bbg.Call("setDrawRange", start, count)
 }
-func (bbg *BoxBufferGeometry) SetFromObject(object *Object3D) *BufferGeometry {
-	return &BufferGeometry{Value: bbg.Call("setFromObject", object)}
+func (bbg *BoxBufferGeometry) SetFromObject(object *Object3D) BufferGeometry {
+	return &BufferGeometryImpl{Value: bbg.Call("setFromObject", object)}
 }
-func (bbg *BoxBufferGeometry) SetFromPoints(points js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: bbg.Call("setFromPoints", points)}
+func (bbg *BoxBufferGeometry) SetFromPoints(points js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: bbg.Call("setFromPoints", points)}
 }
 func (bbg *BoxBufferGeometry) SetIndex2(index *BufferAttribute) {
 	bbg.Call("setIndex", index)
@@ -223,11 +223,11 @@ func (bbg *BoxBufferGeometry) SetIndex2(index *BufferAttribute) {
 func (bbg *BoxBufferGeometry) ToJSON() js.Value {
 	return bbg.Call("toJSON")
 }
-func (bbg *BoxBufferGeometry) ToNonIndexed() *BufferGeometry {
-	return &BufferGeometry{Value: bbg.Call("toNonIndexed")}
+func (bbg *BoxBufferGeometry) ToNonIndexed() BufferGeometry {
+	return &BufferGeometryImpl{Value: bbg.Call("toNonIndexed")}
 }
-func (bbg *BoxBufferGeometry) Translate(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: bbg.Call("translate", x, y, z)}
+func (bbg *BoxBufferGeometry) Translate(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: bbg.Call("translate", x, y, z)}
 }
 func (bbg *BoxBufferGeometry) UpdateFromObject(object *Object3D) {
 	bbg.Call("updateFromObject", object.JSValue())
@@ -439,8 +439,8 @@ func (bg *BoxGeometry) DispatchEvent(event js.Value) {
 func (bg *BoxGeometry) Dispose() {
 	bg.Call("dispose")
 }
-func (bg *BoxGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
-	return &GeometryImpl{Value: bg.Call("fromBufferGeometry", geometry)}
+func (bg *BoxGeometry) FromBufferGeometry(geometry BufferGeometry) Geometry {
+	return &GeometryImpl{Value: bg.Call("fromBufferGeometry", geometry.JSValue())}
 }
 func (bg *BoxGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return bg.Call("hasEventListener", typ, listener).Bool()

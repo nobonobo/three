@@ -40,7 +40,7 @@ func init() {
 		js.Null(),
 		js.Null(),
 	)
-	geometry := three.NewBoxGeometry(200, 200, 200, 1, 1, 1)
+	geometry := three.NewBoxBufferGeometry(200, 200, 200, 1, 1, 1)
 	material := three.NewMeshBasicMaterial(js.ValueOf(map[string]interface{}{
 		"map": texture,
 	}))

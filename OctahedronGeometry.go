@@ -115,8 +115,8 @@ func (obg *OctahedronBufferGeometry) MaxIndex() int {
 func (obg *OctahedronBufferGeometry) SetMaxIndex(v int) {
 	obg.Set("MaxIndex", v)
 }
-func (obg *OctahedronBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("addAttribute", name, attribute)}
+func (obg *OctahedronBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) BufferGeometry {
+	return &BufferGeometryImpl{Value: obg.Call("addAttribute", name, attribute)}
 }
 func (obg *OctahedronBufferGeometry) AddAttribute2(name js.Value, array js.Value, itemSize js.Value) js.Value {
 	return obg.Call("addAttribute", name, array, itemSize)
@@ -133,11 +133,11 @@ func (obg *OctahedronBufferGeometry) AddGroup(start int, count int, materialInde
 func (obg *OctahedronBufferGeometry) AddIndex(index js.Value) {
 	obg.Call("addIndex", index)
 }
-func (obg *OctahedronBufferGeometry) ApplyMatrix(matrix *Matrix4) *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("applyMatrix", matrix)}
+func (obg *OctahedronBufferGeometry) ApplyMatrix(matrix *Matrix4) BufferGeometry {
+	return &BufferGeometryImpl{Value: obg.Call("applyMatrix", matrix)}
 }
-func (obg *OctahedronBufferGeometry) Center() *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("center")}
+func (obg *OctahedronBufferGeometry) Center() BufferGeometry {
+	return &BufferGeometryImpl{Value: obg.Call("center")}
 }
 func (obg *OctahedronBufferGeometry) ClearDrawCalls() {
 	obg.Call("clearDrawCalls")
@@ -145,7 +145,7 @@ func (obg *OctahedronBufferGeometry) ClearDrawCalls() {
 func (obg *OctahedronBufferGeometry) ClearGroups() {
 	obg.Call("clearGroups")
 }
-func (obg *OctahedronBufferGeometry) Clone() *OctahedronBufferGeometry {
+func (obg *OctahedronBufferGeometry) Clone() BufferGeometry {
 	return &OctahedronBufferGeometry{Value: obg.Call("clone")}
 }
 func (obg *OctahedronBufferGeometry) ComputeBoundingBox() {
@@ -157,8 +157,8 @@ func (obg *OctahedronBufferGeometry) ComputeBoundingSphere() {
 func (obg *OctahedronBufferGeometry) ComputeVertexNormals() {
 	obg.Call("computeVertexNormals")
 }
-func (obg *OctahedronBufferGeometry) Copy(source *BufferGeometry) *OctahedronBufferGeometry {
-	return &OctahedronBufferGeometry{Value: obg.Call("copy", source)}
+func (obg *OctahedronBufferGeometry) Copy(source BufferGeometry) BufferGeometry {
+	return &OctahedronBufferGeometry{Value: obg.Call("copy", source.JSValue())}
 }
 func (obg *OctahedronBufferGeometry) DispatchEvent(event js.Value) {
 	obg.Call("dispatchEvent", event)
@@ -166,11 +166,11 @@ func (obg *OctahedronBufferGeometry) DispatchEvent(event js.Value) {
 func (obg *OctahedronBufferGeometry) Dispose() {
 	obg.Call("dispose")
 }
-func (obg *OctahedronBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("fromDirectGeometry", geometry)}
+func (obg *OctahedronBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) BufferGeometry {
+	return &BufferGeometryImpl{Value: obg.Call("fromDirectGeometry", geometry)}
 }
-func (obg *OctahedronBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("fromGeometry", geometry.JSValue(), settings)}
+func (obg *OctahedronBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: obg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (obg *OctahedronBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: obg.Call("getAttribute", name)}
@@ -184,38 +184,38 @@ func (obg *OctahedronBufferGeometry) HasEventListener(typ string, listener js.Va
 func (obg *OctahedronBufferGeometry) LookAt(v *Vector3) {
 	obg.Call("lookAt", v.JSValue())
 }
-func (obg *OctahedronBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("merge", geometry, offset)}
+func (obg *OctahedronBufferGeometry) Merge(geometry BufferGeometry, offset int) BufferGeometry {
+	return &BufferGeometryImpl{Value: obg.Call("merge", geometry.JSValue(), offset)}
 }
 func (obg *OctahedronBufferGeometry) NormalizeNormals() {
 	obg.Call("normalizeNormals")
 }
-func (obg *OctahedronBufferGeometry) RemoveAttribute(name string) *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("removeAttribute", name)}
+func (obg *OctahedronBufferGeometry) RemoveAttribute(name string) BufferGeometry {
+	return &BufferGeometryImpl{Value: obg.Call("removeAttribute", name)}
 }
 func (obg *OctahedronBufferGeometry) RemoveEventListener(typ string, listener js.Value) {
 	obg.Call("removeEventListener", typ, listener)
 }
-func (obg *OctahedronBufferGeometry) RotateX(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("rotateX", angle)}
+func (obg *OctahedronBufferGeometry) RotateX(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: obg.Call("rotateX", angle)}
 }
-func (obg *OctahedronBufferGeometry) RotateY(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("rotateY", angle)}
+func (obg *OctahedronBufferGeometry) RotateY(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: obg.Call("rotateY", angle)}
 }
-func (obg *OctahedronBufferGeometry) RotateZ(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("rotateZ", angle)}
+func (obg *OctahedronBufferGeometry) RotateZ(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: obg.Call("rotateZ", angle)}
 }
-func (obg *OctahedronBufferGeometry) Scale(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("scale", x, y, z)}
+func (obg *OctahedronBufferGeometry) Scale(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: obg.Call("scale", x, y, z)}
 }
 func (obg *OctahedronBufferGeometry) SetDrawRange2(start int, count int) {
 	obg.Call("setDrawRange", start, count)
 }
-func (obg *OctahedronBufferGeometry) SetFromObject(object *Object3D) *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("setFromObject", object)}
+func (obg *OctahedronBufferGeometry) SetFromObject(object *Object3D) BufferGeometry {
+	return &BufferGeometryImpl{Value: obg.Call("setFromObject", object)}
 }
-func (obg *OctahedronBufferGeometry) SetFromPoints(points js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("setFromPoints", points)}
+func (obg *OctahedronBufferGeometry) SetFromPoints(points js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: obg.Call("setFromPoints", points)}
 }
 func (obg *OctahedronBufferGeometry) SetIndex2(index *BufferAttribute) {
 	obg.Call("setIndex", index)
@@ -223,11 +223,11 @@ func (obg *OctahedronBufferGeometry) SetIndex2(index *BufferAttribute) {
 func (obg *OctahedronBufferGeometry) ToJSON() js.Value {
 	return obg.Call("toJSON")
 }
-func (obg *OctahedronBufferGeometry) ToNonIndexed() *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("toNonIndexed")}
+func (obg *OctahedronBufferGeometry) ToNonIndexed() BufferGeometry {
+	return &BufferGeometryImpl{Value: obg.Call("toNonIndexed")}
 }
-func (obg *OctahedronBufferGeometry) Translate(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: obg.Call("translate", x, y, z)}
+func (obg *OctahedronBufferGeometry) Translate(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: obg.Call("translate", x, y, z)}
 }
 func (obg *OctahedronBufferGeometry) UpdateFromObject(object *Object3D) {
 	obg.Call("updateFromObject", object.JSValue())
@@ -439,8 +439,8 @@ func (og *OctahedronGeometry) DispatchEvent(event js.Value) {
 func (og *OctahedronGeometry) Dispose() {
 	og.Call("dispose")
 }
-func (og *OctahedronGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
-	return &GeometryImpl{Value: og.Call("fromBufferGeometry", geometry)}
+func (og *OctahedronGeometry) FromBufferGeometry(geometry BufferGeometry) Geometry {
+	return &GeometryImpl{Value: og.Call("fromBufferGeometry", geometry.JSValue())}
 }
 func (og *OctahedronGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return og.Call("hasEventListener", typ, listener).Bool()

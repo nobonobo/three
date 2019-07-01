@@ -115,8 +115,8 @@ func (cbg *CircleBufferGeometry) MaxIndex() int {
 func (cbg *CircleBufferGeometry) SetMaxIndex(v int) {
 	cbg.Set("MaxIndex", v)
 }
-func (cbg *CircleBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("addAttribute", name, attribute)}
+func (cbg *CircleBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("addAttribute", name, attribute)}
 }
 func (cbg *CircleBufferGeometry) AddAttribute2(name js.Value, array js.Value, itemSize js.Value) js.Value {
 	return cbg.Call("addAttribute", name, array, itemSize)
@@ -133,11 +133,11 @@ func (cbg *CircleBufferGeometry) AddGroup(start int, count int, materialIndex in
 func (cbg *CircleBufferGeometry) AddIndex(index js.Value) {
 	cbg.Call("addIndex", index)
 }
-func (cbg *CircleBufferGeometry) ApplyMatrix(matrix *Matrix4) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("applyMatrix", matrix)}
+func (cbg *CircleBufferGeometry) ApplyMatrix(matrix *Matrix4) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("applyMatrix", matrix)}
 }
-func (cbg *CircleBufferGeometry) Center() *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("center")}
+func (cbg *CircleBufferGeometry) Center() BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("center")}
 }
 func (cbg *CircleBufferGeometry) ClearDrawCalls() {
 	cbg.Call("clearDrawCalls")
@@ -145,7 +145,7 @@ func (cbg *CircleBufferGeometry) ClearDrawCalls() {
 func (cbg *CircleBufferGeometry) ClearGroups() {
 	cbg.Call("clearGroups")
 }
-func (cbg *CircleBufferGeometry) Clone() *CircleBufferGeometry {
+func (cbg *CircleBufferGeometry) Clone() BufferGeometry {
 	return &CircleBufferGeometry{Value: cbg.Call("clone")}
 }
 func (cbg *CircleBufferGeometry) ComputeBoundingBox() {
@@ -157,8 +157,8 @@ func (cbg *CircleBufferGeometry) ComputeBoundingSphere() {
 func (cbg *CircleBufferGeometry) ComputeVertexNormals() {
 	cbg.Call("computeVertexNormals")
 }
-func (cbg *CircleBufferGeometry) Copy(source *BufferGeometry) *CircleBufferGeometry {
-	return &CircleBufferGeometry{Value: cbg.Call("copy", source)}
+func (cbg *CircleBufferGeometry) Copy(source BufferGeometry) BufferGeometry {
+	return &CircleBufferGeometry{Value: cbg.Call("copy", source.JSValue())}
 }
 func (cbg *CircleBufferGeometry) DispatchEvent(event js.Value) {
 	cbg.Call("dispatchEvent", event)
@@ -166,11 +166,11 @@ func (cbg *CircleBufferGeometry) DispatchEvent(event js.Value) {
 func (cbg *CircleBufferGeometry) Dispose() {
 	cbg.Call("dispose")
 }
-func (cbg *CircleBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("fromDirectGeometry", geometry)}
+func (cbg *CircleBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("fromDirectGeometry", geometry)}
 }
-func (cbg *CircleBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("fromGeometry", geometry.JSValue(), settings)}
+func (cbg *CircleBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (cbg *CircleBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: cbg.Call("getAttribute", name)}
@@ -184,38 +184,38 @@ func (cbg *CircleBufferGeometry) HasEventListener(typ string, listener js.Value)
 func (cbg *CircleBufferGeometry) LookAt(v *Vector3) {
 	cbg.Call("lookAt", v.JSValue())
 }
-func (cbg *CircleBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("merge", geometry, offset)}
+func (cbg *CircleBufferGeometry) Merge(geometry BufferGeometry, offset int) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("merge", geometry.JSValue(), offset)}
 }
 func (cbg *CircleBufferGeometry) NormalizeNormals() {
 	cbg.Call("normalizeNormals")
 }
-func (cbg *CircleBufferGeometry) RemoveAttribute(name string) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("removeAttribute", name)}
+func (cbg *CircleBufferGeometry) RemoveAttribute(name string) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("removeAttribute", name)}
 }
 func (cbg *CircleBufferGeometry) RemoveEventListener(typ string, listener js.Value) {
 	cbg.Call("removeEventListener", typ, listener)
 }
-func (cbg *CircleBufferGeometry) RotateX(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("rotateX", angle)}
+func (cbg *CircleBufferGeometry) RotateX(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("rotateX", angle)}
 }
-func (cbg *CircleBufferGeometry) RotateY(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("rotateY", angle)}
+func (cbg *CircleBufferGeometry) RotateY(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("rotateY", angle)}
 }
-func (cbg *CircleBufferGeometry) RotateZ(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("rotateZ", angle)}
+func (cbg *CircleBufferGeometry) RotateZ(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("rotateZ", angle)}
 }
-func (cbg *CircleBufferGeometry) Scale(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("scale", x, y, z)}
+func (cbg *CircleBufferGeometry) Scale(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("scale", x, y, z)}
 }
 func (cbg *CircleBufferGeometry) SetDrawRange2(start int, count int) {
 	cbg.Call("setDrawRange", start, count)
 }
-func (cbg *CircleBufferGeometry) SetFromObject(object *Object3D) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("setFromObject", object)}
+func (cbg *CircleBufferGeometry) SetFromObject(object *Object3D) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("setFromObject", object)}
 }
-func (cbg *CircleBufferGeometry) SetFromPoints(points js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("setFromPoints", points)}
+func (cbg *CircleBufferGeometry) SetFromPoints(points js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("setFromPoints", points)}
 }
 func (cbg *CircleBufferGeometry) SetIndex2(index *BufferAttribute) {
 	cbg.Call("setIndex", index)
@@ -223,11 +223,11 @@ func (cbg *CircleBufferGeometry) SetIndex2(index *BufferAttribute) {
 func (cbg *CircleBufferGeometry) ToJSON() js.Value {
 	return cbg.Call("toJSON")
 }
-func (cbg *CircleBufferGeometry) ToNonIndexed() *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("toNonIndexed")}
+func (cbg *CircleBufferGeometry) ToNonIndexed() BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("toNonIndexed")}
 }
-func (cbg *CircleBufferGeometry) Translate(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("translate", x, y, z)}
+func (cbg *CircleBufferGeometry) Translate(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("translate", x, y, z)}
 }
 func (cbg *CircleBufferGeometry) UpdateFromObject(object *Object3D) {
 	cbg.Call("updateFromObject", object.JSValue())
@@ -439,8 +439,8 @@ func (cg *CircleGeometry) DispatchEvent(event js.Value) {
 func (cg *CircleGeometry) Dispose() {
 	cg.Call("dispose")
 }
-func (cg *CircleGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
-	return &GeometryImpl{Value: cg.Call("fromBufferGeometry", geometry)}
+func (cg *CircleGeometry) FromBufferGeometry(geometry BufferGeometry) Geometry {
+	return &GeometryImpl{Value: cg.Call("fromBufferGeometry", geometry.JSValue())}
 }
 func (cg *CircleGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return cg.Call("hasEventListener", typ, listener).Bool()

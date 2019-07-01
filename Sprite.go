@@ -43,10 +43,10 @@ func (ss *Sprite) FrustumCulled() bool {
 func (ss *Sprite) SetFrustumCulled(v bool) {
 	ss.Set("frustumCulled", v)
 }
-func (ss *Sprite) Geometry() *BufferGeometry {
-	return &BufferGeometry{Value: ss.Get("geometry")}
+func (ss *Sprite) Geometry() BufferGeometry {
+	return &BufferGeometryImpl{Value: ss.Get("geometry")}
 }
-func (ss *Sprite) SetGeometry(v *BufferGeometry) {
+func (ss *Sprite) SetGeometry(v BufferGeometry) {
 	ss.Set("geometry", v.JSValue())
 }
 func (ss *Sprite) Id() int {

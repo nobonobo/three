@@ -208,6 +208,7 @@ func getType(file *File, t *Type) string {
 	return ""
 }
 
+/*
 func getNewType(file *File, t *Type) string {
 	res := getType(file, t)
 	if change, ok := InterfaceTypes[t.Name]; ok && change == t.Name {
@@ -215,6 +216,7 @@ func getNewType(file *File, t *Type) string {
 	}
 	return res
 }
+*/
 
 func isReference(t *Type) bool {
 	if v, ok := Links[t.ID]; ok {
@@ -241,7 +243,7 @@ func getParamType(file *File, t *Type) string {
 	case "void":
 		return ""
 	}
-	if _, ok := BlackListArrayType[tp]; ok {
+	if _, ok := BlackListArrayType[strings.TrimLeft(tp, "three.")]; ok {
 		importAppendJS(file)
 		return "js.Value"
 	}
@@ -255,12 +257,13 @@ func getParamType(file *File, t *Type) string {
 		case "stringLiteral", "intrinsic":
 			return tp
 		}
-		if _, ok := InterfaceTypes[tp]; ok {
+		if _, ok := InterfaceTypes[strings.TrimLeft(tp, "three.")]; ok {
 			return tp
 		}
 		return "*" + tp
 	case "reference":
-		if v, ok := InterfaceTypes[tp]; ok && v == tp {
+		name := strings.TrimLeft(tp, "three.")
+		if v, ok := InterfaceTypes[name]; ok && v == name {
 			return tp
 		}
 		if tp == "js.Value" {
@@ -274,6 +277,18 @@ func getParamType(file *File, t *Type) string {
 	case "reflection":
 		importAppendJS(file)
 		return "js.Value"
+	}
+	return tp
+}
+
+func getNewType(file *File, t *Type) string {
+	tp := getType(file, t)
+	name := strings.Replace(tp,"three.","",1)
+	if v, ok := InterfaceTypes[name]; ok {
+		if v == name {
+			return tp + "Impl"
+		}
+		return tp
 	}
 	return tp
 }
@@ -294,15 +309,9 @@ func getKlassType(file *File, klass *Klass, t *Type) string {
 }
 
 func getKlassNewType(file *File, klass *Klass, t *Type) string {
-	tp := getType(file, t)
+	tp := getNewType(file, t)
 	if tp == "this" {
 		tp = klass.Name
-	}
-	if v, ok := InterfaceTypes[tp]; ok {
-		if v == tp {
-			return tp + "Impl"
-		}
-		return tp
 	}
 	return tp
 }
@@ -577,7 +586,7 @@ func render(pkg string, file *File) ([]byte, error) {
 				)
 			} else {
 				fmt.Fprintf(w, "\treturn &%s{Value:global().Call(%q%s)}\n",
-					primType, fn.Name, strings.Join(params, ", "),
+					getNewType(file, fn.Type), fn.Name, strings.Join(params, ", "),
 				)
 			}
 		}
@@ -710,8 +719,11 @@ func getJSWrapped(paramType string , tp *Type) bool {
 	if paramType == "js.Value" {
 		return false
 	}
-	v, ok := InterfaceTypes[paramType]
+	v, ok := InterfaceTypes[strings.Replace(paramType,"three.","",1)]
 	res := ok && v == paramType
+	if tp.Type=="union" && Union2Wrapper[nsPath()] {
+		return true
+	}
 	if tp.Type == "reference" {
 		if d, ok := Links[tp.ID]; ok && (d.EnumType || d.Interface) {
 			return false
@@ -749,9 +761,15 @@ func renderKlass(w io.Writer, file *File, name string, klass *Klass) {
 		for _, param := range fn.Params {
 			nsPush(param.Name)
 			paramType := getKlassParamType(file, klass, param.Type)
-			paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
-				getName(param.Name), paramType,
-			))
+			if Union2Wrapper[nsPath()] {
+				paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
+					getName(param.Name), "js.Wrapper",
+				))
+			} else {
+				paramDefs = append(paramDefs, fmt.Sprintf("%s %s",
+					getName(param.Name), paramType,
+				))
+			}
 			if getJSWrapped(paramType, param.Type) {
 				params = append(params, getName(param.Name)+".JSValue()")
 			} else {
@@ -829,9 +847,6 @@ func renderKlass(w io.Writer, file *File, name string, klass *Klass) {
 			receiverName, name,
 			strings.Title(prop.Name)+setSuffix, paramType,
 		)
-		if klass.Name=="WebGLState" && prop.Name=="Buffers" {
-			log.Println(paramType, tp, getJSWrapped(paramType, tp))
-		}
 		if getJSWrapped(paramType, tp) {
 			fmt.Fprintf(w, "\t%s.Set(%q, v.JSValue())\n", receiverName, prop.Name)
 		} else {

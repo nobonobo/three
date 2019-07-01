@@ -28,6 +28,6 @@ func (bgl *BufferGeometryLoader) SetManager(v *LoadingManager) {
 func (bgl *BufferGeometryLoader) Load(url string, onLoad js.Value, onProgress js.Value, onError js.Value) {
 	bgl.Call("load", url, onLoad, onProgress, onError)
 }
-func (bgl *BufferGeometryLoader) Parse(json js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: bgl.Call("parse", json)}
+func (bgl *BufferGeometryLoader) Parse(json js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: bgl.Call("parse", json)}
 }

@@ -115,8 +115,8 @@ func (cbg *CylinderBufferGeometry) MaxIndex() int {
 func (cbg *CylinderBufferGeometry) SetMaxIndex(v int) {
 	cbg.Set("MaxIndex", v)
 }
-func (cbg *CylinderBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("addAttribute", name, attribute)}
+func (cbg *CylinderBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("addAttribute", name, attribute)}
 }
 func (cbg *CylinderBufferGeometry) AddAttribute2(name js.Value, array js.Value, itemSize js.Value) js.Value {
 	return cbg.Call("addAttribute", name, array, itemSize)
@@ -133,11 +133,11 @@ func (cbg *CylinderBufferGeometry) AddGroup(start int, count int, materialIndex 
 func (cbg *CylinderBufferGeometry) AddIndex(index js.Value) {
 	cbg.Call("addIndex", index)
 }
-func (cbg *CylinderBufferGeometry) ApplyMatrix(matrix *Matrix4) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("applyMatrix", matrix)}
+func (cbg *CylinderBufferGeometry) ApplyMatrix(matrix *Matrix4) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("applyMatrix", matrix)}
 }
-func (cbg *CylinderBufferGeometry) Center() *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("center")}
+func (cbg *CylinderBufferGeometry) Center() BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("center")}
 }
 func (cbg *CylinderBufferGeometry) ClearDrawCalls() {
 	cbg.Call("clearDrawCalls")
@@ -145,7 +145,7 @@ func (cbg *CylinderBufferGeometry) ClearDrawCalls() {
 func (cbg *CylinderBufferGeometry) ClearGroups() {
 	cbg.Call("clearGroups")
 }
-func (cbg *CylinderBufferGeometry) Clone() *CylinderBufferGeometry {
+func (cbg *CylinderBufferGeometry) Clone() BufferGeometry {
 	return &CylinderBufferGeometry{Value: cbg.Call("clone")}
 }
 func (cbg *CylinderBufferGeometry) ComputeBoundingBox() {
@@ -157,8 +157,8 @@ func (cbg *CylinderBufferGeometry) ComputeBoundingSphere() {
 func (cbg *CylinderBufferGeometry) ComputeVertexNormals() {
 	cbg.Call("computeVertexNormals")
 }
-func (cbg *CylinderBufferGeometry) Copy(source *BufferGeometry) *CylinderBufferGeometry {
-	return &CylinderBufferGeometry{Value: cbg.Call("copy", source)}
+func (cbg *CylinderBufferGeometry) Copy(source BufferGeometry) BufferGeometry {
+	return &CylinderBufferGeometry{Value: cbg.Call("copy", source.JSValue())}
 }
 func (cbg *CylinderBufferGeometry) DispatchEvent(event js.Value) {
 	cbg.Call("dispatchEvent", event)
@@ -166,11 +166,11 @@ func (cbg *CylinderBufferGeometry) DispatchEvent(event js.Value) {
 func (cbg *CylinderBufferGeometry) Dispose() {
 	cbg.Call("dispose")
 }
-func (cbg *CylinderBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("fromDirectGeometry", geometry)}
+func (cbg *CylinderBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("fromDirectGeometry", geometry)}
 }
-func (cbg *CylinderBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("fromGeometry", geometry.JSValue(), settings)}
+func (cbg *CylinderBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (cbg *CylinderBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: cbg.Call("getAttribute", name)}
@@ -184,38 +184,38 @@ func (cbg *CylinderBufferGeometry) HasEventListener(typ string, listener js.Valu
 func (cbg *CylinderBufferGeometry) LookAt(v *Vector3) {
 	cbg.Call("lookAt", v.JSValue())
 }
-func (cbg *CylinderBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("merge", geometry, offset)}
+func (cbg *CylinderBufferGeometry) Merge(geometry BufferGeometry, offset int) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("merge", geometry.JSValue(), offset)}
 }
 func (cbg *CylinderBufferGeometry) NormalizeNormals() {
 	cbg.Call("normalizeNormals")
 }
-func (cbg *CylinderBufferGeometry) RemoveAttribute(name string) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("removeAttribute", name)}
+func (cbg *CylinderBufferGeometry) RemoveAttribute(name string) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("removeAttribute", name)}
 }
 func (cbg *CylinderBufferGeometry) RemoveEventListener(typ string, listener js.Value) {
 	cbg.Call("removeEventListener", typ, listener)
 }
-func (cbg *CylinderBufferGeometry) RotateX(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("rotateX", angle)}
+func (cbg *CylinderBufferGeometry) RotateX(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("rotateX", angle)}
 }
-func (cbg *CylinderBufferGeometry) RotateY(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("rotateY", angle)}
+func (cbg *CylinderBufferGeometry) RotateY(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("rotateY", angle)}
 }
-func (cbg *CylinderBufferGeometry) RotateZ(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("rotateZ", angle)}
+func (cbg *CylinderBufferGeometry) RotateZ(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("rotateZ", angle)}
 }
-func (cbg *CylinderBufferGeometry) Scale(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("scale", x, y, z)}
+func (cbg *CylinderBufferGeometry) Scale(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("scale", x, y, z)}
 }
 func (cbg *CylinderBufferGeometry) SetDrawRange2(start int, count int) {
 	cbg.Call("setDrawRange", start, count)
 }
-func (cbg *CylinderBufferGeometry) SetFromObject(object *Object3D) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("setFromObject", object)}
+func (cbg *CylinderBufferGeometry) SetFromObject(object *Object3D) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("setFromObject", object)}
 }
-func (cbg *CylinderBufferGeometry) SetFromPoints(points js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("setFromPoints", points)}
+func (cbg *CylinderBufferGeometry) SetFromPoints(points js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("setFromPoints", points)}
 }
 func (cbg *CylinderBufferGeometry) SetIndex2(index *BufferAttribute) {
 	cbg.Call("setIndex", index)
@@ -223,11 +223,11 @@ func (cbg *CylinderBufferGeometry) SetIndex2(index *BufferAttribute) {
 func (cbg *CylinderBufferGeometry) ToJSON() js.Value {
 	return cbg.Call("toJSON")
 }
-func (cbg *CylinderBufferGeometry) ToNonIndexed() *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("toNonIndexed")}
+func (cbg *CylinderBufferGeometry) ToNonIndexed() BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("toNonIndexed")}
 }
-func (cbg *CylinderBufferGeometry) Translate(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: cbg.Call("translate", x, y, z)}
+func (cbg *CylinderBufferGeometry) Translate(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: cbg.Call("translate", x, y, z)}
 }
 func (cbg *CylinderBufferGeometry) UpdateFromObject(object *Object3D) {
 	cbg.Call("updateFromObject", object.JSValue())
@@ -439,8 +439,8 @@ func (cg *CylinderGeometry) DispatchEvent(event js.Value) {
 func (cg *CylinderGeometry) Dispose() {
 	cg.Call("dispose")
 }
-func (cg *CylinderGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
-	return &GeometryImpl{Value: cg.Call("fromBufferGeometry", geometry)}
+func (cg *CylinderGeometry) FromBufferGeometry(geometry BufferGeometry) Geometry {
+	return &GeometryImpl{Value: cg.Call("fromBufferGeometry", geometry.JSValue())}
 }
 func (cg *CylinderGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return cg.Call("hasEventListener", typ, listener).Bool()

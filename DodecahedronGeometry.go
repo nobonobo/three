@@ -115,8 +115,8 @@ func (dbg *DodecahedronBufferGeometry) MaxIndex() int {
 func (dbg *DodecahedronBufferGeometry) SetMaxIndex(v int) {
 	dbg.Set("MaxIndex", v)
 }
-func (dbg *DodecahedronBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("addAttribute", name, attribute)}
+func (dbg *DodecahedronBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) BufferGeometry {
+	return &BufferGeometryImpl{Value: dbg.Call("addAttribute", name, attribute)}
 }
 func (dbg *DodecahedronBufferGeometry) AddAttribute2(name js.Value, array js.Value, itemSize js.Value) js.Value {
 	return dbg.Call("addAttribute", name, array, itemSize)
@@ -133,11 +133,11 @@ func (dbg *DodecahedronBufferGeometry) AddGroup(start int, count int, materialIn
 func (dbg *DodecahedronBufferGeometry) AddIndex(index js.Value) {
 	dbg.Call("addIndex", index)
 }
-func (dbg *DodecahedronBufferGeometry) ApplyMatrix(matrix *Matrix4) *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("applyMatrix", matrix)}
+func (dbg *DodecahedronBufferGeometry) ApplyMatrix(matrix *Matrix4) BufferGeometry {
+	return &BufferGeometryImpl{Value: dbg.Call("applyMatrix", matrix)}
 }
-func (dbg *DodecahedronBufferGeometry) Center() *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("center")}
+func (dbg *DodecahedronBufferGeometry) Center() BufferGeometry {
+	return &BufferGeometryImpl{Value: dbg.Call("center")}
 }
 func (dbg *DodecahedronBufferGeometry) ClearDrawCalls() {
 	dbg.Call("clearDrawCalls")
@@ -145,7 +145,7 @@ func (dbg *DodecahedronBufferGeometry) ClearDrawCalls() {
 func (dbg *DodecahedronBufferGeometry) ClearGroups() {
 	dbg.Call("clearGroups")
 }
-func (dbg *DodecahedronBufferGeometry) Clone() *DodecahedronBufferGeometry {
+func (dbg *DodecahedronBufferGeometry) Clone() BufferGeometry {
 	return &DodecahedronBufferGeometry{Value: dbg.Call("clone")}
 }
 func (dbg *DodecahedronBufferGeometry) ComputeBoundingBox() {
@@ -157,8 +157,8 @@ func (dbg *DodecahedronBufferGeometry) ComputeBoundingSphere() {
 func (dbg *DodecahedronBufferGeometry) ComputeVertexNormals() {
 	dbg.Call("computeVertexNormals")
 }
-func (dbg *DodecahedronBufferGeometry) Copy(source *BufferGeometry) *DodecahedronBufferGeometry {
-	return &DodecahedronBufferGeometry{Value: dbg.Call("copy", source)}
+func (dbg *DodecahedronBufferGeometry) Copy(source BufferGeometry) BufferGeometry {
+	return &DodecahedronBufferGeometry{Value: dbg.Call("copy", source.JSValue())}
 }
 func (dbg *DodecahedronBufferGeometry) DispatchEvent(event js.Value) {
 	dbg.Call("dispatchEvent", event)
@@ -166,11 +166,11 @@ func (dbg *DodecahedronBufferGeometry) DispatchEvent(event js.Value) {
 func (dbg *DodecahedronBufferGeometry) Dispose() {
 	dbg.Call("dispose")
 }
-func (dbg *DodecahedronBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("fromDirectGeometry", geometry)}
+func (dbg *DodecahedronBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) BufferGeometry {
+	return &BufferGeometryImpl{Value: dbg.Call("fromDirectGeometry", geometry)}
 }
-func (dbg *DodecahedronBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("fromGeometry", geometry.JSValue(), settings)}
+func (dbg *DodecahedronBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: dbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (dbg *DodecahedronBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: dbg.Call("getAttribute", name)}
@@ -184,38 +184,38 @@ func (dbg *DodecahedronBufferGeometry) HasEventListener(typ string, listener js.
 func (dbg *DodecahedronBufferGeometry) LookAt(v *Vector3) {
 	dbg.Call("lookAt", v.JSValue())
 }
-func (dbg *DodecahedronBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("merge", geometry, offset)}
+func (dbg *DodecahedronBufferGeometry) Merge(geometry BufferGeometry, offset int) BufferGeometry {
+	return &BufferGeometryImpl{Value: dbg.Call("merge", geometry.JSValue(), offset)}
 }
 func (dbg *DodecahedronBufferGeometry) NormalizeNormals() {
 	dbg.Call("normalizeNormals")
 }
-func (dbg *DodecahedronBufferGeometry) RemoveAttribute(name string) *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("removeAttribute", name)}
+func (dbg *DodecahedronBufferGeometry) RemoveAttribute(name string) BufferGeometry {
+	return &BufferGeometryImpl{Value: dbg.Call("removeAttribute", name)}
 }
 func (dbg *DodecahedronBufferGeometry) RemoveEventListener(typ string, listener js.Value) {
 	dbg.Call("removeEventListener", typ, listener)
 }
-func (dbg *DodecahedronBufferGeometry) RotateX(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("rotateX", angle)}
+func (dbg *DodecahedronBufferGeometry) RotateX(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: dbg.Call("rotateX", angle)}
 }
-func (dbg *DodecahedronBufferGeometry) RotateY(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("rotateY", angle)}
+func (dbg *DodecahedronBufferGeometry) RotateY(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: dbg.Call("rotateY", angle)}
 }
-func (dbg *DodecahedronBufferGeometry) RotateZ(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("rotateZ", angle)}
+func (dbg *DodecahedronBufferGeometry) RotateZ(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: dbg.Call("rotateZ", angle)}
 }
-func (dbg *DodecahedronBufferGeometry) Scale(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("scale", x, y, z)}
+func (dbg *DodecahedronBufferGeometry) Scale(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: dbg.Call("scale", x, y, z)}
 }
 func (dbg *DodecahedronBufferGeometry) SetDrawRange2(start int, count int) {
 	dbg.Call("setDrawRange", start, count)
 }
-func (dbg *DodecahedronBufferGeometry) SetFromObject(object *Object3D) *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("setFromObject", object)}
+func (dbg *DodecahedronBufferGeometry) SetFromObject(object *Object3D) BufferGeometry {
+	return &BufferGeometryImpl{Value: dbg.Call("setFromObject", object)}
 }
-func (dbg *DodecahedronBufferGeometry) SetFromPoints(points js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("setFromPoints", points)}
+func (dbg *DodecahedronBufferGeometry) SetFromPoints(points js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: dbg.Call("setFromPoints", points)}
 }
 func (dbg *DodecahedronBufferGeometry) SetIndex2(index *BufferAttribute) {
 	dbg.Call("setIndex", index)
@@ -223,11 +223,11 @@ func (dbg *DodecahedronBufferGeometry) SetIndex2(index *BufferAttribute) {
 func (dbg *DodecahedronBufferGeometry) ToJSON() js.Value {
 	return dbg.Call("toJSON")
 }
-func (dbg *DodecahedronBufferGeometry) ToNonIndexed() *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("toNonIndexed")}
+func (dbg *DodecahedronBufferGeometry) ToNonIndexed() BufferGeometry {
+	return &BufferGeometryImpl{Value: dbg.Call("toNonIndexed")}
 }
-func (dbg *DodecahedronBufferGeometry) Translate(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: dbg.Call("translate", x, y, z)}
+func (dbg *DodecahedronBufferGeometry) Translate(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: dbg.Call("translate", x, y, z)}
 }
 func (dbg *DodecahedronBufferGeometry) UpdateFromObject(object *Object3D) {
 	dbg.Call("updateFromObject", object.JSValue())
@@ -439,8 +439,8 @@ func (dg *DodecahedronGeometry) DispatchEvent(event js.Value) {
 func (dg *DodecahedronGeometry) Dispose() {
 	dg.Call("dispose")
 }
-func (dg *DodecahedronGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
-	return &GeometryImpl{Value: dg.Call("fromBufferGeometry", geometry)}
+func (dg *DodecahedronGeometry) FromBufferGeometry(geometry BufferGeometry) Geometry {
+	return &GeometryImpl{Value: dg.Call("fromBufferGeometry", geometry.JSValue())}
 }
 func (dg *DodecahedronGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return dg.Call("hasEventListener", typ, listener).Bool()

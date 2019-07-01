@@ -9,7 +9,6 @@ var (
 	prefix       = os.Getenv("PWD") + "/three.js/src/"
 	outputPrefix = "github.com/nobonobo/three"
 	outputDir    = filepath.Clean(filepath.Join(os.Getenv("PWD"), "..", ".."))
-
 	// BlackList ...
 	BlackList = map[string]struct{}{
 		"Array":                        struct{}{},
@@ -109,13 +108,35 @@ var (
 		"PlaneGeometry":        "Geometry",
 		"PolyhedronGeometry":   "Geometry",
 		"RingGeometry":         "Geometry",
-		"Shape":                "Geometry",
 		"SphereGeometry":       "Geometry",
 		"TubeGeometry":         "Geometry",
 		"TorusGeometry":        "Geometry",
 		"TetrahedronGeometry":  "Geometry",
 		"TorusKnotGeometry":    "Geometry",
 		"WireframeGeometry":    "Geometry",
+		"BufferGeometry":     "BufferGeometry",
+		"BoxBufferGeometry": "BufferGeometry",
+		"CircleBufferGeometry":       "BufferGeometry",
+		"ConeBufferGeometry":         "BufferGeometry",
+		"CylinderBufferGeometry":     "BufferGeometry",
+		"DodecahedronBufferGeometry": "BufferGeometry",
+		"IcosahedronBufferGeometry":  "BufferGeometry",
+		"LatheBufferGeometry":        "BufferGeometry",
+		"OctahedronBufferGeometry":   "BufferGeometry",
+		"ParametricBufferGeometry":   "BufferGeometry",
+		"PlaneBufferGeometry":        "BufferGeometry",
+		"PolyhedronBufferGeometry":   "BufferGeometry",
+		"RingBufferGeometry":         "BufferGeometry",
+		"SphereBufferGeometry":       "BufferGeometry",
+		"TubeBufferGeometry":         "BufferGeometry",
+		"TorusBufferGeometry":        "BufferGeometry",
+		"TetrahedronBufferGeometry":  "BufferGeometry",
+		"TorusKnotBufferGeometry":    "BufferGeometry",
+		"WireframeBufferGeometry":    "BufferGeometry",
+	}
+	// Union2Wrapper union param
+	Union2Wrapper = map[string]bool{
+		"Mesh.Mesh.NewMesh.geometry": true,
 	}
 	// ExcludeFiles exclude files
 	ExcludeFiles = map[string]struct{}{

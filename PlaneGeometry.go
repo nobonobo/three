@@ -115,8 +115,8 @@ func (pbg *PlaneBufferGeometry) MaxIndex() int {
 func (pbg *PlaneBufferGeometry) SetMaxIndex(v int) {
 	pbg.Set("MaxIndex", v)
 }
-func (pbg *PlaneBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("addAttribute", name, attribute)}
+func (pbg *PlaneBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("addAttribute", name, attribute)}
 }
 func (pbg *PlaneBufferGeometry) AddAttribute2(name js.Value, array js.Value, itemSize js.Value) js.Value {
 	return pbg.Call("addAttribute", name, array, itemSize)
@@ -133,11 +133,11 @@ func (pbg *PlaneBufferGeometry) AddGroup(start int, count int, materialIndex int
 func (pbg *PlaneBufferGeometry) AddIndex(index js.Value) {
 	pbg.Call("addIndex", index)
 }
-func (pbg *PlaneBufferGeometry) ApplyMatrix(matrix *Matrix4) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("applyMatrix", matrix)}
+func (pbg *PlaneBufferGeometry) ApplyMatrix(matrix *Matrix4) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("applyMatrix", matrix)}
 }
-func (pbg *PlaneBufferGeometry) Center() *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("center")}
+func (pbg *PlaneBufferGeometry) Center() BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("center")}
 }
 func (pbg *PlaneBufferGeometry) ClearDrawCalls() {
 	pbg.Call("clearDrawCalls")
@@ -145,7 +145,7 @@ func (pbg *PlaneBufferGeometry) ClearDrawCalls() {
 func (pbg *PlaneBufferGeometry) ClearGroups() {
 	pbg.Call("clearGroups")
 }
-func (pbg *PlaneBufferGeometry) Clone() *PlaneBufferGeometry {
+func (pbg *PlaneBufferGeometry) Clone() BufferGeometry {
 	return &PlaneBufferGeometry{Value: pbg.Call("clone")}
 }
 func (pbg *PlaneBufferGeometry) ComputeBoundingBox() {
@@ -157,8 +157,8 @@ func (pbg *PlaneBufferGeometry) ComputeBoundingSphere() {
 func (pbg *PlaneBufferGeometry) ComputeVertexNormals() {
 	pbg.Call("computeVertexNormals")
 }
-func (pbg *PlaneBufferGeometry) Copy(source *BufferGeometry) *PlaneBufferGeometry {
-	return &PlaneBufferGeometry{Value: pbg.Call("copy", source)}
+func (pbg *PlaneBufferGeometry) Copy(source BufferGeometry) BufferGeometry {
+	return &PlaneBufferGeometry{Value: pbg.Call("copy", source.JSValue())}
 }
 func (pbg *PlaneBufferGeometry) DispatchEvent(event js.Value) {
 	pbg.Call("dispatchEvent", event)
@@ -166,11 +166,11 @@ func (pbg *PlaneBufferGeometry) DispatchEvent(event js.Value) {
 func (pbg *PlaneBufferGeometry) Dispose() {
 	pbg.Call("dispose")
 }
-func (pbg *PlaneBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("fromDirectGeometry", geometry)}
+func (pbg *PlaneBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("fromDirectGeometry", geometry)}
 }
-func (pbg *PlaneBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("fromGeometry", geometry.JSValue(), settings)}
+func (pbg *PlaneBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (pbg *PlaneBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: pbg.Call("getAttribute", name)}
@@ -184,38 +184,38 @@ func (pbg *PlaneBufferGeometry) HasEventListener(typ string, listener js.Value) 
 func (pbg *PlaneBufferGeometry) LookAt(v *Vector3) {
 	pbg.Call("lookAt", v.JSValue())
 }
-func (pbg *PlaneBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("merge", geometry, offset)}
+func (pbg *PlaneBufferGeometry) Merge(geometry BufferGeometry, offset int) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("merge", geometry.JSValue(), offset)}
 }
 func (pbg *PlaneBufferGeometry) NormalizeNormals() {
 	pbg.Call("normalizeNormals")
 }
-func (pbg *PlaneBufferGeometry) RemoveAttribute(name string) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("removeAttribute", name)}
+func (pbg *PlaneBufferGeometry) RemoveAttribute(name string) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("removeAttribute", name)}
 }
 func (pbg *PlaneBufferGeometry) RemoveEventListener(typ string, listener js.Value) {
 	pbg.Call("removeEventListener", typ, listener)
 }
-func (pbg *PlaneBufferGeometry) RotateX(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("rotateX", angle)}
+func (pbg *PlaneBufferGeometry) RotateX(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("rotateX", angle)}
 }
-func (pbg *PlaneBufferGeometry) RotateY(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("rotateY", angle)}
+func (pbg *PlaneBufferGeometry) RotateY(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("rotateY", angle)}
 }
-func (pbg *PlaneBufferGeometry) RotateZ(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("rotateZ", angle)}
+func (pbg *PlaneBufferGeometry) RotateZ(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("rotateZ", angle)}
 }
-func (pbg *PlaneBufferGeometry) Scale(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("scale", x, y, z)}
+func (pbg *PlaneBufferGeometry) Scale(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("scale", x, y, z)}
 }
 func (pbg *PlaneBufferGeometry) SetDrawRange2(start int, count int) {
 	pbg.Call("setDrawRange", start, count)
 }
-func (pbg *PlaneBufferGeometry) SetFromObject(object *Object3D) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("setFromObject", object)}
+func (pbg *PlaneBufferGeometry) SetFromObject(object *Object3D) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("setFromObject", object)}
 }
-func (pbg *PlaneBufferGeometry) SetFromPoints(points js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("setFromPoints", points)}
+func (pbg *PlaneBufferGeometry) SetFromPoints(points js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("setFromPoints", points)}
 }
 func (pbg *PlaneBufferGeometry) SetIndex2(index *BufferAttribute) {
 	pbg.Call("setIndex", index)
@@ -223,11 +223,11 @@ func (pbg *PlaneBufferGeometry) SetIndex2(index *BufferAttribute) {
 func (pbg *PlaneBufferGeometry) ToJSON() js.Value {
 	return pbg.Call("toJSON")
 }
-func (pbg *PlaneBufferGeometry) ToNonIndexed() *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("toNonIndexed")}
+func (pbg *PlaneBufferGeometry) ToNonIndexed() BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("toNonIndexed")}
 }
-func (pbg *PlaneBufferGeometry) Translate(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: pbg.Call("translate", x, y, z)}
+func (pbg *PlaneBufferGeometry) Translate(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: pbg.Call("translate", x, y, z)}
 }
 func (pbg *PlaneBufferGeometry) UpdateFromObject(object *Object3D) {
 	pbg.Call("updateFromObject", object.JSValue())
@@ -439,8 +439,8 @@ func (pg *PlaneGeometry) DispatchEvent(event js.Value) {
 func (pg *PlaneGeometry) Dispose() {
 	pg.Call("dispose")
 }
-func (pg *PlaneGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
-	return &GeometryImpl{Value: pg.Call("fromBufferGeometry", geometry)}
+func (pg *PlaneGeometry) FromBufferGeometry(geometry BufferGeometry) Geometry {
+	return &GeometryImpl{Value: pg.Call("fromBufferGeometry", geometry.JSValue())}
 }
 func (pg *PlaneGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return pg.Call("hasEventListener", typ, listener).Bool()

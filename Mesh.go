@@ -130,7 +130,7 @@ type MeshImpl struct {
 	js.Value
 }
 
-func NewMesh(geometry Geometry, material Material) *MeshImpl {
+func NewMesh(geometry js.Wrapper, material Material) *MeshImpl {
 	return &MeshImpl{Value: get("Mesh").New(geometry.JSValue(), material.JSValue())}
 }
 func (mm *MeshImpl) JSValue() js.Value {

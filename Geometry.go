@@ -86,7 +86,7 @@ type Geometry interface {
 	Copy(source Geometry) Geometry
 	DispatchEvent(event js.Value)
 	Dispose()
-	FromBufferGeometry(geometry *BufferGeometry) Geometry
+	FromBufferGeometry(geometry BufferGeometry) Geometry
 	HasEventListener(typ string, listener js.Value) bool
 	LookAt(vector *Vector3)
 	Merge(geometry Geometry, matrix Matrix, materialIndexOffset int)
@@ -304,8 +304,8 @@ func (gg *GeometryImpl) DispatchEvent(event js.Value) {
 func (gg *GeometryImpl) Dispose() {
 	gg.Call("dispose")
 }
-func (gg *GeometryImpl) FromBufferGeometry(geometry *BufferGeometry) Geometry {
-	return &GeometryImpl{Value: gg.Call("fromBufferGeometry", geometry)}
+func (gg *GeometryImpl) FromBufferGeometry(geometry BufferGeometry) Geometry {
+	return &GeometryImpl{Value: gg.Call("fromBufferGeometry", geometry.JSValue())}
 }
 func (gg *GeometryImpl) HasEventListener(typ string, listener js.Value) bool {
 	return gg.Call("hasEventListener", typ, listener).Bool()

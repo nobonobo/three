@@ -115,8 +115,8 @@ func (tbg *TetrahedronBufferGeometry) MaxIndex() int {
 func (tbg *TetrahedronBufferGeometry) SetMaxIndex(v int) {
 	tbg.Set("MaxIndex", v)
 }
-func (tbg *TetrahedronBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("addAttribute", name, attribute)}
+func (tbg *TetrahedronBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("addAttribute", name, attribute)}
 }
 func (tbg *TetrahedronBufferGeometry) AddAttribute2(name js.Value, array js.Value, itemSize js.Value) js.Value {
 	return tbg.Call("addAttribute", name, array, itemSize)
@@ -133,11 +133,11 @@ func (tbg *TetrahedronBufferGeometry) AddGroup(start int, count int, materialInd
 func (tbg *TetrahedronBufferGeometry) AddIndex(index js.Value) {
 	tbg.Call("addIndex", index)
 }
-func (tbg *TetrahedronBufferGeometry) ApplyMatrix(matrix *Matrix4) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("applyMatrix", matrix)}
+func (tbg *TetrahedronBufferGeometry) ApplyMatrix(matrix *Matrix4) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("applyMatrix", matrix)}
 }
-func (tbg *TetrahedronBufferGeometry) Center() *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("center")}
+func (tbg *TetrahedronBufferGeometry) Center() BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("center")}
 }
 func (tbg *TetrahedronBufferGeometry) ClearDrawCalls() {
 	tbg.Call("clearDrawCalls")
@@ -145,7 +145,7 @@ func (tbg *TetrahedronBufferGeometry) ClearDrawCalls() {
 func (tbg *TetrahedronBufferGeometry) ClearGroups() {
 	tbg.Call("clearGroups")
 }
-func (tbg *TetrahedronBufferGeometry) Clone() *TetrahedronBufferGeometry {
+func (tbg *TetrahedronBufferGeometry) Clone() BufferGeometry {
 	return &TetrahedronBufferGeometry{Value: tbg.Call("clone")}
 }
 func (tbg *TetrahedronBufferGeometry) ComputeBoundingBox() {
@@ -157,8 +157,8 @@ func (tbg *TetrahedronBufferGeometry) ComputeBoundingSphere() {
 func (tbg *TetrahedronBufferGeometry) ComputeVertexNormals() {
 	tbg.Call("computeVertexNormals")
 }
-func (tbg *TetrahedronBufferGeometry) Copy(source *BufferGeometry) *TetrahedronBufferGeometry {
-	return &TetrahedronBufferGeometry{Value: tbg.Call("copy", source)}
+func (tbg *TetrahedronBufferGeometry) Copy(source BufferGeometry) BufferGeometry {
+	return &TetrahedronBufferGeometry{Value: tbg.Call("copy", source.JSValue())}
 }
 func (tbg *TetrahedronBufferGeometry) DispatchEvent(event js.Value) {
 	tbg.Call("dispatchEvent", event)
@@ -166,11 +166,11 @@ func (tbg *TetrahedronBufferGeometry) DispatchEvent(event js.Value) {
 func (tbg *TetrahedronBufferGeometry) Dispose() {
 	tbg.Call("dispose")
 }
-func (tbg *TetrahedronBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("fromDirectGeometry", geometry)}
+func (tbg *TetrahedronBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("fromDirectGeometry", geometry)}
 }
-func (tbg *TetrahedronBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("fromGeometry", geometry.JSValue(), settings)}
+func (tbg *TetrahedronBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (tbg *TetrahedronBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: tbg.Call("getAttribute", name)}
@@ -184,38 +184,38 @@ func (tbg *TetrahedronBufferGeometry) HasEventListener(typ string, listener js.V
 func (tbg *TetrahedronBufferGeometry) LookAt(v *Vector3) {
 	tbg.Call("lookAt", v.JSValue())
 }
-func (tbg *TetrahedronBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("merge", geometry, offset)}
+func (tbg *TetrahedronBufferGeometry) Merge(geometry BufferGeometry, offset int) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("merge", geometry.JSValue(), offset)}
 }
 func (tbg *TetrahedronBufferGeometry) NormalizeNormals() {
 	tbg.Call("normalizeNormals")
 }
-func (tbg *TetrahedronBufferGeometry) RemoveAttribute(name string) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("removeAttribute", name)}
+func (tbg *TetrahedronBufferGeometry) RemoveAttribute(name string) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("removeAttribute", name)}
 }
 func (tbg *TetrahedronBufferGeometry) RemoveEventListener(typ string, listener js.Value) {
 	tbg.Call("removeEventListener", typ, listener)
 }
-func (tbg *TetrahedronBufferGeometry) RotateX(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("rotateX", angle)}
+func (tbg *TetrahedronBufferGeometry) RotateX(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("rotateX", angle)}
 }
-func (tbg *TetrahedronBufferGeometry) RotateY(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("rotateY", angle)}
+func (tbg *TetrahedronBufferGeometry) RotateY(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("rotateY", angle)}
 }
-func (tbg *TetrahedronBufferGeometry) RotateZ(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("rotateZ", angle)}
+func (tbg *TetrahedronBufferGeometry) RotateZ(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("rotateZ", angle)}
 }
-func (tbg *TetrahedronBufferGeometry) Scale(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("scale", x, y, z)}
+func (tbg *TetrahedronBufferGeometry) Scale(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("scale", x, y, z)}
 }
 func (tbg *TetrahedronBufferGeometry) SetDrawRange2(start int, count int) {
 	tbg.Call("setDrawRange", start, count)
 }
-func (tbg *TetrahedronBufferGeometry) SetFromObject(object *Object3D) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("setFromObject", object)}
+func (tbg *TetrahedronBufferGeometry) SetFromObject(object *Object3D) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("setFromObject", object)}
 }
-func (tbg *TetrahedronBufferGeometry) SetFromPoints(points js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("setFromPoints", points)}
+func (tbg *TetrahedronBufferGeometry) SetFromPoints(points js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("setFromPoints", points)}
 }
 func (tbg *TetrahedronBufferGeometry) SetIndex2(index *BufferAttribute) {
 	tbg.Call("setIndex", index)
@@ -223,11 +223,11 @@ func (tbg *TetrahedronBufferGeometry) SetIndex2(index *BufferAttribute) {
 func (tbg *TetrahedronBufferGeometry) ToJSON() js.Value {
 	return tbg.Call("toJSON")
 }
-func (tbg *TetrahedronBufferGeometry) ToNonIndexed() *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("toNonIndexed")}
+func (tbg *TetrahedronBufferGeometry) ToNonIndexed() BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("toNonIndexed")}
 }
-func (tbg *TetrahedronBufferGeometry) Translate(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("translate", x, y, z)}
+func (tbg *TetrahedronBufferGeometry) Translate(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("translate", x, y, z)}
 }
 func (tbg *TetrahedronBufferGeometry) UpdateFromObject(object *Object3D) {
 	tbg.Call("updateFromObject", object.JSValue())
@@ -439,8 +439,8 @@ func (tg *TetrahedronGeometry) DispatchEvent(event js.Value) {
 func (tg *TetrahedronGeometry) Dispose() {
 	tg.Call("dispose")
 }
-func (tg *TetrahedronGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
-	return &GeometryImpl{Value: tg.Call("fromBufferGeometry", geometry)}
+func (tg *TetrahedronGeometry) FromBufferGeometry(geometry BufferGeometry) Geometry {
+	return &GeometryImpl{Value: tg.Call("fromBufferGeometry", geometry.JSValue())}
 }
 func (tg *TetrahedronGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return tg.Call("hasEventListener", typ, listener).Bool()

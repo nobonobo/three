@@ -115,8 +115,8 @@ func (ibg *InstancedBufferGeometry) MaxIndex() int {
 func (ibg *InstancedBufferGeometry) SetMaxIndex(v int) {
 	ibg.Set("MaxIndex", v)
 }
-func (ibg *InstancedBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("addAttribute", name, attribute)}
+func (ibg *InstancedBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) BufferGeometry {
+	return &BufferGeometryImpl{Value: ibg.Call("addAttribute", name, attribute)}
 }
 func (ibg *InstancedBufferGeometry) AddAttribute2(name js.Value, array js.Value, itemSize js.Value) js.Value {
 	return ibg.Call("addAttribute", name, array, itemSize)
@@ -133,11 +133,11 @@ func (ibg *InstancedBufferGeometry) AddGroup(start int, count int, instances int
 func (ibg *InstancedBufferGeometry) AddIndex(index js.Value) {
 	ibg.Call("addIndex", index)
 }
-func (ibg *InstancedBufferGeometry) ApplyMatrix(matrix *Matrix4) *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("applyMatrix", matrix)}
+func (ibg *InstancedBufferGeometry) ApplyMatrix(matrix *Matrix4) BufferGeometry {
+	return &BufferGeometryImpl{Value: ibg.Call("applyMatrix", matrix)}
 }
-func (ibg *InstancedBufferGeometry) Center() *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("center")}
+func (ibg *InstancedBufferGeometry) Center() BufferGeometry {
+	return &BufferGeometryImpl{Value: ibg.Call("center")}
 }
 func (ibg *InstancedBufferGeometry) ClearDrawCalls() {
 	ibg.Call("clearDrawCalls")
@@ -157,8 +157,8 @@ func (ibg *InstancedBufferGeometry) ComputeBoundingSphere() {
 func (ibg *InstancedBufferGeometry) ComputeVertexNormals() {
 	ibg.Call("computeVertexNormals")
 }
-func (ibg *InstancedBufferGeometry) Copy(source *BufferGeometry) *InstancedBufferGeometry {
-	return &InstancedBufferGeometry{Value: ibg.Call("copy", source)}
+func (ibg *InstancedBufferGeometry) Copy(source BufferGeometry) *InstancedBufferGeometry {
+	return &InstancedBufferGeometry{Value: ibg.Call("copy", source.JSValue())}
 }
 func (ibg *InstancedBufferGeometry) DispatchEvent(event js.Value) {
 	ibg.Call("dispatchEvent", event)
@@ -166,11 +166,11 @@ func (ibg *InstancedBufferGeometry) DispatchEvent(event js.Value) {
 func (ibg *InstancedBufferGeometry) Dispose() {
 	ibg.Call("dispose")
 }
-func (ibg *InstancedBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("fromDirectGeometry", geometry)}
+func (ibg *InstancedBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) BufferGeometry {
+	return &BufferGeometryImpl{Value: ibg.Call("fromDirectGeometry", geometry)}
 }
-func (ibg *InstancedBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("fromGeometry", geometry.JSValue(), settings)}
+func (ibg *InstancedBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: ibg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (ibg *InstancedBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: ibg.Call("getAttribute", name)}
@@ -184,38 +184,38 @@ func (ibg *InstancedBufferGeometry) HasEventListener(typ string, listener js.Val
 func (ibg *InstancedBufferGeometry) LookAt(v *Vector3) {
 	ibg.Call("lookAt", v.JSValue())
 }
-func (ibg *InstancedBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("merge", geometry, offset)}
+func (ibg *InstancedBufferGeometry) Merge(geometry BufferGeometry, offset int) BufferGeometry {
+	return &BufferGeometryImpl{Value: ibg.Call("merge", geometry.JSValue(), offset)}
 }
 func (ibg *InstancedBufferGeometry) NormalizeNormals() {
 	ibg.Call("normalizeNormals")
 }
-func (ibg *InstancedBufferGeometry) RemoveAttribute(name string) *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("removeAttribute", name)}
+func (ibg *InstancedBufferGeometry) RemoveAttribute(name string) BufferGeometry {
+	return &BufferGeometryImpl{Value: ibg.Call("removeAttribute", name)}
 }
 func (ibg *InstancedBufferGeometry) RemoveEventListener(typ string, listener js.Value) {
 	ibg.Call("removeEventListener", typ, listener)
 }
-func (ibg *InstancedBufferGeometry) RotateX(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("rotateX", angle)}
+func (ibg *InstancedBufferGeometry) RotateX(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: ibg.Call("rotateX", angle)}
 }
-func (ibg *InstancedBufferGeometry) RotateY(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("rotateY", angle)}
+func (ibg *InstancedBufferGeometry) RotateY(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: ibg.Call("rotateY", angle)}
 }
-func (ibg *InstancedBufferGeometry) RotateZ(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("rotateZ", angle)}
+func (ibg *InstancedBufferGeometry) RotateZ(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: ibg.Call("rotateZ", angle)}
 }
-func (ibg *InstancedBufferGeometry) Scale(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("scale", x, y, z)}
+func (ibg *InstancedBufferGeometry) Scale(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: ibg.Call("scale", x, y, z)}
 }
 func (ibg *InstancedBufferGeometry) SetDrawRange2(start int, count int) {
 	ibg.Call("setDrawRange", start, count)
 }
-func (ibg *InstancedBufferGeometry) SetFromObject(object *Object3D) *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("setFromObject", object)}
+func (ibg *InstancedBufferGeometry) SetFromObject(object *Object3D) BufferGeometry {
+	return &BufferGeometryImpl{Value: ibg.Call("setFromObject", object)}
 }
-func (ibg *InstancedBufferGeometry) SetFromPoints(points js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("setFromPoints", points)}
+func (ibg *InstancedBufferGeometry) SetFromPoints(points js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: ibg.Call("setFromPoints", points)}
 }
 func (ibg *InstancedBufferGeometry) SetIndex2(index *BufferAttribute) {
 	ibg.Call("setIndex", index)
@@ -223,11 +223,11 @@ func (ibg *InstancedBufferGeometry) SetIndex2(index *BufferAttribute) {
 func (ibg *InstancedBufferGeometry) ToJSON() js.Value {
 	return ibg.Call("toJSON")
 }
-func (ibg *InstancedBufferGeometry) ToNonIndexed() *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("toNonIndexed")}
+func (ibg *InstancedBufferGeometry) ToNonIndexed() BufferGeometry {
+	return &BufferGeometryImpl{Value: ibg.Call("toNonIndexed")}
 }
-func (ibg *InstancedBufferGeometry) Translate(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: ibg.Call("translate", x, y, z)}
+func (ibg *InstancedBufferGeometry) Translate(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: ibg.Call("translate", x, y, z)}
 }
 func (ibg *InstancedBufferGeometry) UpdateFromObject(object *Object3D) {
 	ibg.Call("updateFromObject", object.JSValue())

@@ -36,14 +36,14 @@ func (wglrl *WebGLRenderList) SetTransparent(v js.Value) {
 func (wglrl *WebGLRenderList) Init() {
 	wglrl.Call("init")
 }
-func (wglrl *WebGLRenderList) Push(object *Object3D, geometry *BufferGeometry, material Material, groupOrder int, z float64, group *Group) {
-	wglrl.Call("push", object.JSValue(), geometry, material.JSValue(), groupOrder, z, group)
+func (wglrl *WebGLRenderList) Push(object *Object3D, geometry BufferGeometry, material Material, groupOrder int, z float64, group *Group) {
+	wglrl.Call("push", object.JSValue(), geometry.JSValue(), material.JSValue(), groupOrder, z, group)
 }
 func (wglrl *WebGLRenderList) Sort() {
 	wglrl.Call("sort")
 }
-func (wglrl *WebGLRenderList) Unshift(object *Object3D, geometry *BufferGeometry, material Material, groupOrder int, z int, group *Group) {
-	wglrl.Call("unshift", object.JSValue(), geometry, material.JSValue(), groupOrder, z, group)
+func (wglrl *WebGLRenderList) Unshift(object *Object3D, geometry BufferGeometry, material Material, groupOrder int, z int, group *Group) {
+	wglrl.Call("unshift", object.JSValue(), geometry.JSValue(), material.JSValue(), groupOrder, z, group)
 }
 
 // WebGLRenderLists extend: []

@@ -115,8 +115,8 @@ func (lbg *LatheBufferGeometry) MaxIndex() int {
 func (lbg *LatheBufferGeometry) SetMaxIndex(v int) {
 	lbg.Set("MaxIndex", v)
 }
-func (lbg *LatheBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) *BufferGeometry {
-	return &BufferGeometry{Value: lbg.Call("addAttribute", name, attribute)}
+func (lbg *LatheBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) BufferGeometry {
+	return &BufferGeometryImpl{Value: lbg.Call("addAttribute", name, attribute)}
 }
 func (lbg *LatheBufferGeometry) AddAttribute2(name js.Value, array js.Value, itemSize js.Value) js.Value {
 	return lbg.Call("addAttribute", name, array, itemSize)
@@ -133,11 +133,11 @@ func (lbg *LatheBufferGeometry) AddGroup(start int, count int, materialIndex int
 func (lbg *LatheBufferGeometry) AddIndex(index js.Value) {
 	lbg.Call("addIndex", index)
 }
-func (lbg *LatheBufferGeometry) ApplyMatrix(matrix *Matrix4) *BufferGeometry {
-	return &BufferGeometry{Value: lbg.Call("applyMatrix", matrix)}
+func (lbg *LatheBufferGeometry) ApplyMatrix(matrix *Matrix4) BufferGeometry {
+	return &BufferGeometryImpl{Value: lbg.Call("applyMatrix", matrix)}
 }
-func (lbg *LatheBufferGeometry) Center() *BufferGeometry {
-	return &BufferGeometry{Value: lbg.Call("center")}
+func (lbg *LatheBufferGeometry) Center() BufferGeometry {
+	return &BufferGeometryImpl{Value: lbg.Call("center")}
 }
 func (lbg *LatheBufferGeometry) ClearDrawCalls() {
 	lbg.Call("clearDrawCalls")
@@ -145,7 +145,7 @@ func (lbg *LatheBufferGeometry) ClearDrawCalls() {
 func (lbg *LatheBufferGeometry) ClearGroups() {
 	lbg.Call("clearGroups")
 }
-func (lbg *LatheBufferGeometry) Clone() *LatheBufferGeometry {
+func (lbg *LatheBufferGeometry) Clone() BufferGeometry {
 	return &LatheBufferGeometry{Value: lbg.Call("clone")}
 }
 func (lbg *LatheBufferGeometry) ComputeBoundingBox() {
@@ -157,8 +157,8 @@ func (lbg *LatheBufferGeometry) ComputeBoundingSphere() {
 func (lbg *LatheBufferGeometry) ComputeVertexNormals() {
 	lbg.Call("computeVertexNormals")
 }
-func (lbg *LatheBufferGeometry) Copy(source *BufferGeometry) *LatheBufferGeometry {
-	return &LatheBufferGeometry{Value: lbg.Call("copy", source)}
+func (lbg *LatheBufferGeometry) Copy(source BufferGeometry) BufferGeometry {
+	return &LatheBufferGeometry{Value: lbg.Call("copy", source.JSValue())}
 }
 func (lbg *LatheBufferGeometry) DispatchEvent(event js.Value) {
 	lbg.Call("dispatchEvent", event)
@@ -166,11 +166,11 @@ func (lbg *LatheBufferGeometry) DispatchEvent(event js.Value) {
 func (lbg *LatheBufferGeometry) Dispose() {
 	lbg.Call("dispose")
 }
-func (lbg *LatheBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
-	return &BufferGeometry{Value: lbg.Call("fromDirectGeometry", geometry)}
+func (lbg *LatheBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) BufferGeometry {
+	return &BufferGeometryImpl{Value: lbg.Call("fromDirectGeometry", geometry)}
 }
-func (lbg *LatheBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: lbg.Call("fromGeometry", geometry.JSValue(), settings)}
+func (lbg *LatheBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: lbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (lbg *LatheBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: lbg.Call("getAttribute", name)}
@@ -184,38 +184,38 @@ func (lbg *LatheBufferGeometry) HasEventListener(typ string, listener js.Value) 
 func (lbg *LatheBufferGeometry) LookAt(v *Vector3) {
 	lbg.Call("lookAt", v.JSValue())
 }
-func (lbg *LatheBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
-	return &BufferGeometry{Value: lbg.Call("merge", geometry, offset)}
+func (lbg *LatheBufferGeometry) Merge(geometry BufferGeometry, offset int) BufferGeometry {
+	return &BufferGeometryImpl{Value: lbg.Call("merge", geometry.JSValue(), offset)}
 }
 func (lbg *LatheBufferGeometry) NormalizeNormals() {
 	lbg.Call("normalizeNormals")
 }
-func (lbg *LatheBufferGeometry) RemoveAttribute(name string) *BufferGeometry {
-	return &BufferGeometry{Value: lbg.Call("removeAttribute", name)}
+func (lbg *LatheBufferGeometry) RemoveAttribute(name string) BufferGeometry {
+	return &BufferGeometryImpl{Value: lbg.Call("removeAttribute", name)}
 }
 func (lbg *LatheBufferGeometry) RemoveEventListener(typ string, listener js.Value) {
 	lbg.Call("removeEventListener", typ, listener)
 }
-func (lbg *LatheBufferGeometry) RotateX(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: lbg.Call("rotateX", angle)}
+func (lbg *LatheBufferGeometry) RotateX(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: lbg.Call("rotateX", angle)}
 }
-func (lbg *LatheBufferGeometry) RotateY(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: lbg.Call("rotateY", angle)}
+func (lbg *LatheBufferGeometry) RotateY(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: lbg.Call("rotateY", angle)}
 }
-func (lbg *LatheBufferGeometry) RotateZ(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: lbg.Call("rotateZ", angle)}
+func (lbg *LatheBufferGeometry) RotateZ(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: lbg.Call("rotateZ", angle)}
 }
-func (lbg *LatheBufferGeometry) Scale(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: lbg.Call("scale", x, y, z)}
+func (lbg *LatheBufferGeometry) Scale(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: lbg.Call("scale", x, y, z)}
 }
 func (lbg *LatheBufferGeometry) SetDrawRange2(start int, count int) {
 	lbg.Call("setDrawRange", start, count)
 }
-func (lbg *LatheBufferGeometry) SetFromObject(object *Object3D) *BufferGeometry {
-	return &BufferGeometry{Value: lbg.Call("setFromObject", object)}
+func (lbg *LatheBufferGeometry) SetFromObject(object *Object3D) BufferGeometry {
+	return &BufferGeometryImpl{Value: lbg.Call("setFromObject", object)}
 }
-func (lbg *LatheBufferGeometry) SetFromPoints(points js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: lbg.Call("setFromPoints", points)}
+func (lbg *LatheBufferGeometry) SetFromPoints(points js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: lbg.Call("setFromPoints", points)}
 }
 func (lbg *LatheBufferGeometry) SetIndex2(index *BufferAttribute) {
 	lbg.Call("setIndex", index)
@@ -223,11 +223,11 @@ func (lbg *LatheBufferGeometry) SetIndex2(index *BufferAttribute) {
 func (lbg *LatheBufferGeometry) ToJSON() js.Value {
 	return lbg.Call("toJSON")
 }
-func (lbg *LatheBufferGeometry) ToNonIndexed() *BufferGeometry {
-	return &BufferGeometry{Value: lbg.Call("toNonIndexed")}
+func (lbg *LatheBufferGeometry) ToNonIndexed() BufferGeometry {
+	return &BufferGeometryImpl{Value: lbg.Call("toNonIndexed")}
 }
-func (lbg *LatheBufferGeometry) Translate(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: lbg.Call("translate", x, y, z)}
+func (lbg *LatheBufferGeometry) Translate(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: lbg.Call("translate", x, y, z)}
 }
 func (lbg *LatheBufferGeometry) UpdateFromObject(object *Object3D) {
 	lbg.Call("updateFromObject", object.JSValue())
@@ -439,8 +439,8 @@ func (lg *LatheGeometry) DispatchEvent(event js.Value) {
 func (lg *LatheGeometry) Dispose() {
 	lg.Call("dispose")
 }
-func (lg *LatheGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
-	return &GeometryImpl{Value: lg.Call("fromBufferGeometry", geometry)}
+func (lg *LatheGeometry) FromBufferGeometry(geometry BufferGeometry) Geometry {
+	return &GeometryImpl{Value: lg.Call("fromBufferGeometry", geometry.JSValue())}
 }
 func (lg *LatheGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return lg.Call("hasEventListener", typ, listener).Bool()

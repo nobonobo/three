@@ -115,8 +115,8 @@ func (tbg *TorusBufferGeometry) MaxIndex() int {
 func (tbg *TorusBufferGeometry) SetMaxIndex(v int) {
 	tbg.Set("MaxIndex", v)
 }
-func (tbg *TorusBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("addAttribute", name, attribute)}
+func (tbg *TorusBufferGeometry) AddAttribute(name string, attribute *BufferAttribute) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("addAttribute", name, attribute)}
 }
 func (tbg *TorusBufferGeometry) AddAttribute2(name js.Value, array js.Value, itemSize js.Value) js.Value {
 	return tbg.Call("addAttribute", name, array, itemSize)
@@ -133,11 +133,11 @@ func (tbg *TorusBufferGeometry) AddGroup(start int, count int, materialIndex int
 func (tbg *TorusBufferGeometry) AddIndex(index js.Value) {
 	tbg.Call("addIndex", index)
 }
-func (tbg *TorusBufferGeometry) ApplyMatrix(matrix *Matrix4) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("applyMatrix", matrix)}
+func (tbg *TorusBufferGeometry) ApplyMatrix(matrix *Matrix4) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("applyMatrix", matrix)}
 }
-func (tbg *TorusBufferGeometry) Center() *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("center")}
+func (tbg *TorusBufferGeometry) Center() BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("center")}
 }
 func (tbg *TorusBufferGeometry) ClearDrawCalls() {
 	tbg.Call("clearDrawCalls")
@@ -145,7 +145,7 @@ func (tbg *TorusBufferGeometry) ClearDrawCalls() {
 func (tbg *TorusBufferGeometry) ClearGroups() {
 	tbg.Call("clearGroups")
 }
-func (tbg *TorusBufferGeometry) Clone() *TorusBufferGeometry {
+func (tbg *TorusBufferGeometry) Clone() BufferGeometry {
 	return &TorusBufferGeometry{Value: tbg.Call("clone")}
 }
 func (tbg *TorusBufferGeometry) ComputeBoundingBox() {
@@ -157,8 +157,8 @@ func (tbg *TorusBufferGeometry) ComputeBoundingSphere() {
 func (tbg *TorusBufferGeometry) ComputeVertexNormals() {
 	tbg.Call("computeVertexNormals")
 }
-func (tbg *TorusBufferGeometry) Copy(source *BufferGeometry) *TorusBufferGeometry {
-	return &TorusBufferGeometry{Value: tbg.Call("copy", source)}
+func (tbg *TorusBufferGeometry) Copy(source BufferGeometry) BufferGeometry {
+	return &TorusBufferGeometry{Value: tbg.Call("copy", source.JSValue())}
 }
 func (tbg *TorusBufferGeometry) DispatchEvent(event js.Value) {
 	tbg.Call("dispatchEvent", event)
@@ -166,11 +166,11 @@ func (tbg *TorusBufferGeometry) DispatchEvent(event js.Value) {
 func (tbg *TorusBufferGeometry) Dispose() {
 	tbg.Call("dispose")
 }
-func (tbg *TorusBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("fromDirectGeometry", geometry)}
+func (tbg *TorusBufferGeometry) FromDirectGeometry(geometry *DirectGeometry) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("fromDirectGeometry", geometry)}
 }
-func (tbg *TorusBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("fromGeometry", geometry.JSValue(), settings)}
+func (tbg *TorusBufferGeometry) FromGeometry(geometry Geometry, settings js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("fromGeometry", geometry.JSValue(), settings)}
 }
 func (tbg *TorusBufferGeometry) GetAttribute(name string) *BufferAttribute {
 	return &BufferAttribute{Value: tbg.Call("getAttribute", name)}
@@ -184,38 +184,38 @@ func (tbg *TorusBufferGeometry) HasEventListener(typ string, listener js.Value) 
 func (tbg *TorusBufferGeometry) LookAt(v *Vector3) {
 	tbg.Call("lookAt", v.JSValue())
 }
-func (tbg *TorusBufferGeometry) Merge(geometry *BufferGeometry, offset int) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("merge", geometry, offset)}
+func (tbg *TorusBufferGeometry) Merge(geometry BufferGeometry, offset int) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("merge", geometry.JSValue(), offset)}
 }
 func (tbg *TorusBufferGeometry) NormalizeNormals() {
 	tbg.Call("normalizeNormals")
 }
-func (tbg *TorusBufferGeometry) RemoveAttribute(name string) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("removeAttribute", name)}
+func (tbg *TorusBufferGeometry) RemoveAttribute(name string) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("removeAttribute", name)}
 }
 func (tbg *TorusBufferGeometry) RemoveEventListener(typ string, listener js.Value) {
 	tbg.Call("removeEventListener", typ, listener)
 }
-func (tbg *TorusBufferGeometry) RotateX(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("rotateX", angle)}
+func (tbg *TorusBufferGeometry) RotateX(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("rotateX", angle)}
 }
-func (tbg *TorusBufferGeometry) RotateY(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("rotateY", angle)}
+func (tbg *TorusBufferGeometry) RotateY(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("rotateY", angle)}
 }
-func (tbg *TorusBufferGeometry) RotateZ(angle float64) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("rotateZ", angle)}
+func (tbg *TorusBufferGeometry) RotateZ(angle float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("rotateZ", angle)}
 }
-func (tbg *TorusBufferGeometry) Scale(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("scale", x, y, z)}
+func (tbg *TorusBufferGeometry) Scale(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("scale", x, y, z)}
 }
 func (tbg *TorusBufferGeometry) SetDrawRange2(start int, count int) {
 	tbg.Call("setDrawRange", start, count)
 }
-func (tbg *TorusBufferGeometry) SetFromObject(object *Object3D) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("setFromObject", object)}
+func (tbg *TorusBufferGeometry) SetFromObject(object *Object3D) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("setFromObject", object)}
 }
-func (tbg *TorusBufferGeometry) SetFromPoints(points js.Value) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("setFromPoints", points)}
+func (tbg *TorusBufferGeometry) SetFromPoints(points js.Value) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("setFromPoints", points)}
 }
 func (tbg *TorusBufferGeometry) SetIndex2(index *BufferAttribute) {
 	tbg.Call("setIndex", index)
@@ -223,11 +223,11 @@ func (tbg *TorusBufferGeometry) SetIndex2(index *BufferAttribute) {
 func (tbg *TorusBufferGeometry) ToJSON() js.Value {
 	return tbg.Call("toJSON")
 }
-func (tbg *TorusBufferGeometry) ToNonIndexed() *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("toNonIndexed")}
+func (tbg *TorusBufferGeometry) ToNonIndexed() BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("toNonIndexed")}
 }
-func (tbg *TorusBufferGeometry) Translate(x float64, y float64, z float64) *BufferGeometry {
-	return &BufferGeometry{Value: tbg.Call("translate", x, y, z)}
+func (tbg *TorusBufferGeometry) Translate(x float64, y float64, z float64) BufferGeometry {
+	return &BufferGeometryImpl{Value: tbg.Call("translate", x, y, z)}
 }
 func (tbg *TorusBufferGeometry) UpdateFromObject(object *Object3D) {
 	tbg.Call("updateFromObject", object.JSValue())
@@ -439,8 +439,8 @@ func (tg *TorusGeometry) DispatchEvent(event js.Value) {
 func (tg *TorusGeometry) Dispose() {
 	tg.Call("dispose")
 }
-func (tg *TorusGeometry) FromBufferGeometry(geometry *BufferGeometry) Geometry {
-	return &GeometryImpl{Value: tg.Call("fromBufferGeometry", geometry)}
+func (tg *TorusGeometry) FromBufferGeometry(geometry BufferGeometry) Geometry {
+	return &GeometryImpl{Value: tg.Call("fromBufferGeometry", geometry.JSValue())}
 }
 func (tg *TorusGeometry) HasEventListener(typ string, listener js.Value) bool {
 	return tg.Call("hasEventListener", typ, listener).Bool()
